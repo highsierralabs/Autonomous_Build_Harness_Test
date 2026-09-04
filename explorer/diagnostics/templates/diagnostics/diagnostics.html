@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block title %}Diagnostics -- RHACO Corpus Explorer{% endblock %}
+{% block content %}
+<h1>Diagnostics</h1>
+<p class="lede">What this comprehension instrument currently knows about its own state.</p>
+
+<div id="keyhelp" hidden>
+  <h2>Keyboard shortcuts</h2>
+  <dl>
+    <dt><kbd>/</kbd></dt><dd>focus search</dd>
+    <dt><kbd>?</kbd></dt><dd>toggle this help</dd>
+  </dl>
+</div>
+
+{% if adapter_absent %}
+<div class="degradation" role="status" data-diagnostics-state="adapter-absent">
+  <p><strong>corpus_adapter not built.</strong>
+  {{ adapter_absent_message or "The corpus_adapter module is not available in this build; diagnostics cannot report index or retrieval state." }}</p>
+</div>
+{% else %}
+{#
+  base.html (explorer/web/, a different builder's module) has no attribute-injection
+  hook on its <html>/<main> tags, so this wrapper carries the probe-facing state
+  server-rendered (readable without JS, e.g. by TestClient); the script at the bottom
+  additionally mirrors the same two values onto the real <main id="main"> for any DOM
+  reader that expects them there per the letter of the contract. See "Change requests"
+  in docs/rounds/R01_diagnostics.report.md.
+#}
+<div id="diagnostics-root" data-mode="{{ view.effective_mode }}" data-vector="{{ 'available' if view.vector.available else 'unavailable' }}">
+
+<section aria-labelledby="app-heading">
+  <h2 id="app-heading">Application</h2>
+  <dl>
+    <dt>Version</dt><dd>{{ view.app_version }}</dd>
+    <dt>Default retrieval mode</dt><dd>{{ view.default_mode }}</dd>
+    <dt>Effective retrieval mode</dt><dd>{{ view.effective_mode }}</dd>
+    <dt>Degradation state</dt><dd>{{ view.degradation_text }}</dd>
+  </dl>
+  {% if view.effective_mode == "hybrid-degraded-lexical" %}
+  <p class="degradation" role="status">{{ view.degradation_text }}</p>
+  {% endif %}
+</section>
+
+<section aria-labelledby="db-heading">
+  <h2 id="db-heading">Corpus index</h2>
+  <dl>
+    <dt>Database path</dt><dd><code>{{ view.db_path }}</code></dd>
+    <dt>Database size (bytes)</dt><dd>{{ view.index_meta.db_bytes }}</dd>
+    <dt>Database modified (UTC)</dt><dd>{{ view.index_meta.db_mtime_utc }}</dd>
+  </dl>
+  <p class="degradation" role="note">{{ view.non_authoritative_notice }}</p>
+
+  <h3>Index metadata (index_meta)</h3>
+  <table>
+    <caption class="sr-only">Every index_meta key and its live value</caption>
+    <thead><tr><th scope="col">Key</th><th scope="col">Value</th></tr></thead>
+    <tbody>
+      {% for k, v in view.index_meta.meta.items() %}
+      <tr><th scope="row">{{ k }}</th><td>{{ v }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h3>Live counts</h3>
+  <table>
+    <caption class="sr-only">Live row counts read from the index</caption>
+    <thead><tr><th scope="col">Table / count</th><th scope="col">Value</th></tr></thead>
+    <tbody>
+      {% for k, v in view.index_meta.live_counts.items() %}
+      <tr><th scope="row">{{ k }}</th><td>{{ v }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section aria-labelledby="vector-heading">
+  <h2 id="vector-heading">Vector semantic channel</h2>
+  <dl>
+    <dt>Available</dt><dd>{{ "available" if view.vector.available else "unavailable" }}</dd>
+    <dt>Reason</dt><dd>{{ view.vector.reason }}</dd>
+    <dt>Model tag</dt><dd>{{ view.vector.model_tag }}</dd>
+    <dt>Probe time (ms)</dt><dd>{{ view.vector.probe_ms if view.vector.probe_ms is not none else "n/a" }}</dd>
+    <dt>Detail</dt><dd>{{ view.vector.detail or "--" }}</dd>
+  </dl>
+</section>
+
+<section aria-labelledby="exclusion-heading">
+  <h2 id="exclusion-heading">Exclusion sets</h2>
+  <p>Directories and suffixes the corpus census and body index never walk (CONSTRAINTS.md O24).</p>
+  <dl>
+    <dt>Body-index deny directories</dt>
+    <dd>{{ view.exclusion_sets.get("body_deny_dirs", []) | join(", ") }}</dd>
+    <dt>Body-index suffixes</dt>
+    <dd>{{ view.exclusion_sets.get("body_suffixes", []) | join(", ") }}</dd>
+    <dt>Librarian deny directories</dt>
+    <dd>{{ view.exclusion_sets.get("librarian_deny_dirs", []) | join(", ") }}</dd>
+  </dl>
+</section>
+
+<section aria-labelledby="rerank-heading">
+  <h2 id="rerank-heading">Hybrid-rerank standing</h2>
+  <dl>
+    <dt>Standing</dt><dd>{{ view.rerank.text }}</dd>
+    <dt>Pinned artifact directory present</dt><dd>{{ "yes" if view.rerank.artifact_present else "no" }}</dd>
+  </dl>
+</section>
+
+<section aria-labelledby="probe-heading">
+  <h2 id="probe-heading">Last probe run</h2>
+  {% if view.last_probe_run == "none recorded" %}
+  <p>none recorded</p>
+  {% else %}
+  <dl>
+    <dt>Run summary path</dt><dd><code>{{ view.last_probe_run.path }}</code></dd>
+    <dt>Recorded contents</dt>
+    <dd><pre>{{ view.last_probe_run.summary | tojson(indent=2) }}</pre></dd>
+  </dl>
+  {% endif %}
+</section>
+
+<section aria-labelledby="freshness-heading">
+  <h2 id="freshness-heading">Freshness</h2>
+  <p>Card metadata only, computed on request; document bodies are not compared (CONSTRAINTS.md O9).</p>
+  <form method="post" action="/diagnostics/freshness">
+    <button type="submit">Check freshness</button>
+  </form>
+  {% if view.freshness %}
+  <dl>
+    <dt>Status</dt><dd data-freshness-status="{{ view.freshness.status }}">{{ view.freshness.status }}</dd>
+    <dt>Live card count</dt><dd>{{ view.freshness.corpus_card_count_live }}</dd>
+    <dt>Indexed card count</dt><dd>{{ view.freshness.corpus_card_count_index }}</dd>
+    <dt>Live cards sha</dt><dd><code>{{ view.freshness.corpus_cards_sha_live }}</code></dd>
+    <dt>Indexed cards sha</dt><dd><code>{{ view.freshness.corpus_cards_sha_index }}</code></dd>
+    <dt>Added</dt><dd>{{ view.freshness.added | join(", ") if view.freshness.added else "none" }}</dd>
+    <dt>Removed</dt><dd>{{ view.freshness.removed | join(", ") if view.freshness.removed else "none" }}</dd>
+    <dt>SHA changed</dt><dd>{{ view.freshness.sha_changed | join(", ") if view.freshness.sha_changed else "none" }}</dd>
+    <dt>Computed (UTC)</dt><dd>{{ view.freshness.computed_at_utc }}</dd>
+    <dt>Scan duration (s)</dt><dd>{{ view.freshness.scan_seconds }}</dd>
+    <dt>Scope</dt><dd>{{ view.freshness.scope_note }}</dd>
+  </dl>
+  {% endif %}
+</section>
+
+<section aria-labelledby="authority-heading">
+  <h2 id="authority-heading">Authority notice</h2>
+  <p class="authority-notice">{{ view.authority_notice }}</p>
+</section>
+
+</div>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+{% if not adapter_absent %}
+<script>
+(function () {
+  var root = document.getElementById("main");
+  if (root) {
+    root.dataset.mode = {{ view.effective_mode | tojson }};
+    root.dataset.vector = {{ ("available" if view.vector.available else "unavailable") | tojson }};
+  }
+})();
+</script>
+{% if view.active_fault == "console_error" %}
+<script>throw new Error("RHACO_EXPLORER_FAULT console_error")</script>
+{% endif %}
+{% endif %}
+{% endblock %}
