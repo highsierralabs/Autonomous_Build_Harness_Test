@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Diagnostics -- RHACO Corpus Explorer{% endblock %}
+{% block html_attrs %}{% if not adapter_absent %} data-mode="{{ view.effective_mode }}" data-vector="{{ 'available' if view.vector.available else 'unavailable' }}"{% endif %}{% endblock %}
 {% block content %}
 <h1>Diagnostics</h1>
 <p class="lede">What this comprehension instrument currently knows about its own state.</p>

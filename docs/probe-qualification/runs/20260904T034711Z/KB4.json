@@ -1,0 +1,8 @@
+{
+  "fault": "broken_jump",
+  "kind": "not_implemented",
+  "label": "Known-bad qualification case KB4: RHACO_EXPLORER_FAULT=broken_jump (explorer/faults.py; the probe must flag it once the reader/lineage/search surfaces the fault touches are built)",
+  "ok": true,
+  "preset": "KB4",
+  "status": "not_implemented_yet"
+}

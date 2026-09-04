@@ -167,6 +167,19 @@ class EdgeSet:
 
 
 @dataclass
+class Subtree:
+    """campaign_subtree(...) result (ARCHITECTURE.md 4.1, D-Q10; mirrors the documented
+    traverse_campaign_subtree tool: cap 200, counts_by_doc_type). Canonicalized here from
+    the corpus_adapter round-1 change request."""
+    root_id: str
+    depth_limit: int | None
+    max_results: int
+    truncated: bool
+    nodes: list[tuple] = field(default_factory=list)   # (CardRow, depth) pairs, root first
+    counts_by_doc_type: dict = field(default_factory=dict)
+
+
+@dataclass
 class Heading:
     level: int
     text: str

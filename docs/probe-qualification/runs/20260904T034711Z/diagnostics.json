@@ -1,0 +1,26 @@
+{
+  "console_errors": [],
+  "error": null,
+  "failed_requests": [],
+  "http_status": 200,
+  "kind": "page",
+  "label": "Diagnostics page (GET /diagnostics; 404 \"route absent\" is expected and accepted until the diagnostics module merges)",
+  "mode": "hybrid",
+  "ok": true,
+  "preset": "diagnostics",
+  "result_ids": [],
+  "route_absent": false,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\docs\\probe-qualification\\runs\\20260904T034711Z\\diagnostics.png",
+  "selected_doc_id": null,
+  "timings": {
+    "elapsed_ms": 195.9,
+    "nav_end_utc": "2026-09-04T03:47:13.684744+00:00",
+    "nav_start_utc": "2026-09-04T03:47:13.488841+00:00"
+  },
+  "title": "Diagnostics -- RHACO Corpus Explorer",
+  "url": "http://127.0.0.1:8791/diagnostics",
+  "viewport": {
+    "height": 900,
+    "width": 1280
+  }
+}

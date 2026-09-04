@@ -26,6 +26,11 @@ PACKAGE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Registration order fixes template lookup precedence (ChoiceLoader) and nav order.
 MODULES = ("web", "catalog", "search", "reader", "lineage", "diagnostics")
 
+# Sentinel a test may place on app.state.adapter to exercise the adapter-absent path
+# after the corpus_adapter module exists (round-1 integration: three diagnostics tests
+# relied on the module being unbuilt in their worktree).
+ADAPTER_ABSENT = object()
+
 
 def _module_dir(mod: str, sub: str) -> str | None:
     p = os.path.join(PACKAGE_DIR, mod, sub)
@@ -57,6 +62,8 @@ def get_adapter(request: Request) -> Any:
     corpus_adapter module is not built yet -- routes that need it surface a 503."""
     app = request.app
     adapter = getattr(app.state, "adapter", None)
+    if adapter is ADAPTER_ABSENT:
+        raise RuntimeError("corpus_adapter not built")
     if adapter is None:
         try:
             mod = importlib.import_module("explorer.corpus_adapter.adapter")

@@ -66,9 +66,15 @@ def test_rerank_standing_text_is_fixed():
     assert isinstance(view.rerank.artifact_present, bool)
 
 
-def test_last_probe_run_none_recorded_when_no_runs_directory():
-    # The worktree carries no docs/probe-qualification/runs/ tree (built by wave 3),
-    # so this must resolve to the documented "none recorded" sentinel.
+def test_last_probe_run_none_recorded_when_no_runs_directory(monkeypatch, tmp_path):
+    # Round-1 integration: main now carries docs/probe-qualification/runs/ (the probe
+    # builder's evidence run), so the "no runs" case is exercised against an empty
+    # temporary runs glob instead of the workspace tree.
+    import os
+
+    from explorer.diagnostics import service
+
+    monkeypatch.setattr(service, "_PROBE_RUNS_GLOB", os.path.join(str(tmp_path), "runs", "*", "run_summary.json"))
     view = build_view(FakeAdapter(), _settings())
     assert view.last_probe_run == NO_PROBE_RUN == "none recorded"
 

@@ -17,7 +17,7 @@ import logging
 import os
 import re
 import time
-from dataclasses import dataclass, field, replace
+from dataclasses import replace
 from datetime import UTC, datetime
 
 from explorer import faults
@@ -39,6 +39,7 @@ from explorer.models import (
     IndexMeta,
     ModeResult,
     ResultItem,
+    Subtree,
     VectorAvailability,
 )
 
@@ -63,20 +64,8 @@ class ConfigurationError(RuntimeError):
     create a database, so this is always checked with `os.path.isfile` first."""
 
 
-@dataclass
-class Subtree:
-    """campaign_subtree's return type. ARCHITECTURE.md 4.1 names a `Subtree`
-    return type that is not yet defined in explorer/models.py; this is a local
-    stand-in kept to the same shape the module's `traverse_campaign_subtree`
-    tool documents (O25: cap 200, counts_by_doc_type). See this round's
-    report, "Change requests", for the request to canonicalize it there."""
-
-    root_id: str
-    depth_limit: int | None
-    max_results: int
-    truncated: bool
-    nodes: list[tuple[CardRow, int]] = field(default_factory=list)  # (card, depth), root first
-    counts_by_doc_type: dict = field(default_factory=dict)
+# Subtree is canonical in explorer.models since the round-1 integration (the builder's
+# change request); the local stand-in was removed by the integrator.
 
 
 def _utc_now_iso() -> str:

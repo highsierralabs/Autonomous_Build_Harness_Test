@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en"{% block html_attrs %}{% endblock %}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,7 +16,7 @@
     <a href="/diagnostics">Diagnostics</a>
   </nav>
 </header>
-<main id="main" tabindex="-1">
+<main id="main" tabindex="-1"{% block main_attrs %}{% endblock %}>
 {% block content %}{% endblock %}
 </main>
 <footer class="site-footer">

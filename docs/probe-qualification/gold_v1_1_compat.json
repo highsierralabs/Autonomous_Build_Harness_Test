@@ -1,0 +1,1794 @@
+{
+  "gold_path": "C:\\RHACO\\working\\eval\\gold_queries.yaml",
+  "gold_meta": {
+    "source_document": "RHACO-ANL-20260711-001_Corpus_RAG_Gold_Query_Set_v1_1_Freeze.md",
+    "source_sha256": "f4d88993fef8ff6af930f79f8bca44351823c934ac11230607a33bd4c56efdc1",
+    "gold_set_version": "1.1",
+    "scoring": {
+      "metric": "recall@10",
+      "hit_rule": "any-target-in-top-10"
+    },
+    "strata": [
+      {
+        "id": "S1",
+        "name": "Exact-ID",
+        "count": 8
+      },
+      {
+        "id": "S2",
+        "name": "Title-fragment lexical",
+        "count": 6
+      },
+      {
+        "id": "S3",
+        "name": "Semantic paraphrase",
+        "count": 12
+      },
+      {
+        "id": "S4",
+        "name": "Lineage / graph mode",
+        "count": 6
+      },
+      {
+        "id": "S5",
+        "name": "Constants & analytical",
+        "count": 8
+      }
+    ]
+  },
+  "rows": 40,
+  "top_k": 10,
+  "hit_rule": "any-target-in-top-10; family targets under resolve: supersession-head resolved to the live head (supersedes-edge terminal, max-version fallback)",
+  "vector_availability": {
+    "available": true,
+    "reason": "ok"
+  },
+  "recall_at_10_adapter": 0.675,
+  "recall_at_10_module_direct": 0.675,
+  "hits_adapter": 27,
+  "hits_module": 27,
+  "lists_equal": 40,
+  "threshold": 0.7,
+  "per_stratum_adapter": {
+    "S1": {
+      "hits": 8,
+      "rows": 8,
+      "recall": 1.0
+    },
+    "S2": {
+      "hits": 6,
+      "rows": 6,
+      "recall": 1.0
+    },
+    "S3": {
+      "hits": 6,
+      "rows": 12,
+      "recall": 0.5
+    },
+    "S4": {
+      "hits": 4,
+      "rows": 6,
+      "recall": 0.6667
+    },
+    "S5": {
+      "hits": 3,
+      "rows": 8,
+      "recall": 0.375
+    }
+  },
+  "started_utc": "2026-09-04T03:45:41+00:00",
+  "finished_utc": "2026-09-04T03:47:11+00:00",
+  "db_path": "C:\\RHACO\\index\\corpus_index.db",
+  "index_meta_corpus_cards_sha": "ed86c3cdc60bc46418b6d2385c24b9dcd347aa8f206849d59a7f00d368816a30",
+  "verdict": {
+    "adapter_matches_module": true,
+    "threshold_met": false,
+    "overall": "SCOPE"
+  },
+  "results": [
+    {
+      "id": 1,
+      "stratum": "S1",
+      "query": "RHACO-MTN-20260520-001",
+      "targets": [
+        "RHACO-MTN-20260520-001"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-MTN-20260520-001"
+      ],
+      "adapter_ids": [
+        "RHACO-MTN-20260520-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO-HND-20260523-001",
+        "RHACO-HND-20260524-004",
+        "RHACO-HND-20260525-002",
+        "RHACO_Document_Catalog",
+        "RHACO-CMP-20260505-001",
+        "RHACO-HND-20260524-001",
+        "RHACO-CHG-20260524-002",
+        "RHACO_Software_Behavioral_Reference"
+      ],
+      "module_ids": [
+        "RHACO-MTN-20260520-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO-HND-20260523-001",
+        "RHACO-HND-20260524-004",
+        "RHACO-HND-20260525-002",
+        "RHACO_Document_Catalog",
+        "RHACO-CMP-20260505-001",
+        "RHACO-HND-20260524-001",
+        "RHACO-CHG-20260524-002",
+        "RHACO_Software_Behavioral_Reference"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 2,
+      "stratum": "S1",
+      "query": "E000095",
+      "targets": [
+        "RHACO-EVT-20260522-001"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-EVT-20260522-001"
+      ],
+      "adapter_ids": [
+        "RHACO-EVT-20260522-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO_Document_Catalog",
+        "RHACO-EVT-20260613-001",
+        "RHACO-EVT-20260527-003",
+        "RHACO-EVT-20260419-002",
+        "RHACO-HND-20260527-001",
+        "RHACO-ANL-20260711-002",
+        "RHACO-EVT-20260527-002",
+        "RHACO-CCX-20260711-001"
+      ],
+      "module_ids": [
+        "RHACO-EVT-20260522-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO_Document_Catalog",
+        "RHACO-EVT-20260613-001",
+        "RHACO-EVT-20260527-003",
+        "RHACO-EVT-20260419-002",
+        "RHACO-HND-20260527-001",
+        "RHACO-ANL-20260711-002",
+        "RHACO-EVT-20260527-002",
+        "RHACO-CCX-20260711-001"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 3,
+      "stratum": "S1",
+      "query": "CHG-20260502-001",
+      "targets": [
+        "RHACO-CHG-20260502-001"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-CHG-20260502-001"
+      ],
+      "adapter_ids": [
+        "RHACO-CHG-20260502-001",
+        "RHACO_Document_Catalog",
+        "RHACO-CMP-20260505-001",
+        "RHACO-CHG-20260520-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO-CHG-20260502-002",
+        "RHACO-CCX-20260607-002",
+        "RHACO-CCX-20260505-004",
+        "RHACO-CMP-20260502-001",
+        "RHACO-MTN-20260520-001_Castle_Lid_Notch_And_Tungsten_Putty_Seal_card.yaml"
+      ],
+      "module_ids": [
+        "RHACO-CHG-20260502-001",
+        "RHACO_Document_Catalog",
+        "RHACO-CMP-20260505-001",
+        "RHACO-CHG-20260520-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO-CHG-20260502-002",
+        "RHACO-CCX-20260607-002",
+        "RHACO-CCX-20260505-004",
+        "RHACO-CMP-20260502-001",
+        "RHACO-MTN-20260520-001_Castle_Lid_Notch_And_Tungsten_Putty_Seal_card.yaml"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 4,
+      "stratum": "S1",
+      "query": "RHACO-ANL-20260415-002",
+      "targets": [
+        "RHACO-ANL-20260415-002"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-ANL-20260415-002"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260415-002",
+        "RHACO-ANL-20260710-001",
+        "RHACO-CCX-20260510-002",
+        "RHACO-HND-20260624-006",
+        "RHACO-ANL-20260416-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CCX-20260507-002",
+        "RHACO_Firmware_Reference_v1_0",
+        "RHACO-HND-20260516-001",
+        "RHACO-CCX-20260516-004"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260415-002",
+        "RHACO-ANL-20260710-001",
+        "RHACO-CCX-20260510-002",
+        "RHACO-HND-20260624-006",
+        "RHACO-ANL-20260416-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CCX-20260507-002",
+        "RHACO_Firmware_Reference_v1_0",
+        "RHACO-HND-20260516-001",
+        "RHACO-CCX-20260516-004"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 5,
+      "stratum": "S1",
+      "query": "CCX-20260628-003",
+      "targets": [
+        "RHACO-CCX-20260628-003"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-CCX-20260628-003"
+      ],
+      "adapter_ids": [
+        "RHACO-CCX-20260628-003",
+        "HND-20260628-004_M3_Phase3_Closure_report",
+        "RHACO-HND-20260628-004",
+        "RHACO-CCX-20260711-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO-CHG-20260628-004",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CMP-20260526-001",
+        "RHACO-CCX-20260710-003",
+        "RHACO-CCX-20260705-005"
+      ],
+      "module_ids": [
+        "RHACO-CCX-20260628-003",
+        "HND-20260628-004_M3_Phase3_Closure_report",
+        "RHACO-HND-20260628-004",
+        "RHACO-CCX-20260711-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO-CHG-20260628-004",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CMP-20260526-001",
+        "RHACO-CCX-20260710-003",
+        "RHACO-CCX-20260705-005"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 6,
+      "stratum": "S1",
+      "query": "SOP-20260526-001",
+      "targets": [
+        "RHACO-SOP-20260526-001"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-SOP-20260526-001"
+      ],
+      "adapter_ids": [
+        "RHACO-SOP-20260526-001",
+        "RHACO-HND-20260530-006",
+        "RHACO-CHG-20260530-004",
+        "RHACO-CHG-20260528-002",
+        "RHACO-CCX-20260528-003",
+        "RHACO-HND-20260527-002",
+        "RHACO-CCX-20260528-002",
+        "RHACO-CCX-20260528-001",
+        "RHACO-HND-20260527-003",
+        "RHACO-CCX-20260529-001"
+      ],
+      "module_ids": [
+        "RHACO-SOP-20260526-001",
+        "RHACO-HND-20260530-006",
+        "RHACO-CHG-20260530-004",
+        "RHACO-CHG-20260528-002",
+        "RHACO-CCX-20260528-003",
+        "RHACO-HND-20260527-002",
+        "RHACO-CCX-20260528-002",
+        "RHACO-CCX-20260528-001",
+        "RHACO-HND-20260527-003",
+        "RHACO-CCX-20260529-001"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 7,
+      "stratum": "S1",
+      "query": "E000240",
+      "targets": [
+        "RHACO-EVT-20260527-001"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-EVT-20260527-001"
+      ],
+      "adapter_ids": [
+        "RHACO-EVT-20260527-001",
+        "RHACO-HND-20260620-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO_Document_Catalog",
+        "RHACO-CCX-20260620-001",
+        "RHACO-HND-20260527-001",
+        "RHACO-ANL-20260620-001",
+        "RHACO-CCX-20260619-001",
+        "RHACO-EVT-20260527-003",
+        "RHACO-EVT-20260527-002"
+      ],
+      "module_ids": [
+        "RHACO-EVT-20260527-001",
+        "RHACO-HND-20260620-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO_Document_Catalog",
+        "RHACO-CCX-20260620-001",
+        "RHACO-HND-20260527-001",
+        "RHACO-ANL-20260620-001",
+        "RHACO-CCX-20260619-001",
+        "RHACO-EVT-20260527-003",
+        "RHACO-EVT-20260527-002"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 8,
+      "stratum": "S1",
+      "query": "HND-20260428-003",
+      "targets": [
+        "RHACO-HND-20260428-003"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-HND-20260428-003"
+      ],
+      "adapter_ids": [
+        "RHACO-HND-20260428-003",
+        "RHACO-HND-20260523-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO-HND-20260508-001",
+        "RHACO-HND-20260429-002",
+        "RHACO_Document_Catalog",
+        "RHACO-CCX-20260502-004",
+        "RHACO-CHG-20260429-002",
+        "RHACO-CHG-20260502-002",
+        "RHACO-CCX-20260428-001"
+      ],
+      "module_ids": [
+        "RHACO-HND-20260428-003",
+        "RHACO-HND-20260523-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO-HND-20260508-001",
+        "RHACO-HND-20260429-002",
+        "RHACO_Document_Catalog",
+        "RHACO-CCX-20260502-004",
+        "RHACO-CHG-20260429-002",
+        "RHACO-CHG-20260502-002",
+        "RHACO-CCX-20260428-001"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 9,
+      "stratum": "S2",
+      "query": "trap release hypothesis",
+      "targets": [
+        "RHACO-DLB-20260417-001"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-DLB-20260417-001"
+      ],
+      "adapter_ids": [
+        "RHACO-DLB-20260417-001",
+        "RHACO-DLB-20260421-003",
+        "RHACO-EVT-20260417-001",
+        "RHACO_Document_Catalog",
+        "RHACO-EVT-20260416-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-EVT-20260426-002",
+        "RHACO_Digest_Batch_02",
+        "RHACO-EVT-20260428-003_Matched_Trigger_PathB_PathX_RADON_Cluster_digest.card.yaml",
+        "RHACO-EVT-20260428-003"
+      ],
+      "module_ids": [
+        "RHACO-DLB-20260417-001",
+        "RHACO-DLB-20260421-003",
+        "RHACO-EVT-20260417-001",
+        "RHACO_Document_Catalog",
+        "RHACO-EVT-20260416-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-EVT-20260426-002",
+        "RHACO_Digest_Batch_02",
+        "RHACO-EVT-20260428-003_Matched_Trigger_PathB_PathX_RADON_Cluster_digest.card.yaml",
+        "RHACO-EVT-20260428-003"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 10,
+      "stratum": "S2",
+      "query": "tungsten putty seal",
+      "targets": [
+        "RHACO-MTN-20260520-001"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-MTN-20260520-001"
+      ],
+      "adapter_ids": [
+        "RHACO-MTN-20260520-001_Castle_Lid_Notch_And_Tungsten_Putty_Seal_card.yaml",
+        "RHACO-MTN-20260520-001",
+        "RHACO-ANL-20260523-002",
+        "RHACO-ANL-20260710-001",
+        "RHACO_Document_Catalog",
+        "RHACO-ANL-20260711-001",
+        "RHACO-EVT-20260522-001",
+        "RHACO-ANL-20260523-001",
+        "RHACO-CHG-20260520-001",
+        "RHACO-HND-20260525-002"
+      ],
+      "module_ids": [
+        "RHACO-MTN-20260520-001_Castle_Lid_Notch_And_Tungsten_Putty_Seal_card.yaml",
+        "RHACO-MTN-20260520-001",
+        "RHACO-ANL-20260523-002",
+        "RHACO-ANL-20260710-001",
+        "RHACO_Document_Catalog",
+        "RHACO-ANL-20260711-001",
+        "RHACO-EVT-20260522-001",
+        "RHACO-ANL-20260523-001",
+        "RHACO-CHG-20260520-001",
+        "RHACO-HND-20260525-002"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 11,
+      "stratum": "S2",
+      "query": "dual dip saturation regime",
+      "targets": [
+        "RHACO-DLB-20260423-004"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-DLB-20260423-004"
+      ],
+      "adapter_ids": [
+        "RHACO-HND-20260522-001",
+        "RHACO-EVT-20260527-003",
+        "RHACO-EVT-20260504-001",
+        "RHACO-HND-20260522-002",
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-HND-20260527-001",
+        "RHACO-DLB-20260423-004",
+        "RHACO-HND-20260517-005",
+        "RHACO-EVT-20260423-004"
+      ],
+      "module_ids": [
+        "RHACO-HND-20260522-001",
+        "RHACO-EVT-20260527-003",
+        "RHACO-EVT-20260504-001",
+        "RHACO-HND-20260522-002",
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-HND-20260527-001",
+        "RHACO-DLB-20260423-004",
+        "RHACO-HND-20260517-005",
+        "RHACO-EVT-20260423-004"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 12,
+      "stratum": "S2",
+      "query": "cliff ratio numeric floor artifact",
+      "targets": [
+        "RHACO-DLB-20260522-001"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-DLB-20260522-001"
+      ],
+      "adapter_ids": [
+        "RHACO-DLB-20260522-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO_Document_Catalog",
+        "RHACO-EVT-20260607-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CCX-20260608-002",
+        "RHACO-CCX-20260607-003",
+        "RHACO_Glossary_v4_1",
+        "RHACO_Software_Behavioral_Reference",
+        "RHACO-ANL-20260425-001"
+      ],
+      "module_ids": [
+        "RHACO-DLB-20260522-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO_Document_Catalog",
+        "RHACO-EVT-20260607-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CCX-20260608-002",
+        "RHACO-CCX-20260607-003",
+        "RHACO_Glossary_v4_1",
+        "RHACO_Software_Behavioral_Reference",
+        "RHACO-ANL-20260425-001"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 13,
+      "stratum": "S2",
+      "query": "radon plateau candidate",
+      "targets": [
+        "RHACO-EVT-20260423-005"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-EVT-20260423-005"
+      ],
+      "adapter_ids": [
+        "RHACO-HND-20260428-003",
+        "RHACO-EVT-20260428-002",
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-EVT-20260423-005",
+        "RHACO-CMP-20260419-002",
+        "RHACO-ANL-20260425-001",
+        "RHACO_Document_Catalog",
+        "RHACO-EVT-20260419-002",
+        "RHACO-OBS-20260410-001"
+      ],
+      "module_ids": [
+        "RHACO-HND-20260428-003",
+        "RHACO-EVT-20260428-002",
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-EVT-20260423-005",
+        "RHACO-CMP-20260419-002",
+        "RHACO-ANL-20260425-001",
+        "RHACO_Document_Catalog",
+        "RHACO-EVT-20260419-002",
+        "RHACO-OBS-20260410-001"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 14,
+      "stratum": "S2",
+      "query": "subagent workflow founding",
+      "targets": [
+        "RHACO-DLB-20260524-001"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-DLB-20260524-001"
+      ],
+      "adapter_ids": [
+        "RHACO-DLB-20260524-001",
+        "RHACO-HND-20260614-003",
+        "RHACO-HND-20260618-002",
+        "RHACO_Document_Catalog",
+        "RHACO-CCX-20260524-001",
+        "RHACO-HND-20260524-005",
+        "RHACO-HND-20260524-003",
+        "RHACO-HND-20260524-004",
+        "RHACO-DLB-20260628-001",
+        "RHACO-DLB-20260527-001"
+      ],
+      "module_ids": [
+        "RHACO-DLB-20260524-001",
+        "RHACO-HND-20260614-003",
+        "RHACO-HND-20260618-002",
+        "RHACO_Document_Catalog",
+        "RHACO-CCX-20260524-001",
+        "RHACO-HND-20260524-005",
+        "RHACO-HND-20260524-003",
+        "RHACO-HND-20260524-004",
+        "RHACO-DLB-20260628-001",
+        "RHACO-DLB-20260527-001"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 15,
+      "stratum": "S3",
+      "query": "why does the detector undercount right after a big shower",
+      "targets": [
+        "RHACO-ANL-20260502-001",
+        "RHACO-DLB-20260423-004"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-ANL-20260502-001",
+        "RHACO-DLB-20260423-004"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260711-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO-EVT-20260331-003",
+        "RHACO-EVT-20260402-002",
+        "RHACO-EVT-20260401-002",
+        "RHACO-EVT-20260402-005",
+        "RHACO-EVT-20260331-002",
+        "RHACO-EVT-20260401-001",
+        "RHACO-EVT-20260402-004",
+        "RHACO-DLB-20260417-001"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260711-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO-EVT-20260331-003",
+        "RHACO-EVT-20260402-002",
+        "RHACO-EVT-20260401-002",
+        "RHACO-EVT-20260402-005",
+        "RHACO-EVT-20260331-002",
+        "RHACO-EVT-20260401-001",
+        "RHACO-EVT-20260402-004",
+        "RHACO-DLB-20260417-001"
+      ],
+      "hit_adapter": false,
+      "hit_module": false,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 16,
+      "stratum": "S3",
+      "query": "how thick is the lead shielding",
+      "targets": [
+        "RHACO-DLB-20260509-001",
+        "RHACO_Castle_Stability_Reference"
+      ],
+      "resolve": "supersession-head",
+      "row_mode": null,
+      "target_resolution": [
+        "RHACO_Castle_Stability_Reference -> RHACO_Castle_Stability_Reference_v1_1 (supersedes-edge terminal)"
+      ],
+      "accepted": [
+        "RHACO-DLB-20260509-001",
+        "RHACO_Castle_Stability_Reference_v1_1"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-HND-20260710-002",
+        "RHACO-ANL-20260504-003",
+        "RHACO_Glossary_v4_1",
+        "RHACO_Document_Catalog",
+        "RHACO_Glossary_v4_0",
+        "RHACO-CCX-20260621-003",
+        "RHACO_Glossary_v3_2",
+        "RHACO_Glossary_v2_1"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-HND-20260710-002",
+        "RHACO-ANL-20260504-003",
+        "RHACO_Glossary_v4_1",
+        "RHACO_Document_Catalog",
+        "RHACO_Glossary_v4_0",
+        "RHACO-CCX-20260621-003",
+        "RHACO_Glossary_v3_2",
+        "RHACO_Glossary_v2_1"
+      ],
+      "hit_adapter": false,
+      "hit_module": false,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 17,
+      "stratum": "S3",
+      "query": "events that keep glowing after the pulse ends",
+      "targets": [
+        "RHACO-EVT-20260420-002",
+        "RHACO-ANL-20260402-001"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-EVT-20260420-002",
+        "RHACO-ANL-20260402-001"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260711-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO_Digest_Batch_02",
+        "RHACO-EVT-20260401-001",
+        "RHACO-EVT-20260331-003",
+        "RHACO-EVT-20260401-002",
+        "RHACO-ANL-20260402-001",
+        "RHACO-ANL-20260512-001",
+        "RHACO-EVT-20260402-002",
+        "RHACO_Glossary_v1_0"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260711-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO_Digest_Batch_02",
+        "RHACO-EVT-20260401-001",
+        "RHACO-EVT-20260331-003",
+        "RHACO-EVT-20260401-002",
+        "RHACO-ANL-20260402-001",
+        "RHACO-ANL-20260512-001",
+        "RHACO-EVT-20260402-002",
+        "RHACO_Glossary_v1_0"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 18,
+      "stratum": "S3",
+      "query": "counter stuck at 512",
+      "targets": [
+        "RHACO-ANL-20260415-002"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-ANL-20260415-002"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-ANL-20260416-002",
+        "RHACO-ANL-20260528-001",
+        "RHACO-CHG-20260606-003",
+        "RHACO-ANL-20260507-001",
+        "RHACO-DLB-20260416-003",
+        "RHACO-CCX-20260524-003",
+        "RHACO-ANL-20260415-002",
+        "HND-20260614-003_track1_manifest"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-ANL-20260416-002",
+        "RHACO-ANL-20260528-001",
+        "RHACO-CHG-20260606-003",
+        "RHACO-ANL-20260507-001",
+        "RHACO-DLB-20260416-003",
+        "RHACO-CCX-20260524-003",
+        "RHACO-ANL-20260415-002",
+        "HND-20260614-003_track1_manifest"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 19,
+      "stratum": "S3",
+      "query": "telling radon events apart from muons",
+      "targets": [
+        "RHACO-DLB-20260425-002"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-DLB-20260425-002"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-DLB-20260420-001",
+        "RHACO-ANL-20260429-001",
+        "RHACO-EVT-20260331-001",
+        "RHACO-EVT-20260422-002",
+        "RHACO-EVT-20260428-001_MUON_SUB_Clean_FW_Only_Exemplar_digest.card.yaml",
+        "RHACO-EVT-20260420-003",
+        "RHACO-EVT-20260425-001",
+        "RHACO-OBS-20260410-001"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-DLB-20260420-001",
+        "RHACO-ANL-20260429-001",
+        "RHACO-EVT-20260331-001",
+        "RHACO-EVT-20260422-002",
+        "RHACO-EVT-20260428-001_MUON_SUB_Clean_FW_Only_Exemplar_digest.card.yaml",
+        "RHACO-EVT-20260420-003",
+        "RHACO-EVT-20260425-001",
+        "RHACO-OBS-20260410-001"
+      ],
+      "hit_adapter": false,
+      "hit_module": false,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 20,
+      "stratum": "S3",
+      "query": "two showers arriving back to back",
+      "targets": [
+        "RHACO-EVT-20260504-001"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-EVT-20260504-001"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-EVT-20260331-003",
+        "RHACO-CHG-20260427-002",
+        "RHACO-HND-20260427-003",
+        "RHACO-HND-20260503-005",
+        "RHACO-EVT-20260409-001",
+        "RHACO-EVT-20260419-003",
+        "RHACO-HND-20260427-002",
+        "RHACO-DLB-20260423-004"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-EVT-20260331-003",
+        "RHACO-CHG-20260427-002",
+        "RHACO-HND-20260427-003",
+        "RHACO-HND-20260503-005",
+        "RHACO-EVT-20260409-001",
+        "RHACO-EVT-20260419-003",
+        "RHACO-HND-20260427-002",
+        "RHACO-DLB-20260423-004"
+      ],
+      "hit_adapter": false,
+      "hit_module": false,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 21,
+      "stratum": "S3",
+      "query": "moving the shielded enclosure to a new spot",
+      "targets": [
+        "RHACO-MTN-20260426-001"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-MTN-20260426-001"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-MTN-20260426-001",
+        "RHACO-CHG-20260617-002",
+        "RHACO-HND-20260609-001",
+        "RHACO-CCX-20260617-002",
+        "RHACO-CHG-20260502-001",
+        "RHACO-CHG-20260423-004",
+        "RHACO-HND-20260524-004",
+        "RHACO-CHG-20260531-004"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-MTN-20260426-001",
+        "RHACO-CHG-20260617-002",
+        "RHACO-HND-20260609-001",
+        "RHACO-CCX-20260617-002",
+        "RHACO-CHG-20260502-001",
+        "RHACO-CHG-20260423-004",
+        "RHACO-HND-20260524-004",
+        "RHACO-CHG-20260531-004"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 22,
+      "stratum": "S3",
+      "query": "picking thresholds without a training set",
+      "targets": [
+        "RHACO-DLB-20260503-002"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-DLB-20260503-002"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260711-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO-HND-20260512-001",
+        "RHACO-CCX-20260621-003",
+        "RHACO-ANL-20260516-002",
+        "RHACO-ANL-20260428-002",
+        "RHACO_Document_Catalog",
+        "RHACO-DLB-20260622-001",
+        "RHACO-ANL-20260516-001",
+        "RHACO-CCX-20260622-001"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260711-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO-HND-20260512-001",
+        "RHACO-CCX-20260621-003",
+        "RHACO-ANL-20260516-002",
+        "RHACO-ANL-20260428-002",
+        "RHACO_Document_Catalog",
+        "RHACO-DLB-20260622-001",
+        "RHACO-ANL-20260516-001",
+        "RHACO-CCX-20260622-001"
+      ],
+      "hit_adapter": false,
+      "hit_module": false,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 23,
+      "stratum": "S3",
+      "query": "keeping the instrument honest about what it cannot measure",
+      "targets": [
+        "RHACO_Measurement_Philosophy_v1_4_1"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO_Measurement_Philosophy_v1_4_1"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO_Measurement_Philosophy_Public_v1_0",
+        "RHACO_Measurement_Philosophy_v1_2",
+        "RHACO_Measurement_Philosophy_v1_4_1",
+        "RHACO_Measurement_Philosophy_v1_4",
+        "RHACO_Measurement_Philosophy_v1_3",
+        "RHACO-ANL-20260507-001",
+        "RHACO-DLB-20260626-004",
+        "RHACO-HND-20260508-002"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO_Measurement_Philosophy_Public_v1_0",
+        "RHACO_Measurement_Philosophy_v1_2",
+        "RHACO_Measurement_Philosophy_v1_4_1",
+        "RHACO_Measurement_Philosophy_v1_4",
+        "RHACO_Measurement_Philosophy_v1_3",
+        "RHACO-ANL-20260507-001",
+        "RHACO-DLB-20260626-004",
+        "RHACO-HND-20260508-002"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 24,
+      "stratum": "S3",
+      "query": "solar storm makes the count rate drop",
+      "targets": [
+        "RHACO-RDM-20260509-001"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-RDM-20260509-001"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260711-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO-HND-20260424-002",
+        "RHACO-INC-20260630-001",
+        "RHACO-CCX-20260603-001",
+        "RHACO-FRB-20260405-001",
+        "RHACO-EVT-20260419-003",
+        "RHACO-ANL-20260603-001",
+        "RHACO-CHG-20260703-001",
+        "RHACO-FND-20260419-001"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260711-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO-HND-20260424-002",
+        "RHACO-INC-20260630-001",
+        "RHACO-CCX-20260603-001",
+        "RHACO-FRB-20260405-001",
+        "RHACO-EVT-20260419-003",
+        "RHACO-ANL-20260603-001",
+        "RHACO-CHG-20260703-001",
+        "RHACO-FND-20260419-001"
+      ],
+      "hit_adapter": false,
+      "hit_module": false,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 25,
+      "stratum": "S3",
+      "query": "five minute cumulative spectra",
+      "targets": [
+        "RHACO-ANL-20260419-001",
+        "RHACO-RDM-20260419-001"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-ANL-20260419-001",
+        "RHACO-RDM-20260419-001"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-ANL-20260501-001",
+        "RHACO-ANL-20260419-001",
+        "RHACO-HND-20260428-004_Spectrum_Cadence_5min.card.yaml",
+        "RHACO-ANL-20260429-001",
+        "RHACO-HND-20260512-004",
+        "RHACO_Software_Behavioral_Reference",
+        "RHACO-RDM-20260419-001",
+        "RHACO-HND-20260427-004"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-ANL-20260501-001",
+        "RHACO-ANL-20260419-001",
+        "RHACO-HND-20260428-004_Spectrum_Cadence_5min.card.yaml",
+        "RHACO-ANL-20260429-001",
+        "RHACO-HND-20260512-004",
+        "RHACO_Software_Behavioral_Reference",
+        "RHACO-RDM-20260419-001",
+        "RHACO-HND-20260427-004"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 26,
+      "stratum": "S3",
+      "query": "cable enters through the shielding wall",
+      "targets": [
+        "RHACO-CHG-20260502-001",
+        "RHACO-MTN-20260520-001"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-CHG-20260502-001",
+        "RHACO-MTN-20260520-001"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CHG-20260502-001",
+        "RHACO-CCX-20260622-001",
+        "RHACO-HND-20260529-004",
+        "RHACO-CCX-20260621-004",
+        "RHACO-CCX-20260621-001",
+        "RHACO-HND-20260430-005",
+        "RHACO-HND-20260427-002",
+        "RHACO-CHG-20260710-001"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CHG-20260502-001",
+        "RHACO-CCX-20260622-001",
+        "RHACO-HND-20260529-004",
+        "RHACO-CCX-20260621-004",
+        "RHACO-CCX-20260621-001",
+        "RHACO-HND-20260430-005",
+        "RHACO-HND-20260427-002",
+        "RHACO-CHG-20260710-001"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 27,
+      "stratum": "S4",
+      "query": "current version of the card schema",
+      "targets": [
+        "RHACO_Card_YAML_Schema_Specification"
+      ],
+      "resolve": "supersession-head",
+      "row_mode": "graph",
+      "target_resolution": [
+        "RHACO_Card_YAML_Schema_Specification -> RHACO_Card_YAML_Schema_Specification_v1_9 (max-version fallback (no unique edge terminal among 9 versions))"
+      ],
+      "accepted": [
+        "RHACO_Card_YAML_Schema_Specification_v1_9"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO_Card_YAML_Schema_Specification_v1_6",
+        "RHACO_Card_YAML_Schema_Specification_v1_3",
+        "RHACO_Card_YAML_Schema_Specification_v1_1",
+        "RHACO_Card_YAML_Schema_Specification_v1_7",
+        "RHACO_Card_YAML_Schema_Specification_v1_4_1",
+        "RHACO_Card_YAML_Schema_Specification_v1_4",
+        "RHACO_Card_YAML_Schema_Specification_v1_2",
+        "RHACO_Card_YAML_Schema_Specification_v1_8"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO_Card_YAML_Schema_Specification_v1_6",
+        "RHACO_Card_YAML_Schema_Specification_v1_3",
+        "RHACO_Card_YAML_Schema_Specification_v1_1",
+        "RHACO_Card_YAML_Schema_Specification_v1_7",
+        "RHACO_Card_YAML_Schema_Specification_v1_4_1",
+        "RHACO_Card_YAML_Schema_Specification_v1_4",
+        "RHACO_Card_YAML_Schema_Specification_v1_2",
+        "RHACO_Card_YAML_Schema_Specification_v1_8"
+      ],
+      "hit_adapter": false,
+      "hit_module": false,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 28,
+      "stratum": "S4",
+      "query": "what superseded the contamination detector tool",
+      "targets": [
+        "RHACO-CHG-20260430-002",
+        "RHACO-HND-20260501-003"
+      ],
+      "resolve": null,
+      "row_mode": "graph",
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-CHG-20260430-002",
+        "RHACO-HND-20260501-003"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CHG-20260430-002",
+        "RHACO-HND-20260504-005",
+        "RHACO-CHG-20260625-003",
+        "RHACO-INC-20260705-001",
+        "RHACO-HND-20260423-003",
+        "RHACO-CHG-20260529-001",
+        "RHACO-CHG-20260627-002",
+        "RHACO-HND-20260501-002"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CHG-20260430-002",
+        "RHACO-HND-20260504-005",
+        "RHACO-CHG-20260625-003",
+        "RHACO-INC-20260705-001",
+        "RHACO-HND-20260423-003",
+        "RHACO-CHG-20260529-001",
+        "RHACO-CHG-20260627-002",
+        "RHACO-HND-20260501-002"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 29,
+      "stratum": "S4",
+      "query": "all documents under the v4 logger rebuild campaign",
+      "targets": [
+        "RHACO-CMP-20260421-001"
+      ],
+      "resolve": null,
+      "row_mode": "graph",
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-CMP-20260421-001"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260711-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO_v4_Logger_Design_v0_1",
+        "RHACO-CMP-20260421-001",
+        "RHACO-CMP-20260623-001",
+        "RHACO-HND-20260712-003",
+        "RHACO_Document_Catalog",
+        "RHACO-HND-20260517-004",
+        "RHACO-CHG-20260419-001",
+        "RHACO-DLB-20260423-002"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260711-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO_v4_Logger_Design_v0_1",
+        "RHACO-CMP-20260421-001",
+        "RHACO-CMP-20260623-001",
+        "RHACO-HND-20260712-003",
+        "RHACO_Document_Catalog",
+        "RHACO-HND-20260517-004",
+        "RHACO-CHG-20260419-001",
+        "RHACO-DLB-20260423-002"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 30,
+      "stratum": "S4",
+      "query": "which amendment rescoped SHORT characterization",
+      "targets": [
+        "RHACO-CMP-20260419-001"
+      ],
+      "resolve": null,
+      "row_mode": "graph",
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-CMP-20260419-001"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CMP-20260419-001",
+        "RHACO-EVT-20260420-001",
+        "RHACO-HND-20260523-001",
+        "RHACO-CHG-20260711-002",
+        "RHACO-CCX-20260516-004",
+        "RHACO_Document_Catalog",
+        "RHACO-HND-20260617-003",
+        "RHACO_HND_Specification_v1_0"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CMP-20260419-001",
+        "RHACO-EVT-20260420-001",
+        "RHACO-HND-20260523-001",
+        "RHACO-CHG-20260711-002",
+        "RHACO-CCX-20260516-004",
+        "RHACO_Document_Catalog",
+        "RHACO-HND-20260617-003",
+        "RHACO_HND_Specification_v1_0"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 31,
+      "stratum": "S4",
+      "query": "what replaced the 3.5 pi shorthand",
+      "targets": [
+        "RHACO-DLB-20260509-001"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-DLB-20260509-001"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CHG-20260705-005",
+        "RHACO-CHG-20260422-004",
+        "RHACO-CHG-20260606-003",
+        "RHACO-CHG-20260628-003",
+        "RHACO-HND-20260426-009",
+        "RHACO-CHG-20260625-003",
+        "RHACO-CHG-20260624-006",
+        "RHACO-SOP-20260526-001"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CHG-20260705-005",
+        "RHACO-CHG-20260422-004",
+        "RHACO-CHG-20260606-003",
+        "RHACO-CHG-20260628-003",
+        "RHACO-HND-20260426-009",
+        "RHACO-CHG-20260625-003",
+        "RHACO-CHG-20260624-006",
+        "RHACO-SOP-20260526-001"
+      ],
+      "hit_adapter": false,
+      "hit_module": false,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 32,
+      "stratum": "S4",
+      "query": "closing document of the corpus knowledge database campaign",
+      "targets": [
+        "RHACO-CCX-20260628-003"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-CCX-20260628-003"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CCX-20260628-003",
+        "RHACO-CMP-20260624-001",
+        "RHACO-CHG-20260628-004",
+        "HND-20260628-004_M3_Phase3_Closure_report",
+        "RHACO-HND-20260628-004",
+        "RHACO-CMP-20260420-001",
+        "RHACO_Document_Catalog",
+        "RHACO-CCX-20260628-002"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CCX-20260628-003",
+        "RHACO-CMP-20260624-001",
+        "RHACO-CHG-20260628-004",
+        "HND-20260628-004_M3_Phase3_Closure_report",
+        "RHACO-HND-20260628-004",
+        "RHACO-CMP-20260420-001",
+        "RHACO_Document_Catalog",
+        "RHACO-CCX-20260628-002"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 33,
+      "stratum": "S5",
+      "query": "median buffer length seconds",
+      "targets": [
+        "RHACO-ANL-20260707-001",
+        "RHACO-CCX-20260707-003"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-ANL-20260707-001",
+        "RHACO-CCX-20260707-003"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-HND-20260421-004",
+        "RHACO-ANL-20260508-001",
+        "RHACO-ANL-20260516-002",
+        "RHACO-ANL-20260501-001",
+        "RHACO-ANL-20260516-001",
+        "RHACO_Software_Behavioral_Reference",
+        "RHACO-CCX-20260621-003",
+        "RHACO_Document_Catalog"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-HND-20260421-004",
+        "RHACO-ANL-20260508-001",
+        "RHACO-ANL-20260516-002",
+        "RHACO-ANL-20260501-001",
+        "RHACO-ANL-20260516-001",
+        "RHACO_Software_Behavioral_Reference",
+        "RHACO-CCX-20260621-003",
+        "RHACO_Document_Catalog"
+      ],
+      "hit_adapter": false,
+      "hit_module": false,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 34,
+      "stratum": "S5",
+      "query": "K equals 33 or 66",
+      "targets": [
+        "RHACO-ANL-20260415-002",
+        "RHACO-ANL-20260512-001"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-ANL-20260415-002",
+        "RHACO-ANL-20260512-001"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CHG-20260606-003",
+        "RHACO-ANL-20260504-003",
+        "RHACO-HND-20260508-002",
+        "RHACO-EVT-20260412-001",
+        "RHACO-CMP-20260419-001",
+        "RHACO-ANL-20260501-001",
+        "RHACO-ANL-20260416-001",
+        "RHACO-HND-20260512-001"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CHG-20260606-003",
+        "RHACO-ANL-20260504-003",
+        "RHACO-HND-20260508-002",
+        "RHACO-EVT-20260412-001",
+        "RHACO-CMP-20260419-001",
+        "RHACO-ANL-20260501-001",
+        "RHACO-ANL-20260416-001",
+        "RHACO-HND-20260512-001"
+      ],
+      "hit_adapter": false,
+      "hit_module": false,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 35,
+      "stratum": "S5",
+      "query": "SUPER-EAS ratio threshold",
+      "targets": [
+        "RHACO_Event_Classification_Reference_v1_0",
+        "RHACO_Glossary"
+      ],
+      "resolve": "supersession-head",
+      "row_mode": null,
+      "target_resolution": [
+        "RHACO_Glossary -> RHACO_Glossary_v4_10 (max-version fallback (no unique edge terminal among 18 versions))"
+      ],
+      "accepted": [
+        "RHACO_Event_Classification_Reference_v1_0",
+        "RHACO_Glossary_v4_10"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260711-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO-EVT-20260630-001",
+        "RHACO-EVT-20260412-001",
+        "RHACO-EVT-20260424-001",
+        "RHACO-EVT-20260416-001",
+        "RHACO-DLB-20260424-001",
+        "RHACO-EVT-20260701-001",
+        "RHACO-EVT-20260410-001",
+        "RHACO-HND-20260517-005"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260711-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO-EVT-20260630-001",
+        "RHACO-EVT-20260412-001",
+        "RHACO-EVT-20260424-001",
+        "RHACO-EVT-20260416-001",
+        "RHACO-DLB-20260424-001",
+        "RHACO-EVT-20260701-001",
+        "RHACO-EVT-20260410-001",
+        "RHACO-HND-20260517-005"
+      ],
+      "hit_adapter": false,
+      "hit_module": false,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 36,
+      "stratum": "S5",
+      "query": "science baseline CPS locked value",
+      "targets": [
+        "RHACO-HND-20260613-006"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-HND-20260613-006"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO_Glossary_v4_0",
+        "RHACO_Glossary_v4_3",
+        "RHACO_Glossary_v2_0",
+        "RHACO_Glossary_v4_2",
+        "RHACO_Glossary_v3_2",
+        "RHACO_Glossary_v4_4",
+        "RHACO-CCX-20260620-004",
+        "RHACO-CHG-20260620-002"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO_Glossary_v4_0",
+        "RHACO_Glossary_v4_3",
+        "RHACO_Glossary_v2_0",
+        "RHACO_Glossary_v4_2",
+        "RHACO_Glossary_v3_2",
+        "RHACO_Glossary_v4_4",
+        "RHACO-CCX-20260620-004",
+        "RHACO-CHG-20260620-002"
+      ],
+      "hit_adapter": false,
+      "hit_module": false,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 37,
+      "stratum": "S5",
+      "query": "recovery confirmed instant versus crossing",
+      "targets": [
+        "RHACO-CHG-20260705-006"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-CHG-20260705-006"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CHG-20260705-006",
+        "RHACO-CCX-20260705-002",
+        "RHACO-EVT-20260424-001",
+        "RHACO-HND-20260503-006",
+        "RHACO-ANL-20260402-001",
+        "RHACO-EVT-20260417-001",
+        "RHACO-EVT-20260426-002",
+        "RHACO-DLB-20260423-001"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-CHG-20260705-006",
+        "RHACO-CCX-20260705-002",
+        "RHACO-EVT-20260424-001",
+        "RHACO-HND-20260503-006",
+        "RHACO-ANL-20260402-001",
+        "RHACO-EVT-20260417-001",
+        "RHACO-EVT-20260426-002",
+        "RHACO-DLB-20260423-001"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 38,
+      "stratum": "S5",
+      "query": "dead time zeros in continued events",
+      "targets": [
+        "RHACO-ANL-20260415-002"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-ANL-20260415-002"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260711-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260416-002",
+        "RHACO-ANL-20260502-001",
+        "RHACO-HND-20260505-001",
+        "RHACO-EVT-20260331-003",
+        "RHACO-EVT-20260402-002",
+        "RHACO-CCX-20260524-003",
+        "RHACO-HND-20260504-002",
+        "RHACO-CCX-20260621-003"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260711-001",
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260416-002",
+        "RHACO-ANL-20260502-001",
+        "RHACO-HND-20260505-001",
+        "RHACO-EVT-20260331-003",
+        "RHACO-EVT-20260402-002",
+        "RHACO-CCX-20260524-003",
+        "RHACO-HND-20260504-002",
+        "RHACO-CCX-20260621-003"
+      ],
+      "hit_adapter": false,
+      "hit_module": false,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 39,
+      "stratum": "S5",
+      "query": "onset lag between firmware fragment and science channel",
+      "targets": [
+        "RHACO-ANL-20260503-001"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-ANL-20260503-001"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-EVT-20260423-001",
+        "RHACO-DLB-20260503-001",
+        "RHACO-DLB-20260423-001",
+        "RHACO-HND-20260503-004",
+        "RHACO-ANL-20260503-001",
+        "RHACO-ANL-20260418-002",
+        "RHACO_Software_Behavioral_Reference",
+        "RHACO-CMP-20260423-001"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO-EVT-20260423-001",
+        "RHACO-DLB-20260503-001",
+        "RHACO-DLB-20260423-001",
+        "RHACO-HND-20260503-004",
+        "RHACO-ANL-20260503-001",
+        "RHACO-ANL-20260418-002",
+        "RHACO_Software_Behavioral_Reference",
+        "RHACO-CMP-20260423-001"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    },
+    {
+      "id": 40,
+      "stratum": "S5",
+      "query": "Oulu neutron monitor ingestion",
+      "targets": [
+        "RHACO-HND-20260419-002"
+      ],
+      "resolve": null,
+      "row_mode": null,
+      "target_resolution": [],
+      "accepted": [
+        "RHACO-HND-20260419-002"
+      ],
+      "adapter_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO_Glossary_v1_0",
+        "RHACO-HND-20260419-002",
+        "RHACO-FND-20260419-002",
+        "RHACO_Glossary_v1_3",
+        "RHACO-FND-20260419-001",
+        "RHACO-FRB-20260405-001",
+        "RHACO-ANL-20260415-001",
+        "RHACO-ANL-20260427-001"
+      ],
+      "module_ids": [
+        "RHACO-ANL-20260710-001",
+        "RHACO-ANL-20260711-001",
+        "RHACO_Glossary_v1_0",
+        "RHACO-HND-20260419-002",
+        "RHACO-FND-20260419-002",
+        "RHACO_Glossary_v1_3",
+        "RHACO-FND-20260419-001",
+        "RHACO-FRB-20260405-001",
+        "RHACO-ANL-20260415-001",
+        "RHACO-ANL-20260427-001"
+      ],
+      "hit_adapter": true,
+      "hit_module": true,
+      "lists_equal": true,
+      "mode_effective": "hybrid"
+    }
+  ]
+}

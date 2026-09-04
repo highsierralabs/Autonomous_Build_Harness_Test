@@ -23,9 +23,13 @@ def _client_with_adapter(adapter) -> TestClient:
 
 
 def _client_without_adapter() -> TestClient:
-    # app.state.adapter starts None and explorer.corpus_adapter.adapter is not built
-    # in this worktree, so get_adapter() raises RuntimeError -- the degraded path.
+    # Round-1 integration: the corpus_adapter module now exists on main, so the
+    # adapter-absent path is exercised explicitly through the app's sentinel
+    # (explorer.app.ADAPTER_ABSENT) instead of relying on an unbuilt module.
+    from explorer.app import ADAPTER_ABSENT
+
     app = create_app(Settings())
+    app.state.adapter = ADAPTER_ABSENT
     return TestClient(app)
 
 

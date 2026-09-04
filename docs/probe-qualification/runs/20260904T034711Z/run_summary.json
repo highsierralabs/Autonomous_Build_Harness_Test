@@ -1,0 +1,173 @@
+{
+  "db_path": "C:\\highsierralabs\\RHACO\\index\\corpus_index.db",
+  "disable_vec": false,
+  "docs_root": "C:\\highsierralabs\\RHACO\\docs",
+  "fault": null,
+  "healthz": {
+    "adapter": "present",
+    "db": "C:\\highsierralabs\\RHACO\\index\\corpus_index.db",
+    "docs_root": "C:\\highsierralabs\\RHACO\\docs",
+    "status": "ok",
+    "vector": {
+      "available": true,
+      "model_tag": "nomic-embed-text",
+      "reason": "ok"
+    },
+    "version": "0.1.0"
+  },
+  "port": 8791,
+  "presets_run": [
+    "healthz",
+    "diagnostics",
+    "W1",
+    "W2",
+    "W3",
+    "W4",
+    "W5",
+    "W6",
+    "W7",
+    "W8",
+    "W9",
+    "W10",
+    "KG",
+    "KB1",
+    "KB2",
+    "KB3",
+    "KB4",
+    "KB5"
+  ],
+  "results": {
+    "KB1": {
+      "http_status": null,
+      "kind": "not_implemented",
+      "ok": true,
+      "route_absent": null,
+      "status": "not_implemented_yet"
+    },
+    "KB2": {
+      "http_status": null,
+      "kind": "not_implemented",
+      "ok": true,
+      "route_absent": null,
+      "status": "not_implemented_yet"
+    },
+    "KB3": {
+      "http_status": null,
+      "kind": "not_implemented",
+      "ok": true,
+      "route_absent": null,
+      "status": "not_implemented_yet"
+    },
+    "KB4": {
+      "http_status": null,
+      "kind": "not_implemented",
+      "ok": true,
+      "route_absent": null,
+      "status": "not_implemented_yet"
+    },
+    "KB5": {
+      "http_status": null,
+      "kind": "not_implemented",
+      "ok": true,
+      "route_absent": null,
+      "status": "not_implemented_yet"
+    },
+    "KG": {
+      "http_status": null,
+      "kind": "not_implemented",
+      "ok": true,
+      "route_absent": null,
+      "status": "not_implemented_yet"
+    },
+    "W1": {
+      "http_status": null,
+      "kind": "not_implemented",
+      "ok": true,
+      "route_absent": null,
+      "status": "not_implemented_yet"
+    },
+    "W10": {
+      "http_status": null,
+      "kind": "not_implemented",
+      "ok": true,
+      "route_absent": null,
+      "status": "not_implemented_yet"
+    },
+    "W2": {
+      "http_status": null,
+      "kind": "not_implemented",
+      "ok": true,
+      "route_absent": null,
+      "status": "not_implemented_yet"
+    },
+    "W3": {
+      "http_status": null,
+      "kind": "not_implemented",
+      "ok": true,
+      "route_absent": null,
+      "status": "not_implemented_yet"
+    },
+    "W4": {
+      "http_status": null,
+      "kind": "not_implemented",
+      "ok": true,
+      "route_absent": null,
+      "status": "not_implemented_yet"
+    },
+    "W5": {
+      "http_status": null,
+      "kind": "not_implemented",
+      "ok": true,
+      "route_absent": null,
+      "status": "not_implemented_yet"
+    },
+    "W6": {
+      "http_status": null,
+      "kind": "not_implemented",
+      "ok": true,
+      "route_absent": null,
+      "status": "not_implemented_yet"
+    },
+    "W7": {
+      "http_status": null,
+      "kind": "not_implemented",
+      "ok": true,
+      "route_absent": null,
+      "status": "not_implemented_yet"
+    },
+    "W8": {
+      "http_status": null,
+      "kind": "not_implemented",
+      "ok": true,
+      "route_absent": null,
+      "status": "not_implemented_yet"
+    },
+    "W9": {
+      "http_status": null,
+      "kind": "not_implemented",
+      "ok": true,
+      "route_absent": null,
+      "status": "not_implemented_yet"
+    },
+    "diagnostics": {
+      "http_status": 200,
+      "kind": "page",
+      "ok": true,
+      "route_absent": false,
+      "status": null
+    },
+    "healthz": {
+      "http_status": 200,
+      "kind": "json_endpoint",
+      "ok": true,
+      "route_absent": false,
+      "status": null
+    }
+  },
+  "run_error": null,
+  "run_finished_utc": "2026-09-04T03:47:13.984120+00:00",
+  "run_started_utc": "2026-09-04T03:47:11.799110+00:00",
+  "server_log": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\docs\\probe-qualification\\runs\\20260904T034711Z\\server.log",
+  "timeout_s": 30.0,
+  "verdict": "PASS"
+}
