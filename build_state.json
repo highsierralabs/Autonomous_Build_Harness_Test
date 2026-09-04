@@ -56,7 +56,7 @@
     "builder_rounds_total_max": 28,
     "builder_rounds_per_module_max": 4,
     "convergence_window_rounds": 2,
-    "builder_rounds_consumed_total": 0
+    "builder_rounds_consumed_total": 3
   },
   "caps": {
     "CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH": {
@@ -102,9 +102,9 @@
   ],
   "modules": {
     "corpus_adapter": {
-      "owner": null,
-      "status": "not_started",
-      "round": 0,
+      "owner": "builder S3-B1 (Sonnet 5) on build/corpus_adapter",
+      "status": "round 1 in progress",
+      "round": 1,
       "objective_gates": {},
       "ref_score": null,
       "open_issues": [],
@@ -115,9 +115,9 @@
       "scope_references": []
     },
     "probe": {
-      "owner": null,
-      "status": "not_started",
-      "round": 0,
+      "owner": "builder S3-B2 (Sonnet 5) on build/probe",
+      "status": "round 1 in progress",
+      "round": 1,
       "objective_gates": {},
       "ref_score": null,
       "open_issues": [],
@@ -128,9 +128,9 @@
       "scope_references": []
     },
     "diagnostics": {
-      "owner": null,
-      "status": "not_started",
-      "round": 0,
+      "owner": "builder S3-B3 (Sonnet 5) on build/diagnostics",
+      "status": "round 1 in progress",
+      "round": 1,
       "objective_gates": {},
       "ref_score": null,
       "open_issues": [],
@@ -234,7 +234,43 @@
         "ARCHITECTURE.md",
         "SCOPE.md",
         "docs/REFERENCE.md"
-      ]
+      ],
+      "commits": {
+        "round0_evidence": "5b1b5fa294aa8c4fc49ecdb04a50c83ebd639446",
+        "integrator_scaffold": "7a8edb4f516bb736444672ae78f1741062183f73",
+        "wave1_preparation": "4987cca1b6e4b771a00697e7cd65f948c3d6ec56"
+      },
+      "l1": {
+        "ruff": "clean (ruff.toml: E F W I UP B BLE; py313)",
+        "index_write_grep": "hits=0 defects=0 PASS",
+        "app_factory_smoke": "routes /healthz + /static/web; base.html renders; TestClient /healthz 200"
+      }
+    },
+    {
+      "round": 1,
+      "kind": "builder round -- wave 1 (PROMPT.md section 4)",
+      "status": "in progress",
+      "modules": [
+        "corpus_adapter",
+        "probe",
+        "diagnostics"
+      ],
+      "base_commit": "4987cca1b6e4b771a00697e7cd65f948c3d6ec56",
+      "worktrees": {
+        "corpus_adapter": ".worktrees/corpus_adapter @ build/corpus_adapter",
+        "probe": ".worktrees/probe @ build/probe",
+        "diagnostics": ".worktrees/diagnostics @ build/diagnostics"
+      },
+      "dispatched_utc": "2026-09-04T03:08:28.129Z",
+      "workflow_run": "wf_e159befc-5e3",
+      "task_id": "wsp7gdoow",
+      "wave_cap_check": "exactly three strands dispatched in one parallel() call; no other strand live",
+      "builder_rounds_consumed": 3,
+      "prompts": {
+        "B1": "docs/rounds/R01_corpus_adapter.prompt.md sha256 4383d802...",
+        "B2": "docs/rounds/R01_probe.prompt.md sha256 9fb5ad53...",
+        "B3": "docs/rounds/R01_diagnostics.prompt.md sha256 c72bf3f9..."
+      }
     }
   ],
   "l1_index_write_grep": [],
@@ -647,6 +683,60 @@
       "acceptance": "PASS -- identifier grammar, type codes, documented MCP read surface, anchor conventions, partition rules, typography; report 32,292 B",
       "deviations": "four PowerShell invocations instead of the two timestamp commands (two read-only Get-ChildItem listings); treated grep hits spelled at the junction's physical path (C:\\highsierralabs\\RHACO\\...) as out of scope and did not open them -- the Event Viewer negative finding in its section 5 is therefore a junction artifact, corrected by the orchestrator (the SOP-20260504-001 Event Viewer documents are in the corpus)",
       "prefix": "section 2 L as amended (D-12 + D-3 blocks) verbatim; prompt archived docs/rounds/R00_I4_corpus_conventions.prompt.md"
+    },
+    {
+      "strand_id": "S3-B1",
+      "session": 3,
+      "round": 1,
+      "stem": "R01_corpus_adapter",
+      "role": "module builder (corpus_adapter)",
+      "model": "claude-sonnet-5 (requested sonnet; client-reported string pending return)",
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/corpus_adapter)",
+      "execution_mode": "concurrent (wave 1 of 3 = the cap)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-04T03:08:28.129Z",
+      "returned_utc": null,
+      "workflow_run": "wf_e159befc-5e3",
+      "prefix": "section 2 L as amended (D-12 + D-3 blocks) verbatim; prompt archived docs/rounds/R01_corpus_adapter.prompt.md",
+      "acceptance": "pending"
+    },
+    {
+      "strand_id": "S3-B2",
+      "session": 3,
+      "round": 1,
+      "stem": "R01_probe",
+      "role": "module builder (probe)",
+      "model": "claude-sonnet-5 (requested sonnet; client-reported string pending return)",
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/probe)",
+      "execution_mode": "concurrent (wave 1 of 3 = the cap)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-04T03:08:28.129Z",
+      "returned_utc": null,
+      "workflow_run": "wf_e159befc-5e3",
+      "prefix": "section 2 L as amended (D-12 + D-3 blocks) verbatim; prompt archived docs/rounds/R01_probe.prompt.md",
+      "acceptance": "pending"
+    },
+    {
+      "strand_id": "S3-B3",
+      "session": 3,
+      "round": 1,
+      "stem": "R01_diagnostics",
+      "role": "module builder (diagnostics)",
+      "model": "claude-sonnet-5 (requested sonnet; client-reported string pending return)",
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/diagnostics)",
+      "execution_mode": "concurrent (wave 1 of 3 = the cap)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-04T03:08:28.129Z",
+      "returned_utc": null,
+      "workflow_run": "wf_e159befc-5e3",
+      "prefix": "section 2 L as amended (D-12 + D-3 blocks) verbatim; prompt archived docs/rounds/R01_diagnostics.prompt.md",
+      "acceptance": "pending"
     }
   ],
   "dispatch_record_notes": [
