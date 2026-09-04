@@ -1,0 +1,10 @@
+# RHACO Corpus Explorer -- workspace hygiene (integrator-owned; PROMPT.md section 4 root dependencies)
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.tmp
+# Playwright downloads live outside the workspace (%LOCALAPPDATA%\ms-playwright); nothing to ignore here.
+# Probe screenshots and JSON observations under docs/ are evidence and ARE committed.
