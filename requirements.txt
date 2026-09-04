@@ -1,0 +1,12 @@
+# RHACO Corpus Explorer -- runtime + dev dependencies (integrator-owned; ARCHITECTURE.md A16, CONSTRAINTS.md O11).
+# Installed into .venv on the Anaconda 3.13.9 interpreter (section 0 item 11). Pins = versions verified installed 2026-09-04.
+fastapi==0.141.1
+uvicorn==0.52.4
+Jinja2==3.1.6
+playwright==1.62.0
+pytest==9.1.1
+PyYAML==6.0.3
+sqlite-vec==0.1.9
+markdown-it-py==4.2.0
+mdit-py-plugins==0.6.1
+ruff==0.16.6

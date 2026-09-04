@@ -1,0 +1,12 @@
+# RHACO Corpus Explorer -- L1 lint configuration (integrator-owned; docs/LAYERS.md L1).
+# Pinned here so every builder worktree and the closeout run see the same verdict.
+target-version = "py313"
+line-length = 120
+extend-exclude = [".venv", "fixtures/corpus", "docs"]
+
+[lint]
+select = ["E", "F", "W", "I", "UP", "B", "BLE"]
+ignore = ["E501"]   # long lines are allowed in tables of documented SQL / prompts; wrap by judgement
+
+[lint.isort]
+known-first-party = ["explorer"]
