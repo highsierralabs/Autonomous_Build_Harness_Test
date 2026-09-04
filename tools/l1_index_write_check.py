@@ -37,7 +37,10 @@ NAME_PARTS = (
 )
 NAMES = tuple("_".join(p) for p in NAME_PARTS)
 ALLOWLIST = ("fixtures/build_fixture_index.py",)
-EXCLUDE_DIRS = {".git", ".venv", "docs", "__pycache__", ".pytest_cache", ".ruff_cache", ".mypy_cache"}
+EXCLUDE_DIRS = {".git", ".venv", ".worktrees", "docs", "__pycache__", ".pytest_cache", ".ruff_cache", ".mypy_cache"}
+# .worktrees/ holds builder checkouts (ARCHITECTURE.md A15): each builder runs this check at its own
+# worktree root, and merged content is re-checked on main; scanning them from main would report the
+# allowlisted fixture script at a non-allowlisted relative path.
 EXCLUDE_FILES = {"CONSTRAINTS.md", "PROMPT.md", "RATIONALE.md", "DISPATCH_PARAMETERS.md"}
 BINARY_SUFFIXES = {".db", ".png", ".jpg", ".jpeg", ".gif", ".pdf", ".zip", ".pyc", ".woff", ".woff2", ".ico"}
 
