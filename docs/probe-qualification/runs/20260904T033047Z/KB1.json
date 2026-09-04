@@ -1,0 +1,8 @@
+{
+  "fault": "wrong_doc_for_id",
+  "kind": "not_implemented",
+  "label": "Known-bad qualification case KB1: RHACO_EXPLORER_FAULT=wrong_doc_for_id (explorer/faults.py; the probe must flag it once the reader/lineage/search surfaces the fault touches are built)",
+  "ok": true,
+  "preset": "KB1",
+  "status": "not_implemented_yet"
+}

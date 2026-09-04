@@ -1,0 +1,8 @@
+{
+  "fault": "reverse_edges",
+  "kind": "not_implemented",
+  "label": "Known-bad qualification case KB3: RHACO_EXPLORER_FAULT=reverse_edges (explorer/faults.py; the probe must flag it once the reader/lineage/search surfaces the fault touches are built)",
+  "ok": true,
+  "preset": "KB3",
+  "status": "not_implemented_yet"
+}

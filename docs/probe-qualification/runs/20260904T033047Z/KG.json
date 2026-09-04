@@ -1,0 +1,8 @@
+{
+  "fault": null,
+  "kind": "not_implemented",
+  "label": "Known-good qualification baseline against the fixture index (no RHACO_EXPLORER_FAULT set)",
+  "ok": true,
+  "preset": "KG",
+  "status": "not_implemented_yet"
+}

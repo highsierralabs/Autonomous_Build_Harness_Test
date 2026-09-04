@@ -1,0 +1,37 @@
+{
+  "console_errors": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "type": "error"
+    }
+  ],
+  "error": null,
+  "failed_requests": [
+    {
+      "source": "response",
+      "status": 404,
+      "url": "http://127.0.0.1:8780/diagnostics"
+    }
+  ],
+  "http_status": 404,
+  "kind": "page",
+  "label": "Diagnostics page (GET /diagnostics; 404 \"route absent\" is expected and accepted until the diagnostics module merges)",
+  "mode": null,
+  "ok": true,
+  "preset": "diagnostics",
+  "result_ids": [],
+  "route_absent": true,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\docs\\probe-qualification\\runs\\20260904T033047Z\\diagnostics.png",
+  "selected_doc_id": null,
+  "timings": {
+    "elapsed_ms": 19.0,
+    "nav_end_utc": "2026-09-04T03:30:48.819630+00:00",
+    "nav_start_utc": "2026-09-04T03:30:48.800598+00:00"
+  },
+  "title": "",
+  "url": "http://127.0.0.1:8780/diagnostics",
+  "viewport": {
+    "height": 900,
+    "width": 1280
+  }
+}
