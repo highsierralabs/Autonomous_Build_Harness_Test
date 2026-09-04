@@ -1,0 +1,39 @@
+identity:
+  document: RHACO-ANL-20260115-002_Fixture_Analysis.md
+  doc_type: ANL
+  date: "2026-01-15"
+  seq: "002"
+  title: Fixture Analysis
+  status: Active
+  programs: [DetPhys, Radon]
+  project_knowledge: in
+  schema_version: 1
+  naming_convention_version: "1.17"
+  last_human_review: "2026-01-15"
+  reviewer: Fixture Builder
+
+abstract: >
+  Synthetic analysis card for RHACO Corpus Explorer probe qualification.
+  Carries the unique lexical marker phrase "quartz lattice lantern" (body
+  line 14) that the probe's lexical-search preset asserts against, two
+  programs and three tags for facet coverage, and a depends_on link to the
+  fixture campaign that produces a campaign_child edge.
+
+tags:
+  - fixture-analysis
+  - quartz-lattice
+  - corpus-explorer
+
+depends_on:
+  - id: RHACO-CMP-20260115-001
+    note: Parent fixture campaign -- membership produces a campaign_child edge.
+
+see_also: []
+
+superseded_by: null
+
+location:
+  local_path: C:\highsierralabs\RHACO_Corpus_Explorer\.worktrees\probe\fixtures\corpus\reports\RHACO-ANL-20260115-002_Fixture_Analysis.md
+
+notes:
+  - "Synthetic fixture card; not a real RHACO analysis. Built for probe qualification only."

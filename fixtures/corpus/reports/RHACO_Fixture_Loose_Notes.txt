@@ -1,0 +1,10 @@
+RHACO Corpus Explorer fixture -- loose plain-text notes.
+
+This file exists only to give the fixture corpus one .txt document body.
+RHACO_corpus_index.iter_body_docs() scans .md and .txt bodies under
+BODY_SCAN_ROOT directly (RHACO_corpus_index.py BODY_SUFFIXES), independent of
+the librarian's own document-extension list (RHACO_tool_catalog_librarian.py
+LIBRARY_DOC_GLOB_SUFFIXES = .md/.docx/.pdf/.ipynb, which does not include
+.txt). So this file is body-indexed into fts_docs but is intentionally
+uncarded: it never appears in the librarian's walk_library() doc list, is
+never matched to a card, and is absent from the missing_cards report.

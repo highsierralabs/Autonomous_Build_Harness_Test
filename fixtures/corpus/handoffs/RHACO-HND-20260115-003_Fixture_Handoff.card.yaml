@@ -1,0 +1,41 @@
+identity:
+  document: RHACO-HND-20260115-003_Fixture_Handoff.md
+  doc_type: HND
+  date: "2026-01-15"
+  seq: "003"
+  title: Fixture Handoff
+  status: Active
+  programs: [Infra]
+  project_knowledge: in
+  schema_version: 1
+  naming_convention_version: "1.17"
+  last_human_review: "2026-01-15"
+  reviewer: Fixture Builder
+
+abstract: >
+  Synthetic handoff card for RHACO Corpus Explorer probe qualification.
+  Depends on the fixture campaign (a resolved campaign_child edge) and on a
+  deliberately non-existent id (an unresolved cites edge, resolved = 0).
+  Parent of one amendment child card sharing this canonical id.
+
+tags:
+  - fixture
+  - handoff
+  - unresolved-reference
+
+depends_on:
+  - id: RHACO-CMP-20260115-001
+    note: Parent fixture campaign -- membership produces a campaign_child edge.
+  - id: RHACO-ANL-20260101-099
+    note: Deliberately non-existent id -- exercises the unresolved cites edge path.
+
+see_also: []
+
+superseded_by: null
+
+location:
+  local_path: C:\highsierralabs\RHACO_Corpus_Explorer\.worktrees\probe\fixtures\corpus\handoffs\RHACO-HND-20260115-003_Fixture_Handoff.md
+
+notes:
+  - "Synthetic fixture card; not a real RHACO handoff. Built for probe qualification only."
+  - "RHACO-ANL-20260101-099 is intentionally absent from the fixture corpus so validate_catalog / emit_edges records an unresolved reference (resolved=0)."

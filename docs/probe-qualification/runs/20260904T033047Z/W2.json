@@ -1,0 +1,8 @@
+{
+  "fault": null,
+  "kind": "not_implemented",
+  "label": "Lexical phrase -- search a known phrase, expect target + consistent excerpt/line",
+  "ok": true,
+  "preset": "W2",
+  "status": "not_implemented_yet"
+}

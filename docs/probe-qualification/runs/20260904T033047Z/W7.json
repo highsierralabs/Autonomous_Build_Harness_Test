@@ -1,0 +1,8 @@
+{
+  "fault": null,
+  "kind": "not_implemented",
+  "label": "Degraded semantic channel -- RHACO_CORPUS_DISABLE_VEC=1, lexical/direct still usable",
+  "ok": true,
+  "preset": "W7",
+  "status": "not_implemented_yet"
+}
