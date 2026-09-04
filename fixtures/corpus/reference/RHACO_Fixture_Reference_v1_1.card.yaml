@@ -1,0 +1,36 @@
+identity:
+  document: RHACO_Fixture_Reference_v1_1.md
+  doc_type: REF
+  date: "2026-01-10"
+  seq: "001"
+  title: Fixture Reference
+  status: Active
+  programs: [Infra]
+  project_knowledge: in
+  current_version: 1.1
+  schema_version: 1
+  naming_convention_version: "1.17"
+  last_human_review: "2026-01-15"
+  reviewer: Fixture Builder
+
+abstract: >
+  Synthetic REF-typed fixture, version 1.1 -- the current version and the
+  supersession-chain head for RHACO_Fixture_Reference_v1_0. Built for probe
+  qualification only.
+
+tags:
+  - fixture
+  - reference
+  - current
+
+depends_on: []
+
+see_also: []
+
+superseded_by: null
+
+location:
+  local_path: C:\highsierralabs\RHACO_Corpus_Explorer\.worktrees\probe\fixtures\corpus\reference\RHACO_Fixture_Reference_v1_1.md
+
+notes:
+  - "Synthetic fixture card; not a real RHACO reference. Built for probe qualification only."

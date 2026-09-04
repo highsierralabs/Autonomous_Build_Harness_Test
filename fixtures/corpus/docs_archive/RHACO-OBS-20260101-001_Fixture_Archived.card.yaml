@@ -1,0 +1,35 @@
+identity:
+  document: RHACO-OBS-20260101-001_Fixture_Archived.md
+  doc_type: OBS
+  date: "2026-01-01"
+  seq: "001"
+  title: Fixture Archived
+  status: Archived
+  programs: [Infra]
+  project_knowledge: in
+  schema_version: 1
+  naming_convention_version: "1.17"
+  last_human_review: "2026-01-01"
+  reviewer: Fixture Builder
+
+abstract: >
+  Synthetic fixture card placed under docs_archive/ so the fixture-builder
+  tests can assert this document is excluded from the fixture index (both
+  DENY_DIRS and BODY_DENY_DIRS prune docs_archive at any depth).
+
+tags:
+  - fixture
+  - archived
+  - excluded
+
+depends_on: []
+
+see_also: []
+
+superseded_by: null
+
+location:
+  local_path: C:\highsierralabs\RHACO_Corpus_Explorer\.worktrees\probe\fixtures\corpus\docs_archive\RHACO-OBS-20260101-001_Fixture_Archived.md
+
+notes:
+  - "Synthetic fixture card; not a real RHACO observation. Must never appear in the fixture index -- deliberately under docs_archive/."

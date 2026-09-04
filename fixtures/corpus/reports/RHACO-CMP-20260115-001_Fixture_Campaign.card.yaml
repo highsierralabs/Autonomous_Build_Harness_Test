@@ -1,0 +1,37 @@
+identity:
+  document: RHACO-CMP-20260115-001_Fixture_Campaign.md
+  doc_type: CMP
+  date: "2026-01-15"
+  seq: "001"
+  title: Fixture Campaign
+  status: Active
+  lifecycle_state: OPEN
+  programs: [Infra]
+  project_knowledge: in
+  schema_version: 1
+  naming_convention_version: "1.17"
+  last_human_review: "2026-01-15"
+  reviewer: Fixture Builder
+
+abstract: >
+  Synthetic campaign card for RHACO Corpus Explorer probe qualification
+  (RHACO-HND-20260903-001 strand B2). Roots a two-child campaign_child
+  subtree (an ANL and an HND) so the fixture index exercises lineage,
+  campaign-subtree, and catalog queries without touching the live corpus.
+
+tags:
+  - fixture
+  - campaign
+  - probe-qualification
+
+depends_on: []
+
+see_also: []
+
+superseded_by: null
+
+location:
+  local_path: C:\highsierralabs\RHACO_Corpus_Explorer\.worktrees\probe\fixtures\corpus\reports\RHACO-CMP-20260115-001_Fixture_Campaign.md
+
+notes:
+  - "Synthetic fixture card; not a real RHACO campaign. Built for probe qualification only."

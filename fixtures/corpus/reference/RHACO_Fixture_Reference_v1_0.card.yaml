@@ -1,0 +1,39 @@
+identity:
+  document: RHACO_Fixture_Reference_v1_0.md
+  doc_type: REF
+  date: "2026-01-10"
+  seq: "001"
+  title: Fixture Reference
+  status: Superseded
+  programs: [Infra]
+  project_knowledge: in
+  current_version: 1.0
+  schema_version: 1
+  naming_convention_version: "1.17"
+  last_human_review: "2026-01-10"
+  reviewer: Fixture Builder
+
+abstract: >
+  Synthetic REF-typed fixture, version 1.0. Superseded by version 1.1 of the
+  same fixture reference. Exercises the doc_type REF empty-canonical-id /
+  filename-stem doc_id path and the supersedes edge for probe qualification.
+
+tags:
+  - fixture
+  - reference
+  - superseded
+
+depends_on: []
+
+see_also: []
+
+superseded_by:
+  id: RHACO_Fixture_Reference_v1_1
+  note: "v1.1 is the current fixture reference version."
+
+location:
+  local_path: C:\highsierralabs\RHACO_Corpus_Explorer\.worktrees\probe\fixtures\corpus\reference\RHACO_Fixture_Reference_v1_0.md
+
+notes:
+  - "Synthetic fixture card; not a real RHACO reference. Built for probe qualification only."
+  - "v1_0.md preserved on disk unchanged as the superseded version (era-correct preservation), mirroring real corpus convention."

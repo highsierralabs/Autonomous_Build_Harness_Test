@@ -1,0 +1,34 @@
+identity:
+  document: RHACO-EVT-20260115-004_Fixture_Event_E000777.md
+  doc_type: EVT
+  date: "2026-01-15"
+  seq: "004"
+  title: Fixture Event E000777
+  status: Active
+  programs: [DetPhys]
+  project_knowledge: in
+  schema_version: 1
+  naming_convention_version: "1.17"
+  last_human_review: "2026-01-15"
+  reviewer: Fixture Builder
+
+abstract: >
+  Synthetic EVT fixture card carrying logger event id E000777 in both the
+  filename descriptor and the title, so id_aliases harvests an event_id
+  alias for probe qualification of identifier-mode resolution.
+
+tags:
+  - fixture
+  - event
+
+depends_on: []
+
+see_also: []
+
+superseded_by: null
+
+location:
+  local_path: C:\highsierralabs\RHACO_Corpus_Explorer\.worktrees\probe\fixtures\corpus\reports\RHACO-EVT-20260115-004_Fixture_Event_E000777.md
+
+notes:
+  - "Synthetic fixture card; not a real RHACO event. Built for probe qualification only."

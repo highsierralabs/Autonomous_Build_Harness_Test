@@ -1,0 +1,41 @@
+identity:
+  document: RHACO-HND-20260115-003_Fixture_Handoff_Amendment_A1.md
+  doc_type: HND
+  date: "2026-01-15"
+  seq: "003"
+  title: "Fixture Handoff -- Amendment A1"
+  status: Active
+  programs: [Infra]
+  project_knowledge: in
+  schema_version: 1
+  naming_convention_version: "1.17"
+  last_human_review: "2026-01-15"
+  reviewer: Fixture Builder
+
+abstract: >
+  Amendment A1 to RHACO-HND-20260115-003. Synthetic fixture only: exercises
+  the amendment shape (parent link, shared canonical doc_id, amends edge
+  keyed on the amendment's own filename stem) for probe qualification.
+
+tags:
+  - fixture
+  - amendment
+
+depends_on: []
+
+see_also: []
+
+superseded_by: null
+
+parent:
+  id: RHACO-HND-20260115-003
+  note: "Amendment A1 -- fixture refresh; extends the parent fixture handoff."
+
+amendment_seq: A1
+
+location:
+  local_path: C:\highsierralabs\RHACO_Corpus_Explorer\.worktrees\probe\fixtures\corpus\handoffs\RHACO-HND-20260115-003_Fixture_Handoff_Amendment_A1.md
+
+notes:
+  - "Standalone child amendment (Card Schema v1.8 section 8.1) -- parent id declared; superseded_by null (parent and superseded_by are mutually exclusive)."
+  - "Synthetic fixture card; not a real RHACO amendment. Built for probe qualification only."
