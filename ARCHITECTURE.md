@@ -25,7 +25,8 @@ A local, read-only FastAPI + Jinja2 application served on `127.0.0.1` from the w
 | `fixtures/corpus/` | builder `probe` | frozen fixture documents and cards (docs root for the fixture index) |
 | `fixtures/fixture_index.db` | built artifact (gitignored) | produced by the fixture builder, never committed |
 | `tests/<module>/` | the module's builder | pytest unit tests; integration tests under `tests/integration/` are the integrator's |
-| `docs/LAYERS.md`, `docs/critique/`, `docs/rounds/`, `docs/probe-qualification/`, `docs/REFERENCE.md` | integrator (critic reports land under `docs/critique/` via the integrator) | evidence artifacts (PROMPT.md section 10) |
+| `docs/LAYERS.md`, `docs/critique/`, `docs/rounds/`, `docs/probe-qualification/`, `docs/REFERENCE.md` | integrator (critic reports land under `docs/critique/` via the integrator; a builder writes only its own `docs/rounds/R<nn>_<module>.report.md`, A17) | evidence artifacts (PROMPT.md section 10) |
+| `.worktrees/<module>/` | integrator creates; the module's builder works inside it on branch `build/<module>` | gitignored worktree checkouts (A15) |
 
 Rules: a builder writes only inside its owned paths plus `tests/<module>/`. Anything else (models, config, app wiring, base templates, root dependency files) is a **change request** to the integrator (PROMPT.md section 4: requestor, affected contract/path, evidence, compatibility impact, migration, invalidated tests/probes), recorded in `docs/rounds/`. No mutable path has two owners.
 
@@ -70,6 +71,10 @@ class CorpusAdapter:
     def read_document(self, card: CardRow) -> DocumentText        # disk read, confinement check (O1, O13), UTF-8, headings + slugs (O23)
     def read_card_text(self, card: CardRow) -> str                # the .card.yaml bytes as text
     def freshness(self) -> FreshnessView                          # scan_library(docs_root, output_path=None, logger=null) -> freshness_check(scan, db_path); on demand only (O9)
+    def exclusion_sets(self) -> dict                              # {"body_deny_dirs": sorted(BODY_DENY_DIRS), "body_suffixes": list(BODY_SUFFIXES), "librarian_deny_dirs": sorted(DENY_DIRS)} read from the module / librarian constants (O24)
+    active_fault: str | None                                      # attribute: explorer.faults.active_fault(settings.fault, db_path) evaluated once at construction (A13)
+    db_path: str                                                  # attribute: the resolved database path
+    docs_root: str                                                # attribute: the resolved docs root
 ```
 
 **Documented read-only SQL (all parameterized; the complete list -- adding one is a change request):**
@@ -142,7 +147,9 @@ Synchronous Playwright, Chromium headless. `--db <path> --docs-root <path> --por
 | A12 | Fixture index built by `fixtures/build_fixture_index.py`: db path by argument, `BODY_SCAN_ROOT` monkeypatched in-process, path assertion before any write | (a) copy and edit the module; (b) build a fixture index by hand with custom SQL | O3; PROMPT.md section 11 (`BLOCKED`); DISPATCH_PARAMETERS.md item F | (a) blocked; (b) would not be "through the module's own functions" and would drift from the real schema | n/a |
 | A13 | Fault injection for probe qualification lives in `explorer/faults.py`, gated by `RHACO_EXPLORER_FAULT` **and** a fixture-db path check | Mutating the fixture corpus files per case | PROMPT.md section 2 ("controlled fault injection ... Do not corrupt the live RHACO corpus or live index") | File mutation is slower, leaves state behind, and cannot produce a runtime console error | n/a |
 | A14 | Server-rendered pages plus JSON twins under `/api/` | HTML only | PROMPT.md probe requirements (observed result ids, active mode, selected document) | DOM scraping alone is brittle; the JSON twin lets the probe cross-check what the page claims | n/a |
-| A15 | Builders run in separate git worktrees on module branches created by the integrator (`git worktree add ../RCE_wt_<module> -b build/<module>`); the integrator merges with `--no-ff` | Workflow-managed isolation | DISPATCH_PARAMETERS.md item J; PROMPT.md section 4 | Integrator-created worktrees give a deterministic path and branch name for the dispatch record and the merge; the tool's automatic worktree lifecycle is not observable from the record | n/a |
+| A15 | Builders run in separate git worktrees on module branches created by the integrator **inside the workspace root** (`git worktree add .worktrees/<module> -b build/<module>`; `.worktrees/` is gitignored); the integrator merges with `--no-ff`; builders run the main workspace's `.venv` interpreter | (a) Workflow-managed isolation; (b) sibling directories beside the workspace | DISPATCH_PARAMETERS.md items A and J (the workspace root is the only tree the build may mutate); PROMPT.md section 4 | (a) the tool's automatic worktree lifecycle is not observable from the record; (b) a sibling directory is a write outside the workspace root | n/a |
+| A17 | Builders may write exactly one file outside their module paths: their round report `docs/rounds/R<nn>_<module>.report.md`; every other `docs/` write is the integrator's | Reports returned only in the strand's final message | PROMPT.md section 10 (builder round reports under `docs/rounds/`) | A report that exists only in a transcript is not an evidence artifact | n/a |
+| A18 | In-process tests use FastAPI's `TestClient` (`httpx`, added as a dev dependency); no test launches a server process -- only the probe does | Tests spawning `uvicorn` | O12 / D-3 (foreground child only through the probe) | A test-spawned server is a second launcher of the production process | n/a |
 | A16 | Dev dependencies added: `markdown-it-py`, `mdit-py-plugins` (tables), `ruff` | -- | PROMPT.md section 11 ("add local dependencies consistent with the stack policy") | -- | -- |
 
 ## 8. Dependency waves and round plan (PROMPT.md section 4; budgets 4 rounds/module, 28 total)
