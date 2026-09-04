@@ -97,18 +97,29 @@
       "index": 3,
       "opened_utc": "2026-09-04T01:53:09Z",
       "closed_utc": null,
-      "note": "A1 pair committed and pushed in RHACO (3b860bf, Director-directed); section 0 re-run PASS with 9(b) as amended; M0 complete (e9c9539, 8da0712); Part B opened"
+      "note": "A1 pair committed and pushed in RHACO (3b860bf, Director-directed); section 0 re-run PASS with 9(b) as amended; M0 complete (e9c9539, 8da0712); Part B opened; round 1 / wave 1 built, merged, integrated (52/52 tests), L4 oracle SCOPE, probe production run PASS; session boundary at the round-1 close"
     }
   ],
   "modules": {
     "corpus_adapter": {
       "owner": "builder S3-B1 (Sonnet 5) on build/corpus_adapter",
-      "status": "round 1 in progress",
+      "status": "round 1 complete; merged; 15 live-index tests green; open issues 3 (see dispatch record)",
       "round": 1,
-      "objective_gates": {},
+      "objective_gates": {
+        "ruff": "pass",
+        "pytest": "pass",
+        "l1_index_write_grep": "pass",
+        "live_db_unchanged": "pass"
+      },
       "ref_score": null,
-      "open_issues": [],
-      "assumptions": [],
+      "open_issues": [
+        "availability probe 8 s thread-timeout bound unexercised against a hung Ollama (verified by code reading)",
+        "campaign_subtree / dangling_references have no dedicated pytest (not in the assigned test list)",
+        "wrong_doc_for_id fault semantics (rotate by one within the id's own rows) not yet confirmed against a fixture index"
+      ],
+      "assumptions": [
+        "wrong_doc_for_id fault = rotate the id's own rows by one (documented interpretation)"
+      ],
       "blocked_dependencies": [],
       "invalidated_evidence": [],
       "probe_artifacts": [],
@@ -116,24 +127,47 @@
     },
     "probe": {
       "owner": "builder S3-B2 (Sonnet 5) on build/probe",
-      "status": "round 1 in progress",
+      "status": "round 1 complete; framework + fixture substrate merged; qualification presets KG/KB1-KB5 and W1-W10 pending wave 2",
       "round": 1,
-      "objective_gates": {},
+      "objective_gates": {
+        "ruff": "pass",
+        "pytest": "pass",
+        "l1_index_write_grep": "pass",
+        "live_db_unchanged": "pass"
+      },
       "ref_score": null,
-      "open_issues": [],
+      "open_issues": [
+        "W1-W10 / KG / KB1-KB5 are not_implemented stubs by design until wave 2",
+        "diagnostics preset verified only on the 404 path in the worktree (the integrator's post-merge production run verified the 200 path)",
+        "DOM convention was a proposal until adopted (now A19)",
+        "t_start approximate",
+        "healthz pass criterion mirrors section 4.8 literally (status == ok)"
+      ],
       "assumptions": [],
       "blocked_dependencies": [],
       "invalidated_evidence": [],
-      "probe_artifacts": [],
+      "probe_artifacts": [
+        "docs/probe-qualification/runs/20260904T033047Z (fixture db, worktree)",
+        "docs/probe-qualification/runs/20260904T034711Z (live db, production path)"
+      ],
       "scope_references": []
     },
     "diagnostics": {
       "owner": "builder S3-B3 (Sonnet 5) on build/diagnostics",
-      "status": "round 1 in progress",
+      "status": "round 1 complete; merged; verified on the live index post-merge; wave-2 polish pending (web base ownership transfers at wave 3)",
       "round": 1,
-      "objective_gates": {},
+      "objective_gates": {
+        "ruff": "pass",
+        "pytest": "pass",
+        "l1_index_write_grep": "pass",
+        "live_db_unchanged": "pass"
+      },
       "ref_score": null,
-      "open_issues": [],
+      "open_issues": [
+        "built against the adapter contract with a fake adapter; integrator verified against the landed adapter post-merge",
+        "_find_last_probe_run's found-branch verified by code reading in the worktree; exercised post-merge against the probe builder's run",
+        "ARCHITECTURE 4.6 names docs/probe-qualification/last_run.json while the dispatch named runs/*/run_summary.json -- the dispatch form was followed and is what the probe writes"
+      ],
       "assumptions": [],
       "blocked_dependencies": [],
       "invalidated_evidence": [],
@@ -164,7 +198,9 @@
       "blocked_dependencies": [],
       "invalidated_evidence": [],
       "probe_artifacts": [],
-      "scope_references": []
+      "scope_references": [
+        "SCOPE.md row 'Gold v1.1 compatibility' (adapter == module; 0.675 on today's corpus; row 27 live-head drift)"
+      ]
     },
     "reader": {
       "owner": null,
@@ -249,7 +285,7 @@
     {
       "round": 1,
       "kind": "builder round -- wave 1 (PROMPT.md section 4)",
-      "status": "in progress",
+      "status": "complete",
       "modules": [
         "corpus_adapter",
         "probe",
@@ -270,10 +306,72 @@
         "B1": "docs/rounds/R01_corpus_adapter.prompt.md sha256 4383d802...",
         "B2": "docs/rounds/R01_probe.prompt.md sha256 9fb5ad53...",
         "B3": "docs/rounds/R01_diagnostics.prompt.md sha256 c72bf3f9..."
-      }
+      },
+      "returned_utc": {
+        "S3-B3": "2026-09-04T03:22:36Z",
+        "S3-B1": "2026-09-04T03:33:52Z",
+        "S3-B2": "2026-09-04T03:36:06Z"
+      },
+      "concurrency_audit": "three strands live 03:08:28Z-03:22:36Z, two until 03:33:52Z, one until 03:36:06Z; never four; concurrency_exceedance: none",
+      "merges": {
+        "corpus_adapter": "8fa5648",
+        "diagnostics": "c479c6f",
+        "probe": "6f7f42c",
+        "mode": "--no-ff, zero conflicts (disjoint owned paths)"
+      },
+      "post_merge_gates": {
+        "ruff": "clean",
+        "l1_index_write_grep": "hits=6 allowlisted=6 defects=0 PASS",
+        "pytest_before_integration_fixes": "48 passed, 4 failed (invalidated evidence, below)",
+        "pytest_after_integration_fixes": "52 passed"
+      },
+      "invalidated_evidence_after_merge": [
+        "tests/diagnostics/test_routes.py::test_diagnostics_page_adapter_absent_shows_notice, ::test_api_diagnostics_adapter_absent_returns_503_with_error_body, ::test_post_freshness_adapter_absent -- assumed the corpus_adapter module was unbuilt; repaired with the explicit explorer.app.ADAPTER_ABSENT sentinel (ARCHITECTURE A20)",
+        "tests/diagnostics/test_service.py::test_last_probe_run_none_recorded_when_no_runs_directory -- assumed no probe-run directory; repaired by patching the runs glob to a temporary directory"
+      ],
+      "change_requests_applied_by_integrator": [
+        "Subtree canonicalized in explorer/models.py (B1)",
+        "base.html html_attrs / main_attrs blocks and the A19 DOM convention (B2, B3)"
+      ],
+      "integration_commit": "6b74f0dcc1cc66c831c80e0a9b4dbffb93effafc",
+      "l4_gold_oracle": {
+        "run_utc": "2026-09-04T03:45Z",
+        "report": "docs/probe-qualification/gold_v1_1_compat.json",
+        "adapter_matches_module": "40/40 rows identical id lists",
+        "recall_at_10_adapter": 0.675,
+        "recall_at_10_module_direct": 0.675,
+        "threshold": 0.7,
+        "verdict": "SCOPE -- adapter compatibility holds; aggregate below the July figure by one row",
+        "cause": "row 27 (family RHACO_Card_YAML_Schema_Specification, resolve: supersession-head, live-head semantics): head moved v1_8 -> v1_9 (cut 2026-07-24); hybrid top-10 holds eight older versions incl. v1_8 but not v1_9. Rows 16, 31, 35 miss as in July. SCOPE.md row added.",
+        "hit_rule": "any-target-in-top-10; family targets under resolve: supersession-head resolved to the live head (supersedes-edge terminal, max-version fallback per RHACO-ANL-20260712-002)"
+      },
+      "probe_production_run": {
+        "dir": "docs/probe-qualification/runs/20260904T034711Z",
+        "db": "C:\\RHACO\\index\\corpus_index.db (live, read-only)",
+        "verdict": "PASS",
+        "presets": "healthz 200 json; diagnostics 200 page (screenshot, console/network capture); W1-W10, KG, KB1-KB5 not_implemented_yet stubs",
+        "launcher": "tools/probe_corpus_explorer.py spawned uvicorn as its foreground child on port 8791 and tore it down"
+      },
+      "pattern_3_disposition_evidence": {
+        "merge_conflicts": 0,
+        "contract_change_requests": 1,
+        "template_change_requests": 2,
+        "invalidated_tests_after_merge": 4,
+        "note": "worktree isolation kept the three builders from touching each other's files; every integration cost was in the shared layer (models, base template, tests that assumed a partial tree)"
+      },
+      "live_db_pin_during_round": "274c1e96b67b560073be9683ff0788ca86192a5ca40ae59ca821fe83008e28f1, 115,093,504 B, mtime 2026-09-04T02:10:08.415Z -- unchanged through builder tests, the oracle, and the probe run"
     }
   ],
-  "l1_index_write_grep": [],
+  "l1_index_write_grep": [
+    {
+      "round": 0,
+      "result": "hits=0 defects=0 PASS"
+    },
+    {
+      "round": 1,
+      "result": "hits=6 allowlisted=6 (fixtures/build_fixture_index.py) defects=0 PASS"
+    }
+  ],
   "dispatch_record_fields": [
     "strand_id",
     "role",
@@ -690,17 +788,33 @@
       "round": 1,
       "stem": "R01_corpus_adapter",
       "role": "module builder (corpus_adapter)",
-      "model": "claude-sonnet-5 (requested sonnet; client-reported string pending return)",
+      "model": "claude-sonnet-5 (client-reported: 'You are powered by the model named Sonnet 5. The exact model ID is claude-sonnet-5.')",
       "effort": "xhigh (Workflow opts.effort, explicit)",
       "pattern_primary": "#3 candidate (worktree-isolated builder)",
       "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/corpus_adapter)",
       "execution_mode": "concurrent (wave 1 of 3 = the cap)",
       "tier_escalation": "none",
       "dispatched_utc": "2026-09-04T03:08:28.129Z",
-      "returned_utc": null,
+      "returned_utc": "2026-09-04T03:33:52Z",
       "workflow_run": "wf_e159befc-5e3",
       "prefix": "section 2 L as amended (D-12 + D-3 blocks) verbatim; prompt archived docs/rounds/R01_corpus_adapter.prompt.md",
-      "acceptance": "pending"
+      "acceptance": "COMPLETE -- merged 8fa5648; 15 files, 1761 insertions; live db sha/mtime unchanged across its test session (criterion-6 evidence in the report)",
+      "agent_id": "abebd48505349720e",
+      "t_start_utc": "2026-09-04T03:10:51.583Z",
+      "t_end_utc": "2026-09-04T03:31:39.278Z",
+      "head_commit": "0395f7415a51652226f4ab3c7e7fc7def8d01d9f",
+      "commits": 5,
+      "status": "COMPLETE",
+      "gates": "ruff clean; pytest tests/corpus_adapter 15 passed; L1 PASS (worktree root)",
+      "change_requests": [
+        "models.py Subtree dataclass -- APPLIED by the integrator (canonical Subtree in explorer/models.py; adapter import swapped)"
+      ],
+      "open_issues": [
+        "availability probe 8 s thread-timeout bound unexercised against a hung Ollama (verified by code reading)",
+        "campaign_subtree / dangling_references have no dedicated pytest (not in the assigned test list)",
+        "wrong_doc_for_id fault semantics (rotate by one within the id's own rows) not yet confirmed against a fixture index"
+      ],
+      "deviations": "none reported"
     },
     {
       "strand_id": "S3-B2",
@@ -708,17 +822,35 @@
       "round": 1,
       "stem": "R01_probe",
       "role": "module builder (probe)",
-      "model": "claude-sonnet-5 (requested sonnet; client-reported string pending return)",
+      "model": "claude-sonnet-5 (client-reported sentence captured)",
       "effort": "xhigh (Workflow opts.effort, explicit)",
       "pattern_primary": "#3 candidate (worktree-isolated builder)",
       "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/probe)",
       "execution_mode": "concurrent (wave 1 of 3 = the cap)",
       "tier_escalation": "none",
       "dispatched_utc": "2026-09-04T03:08:28.129Z",
-      "returned_utc": null,
+      "returned_utc": "2026-09-04T03:36:06Z",
       "workflow_run": "wf_e159befc-5e3",
       "prefix": "section 2 L as amended (D-12 + D-3 blocks) verbatim; prompt archived docs/rounds/R01_probe.prompt.md",
-      "acceptance": "pending"
+      "acceptance": "COMPLETE -- merged 6f7f42c; 45 files, 1965 insertions (synthetic fixture corpus of 8 documents + cards incl. one docs_archive exclusion, fixture builder, probe framework with preset registry, tests, probe-qualification README and one fixture-db evidence run)",
+      "agent_id": "aa7810a3a9a30f466",
+      "t_start_utc": "2026-09-04T03:17:53Z (approximate: first fixture file creation time; the strand missed the rule-7 opening timestamp)",
+      "t_end_utc": "2026-09-04T03:31:20Z",
+      "head_commit": "736ed1c211",
+      "commits": 6,
+      "status": "COMPLETE",
+      "gates": "ruff clean; pytest tests/probe 12 passed; L1 PASS with 6 allowlisted hits (fixtures/build_fixture_index.py only)",
+      "change_requests": [
+        "DOM attribute convention data-mode / data-selected-doc-id / data-doc-id -- APPLIED as ARCHITECTURE.md A19 (base.html html_attrs block)"
+      ],
+      "open_issues": [
+        "W1-W10 / KG / KB1-KB5 are not_implemented stubs by design until wave 2",
+        "diagnostics preset verified only on the 404 path in the worktree (the integrator's post-merge production run verified the 200 path)",
+        "DOM convention was a proposal until adopted (now A19)",
+        "t_start approximate",
+        "healthz pass criterion mirrors section 4.8 literally (status == ok)"
+      ],
+      "deviations": "rule-7 opening timestamp not captured at the first tool call; approximated from the first fixture file's creation time (self-reported)"
     },
     {
       "strand_id": "S3-B3",
@@ -726,17 +858,33 @@
       "round": 1,
       "stem": "R01_diagnostics",
       "role": "module builder (diagnostics)",
-      "model": "claude-sonnet-5 (requested sonnet; client-reported string pending return)",
+      "model": "claude-sonnet-5",
       "effort": "xhigh (Workflow opts.effort, explicit)",
       "pattern_primary": "#3 candidate (worktree-isolated builder)",
       "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/diagnostics)",
       "execution_mode": "concurrent (wave 1 of 3 = the cap)",
       "tier_escalation": "none",
       "dispatched_utc": "2026-09-04T03:08:28.129Z",
-      "returned_utc": null,
+      "returned_utc": "2026-09-04T03:22:36Z",
       "workflow_run": "wf_e159befc-5e3",
       "prefix": "section 2 L as amended (D-12 + D-3 blocks) verbatim; prompt archived docs/rounds/R01_diagnostics.prompt.md",
-      "acceptance": "pending"
+      "acceptance": "COMPLETE -- merged c479c6f; 9 files, 1055 insertions; post-merge the diagnostics page rendered on the live index through the real adapter (data-mode hybrid, data-vector available, 1442 cards, exclusion sets, rerank standing, last probe run)",
+      "agent_id": "ac5a9a6362a2b8e1b",
+      "t_start_utc": "2026-09-04T03:19:47.334Z (captured at the closeout phase, not the first tool call -- self-reported)",
+      "t_end_utc": "2026-09-04T03:21:38.360Z",
+      "head_commit": "c65be94274",
+      "commits": 3,
+      "status": "COMPLETE",
+      "gates": "ruff clean; pytest tests/diagnostics 25 passed; L1 PASS",
+      "change_requests": [
+        "base.html attribute block for data-mode / data-vector on <main> or <html> -- APPLIED (html_attrs and main_attrs blocks; diagnostics.html now sets html_attrs)"
+      ],
+      "open_issues": [
+        "built against the adapter contract with a fake adapter; integrator verified against the landed adapter post-merge",
+        "_find_last_probe_run's found-branch verified by code reading in the worktree; exercised post-merge against the probe builder's run",
+        "ARCHITECTURE 4.6 names docs/probe-qualification/last_run.json while the dispatch named runs/*/run_summary.json -- the dispatch form was followed and is what the probe writes"
+      ],
+      "deviations": "opening timestamp captured late (closeout phase), self-reported rather than fabricated"
     }
   ],
   "dispatch_record_notes": [
@@ -754,5 +902,6 @@
     }
   ],
   "workspace_push_policy": "Director ruling O-1 (2026-09-04): push main at each session boundary with the build_state.json commit and at terminal state; fast-forward only; each push recorded in the handback resumption entry.",
-  "workspace_pushes": []
+  "workspace_pushes": [],
+  "next_action": "Session 4 (re-entry per section 2 M with A1): re-run section 0 items 1, 5, 6, 7, 8, 9, 14; read build_state.json; wave 2 = round 2 builders catalog, search, reader (three worktrees from the boundary commit), each prompt beginning with the section 2 L text as amended; wave-2 probe presets W1-W10 / KG / KB1-KB5 to be implemented by the probe builder once surfaces exist; then wave 3 (lineage, web)."
 }
