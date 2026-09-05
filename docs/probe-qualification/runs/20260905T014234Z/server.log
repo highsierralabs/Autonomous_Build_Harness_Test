@@ -1,0 +1,12 @@
+INFO:     Started server process [18328]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8812 (Press CTRL+C to quit)
+INFO:     127.0.0.1:55069 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55075 - "GET /api/diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55078 - "GET /search?q=RHACO-HND-20260115-003&mode=identifier HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55078 - "GET /static/web/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55079 - "GET /static/web/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55078 - "GET /doc/handoffs/RHACO-HND-20260115-003_Fixture_Handoff.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55078 - "GET /static/reader/reader.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55080 - "GET /api/diagnostics HTTP/1.1" 200 OK

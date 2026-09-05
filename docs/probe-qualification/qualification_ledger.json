@@ -1,8 +1,20 @@
 {
   "classes": {
+    "KB1": {
+      "recorded_utc": "2026-09-05T01:42:36.870991+00:00",
+      "run": "docs/probe-qualification/runs/20260905T014234Z"
+    },
+    "KB2": {
+      "recorded_utc": "2026-09-05T01:42:47.065497+00:00",
+      "run": "docs/probe-qualification/runs/20260905T014244Z"
+    },
+    "KB4": {
+      "recorded_utc": "2026-09-05T01:42:49.390158+00:00",
+      "run": "docs/probe-qualification/runs/20260905T014247Z"
+    },
     "KB5": {
-      "recorded_utc": "2026-09-05T00:20:26.215108+00:00",
-      "run": "docs/probe-qualification/runs/20260905T002024Z"
+      "recorded_utc": "2026-09-05T01:42:51.804827+00:00",
+      "run": "docs/probe-qualification/runs/20260905T014249Z"
     }
   },
   "runs": [
@@ -12,6 +24,34 @@
       ],
       "qualification_state": "QUALIFICATION_PASS",
       "run": "docs/probe-qualification/runs/20260905T002024Z"
+    },
+    {
+      "classes": [
+        "KB1"
+      ],
+      "qualification_state": "QUALIFICATION_PASS",
+      "run": "docs/probe-qualification/runs/20260905T014234Z"
+    },
+    {
+      "classes": [
+        "KB2"
+      ],
+      "qualification_state": "QUALIFICATION_PASS",
+      "run": "docs/probe-qualification/runs/20260905T014244Z"
+    },
+    {
+      "classes": [
+        "KB4"
+      ],
+      "qualification_state": "QUALIFICATION_PASS",
+      "run": "docs/probe-qualification/runs/20260905T014247Z"
+    },
+    {
+      "classes": [
+        "KB5"
+      ],
+      "qualification_state": "QUALIFICATION_PASS",
+      "run": "docs/probe-qualification/runs/20260905T014249Z"
     }
   ]
 }

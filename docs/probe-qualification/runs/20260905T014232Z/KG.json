@@ -1,0 +1,71 @@
+{
+  "console_errors": [],
+  "failed_requests": [],
+  "fault_class": null,
+  "fault_detected": false,
+  "kind": "workflow",
+  "label": "Known-good qualification baseline against the fixture index (no RHACO_EXPLORER_FAULT set): identifier search (E000777), lexical search (quartz lattice lantern), reader body/card identity",
+  "observations": {
+    "card_panel_doc_id": "RHACO-ANL-20260115-002",
+    "card_panel_status": "Active",
+    "card_panel_title": "Fixture Analysis",
+    "disk_body_sha256": "fc2c7dd63f2bf9db63e5e5adf6ae0001ac10095a4c15f91a64963dc8426196ef",
+    "identifier_first_card_ref": "reports/RHACO-EVT-20260115-004_Fixture_Event_E000777.card.yaml",
+    "identifier_first_doc_id": "RHACO-EVT-20260115-004",
+    "lexical_api_first_doc_id": "RHACO-ANL-20260115-002",
+    "lexical_api_line": "the quartz lattice lantern glows only in this fixture document",
+    "lexical_api_line_no": 15,
+    "lexical_page_first_doc_id": "RHACO-ANL-20260115-002",
+    "lexical_page_first_rank": "1",
+    "reader_body_sha256": "fc2c7dd63f2bf9db63e5e5adf6ae0001ac10095a4c15f91a64963dc8426196ef",
+    "reader_card_index_mismatch": ""
+  },
+  "ok": true,
+  "page_errors": [],
+  "preset": "KG",
+  "reasons": [],
+  "requests_total": 10,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\docs\\probe-qualification\\runs\\20260905T014232Z\\KG.png",
+  "steps": [
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "identifier_evt",
+      "timings": {
+        "elapsed_ms": 128.7,
+        "nav_end_utc": "2026-09-05T01:42:34.032563+00:00",
+        "nav_start_utc": "2026-09-05T01:42:33.903908+00:00"
+      },
+      "title": "Search -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8811/search?q=E000777&mode=identifier"
+    },
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "lexical_anl",
+      "timings": {
+        "elapsed_ms": 20.1,
+        "nav_end_utc": "2026-09-05T01:42:34.087058+00:00",
+        "nav_start_utc": "2026-09-05T01:42:34.067012+00:00"
+      },
+      "title": "Search -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8811/search?q=quartz%20lattice%20lantern&mode=lexical"
+    },
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "reader_anl",
+      "timings": {
+        "elapsed_ms": 100.9,
+        "nav_end_utc": "2026-09-05T01:42:34.225374+00:00",
+        "nav_start_utc": "2026-09-05T01:42:34.124453+00:00"
+      },
+      "title": "Fixture Analysis -- Reader -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8811/doc/reports/RHACO-ANL-20260115-002_Fixture_Analysis.card.yaml"
+    }
+  ],
+  "verdict": "PASS"
+}
