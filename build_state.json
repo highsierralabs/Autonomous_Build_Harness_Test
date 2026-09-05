@@ -94,19 +94,20 @@
     "builder_rounds_total_max": 28,
     "builder_rounds_per_module_max": 4,
     "convergence_window_rounds": 2,
-    "builder_rounds_consumed_total": 12,
+    "builder_rounds_consumed_total": 14,
     "per_module_consumed": {
       "corpus_adapter": 3,
-      "probe": 3,
+      "probe": 4,
       "diagnostics": 1,
       "catalog": 1,
       "search": 1,
-      "reader": 1,
+      "reader": 2,
       "lineage": 1,
       "web": 1
     },
-    "note": "12 of 28 consumed. probe has 1 of 4 left (round 4 = Q3 KB3/W5/W6 plus the FINAL suite); Director ruling 2026-09-05 item 4: NOT waived -- any probe need after round 4 is BOUNDED_FAIL. corpus_adapter has 1 of 4 left, deliberately held in reserve for the deferred amends-link change request (SCOPE.md). Note that RUNNING the probe costs no builder round -- only modifying it does -- so evidence can be revalidated after a later adapter change.",
-    "corpus_adapter_round_4_policy": "HELD by Director ruling (boundary-3 disposition item 2): do NOT spend before the critic. After critic round 1, ONE batched dispatch carrying the critic's adapter findings AND the deferred amends-link change request together. Whatever does not fit that single round is declared BOUNDED_FAIL on the record, never silently dropped and never traded for a lowered bar."
+    "note": "14 of 28 consumed (RECONCILED session 8 (2026-09-05, orchestrator claude-opus-5[1m] / xhigh under MOD-1); was 12, understating probe round 4 and reader round 2 -- the critic's ranked issue 8). probe is EXHAUSTED at 4 of 4 (Director ruling 2026-09-05 item 4: NOT waived -- any probe need after round 4 is BOUNDED_FAIL). corpus_adapter has 1 of 4 left, spent this session on the single batched round 4. reader 2 of 4; diagnostics 1 of 4 before its round 2; lineage 1 of 4 before its round 2; catalog 1, search 1, web 1. Note that RUNNING the probe costs no builder round -- only modifying it does -- so evidence can be revalidated after a later change; adding a NEW probe assertion cannot, which is why the rendered-sentence direction check is an integrator L4 oracle and not a probe preset.",
+    "corpus_adapter_round_4_policy": "HELD by Director ruling (boundary-3 disposition item 2): do NOT spend before the critic. After critic round 1, ONE batched dispatch carrying the critic's adapter findings AND the deferred amends-link change request together. Whatever does not fit that single round is declared BOUNDED_FAIL on the record, never silently dropped and never traded for a lowered bar.",
+    "arithmetic_correction_of_record": "The session-7 next_action said 'budgets 12 -> 13 with reader 1 -> 2'. That was short by one: probe round 4 (S6-B10) was also unrecorded. The observed total is 14 (corpus_adapter 3 + probe 4 + diagnostics 1 + catalog 1 + search 1 + reader 2 + lineage 1 + web 1 = 14). Recorded here rather than silently corrected because it is a second instance of the P-6 class (a predicted count stated as an observed one) and the M3 ANL counts instances. Session-7 text was authored under claude-fable-5-1 with the identity halt open."
   },
   "caps": {
     "CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH": {
@@ -173,6 +174,16 @@
         "evidence": "system prompt 'You are powered by the model named Fable 5.1. The exact model ID is claude-fable-5-1.'; per-request message.model = claude-fable-5-1 for every assistant message of both session-7 transcripts; claude --version 2.1.260; caps SPAWN_DEPTH=1 / MAX_CONCURRENT_SUBAGENTS=3 present; effort xhigh from env CLAUDE_EFFORT and settings effortLevel (no modelSettings entry for the Fable id, so the global governs); /effort ultracode (xhigh + workflow orchestration) set this session -- no workflow run, no strand dispatched under the halt. Handback D row 7.",
         "effort_in_force": "xhigh",
         "authored": "authored session 7 under claude-fable-5-1, identity halt open -- session-5 precedent: mechanical records, no judgment"
+      },
+      {
+        "seq": 6,
+        "model": "claude-opus-5[1m]",
+        "from_utc": "2026-09-05T14:57:54.021Z (session 8; new client process after the Director's restart)",
+        "to_utc": null,
+        "cause": "MOD-1 identity pin restored and in force; the Director act of 14:36:20Z restoring settings.json took effect at the client restart",
+        "evidence": "settings.json sha256 06f37244dda720a925b1a237d04a30a172b11444713a792de6d25d4e153cd279, 9,097 B, mtime 2026-09-05T14:36:20Z -- byte-identical to the session-7 pin of record; model = claude-opus-5[1m]; effortLevel xhigh; modelSettings claude-opus-5[1m] xhigh; switchModelsOnFlag false. System prompt reads verbatim 'You are powered by the model named Opus 5 (1M context). The exact model ID is claude-opus-5[1m].' claude --version 2.1.260; env CLAUDE_EFFORT=xhigh, CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH=1, CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS=3. Transcript per-request message.model reads 'claude-opus-5' -- the [1m]-stripped form; see the instrument note below and P-19.",
+        "effort_in_force": "xhigh",
+        "instrument_note_per_request_model_field": "FINDING OF RECORD (P-19). The per-request message.model field does NOT carry the [1m] context-window suffix, so it cannot by itself distinguish claude-opus-5 from claude-opus-5[1m]. Two controls establish this rather than one inference: (1) session 6 ran under settings model claude-opus-5[1m] with a system prompt naming [1m] verbatim, and all 255 of its per-request fields read 'claude-opus-5'; (2) session 7 ran under settings model claude-fable-5-1[1m] and all 173 of its per-request fields (114 + 59 across its two transcripts) read 'claude-fable-5-1'. This REFINES rather than contradicts the seq-1..5 records, whose settings model strings were themselves unsuffixed for part of the period and whose family/generation readings are unaffected. Consequence for governance: a re-entry instruction of the form 'every per-request message.model must read claude-opus-5[1m]' is unsatisfiable by construction and would halt every conformant session. The identity of record is therefore the CONJUNCTION of three surfaces -- settings.json sha plus model key; the system-prompt sentence (regenerated only at a client restart, P-9 / P-10); and the per-request field read as a family-and-generation check with the context-window suffix supplied by settings. Suspect the instrument before the artifact (RHACO CLAUDE.md section 17 rule 8)."
       }
     ],
     "session_model_note": "RESOLVED 2026-09-05 by the Director's disposition plus the transcript's per-request `message.model` field, which is the identity source of record from here (P-9, P-10). The orchestrator's own system prompt NEVER changed: it still read 'You are powered by the model named Fable 5.1. The exact model ID is claude-fable-5-1.' at 02:37Z, under claude-opus-5, two model changes after that sentence became false. `claude --version`, the client PID, and every environment variable were likewise unchanged throughout. DIRECTOR-STATED BOUNDARY vs MEASURED BOUNDARY: the disposition places the degraded segment's start at the 02:27:29Z tool result (where the notice appears in the transcript); the per-request model field places it at 02:25:02.164Z, 2 min 27 s earlier. The difference moves orchestrator act 6 (a read-only batch) and the two Director-facing progress messages of 02:27:23Z and 02:29:29Z into the degraded segment. Nothing in the ordered discard/keep set changes, because act 6 produced no artefact. Flagged for the Director; the disposition is applied as ruled and the measured times are recorded beside it.",
@@ -192,7 +203,8 @@
         "model_key": "claude-opus-5[1m]",
         "effort_keys": "effortLevel xhigh; modelSettings claude-opus-5 xhigh and claude-opus-5[1m] xhigh; switchModelsOnFlag false",
         "supersedes": "831dbfb904fe306d37e23ae31fc0811e18e6527bb4a043c74b36ba9d8c8fc48e (9,097 B, 2026-09-05T03:02:08Z, MOD-1 at session 6)",
-        "recorded": "session 7: Director act 14:36:20Z (restore), re-hashed by Code 14:49:39Z; effective at the client restart after the session-7 close report. authored session 7 under claude-fable-5-1, identity halt open -- session-5 precedent: mechanical records, no judgment"
+        "recorded": "session 7: Director act 14:36:20Z (restore), re-hashed by Code 14:49:39Z; effective at the client restart after the session-7 close report. authored session 7 under claude-fable-5-1, identity halt open -- session-5 precedent: mechanical records, no judgment",
+        "reverified": "Session 8, 2026-09-05: re-hashed from disk before any act -- sha256 06f37244dda720a925b1a237d04a30a172b11444713a792de6d25d4e153cd279, 9,097 B, mtime 2026-09-05T14:36:20.361567Z. Byte-identical to the session-7 pin; no supersession. model = claude-opus-5[1m]; effortLevel xhigh; modelSettings claude-opus-5[1m] xhigh; switchModelsOnFlag false. Hand section 2 M item 9 discharged with no halt."
       }
     },
     "effort_source_measurement_20260905": {
@@ -237,20 +249,26 @@
     {
       "index": 5,
       "opened_utc": "2026-09-05T02:21:15Z",
-      "closed_utc": null,
-      "note": "Re-entry per hand section 2 M with Amendment A1, on the Director's instruction of 2026-09-05. SAME client process as session 4 (claude.exe PID 9800, started 2026-09-04T23:39:34Z from launching shell PID 24716): the session-4 record was closed at the round-2 boundary and this is a new hand-session inside the same process, continued after a context compaction -- so the item-9 'no version or model change' condition holds by construction (2.1.260, claude-fable-5-1, effort xhigh, settings.json sha unchanged). Section 0 items 1, 5, 6, 7, 8, 9, 14 re-run at 02:21Z: PASS in full, no halt; the live db pin 61ea99c9... 115,089,408 B 2026-09-04T23:58:11.272Z is UNCHANGED since the session-4 close pin (no librarian reindex entry and no MCP census entry after it), so criterion 6 needed no reconciliation this session. Baseline gates on main before any act: ruff clean, L1 hits=6 allowlisted=6 defects=0 PASS, pytest 181 passed."
+      "closed_utc": "2026-09-05T03:09:23Z (client process 9800 exited; superseded by the session-6 process 26148)",
+      "note": "Re-entry per hand section 2 M with Amendment A1, on the Director's instruction of 2026-09-05. SAME client process as session 4 (claude.exe PID 9800, started 2026-09-04T23:39:34Z from launching shell PID 24716): the session-4 record was closed at the round-2 boundary and this is a new hand-session inside the same process, continued after a context compaction -- so the item-9 'no version or model change' condition holds by construction (2.1.260, claude-fable-5-1, effort xhigh, settings.json sha unchanged). Section 0 items 1, 5, 6, 7, 8, 9, 14 re-run at 02:21Z: PASS in full, no halt; the live db pin 61ea99c9... 115,089,408 B 2026-09-04T23:58:11.272Z is UNCHANGED since the session-4 close pin (no librarian reindex entry and no MCP census entry after it), so criterion 6 needed no reconciliation this session. Baseline gates on main before any act: ruff clean, L1 hits=6 allowlisted=6 defects=0 PASS, pytest 181 passed. [closed_utc set session 8 (2026-09-05, orchestrator claude-opus-5[1m] / xhigh under MOD-1): the session ended when its client process ended. Nothing was committed in session 5; the workspace HEAD was still 6a83537 = origin/main at the close.]"
     },
     {
       "index": 6,
       "opened_utc": "2026-09-05T03:10:50Z",
-      "closed_utc": null,
-      "note": "Re-entry per hand section 2 M with Amendment A1 (sha 167771c7... 9,698 B, re-verified). NEW client process 26148 (started 03:09:23Z from launching shell 24716); the session 1-5 process 9800 is gone. Section 0 items 1, 5, 6, 7, 8, 14 PASS unchanged; item 9 shows the model change claude-fable-5-1 -> claude-opus-5[1m], PRE-DISPOSITIONED by Director ruling MOD-1 and therefore NOT a halt. Live db pin 61ea99c9... 115,089,408 B 2026-09-04T23:58:11.272Z UNCHANGED since the session-4 close, so criterion 6 needed no reconciliation. Baseline gates on main (f25ca27): ruff clean, L1 hits=6 allowlisted=6 defects=0 PASS, pytest 181 passed. Wave 3 re-authored fresh and dispatched from the round-2 boundary 6a83537."
+      "closed_utc": "2026-09-05T05:41:54Z (last orchestrator turn of the session-6 report; the client process continued into the session-7 launch shell)",
+      "note": "Re-entry per hand section 2 M with Amendment A1 (sha 167771c7... 9,698 B, re-verified). NEW client process 26148 (started 03:09:23Z from launching shell 24716); the session 1-5 process 9800 is gone. Section 0 items 1, 5, 6, 7, 8, 14 PASS unchanged; item 9 shows the model change claude-fable-5-1 -> claude-opus-5[1m], PRE-DISPOSITIONED by Director ruling MOD-1 and therefore NOT a halt. Live db pin 61ea99c9... 115,089,408 B 2026-09-04T23:58:11.272Z UNCHANGED since the session-4 close, so criterion 6 needed no reconciliation. Baseline gates on main (f25ca27): ruff clean, L1 hits=6 allowlisted=6 defects=0 PASS, pytest 181 passed. Wave 3 re-authored fresh and dispatched from the round-2 boundary 6a83537. [closed_utc set session 8 (2026-09-05, orchestrator claude-opus-5[1m] / xhigh under MOD-1) from the session-6 transcript's last assistant timestamp. Session 6 closed at c861680 with the convergence sequence stated in its report but NOT written to build_state.next_action -- the defect session 7 found and session 8 closes.]"
     },
     {
       "index": 7,
       "opened_utc": "2026-09-05T13:51:18Z",
       "closed_utc": "2026-09-05T14:51:03Z (halt; records commit; D row 7 is the closing entry)",
       "note": "Re-entry per hand section 2 M with Amendment A1, launched per CCX-20260904-001 section 4.1 steps 1-5 (fresh shell, caps present, 2.1.260, --dangerously-skip-permissions). A prior session-7 attempt (13:25:31Z-13:49:01Z, same model) made the Rule-2 commit fb81f3f of the CCX-20260905-001 pair and crashed before pushing. This session: pushed fb81f3f (14:14:32Z, gate red attribution-closed: regression delta 0 = INC-20260829-001 / INC-20260830-001; auditor +1 = the CCX's own CMP-20260815-002 M3 forward reference); criterion 6 reconciled (live db 61ea99c9 -> 53a48901 at 05:58:37Z = chat-side MCP pair write of the CCX, rotated mcp_validate.log.2026-09-04 lines 3-4; -> ea8f7df2... 115,081,216 B 14:05:55Z = this session's gate librarian member full reindex, logged 07:02:54 / 07:05:55 local); 1449-vs-1443 reconciled (6 cards in docs\\docs_archive\\, a DENY_DIR); section 0 items 1, 5, 6, 7, 8, 14 PASS unchanged. ITEM 9 FAILED: orchestrator claude-fable-5-1 vs the MOD-1 pin claude-opus-5[1m] (settings.json rewritten 06:02Z by the Director; not pre-dispositioned) -> HALT; no strand dispatched, no workflow run, no SA-3 edit, no convergence step. Director dispositions 2026-09-05: Option A (MOD-1 retained); the 06:02Z settings rewrite = Director act, no ledger row; settings.json model restored to claude-opus-5[1m] this session (Director act 14:36:20Z; re-hashed 14:49:39Z sha256 06f37244... 9,097 B = the MOD-1 settings pin of record, supersedes 831dbfb9...; effective at the client restart); drafted records written as-is under the halted identity (handback D row 7, L.1-L.4, P-16, P-17, P-18; this file); workspace records committed, NOT pushed (39 ahead of origin/main f25ca27 after this commit; the session-6 boundary O-1 push never happened). Findings of record at open: build_state next_action stale (named critic round 1); dispatch_records lack reader round 2 and critic S6-CR1; budgets 12 of 28 exclude reader round 2 (13); sessions 5/6 closed_utc null; lineage round 2 / adapter round 4 NOT dispatched (no R07/R08 prompt; build/lineage 386afba, build/corpus_adapter 7c1e9f4 at 0 ahead of c861680) -- reconciliation of these is convergence step (4) for the pinned orchestrator, untouched here. authored session 7 under claude-fable-5-1, identity halt open -- session-5 precedent: mechanical records, no judgment"
+    },
+    {
+      "index": 8,
+      "opened_utc": "2026-09-05T14:57:54Z (first orchestrator turn; new client process after the Director's restart)",
+      "closed_utc": null,
+      "note": "Re-entry per hand section 2 M with Amendment A1 under the MOD-1 identity pin. Section 0 items 1, 5, 6, 7, 8, 9, 14 re-run: PASS in full, NO HALT. Item 9 resolved a standing ambiguity rather than tripping on it -- see client.session_model_history seq 6 and ledger P-19: the transcript's per-request message.model field STRIPS the [1m] context-window suffix, so 'claude-opus-5' in that field under a settings pin of 'claude-opus-5[1m]' is the MOD-1-conformant reading, not drift. Established from two controls, not asserted: session 6 (settings claude-opus-5[1m], system prompt naming [1m] verbatim) logged claude-opus-5 in all 255 of its per-request fields, and session 7 (settings claude-fable-5-1[1m]) logged claude-fable-5-1 in all 173 of its. Settings pin 06f37244... 9,097 B re-verified byte-identical to the session-7 pin of record. Substrate pins and the live db pin ea8f7df2... 115,081,216 B unchanged since session 7, so criterion 6 needed no reconciliation. Device safety: logger PID 19516, launcher 15268, sidecars 19308 / 19544 / 19552 / 19588 / 20156, all live and untouched."
     }
   ],
   "modules": {
@@ -281,8 +299,8 @@
     },
     "probe": {
       "owner": "builder S3-B2 (Sonnet 5) on build/probe",
-      "status": "round 3 complete (wave-2 runners); merged 3d81949; ledger KB1/KB2/KB4/KB5; Q0-Q2 qualified; production presets W1-W4, W7, W9, W10, healthz, diagnostics PRODUCT_EVIDENCE_PASS; W5/W6/KB3 wait for lineage (round 4)",
-      "round": 3,
+      "status": "round 4 of 4 complete -- module EXHAUSTED; merged e36d9d6. All five known-bad classes (KB1-KB5) on the qualification ledger; every preset in PRESET_REGISTRY implemented; W5 / W6 / KB3 landed. W6 caught the production-path reader 500. No fifth round exists: any further probe need is BOUNDED_FAIL by Director ruling.",
+      "round": 4,
       "objective_gates": {
         "ruff": "pass",
         "pytest": "pass",
@@ -291,10 +309,9 @@
       },
       "ref_score": null,
       "open_issues": [
-        "W5, W6, KB3 (lineage) not_implemented by design (wave 3 / Q3)",
-        "W3 exact-order match against the L4 oracle's recorded top-10 (row 21) is a snapshot of a growing live corpus, not a standing guarantee",
-        "W2/W9/W10 lexical target occurrence is whichever rank the live FTS returns (this round: the amendment file's line 1), verified against disk rather than assumed",
-        "KB3 attribution rule undesigned until the lineage surface exists",
+        "W5's direction_label assertion compares the product against the constant the product renders from -- a check that cannot fail on the defect it appears to guard (critic blind spot; BOUNDED_FAIL, no round remains to repair it; covered instead by the integrator L4 direction oracle)",
+        "W3's exact-order match is a regression pin against the build's own earlier output, not a baseline-preservation check (critic blind spot; SA-4 class)",
+        "the known-bad ledger entries predate the reader repair -- re-running the FINAL fixture suite at the convergence commit costs no builder round and is queued (critic ranked issue 3)",
         "_run_w8 temp-directory cleanup is best-effort on Windows",
         "single run per production preset (no flake-detection repeat)"
       ],
@@ -420,8 +437,8 @@
     },
     "reader": {
       "owner": "builder S4-B6 (Sonnet 5) on build/reader",
-      "status": "round 1 complete; merged 32808db; 34 fixture/live tests green; open issues 4; probe runners pending (probe round 3)",
-      "round": 1,
+      "status": "round 2 of 4 complete; merged 4d06678. _json_safe() closes the card-YAML native-type 500 on both surfaces at one conversion point; 44 reader tests, full tree 262. The item-2 mismatch bug was proven NOT to exist. Two rounds left.",
+      "round": 2,
       "objective_gates": {
         "ruff": "pass",
         "pytest": "pass",
@@ -433,7 +450,9 @@
         "generic lineage list shows the literal amends from_id (filename stem) unlinked -- edges_for's own shape (O7/O8); a module-boundary question",
         ".txt-carded and binary-carded documents have no fixture; those render paths verified by code reading only",
         "wrong_doc_for_id / reverse_edges interaction with the card panel untested",
-        "renamed tests/reader/test_reader.py -> test_reader_page.py to avoid a basename collision with tests/corpus_adapter/test_reader.py under pytest's default import mode"
+        "renamed tests/reader/test_reader.py -> test_reader_page.py to avoid a basename collision with tests/corpus_adapter/test_reader.py under pytest's default import mode",
+        "reader page overflows its viewport horizontally on every capture, both substrates (critic ranked issue 4; a web/CSS-owned surface, queued)",
+        "the generic 'Lineage (all typed edges)' list used the direction-blind label while the reader's own supersession sentence was direction-aware -- one page could show both forms for the same edge; addressed by the c861680 contract change, to be re-verified by the L4 direction oracle"
       ],
       "assumptions": [],
       "blocked_dependencies": [],
@@ -905,6 +924,68 @@
       "integrator_repair": "ARCHITECTURE A22: the #keyhelp block on all FIVE page templates advertised only / and ? while app.js binds six keys. Applied across catalog, search, reader, diagnostics and lineage, and guarded by the new integrator-owned tests/integration/test_keyhelp_contract.py. The registration test caught the lineage page immediately -- it had copied the two-key block during this same wave, so the drift was already reproducing itself.",
       "invalidated_evidence": "none -- 230 = 181 + 3 + 22 + 24 reconciles exactly",
       "director_disposition": "boundary-3 disposition: keyhelp repair accepted with the ownership note (P-13, open item O-2); apostrophe fix-forward accepted"
+    },
+    {
+      "round": 4,
+      "wave": null,
+      "kind": "builder round -- single strand (probe round 4 of 4): Q3 lineage cases, FINAL suite, refreshed acceptance set",
+      "status": "complete -- merged e36d9d6; probe module EXHAUSTED",
+      "modules": [
+        "probe"
+      ],
+      "base_commit": "d9e71adb3c2f791cf0f6d94321e8d524843baa62",
+      "orchestrator_model": "claude-opus-5[1m]",
+      "worktrees": {
+        "probe": ".worktrees/probe @ build/probe (fast-forwarded a0dacd7 -> d9e71ad)"
+      },
+      "dispatched_utc": "2026-09-05T04:05:21.144Z",
+      "returned_utc": "2026-09-05T04:42:03.218Z",
+      "workflow_run": "wf_977e0550-579",
+      "task_id": "wo9a2wjes",
+      "dispatch_form": "section 2 L D-12 + D-3 blocks verbatim (byte-diffed against the archive before dispatch) + sha-pinned pointer to the archived prompt",
+      "wave_cap_check": "one strand dispatched; no other strand live; concurrency_exceedance: none",
+      "builder_rounds_consumed": 1,
+      "prompts": {
+        "docs/rounds/R04_probe.prompt.md": {
+          "sha256": "c88e5402665dbaa421778eba9955fe3dd42bfef00acc40a33d91b8f29b860410"
+        }
+      },
+      "outcome": "All five known-bad classes on the qualification ledger for the first time -- criterion 3 satisfiable (Director ruling POST_R4 item 5). W6 produced a genuine production FAIL that four builder waves, the whole fixture substrate and 247 green tests could not reach; the strongest H1(c)/(d) evidence of the campaign.",
+      "record_provenance": "RECONSTRUCTED session 8 (2026-09-05, orchestrator claude-opus-5[1m] / xhigh under MOD-1) from the session-6 transcript, wf_977e0550-579.json and git log."
+    },
+    {
+      "round": 5,
+      "wave": null,
+      "kind": "builder round -- single strand (reader round 2 of 4): repair the W6 production defect; then the critic (no builder round) and the integrator's convergence acts",
+      "status": "complete -- reader merged 4d06678; acceptance set refreshed green; L4 card-agreement oracle added; critic round 1 filed b9c41c2; seal released; direction-aware contract change committed c861680",
+      "modules": [
+        "reader"
+      ],
+      "base_commit": "e36d9d69ec5e915bd554b658c3cbcc82fe5c1f4f",
+      "orchestrator_model": "claude-opus-5[1m]",
+      "worktrees": {
+        "reader": ".worktrees/reader @ build/reader"
+      },
+      "dispatched_utc": "2026-09-05T04:46:36.570Z",
+      "returned_utc": "2026-09-05T04:59:57.997Z",
+      "workflow_run": "wf_cee90f83-a60",
+      "task_id": "wymx3xptz",
+      "dispatch_form": "section 2 L D-12 + D-3 blocks verbatim (byte-diffed) + sha-pinned pointer to the archived prompt",
+      "wave_cap_check": "one strand dispatched; no other strand live; concurrency_exceedance: none",
+      "builder_rounds_consumed": 1,
+      "prompts": {
+        "docs/rounds/R05_reader.prompt.md": {
+          "sha256": "38cf028a84cbe1b10f042b366cbf1c4eb08e07655a020a2b2bfea1abc763e1ef"
+        }
+      },
+      "integrator_acts_no_round": [
+        "Full 12-preset production acceptance set re-run at 4d06678: all PRODUCT_EVIDENCE_PASS (acceptance_set_runs entry 1)",
+        "L4 gold oracle re-run at e36d9d6: adapter == module 40/40, 0.675, SCOPE (l4_oracle_runs entry 1)",
+        "tools/l4_card_agreement_check.py v1.0 added as a second L4 oracle (Director ruling POST_R4 item 2b); pre-fix baseline FAIL, post-fix PASS",
+        "Critic round 1 dispatched and filed (S6-CR1); sealed audit released and classified (4 of 5 defect items MISSED by harness and critic)",
+        "Contract change c861680: direction-aware RELATION_LABELS / Edge.direction_label (D-1 integrator act, repairing the critic's gate-7 FAIL)"
+      ],
+      "record_provenance": "RECONSTRUCTED session 8 (2026-09-05, orchestrator claude-opus-5[1m] / xhigh under MOD-1) from the session-6 transcript, wf_cee90f83-a60.json / wf_12116ea4-c3e.json, git log and the on-disk oracle outputs."
     }
   ],
   "l1_index_write_grep": [
@@ -1766,6 +1847,128 @@
         "prior rounds' items unchanged: the 8 s vector-probe timeout never exercised against a genuinely hung Ollama"
       ],
       "deviations": ""
+    },
+    {
+      "session": 6,
+      "round": 4,
+      "strand_id": "S6-B10",
+      "stem": "R04_probe",
+      "role": "module builder (probe): Q3 lineage cases KB3/W5/W6, the FINAL fixture suite, refreshed production acceptance set",
+      "model": "claude-sonnet-5 (client-reported by the strand: 'You are powered by the model named Sonnet 5. The exact model ID is claude-sonnet-5.')",
+      "orchestrator_model": "claude-opus-5[1m] (MOD-1)",
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/probe on build/probe)",
+      "execution_mode": "sequential (one strand live; dispatched alone after the round-3 boundary)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-05T04:05:21.144Z",
+      "returned_utc": "2026-09-05T04:42:03.218Z",
+      "workflow_run": "wf_977e0550-579",
+      "task_id": "wo9a2wjes",
+      "agent_id": "af69c4b8b0336a722",
+      "prompt": {
+        "file": "docs/rounds/R04_probe.prompt.md",
+        "sha256": "c88e5402665dbaa421778eba9955fe3dd42bfef00acc40a33d91b8f29b860410"
+      },
+      "prompt_sha256_verified_by_strand": true,
+      "prefix": "section 2 L D-12 + D-3 blocks built at runtime and byte-diffed against the archived prompt opening before dispatch (BOUNDARY_3 ruling 3, the P-11 remedy), then a sha-pinned pointer to the archived prompt of record",
+      "t_start_utc": "2026-09-05T04:05:29.1498710Z",
+      "t_end_utc": "2026-09-05T04:41:06.2073139Z",
+      "base": "build/probe fast-forwarded from its round-3 tip a0dacd7 to the round-3 boundary d9e71adb3c2f791cf0f6d94321e8d524843baa62 (the dispatch's required first git act; confirmed --ff-only before any other work)",
+      "head_commit": "8c7ece3abb89817510d2032ea62842eaa21ba34f",
+      "commits": 8,
+      "merged": "e36d9d69ec5e915bd554b658c3cbcc82fe5c1f4f (--no-ff)",
+      "status": "COMPLETE",
+      "module_round": "probe round 4 of 4 -- the LAST round this module gets; no round 5 exists (Director ruling, not waived)",
+      "gates": "ruff clean (exit 0); pytest tests 252 passed (247 base + 5 new); L1 hits=6 allowlisted=6 defects=0 PASS; worktree clean; live db unchanged",
+      "acceptance": "COMPLETE -- merged e36d9d6. KB3 (--fault reverse_edges) real, unit-tested and QUALIFICATION_PASS; KG extended with the Q3 known-good typed-edge-direction cases; W5 and W6 real on the production path; FINAL fixture suite (KG + KB1-KB5) in one run 20260905T043117Z FRAMEWORK_SMOKE_PASS; qualification ledger holds all five KB classes; no preset in PRESET_REGISTRY is not_implemented_yet. W6 returned a GENUINE production FAIL -- HTTP 500 from explorer/reader on unquoted-date cards -- which is the harness working, not probe incompleteness (Director ruling POST_R4 item 1); repaired in reader round 2.",
+      "change_requests": [
+        "to reader: repair the card-YAML native-type 500 found by W6 (accepted; became reader round 2 / S6-B11)"
+      ],
+      "open_issues": [
+        "W3's exact-order match is a regression pin against the build's own earlier output, not a baseline-preservation check (critic blind spot; SA-4 class)",
+        "W5's direction_label assertion compares the product against the constant the product renders from -- it cannot fail on the defect it appears to guard (critic blind spot; the BOUNDED_FAIL entry named by CCX-20260905-001 section 4 item 7)",
+        "_run_w8 temp-directory cleanup is best-effort on Windows",
+        "single run per production preset (no flake-detection repeat)"
+      ],
+      "deviations": "None from the archived prompt's working rules. Two disclosed implementation choices: --preset extended to accept a comma-separated list so the FINAL suite is one run/run_summary.json; and twelve individual production runs rather than one batch, so W6's genuine FAIL would not contaminate the other eleven PRODUCT_EVIDENCE_PASS verdicts. Both documented in the round report's Material alternatives.",
+      "record_provenance": "RECONSTRUCTED session 8 (2026-09-05, orchestrator claude-opus-5[1m] / xhigh under MOD-1) from primary evidence, not from memory: orchestrator dispatched_utc / returned_utc from the session-6 transcript tool_use and task-notification timestamps (918204e5-8e7a-4c4c-a4ea-0e647796b497.jsonl); strand fields from the workflow run record wf_977e0550-579.json result block; commits and merge sha from git log. No field is estimated."
+    },
+    {
+      "session": 6,
+      "round": 5,
+      "strand_id": "S6-B11",
+      "stem": "R05_reader",
+      "role": "module builder (reader): production-path defect repair -- the card-YAML native-type 500 found by probe W6",
+      "model": "claude-sonnet-5 (client-reported by the strand: 'You are powered by the model named Sonnet 5. The exact model ID is claude-sonnet-5.')",
+      "orchestrator_model": "claude-opus-5[1m] (MOD-1)",
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/reader on build/reader)",
+      "execution_mode": "sequential (one strand live)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-05T04:46:36.570Z",
+      "returned_utc": "2026-09-05T04:59:57.997Z",
+      "workflow_run": "wf_cee90f83-a60",
+      "task_id": "wymx3xptz",
+      "agent_id": "a1f9b5e6a8d7162ea",
+      "prompt": {
+        "file": "docs/rounds/R05_reader.prompt.md",
+        "sha256": "38cf028a84cbe1b10f042b366cbf1c4eb08e07655a020a2b2bfea1abc763e1ef"
+      },
+      "prompt_sha256_verified_by_strand": true,
+      "prefix": "section 2 L D-12 + D-3 blocks built at runtime and byte-diffed against the archived prompt opening before dispatch, then a sha-pinned pointer to the archived prompt of record",
+      "t_start_utc": "2026-09-05T04:46:45.4327658Z",
+      "t_end_utc": "2026-09-05T04:59:08.5370727Z",
+      "base": "e36d9d69ec5e915bd554b658c3cbcc82fe5c1f4f (the integrator's placement; confirmed by rev-parse before any other action, no fast-forward needed)",
+      "head_commit": "45b28ba10781e849cc95f04c00ad3b8b4143f74a",
+      "commits": 3,
+      "merged": "4d06678 (--no-ff)",
+      "status": "COMPLETE",
+      "module_round": "reader round 2 of 4",
+      "gates": "ruff clean before and after; pytest tests/reader 44 passed (34 + 10 new); full tree 262 passed; L1 hits=6 allowlisted=6 defects=0 PASS; worktree clean",
+      "acceptance": "COMPLETE -- merged 4d06678. _json_safe() applied once inside _parse_card_yaml converts PyYAML-resolved datetime.date / datetime / time to their own isoformat text, fixing both surfaces (page tojson and JSONResponse) at one point; raw_text (the verbatim Card source block, O19/O28) untouched by construction. The production card named in the dispatch returns 200 on /doc and /api/doc (was 500).",
+      "change_requests": [
+        "informational: tools/probe_corpus_explorer.py shares the unguarded yaml.safe_load pattern at three call sites but does not currently reproduce the defect (checked directly)"
+      ],
+      "open_issues": [],
+      "negative_result_of_record": "mismatch_bug_existed = FALSE, proven rather than assumed: _norm() is str(value).strip() and date.__str__ is isoformat(), which is exactly the canonical form RHACO_corpus_index._norm_date already stores, so the two sides of _index_mismatch were always equal for this corpus. Zero mismatch fields were ever falsely reported. No change to _index_mismatch was needed or made. This is the answer to task deliverable 2 and it is a negative result, recorded as one.",
+      "deviations": "",
+      "record_provenance": "RECONSTRUCTED session 8 (2026-09-05, orchestrator claude-opus-5[1m] / xhigh under MOD-1) from primary evidence: orchestrator times from the session-6 transcript; strand fields from wf_cee90f83-a60.json; commits from git log. No field is estimated."
+    },
+    {
+      "session": 6,
+      "round": 5,
+      "strand_id": "S6-CR1",
+      "stem": "R06_critic",
+      "role": "critic round 1 (PROMPT.md section 7): independent objective-gate assessment, ten criteria, ranked issue set, ref_score",
+      "model": "claude-opus-5[1m] (client-reported by the strand)",
+      "orchestrator_model": "claude-opus-5[1m] (MOD-1)",
+      "effort": "xhigh (Workflow opts.effort, explicit -- hand section 2 I requires the critic's effort be set explicitly)",
+      "pattern_primary": "judgment tier, read-only review (not a builder pattern)",
+      "agent_type": "Workflow agent() / Explore (read-only; writes nothing -- the integrator files the report under docs/critique/)",
+      "execution_mode": "sequential (one strand live)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-05T05:07:45.998Z",
+      "returned_utc": "2026-09-05T05:28:26.681Z",
+      "workflow_run": "wf_12116ea4-c3e",
+      "task_id": "wc8kr0e0b",
+      "agent_id": "af79d2aa1948974df",
+      "prompt": {
+        "file": "docs/rounds/R06_critic.prompt.md",
+        "sha256": "502d83a02b085aef8c611ace59856dc8f56ee739f22ff88ee613985bacfa0ed4"
+      },
+      "prompt_sha256_verified_by_strand": true,
+      "t_start_utc": "2026-09-05T05:07:53.9163962Z",
+      "t_end_utc": "2026-09-05T05:22:38.5350352Z",
+      "reviewed_at_commit": "183955e (product unchanged at fc08dc3, the tree the critic read)",
+      "status": "COMPLETE",
+      "module_round": "critic round 1 (convergence window = 2 rounds, PROMPT.md section 7)",
+      "result": "ref_score 8 against a pass threshold of 8.5, ORDINAL not metrological; objective gates 8 PASS / 1 FAIL (gate 7, typed relation direction preserved -- a direct contradiction of build_state.json); ten ranked issues; eight blind spots; eleven round-2 questions",
+      "filed": "docs/critique/R06_critic_round_1.report.md (filed by the integrator on the critic's behalf; the text below section 1 is the critic's own, verbatim)",
+      "independence_caveat": "Under MOD-1 the critic and the orchestrator share a model family; docs/LAYERS.md section 3 records this as a limit on independence. The critic answered it by weighting its disagreements above its agreements and by naming the limit in its own section 5. Its one gate FAIL contradicts build_state.json directly and several overstated claims it lists are the integrator's own bookkeeping -- which is the behaviour the arrangement was supposed to make difficult.",
+      "deviations": "",
+      "record_provenance": "RECONSTRUCTED session 8 (2026-09-05, orchestrator claude-opus-5[1m] / xhigh under MOD-1) from primary evidence: orchestrator times from the session-6 transcript; strand fields from wf_12116ea4-c3e.json and the filed report header. No field is estimated."
     }
   ],
   "dispatch_record_notes": [
@@ -1796,7 +1999,16 @@
       "note": "fourth concurrent strand dispatched by design as the section 0 item 9(b) cap probe; predates Amendment A1.3 (wave cap re-homed to the orchestrator); recorded here so the closeout aggregate and the dispatch rows agree"
     }
   ],
-  "governance_defects": [],
+  "governance_defects": [
+    {
+      "id": "GD-1",
+      "found": "critic round 1 (ranked issue 8); scoped fully session 8 (2026-09-05, orchestrator claude-opus-5[1m] / xhigh under MOD-1) on reconciliation",
+      "defect": "Three strands -- S6-B10 (probe round 4), S6-B11 (reader round 2) and S6-CR1 (critic round 1) -- executed with no dispatch_records row at all. Hand section 2 I makes a row missing any of the seven governance fields a governance defect the closeout must report; a row missing entirely is the stronger form. The budget counters were wrong for the same reason, so the build reported more remaining rounds than it had.",
+      "cause": "Session 6 ended at 05:41:54Z with its convergence sequence stated in the session report and never written to build_state.json. The records existed in the workflow run files and in the transcript throughout -- the defect was in the ledger, not in the evidence.",
+      "closed": "This reconciliation. All three rows reconstructed from primary evidence (session-6 transcript timestamps, workflow run records, git log); every row carries record_provenance naming its sources. No field estimated.",
+      "closeout_obligation": "Reported at terminal state under hand section 2 N; not softened."
+    }
+  ],
   "open_items": [
     {
       "id": "O-1",
@@ -1849,7 +2061,7 @@
       "contents": "build_state.json only -- the halt records; no prompt, no code, no strand output"
     }
   ],
-  "next_action": "SESSION 7 HALTED at hand section 2 M item 9 (orchestrator claude-fable-5-1 vs the MOD-1 pin claude-opus-5[1m]); records only, committed, NOT pushed. Session 8: ~/.claude/settings.json model already restored to claude-opus-5[1m] (Director act 2026-09-05T14:36:20Z; settings pin of record sha256 06f37244... 9,097 B, supersedes 831dbfb9...); the Director restarts the client after the session-7 close report; re-enter per section 2 M with A1 (items 1, 5, 6, 7, 8, 9 -- expect claude-opus-5[1m] / xhigh and settings sha 06f37244... -- and 14; live db open pin ea8f7df2... 115,081,216 B 2026-09-05T14:05:55Z). Then the CCX-20260905-001 section 4 convergence sequence from step (1): lineage round 2 + the batched adapter round 4 (SA-1 -> SA-2 -> amends click-through; per item landed | not landed; unlanded = BOUNDED_FAIL) concurrently, 2 under the cap of 3; SA-3 = (b) integrator text edit -- ARCHITECTURE 4.1 + the corpus_adapter package docstring enumerate the three licensed importers (adapter.py, diagnostics/service.py O17, fixtures/build_fixture_index.py O3); SA-4's L1 boundary check asserts that set within explorer/** + fixtures/** with the instrument importers under preflight/, tests/, tools/ scoped out or allowlisted (handback L.3); the diagnostics sys.path.insert(0) vs S2 append is a separate code item. (2) search round 2 removes the bare 0.700 from the search page and SCOPE row 16 is corrected; (3) integrator L4 direction oracle; (4) build_state.json reconciliation of every critic-listed overstatement (dispatch records for reader round 2 and critic S6-CR1, budgets 12 -> 13 with reader 1 -> 2, sessions 5/6 closed_utc, rounds beyond 2); (5) acceptance set re-run; (6) critic round 2 (ref_score >= 8.5 or the prompt's 2-round convergence rule, no third-round drift); (7) terminal state per PROMPT.md section 12, declared honestly (W5 tautology and any unlanded adapter item = BOUNDED_FAIL); (8) section 2 N closeout obligations; (9) push per O-1 -- workspace main is 39 commits ahead of origin/main f25ca27 after the session-7 records commit; the session-6 boundary push never happened.",
+  "next_action": "SESSION 8 IN PROGRESS. Discharged so far: hand section 2 M re-entry (items 1, 5, 6, 7, 8, 9, 14) PASS with no halt, item 9 resolved by the P-19 instrument finding (the per-request message.model field strips [1m]; identity is the conjunction of the settings sha, the system-prompt sentence, and family/generation from the per-request field); settings pin 06f37244... re-verified byte-identical; this reconciliation (CCX-20260905-001 section 4 step (4)) -- three missing dispatch records reconstructed from primary evidence, budgets 12 -> 14, rounds 4 and 5 added, sessions 5/6 closed, gate 7 withdrawn to REPAIRED-BUT-UNEVIDENCED, all ten critic ranked issues dispositioned item by item, the post-fix card-agreement run recorded, GD-1 filed. NEXT, in order: (i) push main per O-1 -- fast-forward only, recorded as the LATE session-6 boundary push that never happened; (ii) remove the two stale worktrees (lineage 386afba, corpus_adapter 7c1e9f4) and recreate all three from the current main at dispatch; (iii) the SA-3 (b) integrator text edit (ARCHITECTURE 4.1 + the corpus_adapter package docstring enumerate the three product-tree importers); (iv) dispatch three CONCURRENT builder rounds under the A1.3 cap of 3 -- lineage round 2, corpus_adapter round 4 (batch order SA-1 -> SA-2 -> amends click-through, per item landed | not landed, unlanded = BOUNDED_FAIL), diagnostics round 2 (the sys.path.insert(0, ...) S2 conformance fix ONLY) -- each prefix byte-diffed against its archived prompt before dispatch. THEN continue CCX-20260905-001 section 4: (2) search round 2 removes the bare 0.700 and corrects SCOPE row 16; (3) integrator L4 direction oracle (rendered edge sentence vs from_id / to_id) plus the SA-4 L1 import-boundary check; (4) DONE (this reconciliation); (5) acceptance set re-run plus the FINAL fixture suite re-run at the convergence commit with that commit pinned in the ledger; (6) critic round 2 (ref_score >= 8.5 or the prompt's 2-round convergence rule, no third-round drift); (7) terminal state per PROMPT.md section 12, declared honestly (the W5 tautology and any unlanded adapter item are BOUNDED_FAIL entries, never a lowered bar); (8) hand section 2 N closeout obligations; (9) push per O-1 with the settings pin re-pinned.",
   "concurrency_exceedances_note": "Three exceedances, all session 2, all deliberate item-9(b) cap probes taken before A1.3 re-homed the wave cap; zero exceedances under A1.3 (sessions 3 onward) -- the closeout reports the three with the qualifier, never silently.",
   "workspace_pushes_note": "Structural: a push follows the boundary commit that carries build_state.json, so each push is recorded in the NEXT commit's build_state.json (and in the handback resumption entry at the time of the push).",
   "director_rulings": {
@@ -2162,6 +2374,31 @@
       "verdict": "FAIL (product layer)",
       "criterion_6": "db unchanged across the run",
       "reading": "The corpus layer shows the hazard is real and pervasive but that the corpus itself is CONSISTENT: zero genuine differences in 400 compared fields -- the index and the card files agree everywhere; every disagreement a naive comparison would see is a pure type artifact. The product layer shows the defect. Critically, false_mismatch_markers = 0 is NOT yet evidence of correctness: the reader 500s before it can emit any marker at all, so the crash masks the silent bug (Director's ordering finding). This number only becomes meaningful after the reader round-2 fix, which is exactly why the baseline was taken first."
+    },
+    {
+      "run": "post-fix, session 6 (the run critic round 1 cited as absent from build_state -- its gate-5 note)",
+      "utc": "2026-09-05T05:0xZ (artifact mtime 2026-09-05T05:03Z)",
+      "tool": "tools/l4_card_agreement_check.py v1.0",
+      "base_commit": "4d06678 (reader round 2 merged) / 183955e",
+      "artifact": "docs/probe-qualification/card_agreement.json",
+      "sample": "120 cards; census 1443, of which 866 bare-date and 577 quoted-date",
+      "corpus_layer": {
+        "AGREE": 541,
+        "TYPE_ARTIFACT": 59,
+        "GENUINE_DIFFERENCE": 0
+      },
+      "product_layer": {
+        "reader_non_200": 0,
+        "reader_errors": [],
+        "false_mismatch_markers": 0,
+        "false_marker_rows": []
+      },
+      "parse_errors": [],
+      "db_unchanged": true,
+      "verdict": "PASS",
+      "reading": "This is the run that makes the pre-fix baseline meaningful. Before the reader repair the crash MASKED the silent bug -- the reader 500'd before it could emit any mismatch marker, so false_mismatch_markers = 0 proved nothing. Post-fix, every one of the 120 sampled cards renders 200 and none carries a false marker, so the zero is now evidence. The corpus layer is unchanged in character: 59 type artifacts, zero genuine differences in 600 compared fields -- the index and the card files agree everywhere. Recorded session 8 (2026-09-05, orchestrator claude-opus-5[1m] / xhigh under MOD-1); its absence was correctly flagged by critic round 1.",
+      "cost": "integrator act; consumes no builder round",
+      "record_provenance": "read from the on-disk artifact session 8 (2026-09-05, orchestrator claude-opus-5[1m] / xhigh under MOD-1), not from memory"
     }
   ],
   "blast_radius_reconciliation": {
@@ -2218,7 +2455,17 @@
       "flat hybrid remains default unless newer ratified evidence says otherwise": "PASS -- docs/REFERENCE.md section 1 unchanged; no superseding evidence found",
       "semantic-unavailable degradation explicit and functional": "PASS -- W7 with --disable-vec: mode relabelled, exact notice, identifier and lexical retrieval still return"
     },
-    "summary": "All nine objective gates now pass, one of them only as of this refresh. This is the precondition PROMPT.md section 7 sets before a ref_score means anything, so the critic can now be dispatched against a product whose objective gates hold rather than one with a known 500 on most of the corpus."
+    "summary": "Eight of nine objective gates pass. Gate 7 (typed relation direction preserved) was asserted PASS by the build and recorded FAIL by critic round 1; the build accepts the critic's reading, the repair landed at c861680, and the gate is REPAIRED-BUT-UNEVIDENCED until the integrator L4 direction oracle runs. The earlier summary sentence -- 'all nine objective gates now pass' -- is superseded and kept in the record as the claim that was overstated.",
+    "critic_round_1_disagreement": {
+      "gate": "typed relation direction preserved (gate 7)",
+      "build_state_had": "PASS -- KB3 qualified this round (reverse_edges detected); W5 and W6 on the production path",
+      "critic_recorded": "FAIL",
+      "adjudication": "The critic is RIGHT and the build's PASS is withdrawn. Both readings are factually correct about different observables: the machine-readable direction (data-edge-from / data-edge-to / data-edge-direction, the buckets, the SVG arrowheads) was preserved perfectly and KB3 genuinely detects a from/to swap; the human-readable sentence was not, because RELATION_LABELS carried one label per relation and Edge.direction_label returned it with no reference to direction, so an incoming edge rendered the outgoing sentence. PROMPT.md 5.5 requires directional relationships be displayed directionally, and the Charter principle 'measurement defines category' says the rendered observable -- not the substrate attribute -- is what qualification must target (ledger P-16).",
+      "why_the_harness_could_not_see_it": "W5 asserts label != RELATION_LABELS.get(rel, rel) -- it compares the product's rendering against the very constant the product renders from, so it can only detect a divergence between two copies of the same answer. That is the SA-4 class the sealed audit named and the critic independently found three times.",
+      "repair": "c861680 -- direction-aware RELATION_LABELS / Edge.direction_label (integrator contract change, D-1), landed before this session.",
+      "verification_still_owed": "The repair is NOT yet evidenced by an instrument that asserts on the RENDERED SENTENCE. The probe cannot supply it (budget exhausted at 4/4; adding a preset would be a fifth round). It is supplied instead by an integrator-owned L4 direction oracle -- rendered edge sentence vs from_id / to_id -- on the POST_R4 item-2b precedent that established integrator L4 oracles as the sanctioned cover for a class the probe can no longer reach. Until that oracle runs green, gate 7 is REPAIRED-BUT-UNEVIDENCED, not PASS.",
+      "gate_7_state_now": "REPAIRED-BUT-UNEVIDENCED (was PASS asserted, then FAIL by the critic)"
+    }
   },
   "sealed_audit_release": {
     "released_utc": "2026-09-05 (release condition met: the first docs/critique/ report exists -- docs/critique/R06_critic_round_1.report.md)",
@@ -2298,11 +2545,99 @@
       "watch_item_satisfied": 1,
       "reading": "FOUR of the five sealed defect items were missed by the whole harness AND by the critic; one (SA-5) was caught by both. This is the honest headline and it is not softened here: an external reader with no access to the harness found four real defects that four builder waves, 262 tests, twelve green production presets, two L4 oracles and a dedicated Opus critic did not. Three of the four (SA-1, SA-2, SA-3) share a structure: they are FALSE OR UNSUPPORTED CLAIMS IN PROSE about code behaviour -- a degradation notice that misnames what degraded, a docstring asserting a timeout bound the code does not implement, an architectural invariant contradicted by the tree. The harness tests behaviour well and audits its own claims poorly. SA-4 names precisely that gap, and the critic independently found the same class three times without naming the instance. Against this, SA-6 is a genuine success: the harness independently built the probe's comparison against disk rather than against adapter output, which is the difference between a probe that can fail the adapter and one that cannot."
     },
-    "next": "Repair per PROMPT.md section 14 steps 15-16, consuming builder rounds honestly. SA-1 and SA-2 are corpus_adapter defects and fall inside the Director's boundary-3 HOLD: the adapter's LAST round must batch them with the deferred amends-link change request and any critic adapter findings, and whatever does not fit is declared BOUNDED_FAIL on the record. SA-3's prose half and SA-5 are ARCHITECTURE text, integrator-owned. SA-3's sys.path.insert half is diagnostics-owned. SA-4 is tools/l1_index_write_check.py, integrator-owned."
+    "next": "Repair per PROMPT.md section 14 steps 15-16, consuming builder rounds honestly. SA-1 and SA-2 are corpus_adapter defects and fall inside the Director's boundary-3 HOLD: the adapter's LAST round must batch them with the deferred amends-link change request and any critic adapter findings, and whatever does not fit is declared BOUNDED_FAIL on the record. SA-3's prose half and SA-5 are ARCHITECTURE text, integrator-owned. SA-3's sys.path.insert half is diagnostics-owned. SA-4 is tools/l1_index_write_check.py, integrator-owned.",
+    "remedy_decisions": {
+      "decided": "session 8 (2026-09-05, orchestrator claude-opus-5[1m] / xhigh under MOD-1) (Director ruling carried from the session-7 launch instruction; the CCX-20260905-001 section 4 open decision, recommendation (b), ratified)",
+      "SA-1": "corpus_adapter round 4, batch item 1 (highest priority). GRAPH_DEGRADED_NOTICE and mode_effective must name the channel that actually degraded.",
+      "SA-2": "corpus_adapter round 4, batch item 2. The 8 s probe budget must become a real wall-clock bound and be qualified against a hung fixture with the caller's elapsed time asserted.",
+      "SA-3": "REMEDY (b), ratified: the drift is the defect, not the import. ARCHITECTURE 4.1 and the corpus_adapter package docstring are amended by the integrator to ENUMERATE the three product-tree importers -- explorer/corpus_adapter/adapter.py (the adapter), explorer/diagnostics/service.py (O17), fixtures/build_fixture_index.py (O3) -- instead of claiming a sole importer. No builder round. The second half of SA-3 (diagnostics uses sys.path.insert(0, ...) where paths.py:37 and S2 require append) is a code change in a builder-owned module and is the WHOLE of diagnostics round 2's scope.",
+      "SA-4": "Integrator-owned. tools/l1_index_write_check.py gains an import-boundary check that asserts EXACTLY the three product-tree importers named in the SA-3 remedy, scoped to explorer/** and fixtures/**, with the instrument importers allowlisted BY PATH -- preflight/, tests/, tools/ -- because they are hand instruments and test code, not product. The allowlist is by path and not by file, so a new instrument under those roots does not silently widen the product-tree invariant.",
+      "SA-5": "ARCHITECTURE 4.6 (last_run.json vs runs/*/run_summary.json) -- integrator text edit, queued with the docs tail of the convergence sequence.",
+      "SA-6": "Satisfied unprompted; no remedy owed.",
+      "bounded_fail_rule": "Whatever of SA-1 / SA-2 / the deferred amends-link change request does not fit the single batched corpus_adapter round 4 is declared BOUNDED_FAIL on the record, per item, never silently dropped and never traded for a lowered bar."
+    }
   },
   "next_action_prior": {
-    "superseded_utc": "2026-09-05T14:51:03Z",
-    "text": "Objective gates all pass and the acceptance set is refreshed. Next: CRITIC round 1 (Opus 5, Explore, read-only, effort set explicitly per section 2 I; writes nothing -- the integrator files the report under docs/critique/). Then, at the first docs/critique/ report, open working\\sealed_audit_HND-20260903-001_S4.md and execute its 'On release' section (the ChatGPT Pattern-3 file stays sealed until then). ONLY AFTER critic round 1: the single batched corpus_adapter round 4 carrying the critic's adapter findings plus the deferred amends-link CR, per the boundary-3 HOLD; whatever does not fit is BOUNDED_FAIL on the record. Push at the session boundary per O-1.",
-    "note": "stale at the session-7 open: critic round 1 had been filed at b9c41c2 and the seal released; kept for the record (P-18)"
+    "superseded_utc": "2026-09-05 (session 8 reconciliation)",
+    "text": "SESSION 7 HALTED at hand section 2 M item 9 (orchestrator claude-fable-5-1 vs the MOD-1 pin claude-opus-5[1m]); records only, committed, NOT pushed. Session 8: ~/.claude/settings.json model already restored to claude-opus-5[1m] (Director act 2026-09-05T14:36:20Z; settings pin of record sha256 06f37244... 9,097 B, supersedes 831dbfb9...); the Director restarts the client after the session-7 close report; re-enter per section 2 M with A1 (items 1, 5, 6, 7, 8, 9 -- expect claude-opus-5[1m] / xhigh and settings sha 06f37244... -- and 14; live db open pin ea8f7df2... 115,081,216 B 2026-09-05T14:05:55Z). Then the CCX-20260905-001 section 4 convergence sequence from step (1): lineage round 2 + the batched adapter round 4 (SA-1 -> SA-2 -> amends click-through; per item landed | not landed; unlanded = BOUNDED_FAIL) concurrently, 2 under the cap of 3; SA-3 = (b) integrator text edit -- ARCHITECTURE 4.1 + the corpus_adapter package docstring enumerate the three licensed importers (adapter.py, diagnostics/service.py O17, fixtures/build_fixture_index.py O3); SA-4's L1 boundary check asserts that set within explorer/** + fixtures/** with the instrument importers under preflight/, tests/, tools/ scoped out or allowlisted (handback L.3); the diagnostics sys.path.insert(0) vs S2 append is a separate code item. (2) search round 2 removes the bare 0.700 from the search page and SCOPE row 16 is corrected; (3) integrator L4 direction oracle; (4) build_state.json reconciliation of every critic-listed overstatement (dispatch records for reader round 2 and critic S6-CR1, budgets 12 -> 13 with reader 1 -> 2, sessions 5/6 closed_utc, rounds beyond 2); (5) acceptance set re-run; (6) critic round 2 (ref_score >= 8.5 or the prompt's 2-round convergence rule, no third-round drift); (7) terminal state per PROMPT.md section 12, declared honestly (W5 tautology and any unlanded adapter item = BOUNDED_FAIL); (8) section 2 N closeout obligations; (9) push per O-1 -- workspace main is 39 commits ahead of origin/main f25ca27 after the session-7 records commit; the session-6 boundary push never happened.",
+    "note": "The session-7 text. Accurate on the re-entry procedure and on the SA-3 / SA-4 shape; wrong on one number ('budgets 12 -> 13'), which understated the correction by the unrecorded probe round 4. Kept for the record as a second P-6 instance."
+  },
+  "critic_round_1_dispositions": {
+    "why": "Critic round 1 section 6 asks, procedurally, that the build state item by item which of the ten ranked issues it accepts, disputes with evidence, or declines within budget -- because PROMPT.md section 7 defines convergence on UNCHANGED ranked issue sets across two rounds, and an explicit disposition is what makes round 2's comparison a measurement rather than a re-derivation. Recorded session 8 (2026-09-05, orchestrator claude-opus-5[1m] / xhigh under MOD-1).",
+    "vocabulary": "accepted | disputed | declined-within-budget | BOUNDED_FAIL",
+    "items": [
+      {
+        "rank": 1,
+        "issue": "Incoming typed edges carry the outgoing sentence",
+        "class": "fidelity",
+        "disposition": "ACCEPTED IN FULL, and the build's own gate-7 PASS is withdrawn.",
+        "action": "Repaired by integrator contract change c861680 (direction-aware RELATION_LABELS / Edge.direction_label). Lineage round 2 carries the surface half; the integrator L4 direction oracle supplies the rendered-sentence evidence the probe can no longer add."
+      },
+      {
+        "rank": 2,
+        "issue": "Search page shows July's Recall@10 0.700 as present standing; SCOPE.md says the page shows no such number",
+        "class": "fidelity",
+        "disposition": "ACCEPTED. Two defects in one: a stale figure on a live surface, and a SCOPE row that describes a product that does not exist.",
+        "action": "Search round 2 removes the bare 0.700 from explorer/search/service.py:93 (diagnostics may carry it attributed and dated, per Standing Constraint 8); SCOPE row 16 corrected in the same round. Queued as CCX-20260905-001 section 4 step (2)."
+      },
+      {
+        "rank": 3,
+        "issue": "No known-bad probe run exists at or after the reviewed commit",
+        "class": "fidelity",
+        "disposition": "ACCEPTED. The critic is right that KB2 and KB4 are not qualified for the code now shipping.",
+        "action": "Integrator re-runs the FINAL fixture suite (KG + KB1-KB5) at the convergence commit and pins that commit in the qualification ledger. Running the probe consumes no builder round, so this costs nothing."
+      },
+      {
+        "rank": 4,
+        "issue": "Reader page overflows its viewport horizontally on every capture",
+        "class": "polish",
+        "disposition": "ACCEPTED.",
+        "action": "Web-owned (app.css / template width rules); web has 3 of 4 rounds left. Queued for a web round 2 alongside the O-2 keyhelp de-duplication and ranked issue 9. If no web round 2 lands before terminal state, this is declared BOUNDED_FAIL, not quietly dropped."
+      },
+      {
+        "rank": 5,
+        "issue": "Identifier-mode results have no Evidence disclosure",
+        "class": "fidelity",
+        "disposition": "ACCEPTED. The one retrieval mode whose answer is unambiguous is the one that says nothing about why.",
+        "action": "Search-owned; batched into search round 2 with ranked issue 2."
+      },
+      {
+        "rank": 6,
+        "issue": "An active catalog lifecycle_state filter can become invisible and unclearable",
+        "class": "polish",
+        "disposition": "ACCEPTED.",
+        "action": "Catalog-owned, 3 of 4 rounds left. Queued for a catalog round 2; BOUNDED_FAIL if none lands."
+      },
+      {
+        "rank": 7,
+        "issue": "Shared doc_ids render as runs of identical links, including a self-pointing amends edge",
+        "class": "polish",
+        "disposition": "ACCEPTED, and split: the self-pointing amends edge is the known edges_for double-classification (a corpus_adapter behaviour first made visible by lineage round 1); the identical-link runs are a lineage rendering question.",
+        "action": "The adapter half is the deferred amends-link change request carried in the single batched corpus_adapter round 4; the lineage half is in lineage round 2. Whatever does not fit adapter round 4 is BOUNDED_FAIL on the record."
+      },
+      {
+        "rank": 8,
+        "issue": "build_state.json is two builder rounds stale",
+        "class": "fidelity",
+        "disposition": "ACCEPTED, and it was worse than the critic could see.",
+        "action": "Closed by this reconciliation: dispatch records for S6-B10, S6-B11 and S6-CR1 added; budgets 12 -> 14 (not 13 -- the session-7 correction was itself short by one, a second P-6 instance); rounds 4 and 5 added; sessions 5, 6 closed_utc set; the post-fix card-agreement run recorded; the 'all nine gates pass' summary withdrawn; GD-1 filed."
+      },
+      {
+        "rank": 9,
+        "issue": "'/' advertised on five pages, works on one",
+        "class": "polish",
+        "disposition": "ACCEPTED. The critic is also right about the deeper point: keyboard behaviour is string-matched in three places and executed in none, so no layer of this harness has ever run it.",
+        "action": "Web-owned; queued for web round 2 with ranked issue 4. The unexecuted-keyboard blind spot is recorded as a standing limit of L1-L4 for the M3 ANL regardless of whether the fix lands."
+      },
+      {
+        "rank": 10,
+        "issue": "Live freshness scan duration never measured",
+        "class": "polish",
+        "disposition": "ACCEPTED IN PRINCIPLE; NOT IN SCOPE FOR DIAGNOSTICS ROUND 2.",
+        "action": "The Director scoped diagnostics round 2 to the sys.path.insert(0, ...) S2 conformance fix only. Diagnostics has 2 of 4 rounds left after it; this is queued for a later diagnostics round or declared BOUNDED_FAIL at terminal. Recorded here so the round-2 comparison sees a scope ruling, not a silent omission."
+      }
+    ],
+    "disputed": "NONE. The build disputes no ranked issue. All four of the critic's load-bearing disagreements -- gate 7, the Mode standing figure, the ledger's currency, and build_state's own arithmetic -- are accepted in full.",
+    "note_on_convergence": "PROMPT.md section 7 measures convergence on the ranked issue set, not on the digit. Because every issue is accepted, round 2's comparison is a test of whether the repairs landed, not of whether the critic was persuaded. That is the honest use of the instrument and it is also the harder test."
   }
 }
