@@ -1,0 +1,82 @@
+/* RHACO Corpus Explorer -- reader module stylesheet (builder-owned: reader).
+   Two visually and structurally distinct regions (PROMPT.md 5.4: "do not
+   visually collapse the two"); no external assets (CONSTRAINTS.md O11). */
+
+.reader-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .reader-layout { grid-template-columns: 1fr; }
+}
+
+#document {
+  border: 1px solid var(--line, #d9d6e0);
+  border-radius: 6px;
+  padding: 1rem;
+  background: var(--bg, #fff);
+  min-width: 0;
+}
+
+#card-panel {
+  border: 2px solid var(--accent, #4B286D);
+  border-radius: 6px;
+  padding: 1rem;
+  background: var(--panel, #f6f4f9);
+  min-width: 0;
+}
+
+#card-panel dl { margin: 0 0 0.75rem; }
+#card-panel dt { font-weight: 600; margin-top: 0.5rem; }
+#card-panel dd { margin: 0 0 0.25rem; }
+
+.from-index {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--muted, #5b5b66);
+}
+
+.toc ul { padding-left: 1.25rem; }
+.toc-level-2 { margin-left: 0.75rem; }
+.toc-level-3 { margin-left: 1.5rem; }
+.toc-level-4 { margin-left: 2.25rem; }
+.toc-level-5 { margin-left: 3rem; }
+.toc-level-6 { margin-left: 3.75rem; }
+
+.doc-body { line-height: 1.6; }
+.doc-body table { margin: 1rem 0; }
+.doc-body-text { white-space: pre-wrap; }
+
+.source-view { margin-top: 1.5rem; }
+.source-scroll {
+  overflow-x: auto;
+  max-height: 32rem;
+  overflow-y: auto;
+  border: 1px solid var(--line, #d9d6e0);
+  background: #fbfaff;
+  font-family: ui-monospace, Consolas, "Courier New", monospace;
+  font-size: 0.85rem;
+}
+.source-line {
+  display: flex;
+  white-space: pre;
+  padding: 0 0.5rem;
+}
+.source-line .line-no {
+  flex: 0 0 3.5em;
+  color: var(--muted, #5b5b66);
+  text-align: right;
+  padding-right: 0.75em;
+  user-select: none;
+}
+.source-line .line-text { white-space: pre; }
+.source-line.hit { background: #fff2b8; }
+
+#card-panel input[readonly] {
+  width: 100%;
+  font-family: ui-monospace, Consolas, "Courier New", monospace;
+  font-size: 0.8rem;
+}
