@@ -1,0 +1,44 @@
+> Device-safety prohibition (RHACO Guide v1.3 D-12, applied to a
+> non-device build). You may launch only the workspace's own Python
+> interpreter running workspace code — tests, lint, the explorer server
+> via the probe. You must not launch, spawn, import as a process, or
+> invoke any `RHACO_logger_*`, `RHACO_sidecar_*`, `RHACO_launcher*`,
+> `RHACO_tool_*` (other than importing `RHACO_tool_catalog_librarian` for
+> read-only walk/scan calls), or anything under `C:\RHACO\rhaco\` other
+> than importing `RHACO_corpus_index`. You must not open any device on
+> any transport (USB, BLE, serial). You must not read or write anything
+> under `C:\RHACO\data\`. "Verify" means re-derive from files on disk or
+> from the fixture; it never means run an acquisition or restart a
+> production process. Violation is a halt, not a retry.
+
+> Foreground only (RHACO Guide v1.3 D-3). Do not use `run_in_background`,
+> do not detach, do not sleep-and-poll a background job. Work that exceeds
+> your budget is walked in sequential foreground invocations or returned as
+> WAITING. A backgrounded process is a halt, not a retry.
+
+---
+Dispatch record (RHACO-HND-20260903-001 section 2 I as amended by A1.3): strand_id S4-C2; role: module builder (corpus_adapter), correction round; tier: mid; model requested: Claude Sonnet 5; agent_type: general-purpose (write-scoped to the worktree below); pattern_primary: #3 candidate (worktree-isolated builder); execution_mode: concurrent (correction round = two builders, under the cap of three); tier_escalation: none. corpus_adapter module round 2 of 4 -- this strand consumes one builder round of the 28. Dispatched by the build orchestrator, who is also the integrator, under a Director-owned invariant disclosed at the session-4 launch (CONSTRAINTS.md O10; criterion 6 of RHACO-CMP-20260903-001: the live index is never written by the build).
+
+Your worktree: C:\highsierralabs\RHACO_Corpus_Explorer\.worktrees\corpus_adapter -- a git worktree of the workspace repository on branch build/corpus_adapter, checked out at commit 62685dad6f40f91c6b1b84500a213f0a43ea8673 (main at the round-1 boundary; your round-1 work is merged there). Your interpreter: C:\highsierralabs\RHACO_Corpus_Explorer\.venv\Scripts\python.exe (the workspace's own venv: Python 3.13; fastapi, uvicorn, jinja2, playwright + chromium, pytest, httpx, pyyaml, sqlite-vec, markdown-it-py, mdit-py-plugins, ruff). Run every command with the worktree as the current directory, e.g. `cd C:\highsierralabs\RHACO_Corpus_Explorer\.worktrees\corpus_adapter; C:\highsierralabs\RHACO_Corpus_Explorer\.venv\Scripts\python.exe -m pytest tests/corpus_adapter -q`.
+
+Working rules:
+1. Write only inside your worktree, and there only under your owned paths: explorer/corpus_adapter/** and tests/corpus_adapter/**; plus your round report docs/rounds/R01C_corpus_adapter.report.md. Do not modify explorer/app.py, explorer/config.py, explorer/models.py, explorer/faults.py, requirements.txt, ruff.toml, .gitignore, PROMPT.md, RATIONALE.md, DISPATCH_PARAMETERS.md, CONSTRAINTS.md, ARCHITECTURE.md, SCOPE.md, build_state.json, or any other module's directory or tests. If you need a change there, put a "Change requests" section in your report (requestor, affected contract/path, evidence, compatibility impact, migration, invalidated tests/probes) and code against the current contract.
+2. Outside the worktree you may only READ: C:\RHACO\docs\** (the corpus); C:\RHACO\index\corpus_index.db -- and only through RHACO_corpus_index.connect(), never opened any other way; C:\RHACO\rhaco\RHACO_corpus_index.py; C:\RHACO\tools\RHACO_tool_catalog_librarian.py; C:\RHACO\working\eval\gold_queries.yaml and gold_queries_v1_2.yaml. Nothing else under C:\RHACO\ or C:\highsierralabs\RHACO\ (C:\RHACO is a junction to C:\highsierralabs\RHACO -- one tree, both spellings out of bounds beyond the list). Never write to the live index; never edit the RHACO module; never call the five index-writing functions named in CONSTRAINTS.md S6 (your L1 check greps for them).
+3. Processes: only the venv interpreter running workspace code (pytest, ruff, your own scripts). No server process at all: tests use fastapi.testclient.TestClient in-process, or call the adapter directly. No run_in_background, no detached processes, no sleep-and-poll loops.
+4. Git: commit on your branch in small increments with imperative ASCII subjects; `git add` specific paths only (never -A); no amend, no rebase, no push, no checkout of another branch, no merge. Leave the worktree clean (everything committed) when you finish and report `git rev-parse HEAD`.
+5. Gate before you finish: (a) `C:\highsierralabs\RHACO_Corpus_Explorer\.venv\Scripts\python.exe -m ruff check explorer tools tests --output-format concise` clean; (b) `C:\highsierralabs\RHACO_Corpus_Explorer\.venv\Scripts\python.exe -m pytest tests/corpus_adapter -q` green; (c) `C:\highsierralabs\RHACO_Corpus_Explorer\.venv\Scripts\python.exe tools/l1_index_write_check.py` PASS. Paste the exact commands and their output tails in the report.
+6. Evidence discipline: cite file paths and line numbers; every "tested" claim names the test; anything not verified is UNVERIFIED. ASCII-only stdout in every script you write (set PYTHONIOENCODING=utf-8 for child processes); UTF-8 with LF line endings for every file.
+7. Timestamps and identity: run (Get-Date).ToUniversalTime().ToString("o") as your FIRST tool call and again when you finish; copy the sentence from your own system prompt that names your model.
+8. Return your result through the StructuredOutput tool: the header fields by name, and `report` = the markdown of your round report (the same text saved to docs/rounds/R01C_corpus_adapter.report.md, which must have sections: Header; Change; Evidence (checks actually run and their results); Material alternatives; Decisions; Result; Unresolved uncertainty; Change requests; Assumptions).
+
+Read first, inside your worktree, in this order: CONSTRAINTS.md O10; ARCHITECTURE.md section 4.1 (the `connect` line and the "Adapter rules" paragraph) and decision record A9; explorer/corpus_adapter/adapter.py (your round-1 module, all of it); tests/corpus_adapter/conftest.py and tests/corpus_adapter/test_construction.py; docs/rounds/R01_corpus_adapter.report.md (your round-1 report). Then the task.
+
+Task C2 -- criterion-6 guard: CorpusAdapter.connect() re-checks database existence before delegating to the module.
+
+Observed hazard (the reason for this round): CONSTRAINTS.md O10 records that RHACO_corpus_index.connect() creates the parent directory and the database file if absent and applies DDL. The adapter checks os.path.isfile once at construction (explorer/corpus_adapter/adapter.py lines 107-112) and connect() (lines 123-126) delegates per call with no recheck, so a live-index file absent mid-run -- an external actor replacing the file during a reindex, a misconfigured restart -- would be re-created by the explorer at the substrate path C:\RHACO\index\corpus_index.db: a build write to the live index, forbidden by DISPATCH_PARAMETERS.md items B and C and by criterion 6. The guard must hold per call, not only per construction.
+
+Deliver:
+1. explorer/corpus_adapter/adapter.py: connect() asserts `os.path.isfile(self.db_path)` before delegating to RHACO_corpus_index.connect and raises ConfigurationError (the existing class) otherwise, with a message that names the path and cites O10 ("the adapter never creates a database"). No other behaviour change. Make the docstrings accurate: the class-level and method-level text must say the isfile guard runs on every connect(), and the module docstring's description of the guard, if any, must match. Keep the S2 allowlist comment accurate.
+2. Tests, in tests/corpus_adapter/test_construction.py or a new tests/corpus_adapter/test_connect_guard.py: construct a CorpusAdapter against a temporary database file at tmp_path (an empty file is sufficient for construction -- __init__ only checks isfile and computes active_fault; do not build a fixture index for this), delete the file, assert connect() raises ConfigurationError, and assert `os.listdir(tmp_path) == []` afterwards (nothing created: no database, no -journal). Add a second test that connect() still succeeds and returns a usable connection when the file exists (against the live index, read-only, through the adapter, closing the connection in `finally`), so the guard is shown to be a guard and not a break. The session-scoped live-db no-mutation fixture in conftest.py stays in force for the whole tests/corpus_adapter session, as in round 1; print its BEFORE / AFTER lines in the report (criterion-6 evidence).
+3. Gates as in rule 5; the full tests/corpus_adapter suite green (17 tests expected: the 15 from round 1 plus the two above).
+Write the report at docs/rounds/R01C_corpus_adapter.report.md; in "Result" state the module round consumed (corpus_adapter round 2 of 4).
