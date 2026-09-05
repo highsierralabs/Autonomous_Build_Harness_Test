@@ -76,14 +76,14 @@
     "builder_rounds_total_max": 28,
     "builder_rounds_per_module_max": 4,
     "convergence_window_rounds": 2,
-    "builder_rounds_consumed_total": 5,
+    "builder_rounds_consumed_total": 8,
     "per_module_consumed": {
       "corpus_adapter": 2,
       "probe": 2,
       "diagnostics": 1,
-      "catalog": 0,
-      "search": 0,
-      "reader": 0,
+      "catalog": 1,
+      "search": 1,
+      "reader": 1,
       "lineage": 0,
       "web": 0
     },
@@ -232,12 +232,21 @@
       "scope_references": []
     },
     "catalog": {
-      "owner": null,
-      "status": "not_started",
-      "round": 0,
-      "objective_gates": {},
+      "owner": "builder S4-B4 (Sonnet 5) on build/catalog",
+      "status": "round 1 complete; merged 2698b66; 24 fixture/live tests green; open issues 3; probe runners pending (probe round 3)",
+      "round": 1,
+      "objective_gates": {
+        "ruff": "pass",
+        "pytest": "pass",
+        "l1_index_write_grep": "pass",
+        "live_db_unchanged": "pass (conftest fingerprint)"
+      },
       "ref_score": null,
-      "open_issues": [],
+      "open_issues": [
+        "compact-abstract marker convention (always ' ...') unexercised at the 200-char boundary",
+        "path_prefix / project_knowledge controls have no dedicated test",
+        "data-mode='catalog' literal unverified against the probe's W4 runner (probe round 3)"
+      ],
       "assumptions": [],
       "blocked_dependencies": [],
       "invalidated_evidence": [],
@@ -245,12 +254,22 @@
       "scope_references": []
     },
     "search": {
-      "owner": null,
-      "status": "not_started",
-      "round": 0,
-      "objective_gates": {},
+      "owner": "builder S4-B5 (Sonnet 5) on build/search",
+      "status": "round 1 complete; merged 8dc8810; 22 fixture/live tests green; open issues 4; substrate finding O29; probe runners pending (probe round 3)",
+      "round": 1,
+      "objective_gates": {
+        "ruff": "pass",
+        "pytest": "pass",
+        "l1_index_write_grep": "pass",
+        "live_db_unchanged": "pass (conftest fingerprint)"
+      },
       "ref_score": null,
-      "open_issues": [],
+      "open_issues": [
+        "search.css not written (optional)",
+        "line anchor applied to every sibling card row of a shared id (code inspection only)",
+        "narrow_status / narrow_lifecycle_state / narrow_program untested individually",
+        "_bounded_int edges untested"
+      ],
       "assumptions": [],
       "blocked_dependencies": [],
       "invalidated_evidence": [],
@@ -260,12 +279,22 @@
       ]
     },
     "reader": {
-      "owner": null,
-      "status": "not_started",
-      "round": 0,
-      "objective_gates": {},
+      "owner": "builder S4-B6 (Sonnet 5) on build/reader",
+      "status": "round 1 complete; merged 32808db; 34 fixture/live tests green; open issues 4; probe runners pending (probe round 3)",
+      "round": 1,
+      "objective_gates": {
+        "ruff": "pass",
+        "pytest": "pass",
+        "l1_index_write_grep": "pass",
+        "live_db_unchanged": "pass (conftest fingerprint)"
+      },
       "ref_score": null,
-      "open_issues": [],
+      "open_issues": [
+        "generic lineage list shows the literal amends from_id (filename stem) unlinked -- edges_for's own shape (O7/O8); a module-boundary question",
+        ".txt-carded and binary-carded documents have no fixture; those render paths verified by code reading only",
+        "wrong_doc_for_id / reverse_edges interaction with the card panel untested",
+        "renamed tests/reader/test_reader.py -> test_reader_page.py to avoid a basename collision with tests/corpus_adapter/test_reader.py under pytest's default import mode"
+      ],
       "assumptions": [],
       "blocked_dependencies": [],
       "invalidated_evidence": [],
@@ -488,6 +517,72 @@
         "invalidated_tests_after_merge": 0,
         "note": "two builders on disjoint paths; the only cross-module coupling was read-only (the probe reads the diagnostics template's fault hook)"
       }
+    },
+    {
+      "round": 2,
+      "kind": "builder round -- wave 2 (PROMPT.md section 4): catalog, search, reader",
+      "status": "complete (integration); probe round 3 (wave-2 runners) follows as a sequential strand",
+      "modules": [
+        "catalog",
+        "search",
+        "reader"
+      ],
+      "base_commit": "c96664dd82e19da730cbd741f0e2ace43501121d",
+      "worktrees": {
+        "catalog": ".worktrees/catalog @ build/catalog (new branch from c96664dd)",
+        "search": ".worktrees/search @ build/search (new branch from c96664dd)",
+        "reader": ".worktrees/reader @ build/reader (new branch from c96664dd)"
+      },
+      "dispatched_utc": "2026-09-05T00:31:39.127Z",
+      "workflow_run": "wf_e5bc7467-57b",
+      "task_id": "wze4r7020",
+      "dispatch_form": "section 2 L blocks verbatim + sha-pinned pointer to the archived prompt (round 1C form)",
+      "wave_cap_check": "exactly three strands dispatched in one parallel() call; no other strand live",
+      "builder_rounds_consumed": 3,
+      "prompts": {
+        "S4-B4": "docs/rounds/R02_catalog.prompt.md sha256 847048563d9a059a98e6382b95eedf8e38fa3f52d7a8d45fd4e8fd1c810c4755 (14,725 B)",
+        "S4-B5": "docs/rounds/R02_search.prompt.md sha256 795dd48b106828c56f4e5b595d1bfa892e656a27a4f971aa213dbbf04706f501 (15,807 B)",
+        "S4-B6": "docs/rounds/R02_reader.prompt.md sha256 213db495d7eaf38ff12ef286bde0df4d53983d17a710187b178e972ddab06cec (18,744 B)"
+      },
+      "returned_utc": {
+        "S4-B4": "2026-09-05T00:48:09.461Z",
+        "S4-B5": "2026-09-05T00:51:29.970Z",
+        "S4-B6": "2026-09-05T00:59:15.102Z"
+      },
+      "concurrency_audit": "three strands live 00:31:39Z-00:48:09Z, two until 00:51:29Z, one until 00:59:15Z; never four; concurrency_exceedance: none",
+      "workflow_usage": {
+        "agents": 3,
+        "errors": 0,
+        "subagent_tokens": 810297,
+        "tool_uses": 274,
+        "duration_ms": 1621886
+      },
+      "merges": {
+        "catalog": "2698b66",
+        "search": "8dc8810",
+        "reader": "32808db",
+        "mode": "--no-ff, zero conflicts (disjoint owned paths); merged 2026-09-05T01:00:58Z-01:01:xxZ"
+      },
+      "post_merge_gates": {
+        "ruff": "clean",
+        "l1_index_write_grep": "hits=6 allowlisted=6 defects=0 PASS",
+        "pytest": "162 passed (82 + 24 + 22 + 34)",
+        "invalidated_evidence_after_merge": "none"
+      },
+      "change_requests_applied_by_integrator": [
+        "base.html {% block head_extra %} hook (catalog, S4-B4) -- ARCHITECTURE A21"
+      ],
+      "integrator_records": [
+        "CONSTRAINTS O29: search_fts doc_type_filter bare-string iteration (search builder's finding)"
+      ],
+      "integration_commit": "2d83808630c84b2017426cedc72ba31175e67a49",
+      "pattern_3_disposition_evidence": {
+        "merge_conflicts": 0,
+        "contract_change_requests": 0,
+        "template_change_requests": 1,
+        "invalidated_tests_after_merge": 0,
+        "note": "three builders on disjoint paths against merged (not faked) substrate modules; one additive template hook request; one same-basename test-module collision avoided inside the builder's own round (reader)"
+      }
     }
   ],
   "l1_index_write_grep": [
@@ -501,6 +596,10 @@
     },
     {
       "round": "1C",
+      "result": "hits=6 allowlisted=6 (fixtures/build_fixture_index.py) defects=0 PASS"
+    },
+    {
+      "round": 2,
       "result": "hits=6 allowlisted=6 (fixtures/build_fixture_index.py) defects=0 PASS"
     }
   ],
@@ -1085,6 +1184,113 @@
       "change_requests": [],
       "open_issues": [
         "explorer/corpus_adapter/availability.py line 49 calls RHACO_corpus_index.connect(db_path) directly inside vector_availability()'s probe, bypassing the adapter's per-call isfile guard -- the same O10 hazard class at a second call site; left unfixed (outside the stated deliverable); disclosed for Director disposition (a follow-up adapter round would either guard-and-raise inside probe(), changing 'never raises', or route the call through CorpusAdapter.connect())"
+      ],
+      "deviations": "none reported"
+    },
+    {
+      "session": 4,
+      "round": 2,
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "execution_mode": "concurrent (wave 2 of 3 = the cap)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-05T00:31:39.127Z",
+      "workflow_run": "wf_e5bc7467-57b",
+      "task_id": "wze4r7020",
+      "prefix": "section 2 L as amended (D-12 + D-3 blocks) verbatim at the top of the dispatched prompt, followed by a sha-pinned pointer to the archived prompt of record docs/rounds/<stem>.prompt.md (which itself begins with the same two blocks); the strand verified the file's sha256 before acting",
+      "model": "claude-sonnet-5 (client-reported: 'You are powered by the model named Sonnet 5. The exact model ID is claude-sonnet-5.')",
+      "strand_id": "S4-B4",
+      "stem": "R02_catalog",
+      "role": "module builder (catalog)",
+      "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/catalog on build/catalog from c96664dd)",
+      "agent_id": "aa7966b15d1d4923f",
+      "returned_utc": "2026-09-05T00:48:09.461Z",
+      "t_start_utc": "2026-09-05T00:32:19.999Z",
+      "t_end_utc": "2026-09-05T00:47:25.485Z",
+      "head_commit": "fd365fab4f0d0d91fe6a6ad9609f65a7e5169a6f",
+      "commits": 4,
+      "status": "COMPLETE",
+      "module_round": "catalog round 1 of 4",
+      "gates": "ruff clean; pytest tests/catalog 24 passed (full worktree 106); L1 PASS -- re-run by the integrator: identical",
+      "acceptance": "COMPLETE -- merged 2698b66 (--no-ff); GET / + /api/catalog, filters (9), separate CMP lifecycle control, sortable table with data-doc-id / data-card-ref / data-status / data-lifecycle-state per row, frozen marker text, no-fabrication empty state, pagination preserving filters, catalog.css",
+      "change_requests": [
+        "base.html head-injection block -- APPLIED by the integrator as ARCHITECTURE A21 ({% block head_extra %})"
+      ],
+      "open_issues": [
+        "compact-abstract marker convention (always ' ...') unexercised at the 200-char boundary",
+        "path_prefix / project_knowledge controls have no dedicated test",
+        "data-mode='catalog' literal unverified against the probe's W4 runner (probe round 3)"
+      ],
+      "deviations": "StructuredOutput `report` field returned the six-character string 'ededed' instead of the report markdown (return-channel defect, not a work defect); docs/rounds/R02_catalog.report.md on disk is complete (301 lines) and is the record"
+    },
+    {
+      "session": 4,
+      "round": 2,
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "execution_mode": "concurrent (wave 2 of 3 = the cap)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-05T00:31:39.127Z",
+      "workflow_run": "wf_e5bc7467-57b",
+      "task_id": "wze4r7020",
+      "prefix": "section 2 L as amended (D-12 + D-3 blocks) verbatim at the top of the dispatched prompt, followed by a sha-pinned pointer to the archived prompt of record docs/rounds/<stem>.prompt.md (which itself begins with the same two blocks); the strand verified the file's sha256 before acting",
+      "model": "claude-sonnet-5 (client-reported: 'You are powered by the model named Sonnet 5. The exact model ID is claude-sonnet-5.')",
+      "strand_id": "S4-B5",
+      "stem": "R02_search",
+      "role": "module builder (search)",
+      "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/search on build/search from c96664dd)",
+      "agent_id": "a6404543e6e4dae7b",
+      "returned_utc": "2026-09-05T00:51:29.970Z",
+      "t_start_utc": "2026-09-05T00:32:23Z",
+      "t_end_utc": "2026-09-05T00:49:39Z",
+      "head_commit": "a6987fa93ddcd0285992f064d252e4d514bd58f2",
+      "commits": 3,
+      "status": "COMPLETE",
+      "module_round": "search round 1 of 4",
+      "gates": "ruff clean; pytest tests/search 22 passed (full worktree 104); L1 PASS -- re-run by the integrator: identical",
+      "acceptance": "COMPLETE -- merged 8dc8810 (--no-ff); GET /search + /api/search, four modes with hybrid default, identifier mode lists every card row per id, lexical-only filters labelled, post-hoc narrowing labelled, exact degradation notices, mode badge data-mode-effective, evidence disclosure with the component-rank line, data-doc-id / data-card-ref / data-rank per result",
+      "change_requests": [],
+      "open_issues": [
+        "search.css not written (optional)",
+        "line anchor applied to every sibling card row of a shared id (code inspection only)",
+        "narrow_status / narrow_lifecycle_state / narrow_program untested individually",
+        "_bounded_int edges untested"
+      ],
+      "substrate_finding": "RHACO_corpus_index.search_fts iterates a bare doc_type_filter string per character (recorded as CONSTRAINTS O29)",
+      "deviations": "none reported"
+    },
+    {
+      "session": 4,
+      "round": 2,
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "execution_mode": "concurrent (wave 2 of 3 = the cap)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-05T00:31:39.127Z",
+      "workflow_run": "wf_e5bc7467-57b",
+      "task_id": "wze4r7020",
+      "prefix": "section 2 L as amended (D-12 + D-3 blocks) verbatim at the top of the dispatched prompt, followed by a sha-pinned pointer to the archived prompt of record docs/rounds/<stem>.prompt.md (which itself begins with the same two blocks); the strand verified the file's sha256 before acting",
+      "model": "claude-sonnet-5 (client-reported: 'You are powered by the model named Sonnet 5. The exact model ID is claude-sonnet-5.')",
+      "strand_id": "S4-B6",
+      "stem": "R02_reader",
+      "role": "module builder (reader)",
+      "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/reader on build/reader from c96664dd)",
+      "agent_id": "a4d61e1c243625677",
+      "returned_utc": "2026-09-05T00:59:15.102Z",
+      "t_start_utc": "2026-09-05T00:32:23.443Z",
+      "t_end_utc": "2026-09-05T00:54:49.824Z",
+      "head_commit": "f6a97f19523d806714e1771e98b3661f8ee35452",
+      "commits": 2,
+      "status": "COMPLETE",
+      "module_round": "reader round 1 of 4",
+      "gates": "ruff clean; pytest tests/reader 34 passed (full worktree 116); L1 PASS -- re-run by the integrator: identical",
+      "acceptance": "COMPLETE -- merged 32808db (--no-ff); GET /doc/{card_ref} + /api/doc/{card_ref}, card file vs index row vs document kept distinct (data-card-index-mismatch), markdown-it rendering with adapter-sourced heading data-line and independent verification (data-line-verified), numbered source view with ?line=N jump and explicit not-found state, card panel with dependencies / supersession / amendment / lineage links, 404 for unknown or traversal card_ref, stale_card and broken_jump faults visible on the page and the API",
+      "change_requests": [],
+      "open_issues": [
+        "generic lineage list shows the literal amends from_id (filename stem) unlinked -- edges_for's own shape (O7/O8); a module-boundary question",
+        ".txt-carded and binary-carded documents have no fixture; those render paths verified by code reading only",
+        "wrong_doc_for_id / reverse_edges interaction with the card panel untested",
+        "renamed tests/reader/test_reader.py -> test_reader_page.py to avoid a basename collision with tests/corpus_adapter/test_reader.py under pytest's default import mode"
       ],
       "deviations": "none reported"
     }
