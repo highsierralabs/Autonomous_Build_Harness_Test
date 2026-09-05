@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% block title %}{% if view %}{{ view.center.title or view.doc_id }} -- {% endif %}Lineage -- RHACO Corpus Explorer{% endblock %}
+{% block html_attrs %} data-mode="lineage"{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="/static/lineage/lineage.css">
+
+<div id="keyhelp" hidden>
+  <h2>Keyboard shortcuts</h2>
+  <dl>
+    <dt><kbd>/</kbd></dt><dd>focus search</dd>
+    <dt><kbd>?</kbd></dt><dd>toggle this help</dd>
+  </dl>
+</div>
+
+<h1>Lineage</h1>
+
+{% if adapter_absent %}
+<div class="degradation" role="status" data-lineage-state="adapter-absent">
+  <p><strong>corpus_adapter not built.</strong>
+  {{ adapter_absent_message or "The corpus_adapter module is not available in this build; lineage cannot be shown." }}</p>
+</div>
+
+{% elif not_found %}
+<div class="degradation" role="alert">
+  <p>no card at <code>{{ card_ref }}</code> in the index</p>
+</div>
+
+{% else %}
+<p class="lede">How did this work develop, and what reasoning artifacts connect it? Every relationship shown here is recorded in the RHACO index -- nothing is inferred.</p>
+
+<section aria-labelledby="center-heading" id="lineage-center"
+         data-selected-doc-id="{{ view.doc_id }}" data-card-ref="{{ view.card_ref }}">
+  <h2 id="center-heading">{{ view.center.title or view.doc_id }}</h2>
+  <dl class="center-identity">
+    <dt>Document id <span class="from-index">(from index)</span></dt><dd>{{ view.doc_id }}</dd>
+    <dt>Document type</dt><dd>{{ view.center.doc_type }}</dd>
+    <dt>Status</dt>
+    <dd>{{ view.center.status }}{% if view.center.frozen %} <span class="frozen">frozen</span>{% endif %}</dd>
+    {% if view.center.is_cmp and view.center.lifecycle_state %}
+    <dt>CMP lifecycle state</dt><dd>{{ view.center.lifecycle_state }}</dd>
+    {% elif view.center.lifecycle_state %}
+    <dt>Lifecycle state</dt><dd>{{ view.center.lifecycle_state }} (informational (non-CMP))</dd>
+    {% endif %}
+  </dl>
+  <p><a href="/doc/{{ view.card_ref }}">open in reader</a></p>
+
+  {% if view.superseded_banner %}
+  <p class="degradation" role="status" data-superseded-banner="true">
+    This version is superseded -- current head:
+    <a href="/doc/{{ view.superseded_banner.head.card_ref }}" data-doc-id="{{ view.superseded_banner.head.doc_id }}">{{ view.superseded_banner.head.title or view.superseded_banner.head.doc_id }}</a>
+  </p>
+  {% endif %}
+</section>
+
+<section aria-labelledby="filter-heading">
+  <h2 id="filter-heading">Relation and expansion</h2>
+  <form method="get" action="/lineage/{{ view.card_ref }}" id="lineage-filter-form">
+    <fieldset>
+      <legend>Relation filter</legend>
+      <label>
+        <input type="radio" name="relation" value="" {% if not view.relation %}checked{% endif %}>
+        All relations
+      </label>
+      {% for opt in view.relation_options %}
+      <label>
+        <input type="radio" name="relation" value="{{ opt.relation }}" {% if view.relation == opt.relation %}checked{% endif %}>
+        {{ opt.label }} ({{ opt.count }})
+      </label>
+      {% endfor %}
+    </fieldset>
+    <fieldset>
+      <legend>Expansion</legend>
+      <label><input type="radio" name="hops" value="1" {% if view.hops == 1 %}checked{% endif %}> one hop</label>
+      <label><input type="radio" name="hops" value="2" {% if view.hops == 2 %}checked{% endif %}> two hops</label>
+    </fieldset>
+    <button type="submit">Apply</button>
+  </form>
+</section>
+
+{% if not view.has_relationships %}
+<p role="status">no recorded relationships</p>
+{% else %}
+
+<section aria-labelledby="typed-edges-heading">
+  <h2 id="typed-edges-heading">Relationships</h2>
+
+  <h3>Outgoing</h3>
+  {% if view.outgoing %}
+  <ul class="edge-list">
+    {% for e in view.outgoing %}
+    <li data-relation="{{ e.relation }}" data-edge-from="{{ e.from_id }}" data-edge-to="{{ e.to_id }}" data-edge-direction="{{ e.direction }}">
+      {{ e.direction_label }}:
+      {% if e.target_card_refs %}
+        {% for ref in e.target_card_refs %}<a href="/doc/{{ ref }}" data-doc-id="{{ e.to_id }}" data-card-ref="{{ ref }}">{{ e.to_id }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+      {% else %}
+        {{ e.to_id }}
+      {% endif %}
+      {%- if e.note %} -- {{ e.note }}{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}<p>none</p>{% endif %}
+
+  <h3>Incoming</h3>
+  {% if view.incoming %}
+  <ul class="edge-list">
+    {% for e in view.incoming %}
+    <li data-relation="{{ e.relation }}" data-edge-from="{{ e.from_id }}" data-edge-to="{{ e.to_id }}" data-edge-direction="{{ e.direction }}">
+      {{ e.direction_label }}:
+      {% if e.target_card_refs %}
+        {% for ref in e.target_card_refs %}<a href="/doc/{{ ref }}" data-doc-id="{{ e.from_id }}" data-card-ref="{{ ref }}">{{ e.from_id }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+      {% else %}
+        {{ e.from_id }}
+      {% endif %}
+      {%- if e.note %} -- {{ e.note }}{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}<p>none</p>{% endif %}
+
+  <h3>Unresolved</h3>
+  {% if view.unresolved %}
+  <ul class="edge-list">
+    {% for e in view.unresolved %}
+    <li data-relation="{{ e.relation }}" data-edge-from="{{ e.from_id }}" data-edge-to="{{ e.to_id }}" data-edge-direction="{{ e.direction }}">
+      {{ e.direction_label }}: <code>{{ e.to_id }}</code> <span class="degradation" role="note">unresolved</span>
+      {%- if e.note %} -- {{ e.note }}{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}<p>none</p>{% endif %}
+</section>
+
+<section aria-labelledby="graph-heading">
+  <h2 id="graph-heading">Graph</h2>
+  <p>A text equivalent of this diagram follows as the reasoning trail below.</p>
+  <svg role="img" aria-labelledby="graph-title" viewBox="{{ layout.view_box }}" width="{{ layout.width }}" height="{{ layout.height }}" class="lineage-graph">
+    <title id="graph-title">Lineage graph centered on {{ view.center.title or view.doc_id }}: {{ view.outgoing | length }} outgoing, {{ view.incoming | length }} incoming, {{ view.unresolved | length }} unresolved edge(s){% if view.hops == 2 %}, expanded to two hops{% endif %}.</title>
+    <defs>
+      <marker id="lineage-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" class="lineage-arrowhead"></path>
+      </marker>
+      <marker id="lineage-arrow-unresolved" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" class="lineage-arrowhead lineage-arrowhead-unresolved"></path>
+      </marker>
+    </defs>
+
+    {% for le in layout.edges %}
+    <line x1="{{ le.x1 }}" y1="{{ le.y1 }}" x2="{{ le.x2 }}" y2="{{ le.y2 }}"
+          class="lineage-edge{% if le.is_ghost %} lineage-edge-unresolved{% endif %}"
+          marker-end="url(#{{ 'lineage-arrow-unresolved' if le.is_ghost else 'lineage-arrow' }})"
+          data-relation="{{ le.edge.relation }}" data-edge-from="{{ le.edge.from_id }}"
+          data-edge-to="{{ le.edge.to_id }}" data-edge-direction="{{ le.edge.direction }}"></line>
+    {% endfor %}
+
+    {% for n in layout.nodes %}
+    <a href="/doc/{{ n.card.card_ref }}" data-doc-id="{{ n.card.doc_id }}" data-card-ref="{{ n.card.card_ref }}">
+      <circle cx="{{ n.x }}" cy="{{ n.y }}" r="{{ 30 if n.is_center else 22 }}"
+              class="lineage-node{% if n.is_center %} lineage-node-center{% endif %}{% if n.card.frozen %} lineage-node-frozen{% endif %}"></circle>
+      <text x="{{ n.x }}" y="{{ n.y + (46 if n.is_center else 38) }}" text-anchor="middle" class="lineage-node-label">{{ (n.card.title or n.card.doc_id) | truncate(24, True, '...') }}</text>
+    </a>
+    {% endfor %}
+
+    {% for le in layout.edges if le.is_ghost %}
+    <text x="{{ le.x2 }}" y="{{ le.y2 + 4 }}" text-anchor="middle" class="lineage-ghost-label">{{ le.edge.to_id | truncate(20, True, '...') }}</text>
+    {% endfor %}
+  </svg>
+  {% if view.graph_truncated %}<p class="truncated" role="status">truncated at 200 nodes</p>{% endif %}
+</section>
+
+<section aria-labelledby="trail-heading">
+  <h2 id="trail-heading">Reasoning trail</h2>
+  <p>Connected documents, in chronological order (undated documents last). Works without JavaScript.</p>
+  {% if view.reasoning_trail %}
+  <ol class="reasoning-trail">
+    {% for t in view.reasoning_trail %}
+    <li data-doc-id="{{ t.card.doc_id }}" data-card-ref="{{ t.card.card_ref }}" data-relation="{{ t.relation }}" data-edge-direction="{{ t.direction }}">
+      <a href="/doc/{{ t.card.card_ref }}">{{ t.card.title or t.card.doc_id }}</a>
+      <span class="date">{{ t.card.date or "(undated)" }}</span>
+      <span class="relation">{{ t.direction_label }}</span>
+      {% if t.card.frozen %}<span class="frozen">frozen</span>{% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+  {% else %}<p>none</p>{% endif %}
+</section>
+
+{% if view.chain %}
+<section aria-labelledby="chain-heading">
+  <h2 id="chain-heading">Supersession chain</h2>
+  <ol class="supersession-chain">
+    {% for c in view.chain %}
+    <li data-doc-id="{{ c.card.doc_id }}" data-card-ref="{{ c.card.card_ref }}" data-chain-head="{{ 'true' if c.is_head else 'false' }}">
+      <a href="/doc/{{ c.card.card_ref }}">{{ c.card.title or c.card.doc_id }}</a>
+      {% if c.is_head %}<strong>current head</strong>{% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endif %}
+
+{% if view.subtree %}
+<section aria-labelledby="subtree-heading">
+  <h2 id="subtree-heading">Campaign subtree</h2>
+  <table>
+    <caption>Documents by type in this campaign subtree</caption>
+    <thead><tr><th scope="col">Document type</th><th scope="col">Count</th></tr></thead>
+    <tbody>
+      {% for doc_type, count in view.subtree.counts_by_doc_type.items() %}
+      <tr><td>{{ doc_type }}</td><td>{{ count }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <ul class="subtree-nodes">
+    {% for n in view.subtree.nodes %}
+    <li data-doc-id="{{ n.card.doc_id }}" data-card-ref="{{ n.card.card_ref }}" data-depth="{{ n.depth }}">
+      <a href="/doc/{{ n.card.card_ref }}">{{ n.card.title or n.card.doc_id }}</a>
+      {% if n.depth == 0 %}(root){% else %}(depth {{ n.depth }}){% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% if view.subtree.truncated %}<p class="truncated" role="status">truncated at {{ view.subtree.max_results }}</p>{% endif %}
+</section>
+{% endif %}
+
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block scripts %}<script src="/static/lineage/lineage.js" defer></script>{% endblock %}

@@ -1,0 +1,17 @@
+/* RHACO Corpus Explorer -- lineage module stylesheet (builder-owned: lineage). */
+.center-identity { display: grid; grid-template-columns: max-content 1fr; gap: .2rem 1rem; }
+.edge-list, .reasoning-trail, .supersession-chain, .subtree-nodes { list-style: none; padding: 0; margin: 0; }
+.edge-list li, .reasoning-trail li, .supersession-chain li, .subtree-nodes li {
+  padding: .35rem 0; border-bottom: 1px solid var(--line, #d9d6e0);
+}
+.reasoning-trail .date, .reasoning-trail .relation { color: var(--muted, #5b5b66); font-size: .9em; margin-left: .5rem; }
+.lineage-graph { max-width: 100%; height: auto; border: 1px solid var(--line, #d9d6e0); background: var(--panel, #f6f4f9); }
+.lineage-node { fill: #fff; stroke: var(--accent, #4B286D); stroke-width: 2; }
+.lineage-node-center { fill: var(--accent, #4B286D); }
+.lineage-node-frozen { stroke-dasharray: 4 2; }
+.lineage-node-label { font: 11px system-ui, sans-serif; fill: var(--ink, #1c1c1e); }
+.lineage-edge { stroke: var(--accent, #4B286D); stroke-width: 1.5; }
+.lineage-edge-unresolved { stroke: var(--warn, #8a4b00); stroke-dasharray: 5 3; }
+.lineage-arrowhead { fill: var(--accent, #4B286D); }
+.lineage-arrowhead-unresolved { fill: var(--warn, #8a4b00); }
+.lineage-ghost-label { font: 10px system-ui, sans-serif; fill: var(--warn, #8a4b00); }
