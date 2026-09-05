@@ -87,7 +87,8 @@
       "lineage": 1,
       "web": 1
     },
-    "note": "12 of 28 consumed. probe has 1 of 4 left (round 4 = Q3 KB3/W5/W6 plus the FINAL suite); Director ruling 2026-09-05 item 4: NOT waived -- any probe need after round 4 is BOUNDED_FAIL. corpus_adapter has 1 of 4 left, deliberately held in reserve for the deferred amends-link change request (SCOPE.md). Note that RUNNING the probe costs no builder round -- only modifying it does -- so evidence can be revalidated after a later adapter change."
+    "note": "12 of 28 consumed. probe has 1 of 4 left (round 4 = Q3 KB3/W5/W6 plus the FINAL suite); Director ruling 2026-09-05 item 4: NOT waived -- any probe need after round 4 is BOUNDED_FAIL. corpus_adapter has 1 of 4 left, deliberately held in reserve for the deferred amends-link change request (SCOPE.md). Note that RUNNING the probe costs no builder round -- only modifying it does -- so evidence can be revalidated after a later adapter change.",
+    "corpus_adapter_round_4_policy": "HELD by Director ruling (boundary-3 disposition item 2): do NOT spend before the critic. After critic round 1, ONE batched dispatch carrying the critic's adapter findings AND the deferred amends-link change request together. Whatever does not fit that single round is declared BOUNDED_FAIL on the record, never silently dropped and never traded for a lowered bar."
   },
   "caps": {
     "CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH": {
@@ -842,7 +843,8 @@
         "cause": "orchestrator authoring error when composing the inline copy in the workflow script (not a tooling or escaping fault)",
         "impact_assessment": "The ARCHIVED prompt of record (docs/rounds/R03_*.prompt.md) is byte-correct and begins with the L text verbatim -- acceptance criterion section 8 item 7 is met. Each strand was instructed to read that file in full, verify its sha256 before acting, STOP as BLOCKED on any mismatch, and treat it as its instruction of record; the inline blocks were explicitly labelled as reproduced from its opening. No prohibition, path, or scope in the D-12 or D-3 block is altered by the glyph. Assessed as a recorded deviation, not an omission: the standing halt in section 3 is a strand dispatched WITHOUT the L text, and the L text was dispatched.",
         "action_taken": "Recorded, not corrected mid-flight: the three strands were already live and their instruction of record is byte-correct, so killing and re-dispatching would spend three builder rounds of the 28 to fix a glyph in a reproduction. Not dispositioned by the orchestrator -- for Director disposition, on the session-2 D-3 and session-4 S4-B7 precedent.",
-        "fix_forward": "future dispatches build the inline L text by reading the archived prompt prefix from disk rather than by retyping it."
+        "fix_forward": "APPLIED AND VERIFIED at the probe round-4 dispatch (2026-09-05T04:04Z). Workflow scripts have no filesystem access, so the inline L text cannot be read from the archive at run time. Instead it is built from a line array with the backslash supplied by String.fromCharCode(92), and the construction is extracted from the persisted workflow script, run under node, and DIFFED against the archived prompt prefix -- once BEFORE dispatch and once after. The round-4 dispatch was confirmed byte-identical to docs/rounds/R04_probe.prompt.md, so the defect class is closed going forward. The wave-3 dispatch retains the recorded deviation.",
+        "ledger_id": "P-11 (converted to a control by the Director at boundary 3); the client constraint found while fixing it is P-12"
       },
       "merges": {
         "corpus_adapter": "37ec728",
@@ -856,7 +858,8 @@
         "pytest_after_integrator_repair": "247 passed (230 + 17 keyhelp-contract tests)"
       },
       "integrator_repair": "ARCHITECTURE A22: the #keyhelp block on all FIVE page templates advertised only / and ? while app.js binds six keys. Applied across catalog, search, reader, diagnostics and lineage, and guarded by the new integrator-owned tests/integration/test_keyhelp_contract.py. The registration test caught the lineage page immediately -- it had copied the two-key block during this same wave, so the drift was already reproducing itself.",
-      "invalidated_evidence": "none -- 230 = 181 + 3 + 22 + 24 reconciles exactly"
+      "invalidated_evidence": "none -- 230 = 181 + 3 + 22 + 24 reconciles exactly",
+      "director_disposition": "boundary-3 disposition: keyhelp repair accepted with the ownership note (P-13, open item O-2); apostrophe fix-forward accepted"
     }
   ],
   "l1_index_write_grep": [
@@ -1755,6 +1758,13 @@
       "status": "RULED 2026-09-04",
       "text": "No workspace push had been directed by hand section 1 or prompt section 11.",
       "ruling": "Push main of the workspace to origin at each session boundary (with the build_state.json commit) and at terminal state; fast-forward only; each push recorded in the resumption entry."
+    },
+    {
+      "id": "O-2",
+      "status": "OPEN -- for the critic (round 1) and then a web round-2 dispatch",
+      "text": "The #keyhelp block is byte-identical markup duplicated into five page templates (catalog, search, reader, diagnostics, lineage). The round-3 integrator repair updated all five and added tests/integration/test_keyhelp_contract.py as a compensating control, but the structural defect is the duplication itself.",
+      "director_ruling": "Boundary-3 disposition item 1: the structural fix is a WEB ROUND-2 CANDIDATE, not an integrator edit -- the block belongs once in base.html (web-owned), with the five copies deleted and the contract test kept. Visible to the critic.",
+      "ledger": "P-13"
     }
   ],
   "workspace_push_policy": "Director ruling O-1 (2026-09-04): push main at each session boundary with the build_state.json commit and at terminal state; fast-forward only; each push recorded in the handback resumption entry.",
@@ -1794,7 +1804,7 @@
       "contents": "build_state.json only -- the halt records; no prompt, no code, no strand output"
     }
   ],
-  "next_action": "Round-3 boundary reached. Next: probe round 4 (Q3 -- KB3 reversed edge direction, W5 reasoning lineage, W6 supersession/amendment -- plus the FINAL known-good and known-bad suite) as a sequential strand, the probe's LAST round; then the L4 oracle re-run, the acceptance workflow set on the production path, and the critic (Opus 5, Explore, effort explicit). At the FIRST docs/critique/ report, open working\\sealed_audit_HND-20260903-001_S4.md and execute its 'On release' section. Push at the boundary per O-1.",
+  "next_action": "Probe round 4 (S6-B10) is dispatched and running from d9e71ad -- the probe's LAST round: Q3 (KB3, W5, W6), the FINAL known-good plus known-bad suite, and a refreshed production acceptance set. On return: integrator re-runs its gates, merges --no-ff, runs the full suite. Then the L4 oracle re-run and the acceptance set, then the CRITIC (Opus 5, Explore, effort explicit). At the FIRST docs/critique/ report, open working\\sealed_audit_HND-20260903-001_S4.md and execute its 'On release' section. ONLY AFTER critic round 1: the single batched corpus_adapter round 4 (critic adapter findings + the deferred amends-link CR), per the boundary-3 HOLD. Push at the session boundary per O-1.",
   "concurrency_exceedances_note": "Three exceedances, all session 2, all deliberate item-9(b) cap probes taken before A1.3 re-homed the wave cap; zero exceedances under A1.3 (sessions 3 onward) -- the closeout reports the three with the qualifier, never silently.",
   "workspace_pushes_note": "Structural: a push follows the boundary commit that carries build_state.json, so each push is recorded in the NEXT commit's build_state.json (and in the handback resumption entry at the time of the push).",
   "director_rulings": {
@@ -1821,6 +1831,16 @@
         "layers_md": "docs/LAYERS.md section 3 gains: from session 6 the orchestrator and the critic share a model family, so critic findings are less independent of integration judgment.",
         "dispatch_records": "every dispatch record from session 6 onward carries orchestrator_model.",
         "a2": "the amended pin and its cause ride an A2 line at terminal state."
+      }
+    },
+    "BOUNDARY_3_20260905": {
+      "ruled_utc": "2026-09-05 (Director disposition of the round-3 boundary report)",
+      "items": {
+        "1_keyhelp_repair": "ACCEPTED as recorded, with an ownership note. The integrator edited five builder-owned templates on a cost argument; the prompt leaves that judgment to cost, and it was disclosed with a compensating control rather than absorbed, so it stands. The defect the test guards is the DUPLICATION: byte-identical shell markup belongs once in base.html (web-owned). The structural fix is recorded as an OPEN ITEM VISIBLE TO THE CRITIC and is a WEB ROUND-2 CANDIDATE, not an integrator edit. Ledger P-13. The contract test catching the lineage page inside the same wave is logged as positive harness evidence.",
+        "2_adapter_round_4_hold": "HOLD. The corpus_adapter module's last round is NOT to be spent before the critic. The amends click-through is correctly deferred with its SCOPE row (typed, directional, not marked unresolved -- nothing misrepresented). Because the budget is not waived, round 4 must be ONE batched dispatch AFTER critic round 1, carrying everything the critic's adapter findings and the deferred change request together require; whatever does not fit is declared BOUNDED_FAIL on the record rather than silently dropped.",
+        "3_apostrophe_fix_forward": "ACCEPTED. The byte-diff of the constructed prefix against the archive before dispatch converts P-11 from a finding into a control. Wave 3 keeps its recorded deviation. The remedy differs in kind from the one first proposed, because Workflow scripts have no filesystem access -- recorded separately as P-12, a client constraint discovered while implementing the remedy.",
+        "4_stylesheet_migration": "DECLINED stands; the integrator's call.",
+        "5_push_timing": "O-1's push is at the SESSION boundary, so nothing pushed at the round-3 boundary is correct."
       }
     }
   },
@@ -1985,5 +2005,12 @@
       "committed": "the halt records only (build_state.json), subject 'session 5: halted on client model swap; records only'",
       "not_dispatched": "wave 3 was never dispatched; no strand, no merge, no probe run, no server launch, no live-index write"
     }
-  }
+  },
+  "harness_evidence": [
+    {
+      "id": "HE-1",
+      "round": 3,
+      "text": "POSITIVE: the integrator's new static contract test (tests/integration/test_keyhelp_contract.py) caught a real drift on its very first run -- the lineage page, merged in the SAME wave, had copied the two-key #keyhelp block. The duplication was actively reproducing itself, so the control was validated by the defect class it was written for, inside the wave that created it. Logged as positive harness evidence on the Director's instruction (boundary-3 disposition item 1)."
+    }
+  ]
 }
