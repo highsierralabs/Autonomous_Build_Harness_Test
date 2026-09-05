@@ -103,7 +103,7 @@
   },
   "client": {
     "claude_code_version": "2.1.260",
-    "session_effort": "xhigh (env CLAUDE_EFFORT=xhigh, inherited from launching shell 24716; unchanged at the halt)",
+    "session_effort": "xhigh",
     "tier_strings_of_record": {
       "mid": "claude-sonnet-5",
       "judgment": "claude-opus-5[1m]",
@@ -131,14 +131,30 @@
         "seq": 3,
         "model": "claude-opus-5",
         "from_utc": "2026-09-05T02:30:48.002Z",
-        "to_utc": null,
+        "to_utc": "2026-09-05T03:09:23Z (client process 9800 exited; new client process 26148 started -- session 6)",
         "cause": "Director set the model",
         "evidence": "transcript per-request model field: first 'claude-opus-5' assistant message at 2026-09-05T02:30:48.002Z. Corroborated on disk by the ~/.claude/settings.json rewrite at 2026-09-05T02:30:18.101Z (30 s earlier): sha256 cea59185... -> 26c5f7b0..., 9,037 -> 9,002 B, the 'model' key ('claude-fable-5-1[1m]') removed.",
         "effort_in_force": "settings.json modelSettings.claude-opus-5.effortLevel = 'medium', against a session effort of record of xhigh -- recorded, not reconciled"
+      },
+      {
+        "seq": 4,
+        "model": "claude-opus-5[1m]",
+        "from_utc": "2026-09-05T03:09:23Z",
+        "to_utc": null,
+        "cause": "Director ruling MOD-1: the orchestrator identity pin of record is amended to claude-opus-5[1m] / xhigh from session 6",
+        "evidence": "NEW client process: claude.exe PID 26148 started 2026-09-05T03:09:23Z from the same launching shell 24716 (PID 9800, the session 1-5 process, is gone). settings.json rewritten 2026-09-05T03:02:08Z: sha256 26c5f7b0... -> 831dbfb904fe306d37e23ae31fc0811e18e6527bb4a043c74b36ba9d8c8fc48e, 9,002 -> 9,097 B, model = 'claude-opus-5[1m]' (explicitly pinned again, having been absent since 02:30:18Z). The orchestrator's system prompt now reads verbatim: 'You are powered by the model named Opus 5 (1M context). The exact model ID is claude-opus-5[1m].' -- CORRECT this time, because the client process restarted and the system prompt was regenerated with it. This refines P-9/P-10: the system prompt IS regenerated at a client restart; it is not regenerated on a mid-session swap, which is the whole of the blind spot.",
+        "effort_in_force": "xhigh"
       }
     ],
     "session_model_note": "RESOLVED 2026-09-05 by the Director's disposition plus the transcript's per-request `message.model` field, which is the identity source of record from here (P-9, P-10). The orchestrator's own system prompt NEVER changed: it still read 'You are powered by the model named Fable 5.1. The exact model ID is claude-fable-5-1.' at 02:37Z, under claude-opus-5, two model changes after that sentence became false. `claude --version`, the client PID, and every environment variable were likewise unchanged throughout. DIRECTOR-STATED BOUNDARY vs MEASURED BOUNDARY: the disposition places the degraded segment's start at the 02:27:29Z tool result (where the notice appears in the transcript); the per-request model field places it at 02:25:02.164Z, 2 min 27 s earlier. The difference moves orchestrator act 6 (a read-only batch) and the two Director-facing progress messages of 02:27:23Z and 02:29:29Z into the degraded segment. Nothing in the ordered discard/keep set changes, because act 6 produced no artefact. Flagged for the Director; the disposition is applied as ruled and the measured times are recorded beside it.",
-    "session_effort_note": "GOVERNANCE CONSEQUENCE OF THE SWAP, for the Director: settings.json carries modelSettings.claude-opus-5.effortLevel = 'medium' (recorded since session 3). If the session model is now claude-opus-5, the effort in force may have resolved to MEDIUM from the swap onward, not the xhigh recorded as this build's session effort -- while env CLAUDE_EFFORT still reads xhigh. The effort actually in force for the acts listed in orchestrator_acts_session_5 after the swap is therefore also UNRESOLVED. Strand rows are unaffected: every dispatched strand carries its own model and its own explicit opts.effort."
+    "session_effort_note": "RESOLVED at session 6, but the sources AGREE so this session cannot discriminate between them. settings.json (2026-09-05T03:02:08Z) now carries effortLevel 'xhigh' globally AND modelSettings entries for BOTH 'claude-opus-5' and 'claude-opus-5[1m]', each 'xhigh'; the environment carries CLAUDE_EFFORT=xhigh. Every available source says xhigh, so no precedence experiment is possible here. What CHANGED to produce the agreement is the settings file: at session 5 it held modelSettings.claude-opus-5.effortLevel = 'medium' with no entry for the '[1m]' id that the session model actually reports, so under exact-key matching the medium override would not have applied to claude-opus-5[1m] at all and the global 'xhigh' would have governed -- inference, never measured, and now moot because the Director set both keys to xhigh explicitly. The discriminating experiment would need a session where settings and env disagree; session 5 was such a session but its effort was never measured.",
+    "identity_pin_of_record": {
+      "model": "claude-opus-5[1m]",
+      "effort": "xhigh",
+      "since": "session 6 (2026-09-05T03:09:23Z)",
+      "ruling": "MOD-1",
+      "prior_pin": "claude-fable-5-1 / xhigh (sessions 1-5)"
+    }
   },
   "sessions": [
     {
@@ -170,6 +186,12 @@
       "opened_utc": "2026-09-05T02:21:15Z",
       "closed_utc": null,
       "note": "Re-entry per hand section 2 M with Amendment A1, on the Director's instruction of 2026-09-05. SAME client process as session 4 (claude.exe PID 9800, started 2026-09-04T23:39:34Z from launching shell PID 24716): the session-4 record was closed at the round-2 boundary and this is a new hand-session inside the same process, continued after a context compaction -- so the item-9 'no version or model change' condition holds by construction (2.1.260, claude-fable-5-1, effort xhigh, settings.json sha unchanged). Section 0 items 1, 5, 6, 7, 8, 9, 14 re-run at 02:21Z: PASS in full, no halt; the live db pin 61ea99c9... 115,089,408 B 2026-09-04T23:58:11.272Z is UNCHANGED since the session-4 close pin (no librarian reindex entry and no MCP census entry after it), so criterion 6 needed no reconciliation this session. Baseline gates on main before any act: ruff clean, L1 hits=6 allowlisted=6 defects=0 PASS, pytest 181 passed."
+    },
+    {
+      "index": 6,
+      "opened_utc": "2026-09-05T03:10:50Z",
+      "closed_utc": null,
+      "note": "Re-entry per hand section 2 M with Amendment A1 (sha 167771c7... 9,698 B, re-verified). NEW client process 26148 (started 03:09:23Z from launching shell 24716); the session 1-5 process 9800 is gone. Section 0 items 1, 5, 6, 7, 8, 14 PASS unchanged; item 9 shows the model change claude-fable-5-1 -> claude-opus-5[1m], PRE-DISPOSITIONED by Director ruling MOD-1 and therefore NOT a halt. Live db pin 61ea99c9... 115,089,408 B 2026-09-04T23:58:11.272Z UNCHANGED since the session-4 close, so criterion 6 needed no reconciliation. Baseline gates on main (f25ca27): ruff clean, L1 hits=6 allowlisted=6 defects=0 PASS, pytest 181 passed. Wave 3 re-authored fresh and dispatched from the round-2 boundary 6a83537."
     }
   ],
   "modules": {
@@ -768,27 +790,24 @@
     {
       "round": 3,
       "wave": 3,
-      "status": "dispatched -- lineage (module round 1), web (module round 1), corpus_adapter (module round 3, the O10 hard floor)",
+      "status": "dispatched (session 6) -- lineage (module round 1), web (module round 1), corpus_adapter (module round 3, the O10 hard floor)",
       "base_commit": "6a8353705a2933cdd4696391da904ed3c680b398",
-      "dispatch_form": "the section 2 L text as amended verbatim inline (D-12 block + D-3 block), followed by a sha-pinned pointer to the archived prompt of record read from the main checkout (the session-4 form; see handback K.6)",
+      "note": "The session-5 assembly of this same wave was DISCARDED unused under the Director's halt disposition (it was authored across a client model swap); these prompts are re-authored fresh under the amended identity pin.",
+      "orchestrator_model": "claude-opus-5[1m]",
+      "dispatch_form": "the section 2 L text as amended verbatim inline (D-12 block + D-3 block), then a sha-pinned pointer to the archived prompt of record",
       "prompts": {
         "docs/rounds/R03_lineage.prompt.md": {
-          "sha256": "9a66e64e5a49145057e675c41bb35a17a0cdd98744521564f314c24dbf17e9da",
-          "bytes": 21437
+          "sha256": "1b435dd86053142c26c892d5790b633e5e40653f31d98213f8039721b90f9a0a",
+          "bytes": 19336
         },
         "docs/rounds/R03_web.prompt.md": {
-          "sha256": "5c386ddbfec436110f80da0d4ad8b68d7c537239c19860373aa825db3802ed64",
-          "bytes": 15688
+          "sha256": "b74cffc023330e77df47f567f7d12645cfa2182fda60128c4e50c49ed1908614",
+          "bytes": 15056
         },
         "docs/rounds/R03_corpus_adapter.prompt.md": {
-          "sha256": "f30e078987107c7e502a738347279372693779d78c40c199ed532d6bada5f8d0",
-          "bytes": 12580
+          "sha256": "5549f6d5860d3892f83729a279ffe844893b4b8a0471a5a5b849d1418dbf1032",
+          "bytes": 12374
         }
-      },
-      "worktrees": {
-        "lineage": ".worktrees/lineage on build/lineage at 6a83537 (new branch)",
-        "web": ".worktrees/web on build/web at 6a83537 (new branch)",
-        "corpus_adapter": ".worktrees/corpus_adapter on build/corpus_adapter reset to 6a83537 (was 202282f)"
       },
       "concurrency": "three strands = the A1.3 wave cap; no fourth dispatched while these are live"
     }
@@ -825,7 +844,8 @@
     "execution_mode",
     "tier_escalation",
     "dispatched_utc",
-    "returned_utc"
+    "returned_utc",
+    "orchestrator_model"
   ],
   "dispatch_records": [
     {
@@ -1546,7 +1566,8 @@
   ],
   "dispatch_record_notes": [
     "Session-2 rows are seeded from the handback section E table (Guide v1.3 section 6 / hand section 2 I). They predate Amendment A1.3, so dispatched_utc is the message-dispatch time as recorded and returned_utc was not captured; the strand-reported t_start_utc / t_end_utc are carried instead. Their three four-way overlaps (B4, D4, E4) were the deliberate item-9(b) cap probes and are recorded as concurrency_exceedance by design, not hidden.",
-    "From session 3 onward every row carries dispatched_utc and returned_utc as the orchestrator observed them, plus the strand-reported t_start_utc / t_end_utc; the wave cap of 3 is enforced procedurally (no dispatch while three strands are live) and audited from these intervals."
+    "From session 3 onward every row carries dispatched_utc and returned_utc as the orchestrator observed them, plus the strand-reported t_start_utc / t_end_utc; the wave cap of 3 is enforced procedurally (no dispatch while three strands are live) and audited from these intervals.",
+    "From session 6 onward (Director ruling MOD-1) every dispatch record additionally carries orchestrator_model -- the model the ORCHESTRATOR was running when it composed and dispatched the strand, distinct from the strand's own model. Sessions 1-5 rows carry no such field; the orchestrator model for those rows is client.session_model_history (claude-fable-5-1 through 2026-09-05T02:25:02.164Z, then the degraded and Director-set segments recorded there)."
   ],
   "concurrency_exceedances": [
     {
@@ -1617,7 +1638,7 @@
       "contents": "build_state.json only -- the halt records; no prompt, no code, no strand output"
     }
   ],
-  "next_action": "session 6 re-entry under amended identity pin; wave 3 not dispatched",
+  "next_action": "Session 6: wave 3 dispatched from 6a83537 (lineage S6-B8, web S6-B9, corpus_adapter S6-C3). On return: integrator re-runs each worktree's gates, merges --no-ff, runs the full suite, records invalidated evidence; then probe round 4 (Q3 KB3/W5/W6 plus the FINAL suite) as a sequential strand; then the L4 oracle re-run, the acceptance workflow set on the production path, and the critic (Opus 5, Explore, effort explicit). At the FIRST docs/critique/ report, open working\\sealed_audit_HND-20260903-001_S4.md and execute its 'On release' section; the ChatGPT Pattern-3 recommendations file stays sealed until then. Push at the boundary per O-1.",
   "concurrency_exceedances_note": "Three exceedances, all session 2, all deliberate item-9(b) cap probes taken before A1.3 re-homed the wave cap; zero exceedances under A1.3 (sessions 3 onward) -- the closeout reports the three with the qualifier, never silently.",
   "workspace_pushes_note": "Structural: a push follows the boundary commit that carries build_state.json, so each push is recorded in the NEXT commit's build_state.json (and in the handback resumption entry at the time of the push).",
   "director_rulings": {
@@ -1635,6 +1656,15 @@
         "3_os_temp_writes": "Writes under the OS temp directory by test tooling (pytest tmp_path), the fixture builders, W8's temp corpus, and orchestrator scratch scripts are ACCEPTED as an application note on HND section 5: the operative reading is 'no write to any governed tree', and the OS temp directory is not a governed tree. The note rides Amendment A2 at terminal state (an A2 line, not a scope change).",
         "4_probe_budget_not_waived": "The probe's per-module budget is NOT WAIVED. Probe round 4 carries Q3 (KB3, W5, W6) and the FINAL suite; any further probe need after round 4 is the prompt's BOUNDED_FAIL, never a lowered bar (PROMPT.md Hard Budgets: 'Do not lower acceptance criteria because a round budget is exhausted'). Prompt-findings ledger item P-8 records the structural cause as a template item.",
         "5_discrepancies_and_O29": "The recorded discrepancies stand as records with no act: RHACO-CCX-20260904-001 section 0.4's commit count and the launch cwd are noted in handback section D row 5; the CCX is NOT edited. CONSTRAINTS.md O29 (search_fts bare-string doc_type_filter iterating per character) is a RHACO MODULE finding for a Director-side CHG, not a build item -- the build does not normalize it in the adapter and files no change against the module."
+      }
+    },
+    "MOD-1": {
+      "ruled_utc": "2026-09-05 (Director instruction at the session-6 launch; recorded in handback section D row 6)",
+      "text": "The orchestrator identity pin is AMENDED to claude-opus-5[1m] / xhigh from session 6. The item-9 model change that HND section 2 M and CMP-20260903-001 section 6 would otherwise make a halt is PRE-DISPOSITIONED: it is not a halt, and section 0 passes with the amended pin recorded. Cause of record: client safeguard degradation of Fable 5.1 on the build's own tool output (the findings file's session-5 record; ledger P-9, P-10). Rides an A2 line at terminal state.",
+      "consequences": {
+        "layers_md": "docs/LAYERS.md section 3 gains: from session 6 the orchestrator and the critic share a model family, so critic findings are less independent of integration judgment.",
+        "dispatch_records": "every dispatch record from session 6 onward carries orchestrator_model.",
+        "a2": "the amended pin and its cause ride an A2 line at terminal state."
       }
     }
   },

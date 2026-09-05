@@ -31,6 +31,7 @@ Written 2026-09-04 at PROMPT.md section 14 step 6 (after the adapter and probe w
 - L3 is **not** independent of L2: it evaluates L2's captures.
 - Passing L1 says nothing about retrieval correctness; it says the code compiles, lints, and the index-write prohibition holds.
 - The fixture path is **not** the production path: qualification on the fixture proves the probe can detect the five known-bad classes; product claims still require the production-path presets (PROMPT.md section 2).
+- **From session 6 the orchestrator and the critic share a model family** (orchestrator `claude-opus-5[1m]` under Director ruling MOD-1; critic `claude-opus-5[1m]` per HND section 2 I). L3 was already not independent of L2 because it reads L2's captures; it is now also **less independent of integration judgment**, because the agent that made the integration decisions and the agent judging them are the same model family. Sessions 1 to 5 ran a Fable-family orchestrator against an Opus critic, so the critic rounds taken before and after the change are not strictly comparable on this axis. Recorded, not corrected: the build does not have a second judgment-tier family available to it.
 
 ## 4. When layers disagree (PROMPT.md section 3 protocol, as applied here)
 
