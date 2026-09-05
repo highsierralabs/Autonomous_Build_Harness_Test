@@ -14,11 +14,11 @@ from __future__ import annotations
 import glob
 import json
 import os
-import sys
 from dataclasses import dataclass
 from typing import Any
 
-from explorer.config import RHACO_PATH_ENTRIES, Settings
+from explorer.config import Settings
+from explorer.corpus_adapter.paths import ensure_rhaco_importable
 from explorer.models import AUTHORITY_NOTICE, FreshnessView, IndexMeta, VectorAvailability
 
 # PROMPT.md 5.2; docs/REFERENCE.md section 1: flat hybrid is the accepted default.
@@ -77,10 +77,18 @@ class DiagnosticsView:
 
 def _rerank_artifact_present() -> bool:
     """os.path.isdir on RHACO_corpus_index.RERANK_MODEL_DIR -- import only, call
-    nothing, never load the model (task B3 item 1; CONSTRAINTS.md O17)."""
-    for entry in RHACO_PATH_ENTRIES:
-        if entry not in sys.path:
-            sys.path.insert(0, entry)
+    nothing, never load the model (task B3 item 1; CONSTRAINTS.md O17).
+
+    Path setup delegates to explorer.corpus_adapter.paths.ensure_rhaco_importable()
+    (S2 / DISPATCH_PARAMETERS.md item B) instead of reimplementing the sys.path
+    loop here, so the path-order rule has exactly one implementation: the RHACO
+    directories are appended to the end of sys.path, never inserted at position
+    0, so workspace code always shadows a same-named module first (R07
+    diagnostics round 2). Idempotent by delegation -- ensure_rhaco_importable's
+    own `if entry not in sys.path` guard makes repeated calls, across however
+    many times the diagnostics page is loaded in one process, a no-op after the
+    first."""
+    ensure_rhaco_importable()
     try:
         import RHACO_corpus_index as rhaco_corpus_index  # import only; no calls
     except ImportError:
