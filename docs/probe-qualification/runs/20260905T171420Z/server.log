@@ -1,0 +1,15 @@
+INFO:     Started server process [24484]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8765 (Press CTRL+C to quit)
+INFO:     127.0.0.1:57583 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57590 - "GET /api/diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57594 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57594 - "GET /static/web/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57595 - "GET /static/web/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57595 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57595 - "GET /static/catalog/catalog.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57595 - "GET /search?q=quartz%20lattice%20lantern&mode=lexical HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57595 - "GET /doc/reports/RHACO-ANL-20260115-002_Fixture_Analysis.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57595 - "GET /static/reader/reader.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57596 - "GET /api/diagnostics HTTP/1.1" 200 OK

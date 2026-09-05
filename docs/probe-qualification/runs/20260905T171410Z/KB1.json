@@ -1,0 +1,52 @@
+{
+  "console_errors": [],
+  "failed_requests": [],
+  "fault_class": "KB1",
+  "fault_detected": true,
+  "kind": "workflow",
+  "label": "Known-bad KB1 (wrong_doc_for_id): identifier search for a multi-card id -- the first listed card_ref must be the id's own card, not a sibling amendment",
+  "observations": {
+    "detection_observable": "search identifier result's first .result-card data-card-ref attribute",
+    "expected_correct_first_card_ref": "handoffs/RHACO-HND-20260115-003_Fixture_Handoff.card.yaml",
+    "expected_fault_first_card_ref": "handoffs/RHACO-HND-20260115-003_Fixture_Handoff_Amendment_A1.card.yaml",
+    "observed_first_card_ref": "handoffs/RHACO-HND-20260115-003_Fixture_Handoff_Amendment_A1.card.yaml",
+    "reader_selected_doc_id": "RHACO-HND-20260115-003"
+  },
+  "ok": false,
+  "page_errors": [],
+  "preset": "KB1",
+  "reasons": [
+    "KB1: identifier search's first card_ref rotated to the amendment's card_ref ('handoffs/RHACO-HND-20260115-003_Fixture_Handoff_Amendment_A1.card.yaml') instead of the id's own ('handoffs/RHACO-HND-20260115-003_Fixture_Handoff.card.yaml') -- fault wrong_doc_for_id"
+  ],
+  "requests_total": 7,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\docs\\probe-qualification\\runs\\20260905T171410Z\\KB1.png",
+  "steps": [
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "identifier_hnd",
+      "timings": {
+        "elapsed_ms": 152.3,
+        "nav_end_utc": "2026-09-05T17:14:12.349873+00:00",
+        "nav_start_utc": "2026-09-05T17:14:12.197585+00:00"
+      },
+      "title": "Search -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/search?q=RHACO-HND-20260115-003&mode=identifier"
+    },
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "reader_hnd",
+      "timings": {
+        "elapsed_ms": 113.6,
+        "nav_end_utc": "2026-09-05T17:14:12.497128+00:00",
+        "nav_start_utc": "2026-09-05T17:14:12.383536+00:00"
+      },
+      "title": "Fixture Handoff -- Reader -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/doc/handoffs/RHACO-HND-20260115-003_Fixture_Handoff.card.yaml"
+    }
+  ],
+  "verdict": "FAIL"
+}

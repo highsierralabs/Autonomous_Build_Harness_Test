@@ -94,7 +94,7 @@
     "builder_rounds_total_max": 28,
     "builder_rounds_per_module_max": 4,
     "convergence_window_rounds": 2,
-    "builder_rounds_consumed_total": 19,
+    "builder_rounds_consumed_total": 20,
     "per_module_consumed": {
       "corpus_adapter": 4,
       "probe": 4,
@@ -103,9 +103,9 @@
       "search": 2,
       "reader": 2,
       "lineage": 2,
-      "web": 1
+      "web": 2
     },
-    "note": "19 of 28 consumed after round 7. Web round 2 will make 20 -- the Director's ceiling for the convergence phase, leaving 8 rounds held for whatever critic round 2 turns up. EXHAUSTED: probe 4 of 4, corpus_adapter 4 of 4. Remaining: reader 2, lineage 2, diagnostics 2, catalog 2, search 2, web 3 -- capacity far exceeds the 9 rounds left, so the total is the binding constraint. RUNNING the probe costs no builder round; MODIFYING it is impossible.",
+    "note": "20 of 28 consumed -- the Director's convergence ceiling, reached exactly at web round 2. EXHAUSTED: probe 4 of 4, corpus_adapter 4 of 4. 8 rounds remain and are HELD, not spent: they exist for whatever critic round 2 ranks convergence-blocking. Per-module capacity (reader 2, lineage 2, diagnostics 2, catalog 2, search 2, web 2) far exceeds them, so the total is the binding constraint. RUNNING the probe still costs no builder round; MODIFYING it is impossible.",
     "corpus_adapter_round_4_policy": "HELD by Director ruling (boundary-3 disposition item 2): do NOT spend before the critic. After critic round 1, ONE batched dispatch carrying the critic's adapter findings AND the deferred amends-link change request together. Whatever does not fit that single round is declared BOUNDED_FAIL on the record, never silently dropped and never traded for a lowered bar.",
     "arithmetic_correction_of_record": "The session-7 next_action said 'budgets 12 -> 13 with reader 1 -> 2'. That was short by one: probe round 4 (S6-B10) was also unrecorded. The observed total is 14 (corpus_adapter 3 + probe 4 + diagnostics 1 + catalog 1 + search 1 + reader 2 + lineage 1 + web 1 = 14). Recorded here rather than silently corrected because it is a second instance of the P-6 class (a predicted count stated as an observed one) and the M3 ANL counts instances. Session-7 text was authored under claude-fable-5-1 with the identity halt open."
   },
@@ -475,16 +475,18 @@
       "scope_references": []
     },
     "web": {
-      "owner": "builder S6-B9 (Sonnet 5) on build/web",
-      "status": "round 1 complete; merged c9d1d90; base.html contracts preserved, app.css real pass, app.js keyboard navigation",
-      "round": 1,
+      "owner": "builder S8-B16 (Sonnet 5) on build/web",
+      "status": "round 2 of 4 complete; merged 014ef53. #keyhelp lives once in the shell (O-2 closed); a real global search affordance makes the advertised '/' true on every page; wide-content legibility is fixed once in app.css rather than per module. 61 tests. Two rounds left.",
+      "round": 2,
       "objective_gates": {
         "ruff": "pass",
         "pytest": "pass",
         "l1_index_write_grep": "pass"
       },
       "ref_score": null,
-      "open_issues": [],
+      "open_issues": [
+        "the keyboard behaviour has still never been executed by any layer -- unclosable without a probe round"
+      ],
       "assumptions": [],
       "blocked_dependencies": [],
       "invalidated_evidence": [],
@@ -1077,7 +1079,7 @@
       "round": 8,
       "wave": null,
       "kind": "builder round -- single strand, alone (web round 2 of 4): O-2 shell de-duplication, the inert '/' key, the shared overflow rule",
-      "status": "IN FLIGHT -- dispatched 2026-09-05T16:52:00Z, not yet returned",
+      "status": "complete -- merged 014ef53; integrator retarget at fe4e053; round-8 boundary and the CONVERGENCE COMMIT",
       "modules": [
         "web"
       ],
@@ -1098,8 +1100,17 @@
           "bytes": 14327
         }
       },
-      "budget_note": "20 of 28 at merge -- the Director's convergence ceiling. 8 rounds held for whatever critic round 2 turns up.",
-      "known_limit_declared_in_the_dispatch": "The strand is told it CANNOT close the critic's keyboard blind spot -- executing a key needs a browser, the probe is the only sanctioned launcher and it is exhausted -- and is required to state in Unresolved uncertainty that after this round the keyboard behaviour has still never been executed by any layer. Items 1 and 2 improve the accuracy of the CLAIM without adding behavioural evidence for it. An unearned green test would be worse than the gap."
+      "budget_note": "20 of 28 -- the Director's convergence ceiling, reached exactly. 8 rounds remain, held for whatever critic round 2 turns up.",
+      "known_limit_declared_in_the_dispatch": "The strand is told it CANNOT close the critic's keyboard blind spot -- executing a key needs a browser, the probe is the only sanctioned launcher and it is exhausted -- and is required to state in Unresolved uncertainty that after this round the keyboard behaviour has still never been executed by any layer. Items 1 and 2 improve the accuracy of the CLAIM without adding behavioural evidence for it. An unearned green test would be worse than the gap.",
+      "returned_utc": "2026-09-05T17:09:1xZ",
+      "merges": {
+        "web": "014ef53"
+      },
+      "integration": {
+        "dependent_revalidation": "fe4e053 -- the integrator retargeted its OWN tests/integration/test_keyhelp_contract.py, which the strand had correctly refused to edit. NOT a P-13 instance: the file is integrator-owned, so no ownership boundary was crossed. The guard came out tighter than it went in.",
+        "post_merge_differential": "A baseline was taken BEFORE the merge precisely because this round touched base.html, app.css and all five page templates, making a rendering regression the risk worth measuring rather than assuming away. Post-merge the L4 direction oracle returned 213 cards / 213 pages / 5,052 edges / 93 chain heads / 0 defects -- identical on every figure -- and the card-agreement oracle returned 120 sampled, AGREE 541 / TYPE_ARTIFACT 59 / GENUINE_DIFFERENCE 0, 0 reader errors, 0 false markers, also identical. Live db unchanged across both."
+      },
+      "gates_at_boundary": "ruff clean; both L1 checks PASS; pytest 332 passed"
     }
   ],
   "l1_index_write_grep": [
@@ -2373,7 +2384,7 @@
       "strand_id": "S8-B16",
       "stem": "R10_web",
       "role": "module builder (web): move #keyhelp into the shell (O-2), make the advertised '/' true, fix horizontal overflow once in app.css",
-      "model": "claude-sonnet-5 (requested; client-reported string recorded at return)",
+      "model": "claude-sonnet-5 (client-reported by the strand: 'You are powered by the model named Sonnet 5. The exact model ID is claude-sonnet-5.')",
       "orchestrator_model": "claude-opus-5[1m] (MOD-1)",
       "effort": "xhigh (Workflow opts.effort, explicit)",
       "pattern_primary": "#3 candidate (worktree-isolated builder)",
@@ -2381,12 +2392,12 @@
       "execution_mode": "sequential, ALONE -- structurally, not by scheduling: item 1 deletes markup from all five page templates, so this round cannot share a wave with any page module",
       "tier_escalation": "none",
       "dispatched_utc": "2026-09-05T16:52:00Z",
-      "returned_utc": null,
+      "returned_utc": "2026-09-05T17:09:1xZ (workflow wf_d9a9cf0b-88b completed)",
       "workflow_run": "wf_d9a9cf0b-88b",
       "task_id": "w1gk4oou0",
       "base": "c89cfbc (main at dispatch); the strand records its own rev-parse HEAD and asserts it contains the round-7 boundary 3f62226",
       "module_round": "web round 2 of 4 -- the TWENTIETH builder round of the Director's convergence ceiling of 20",
-      "status": "IN FLIGHT -- dispatched, not yet returned",
+      "status": "COMPLETE",
       "prompt": {
         "file": "docs/rounds/R10_web.prompt.md",
         "sha256": "feb168985c774e70219f86f10def13adbc7fba8ea2fdd4a64658de7fa9a83329",
@@ -2394,7 +2405,27 @@
       },
       "cross_module_licence": "ONE named exception to the owned-paths rule, licensed by the Director's boundary-3 disposition item 1 and scoped in the prompt file by file: the strand may DELETE the duplicated #keyhelp block from catalog.html, search.html, reader.html, lineage.html and diagnostics.html, and nothing else in those files. This is the O-2 structural fix the Director reserved for a web round rather than another integrator edit.",
       "prefix": "section 2 L D-12 + D-3 blocks byte-diffed against the archived prefix before dispatch (P-11 control): 1,111 chars, sha256 6a893dbb94c0207f...",
-      "record_provenance": "written at dispatch, before the strand returned (the GD-1 remedy applied prospectively)"
+      "record_provenance": "written at dispatch, before the strand returned (the GD-1 remedy applied prospectively)",
+      "t_start_utc": "2026-09-05T16:47:22.9556747Z",
+      "t_end_utc": "2026-09-05T17:08:16.8282738Z",
+      "base_commit_observed": "c89cfbc4ee2e7e904cdb9d714ca7ae14ce510b09",
+      "contains_3f62226_verified_by_strand": true,
+      "prompt_sha256_verified_by_strand": true,
+      "head_commit": "fcde10176f7ba99256db32ee5a1405eef18550dc",
+      "commits": 8,
+      "merged": "014ef53 (--no-ff)",
+      "gates": "ruff clean; pytest tests/web 61 passed; L1 both checks PASS; worktree clean. FULL SUITE at the strand's own gate: 329 passed / 11 FAILED, every failure in tests/integration/test_keyhelp_contract.py -- integrator-owned, not licensed to the strand, and the exact anticipated consequence of item 1 moving #keyhelp out of the five templates that file's KEYHELP_TEMPLATES constant hard-codes. The strand did not edit it; it filed a precise change request naming the replacement assertions, and verified the arithmetic (303 + 37 new = 340 = 329 + 11) to show nothing else regressed. Retargeted by the integrator at fe4e053; suite 332 passed.",
+      "items_landed": "all five",
+      "acceptance": "COMPLETE -- merged 014ef53. #keyhelp lives once in base.html and the five copies are gone (O-2 closed). '/' now has something to focus on every page: the strand chose the harder shape (a), a real GET form to /search in the shell nav, rather than the cheap shape (b) of advertising the key only where it worked. The reader's horizontal overflow is fixed ONCE in app.css via .doc-body table plus the shared pre rule -- reaching the reader's markup with no reader-owned edit, exactly as the dispatch pushed for -- and NOT by hiding overflow. 37 new tests; the five covering CSS are self-labelled static.",
+      "verified_before_deleting": "The strand did not assume the five copies were still identical: it extracted each block with the same regex the contract test uses, sha256'd them, and got one hash (4d6609c3baac4a570db0282d605a86a486257b524ca4ca3af44ac29addfb79fa, 426 B) across all five. No drift -- unlike the round-3 history where a stale copy appeared mid-wave.",
+      "class_audit": "Checked, not guessed, and by a method worth keeping: an n-gram scan over the five templates grouping every identical run of 3+ substantive lines. 24 runs were shared by two or more templates, but #keyhelp's was the ONLY one shared by all five. Everything else was trivial Jinja control-flow boilerplate -- EXCEPT one genuine finding the round was not looking for: reader.html:21's adapter_absent banner carries diagnostics.html's data-diagnostics-state attribute verbatim instead of a reader-specific name, a copy-paste artifact. Filed as a change request rather than fixed, the strand being licensed in reader.html only for the keyhelp deletion. So: #keyhelp was an isolated instance as a SHARED CONTRACT, and the scan found an unrelated real defect on the way past.",
+      "keyboard_limit_stated": "Required by the dispatch and delivered verbatim: 'After this round, the keyboard behaviour of this build has still never been executed by any layer. Items 1 and 2 improve the accuracy of the claims #keyhelp and app.js make ... without adding any behavioural evidence that a keypress in a real browser does what the source text says -- that gap is unclosable from this strand (no browser may be launched; the probe is exhausted 4 of 4 with its budget not waived).' No test was written that appears to exercise a keypress and does not.",
+      "change_requests": [
+        "tests/integration/test_keyhelp_contract.py needs retargeting at base.html -- DISCHARGED by the integrator at fe4e053, and the registration guard was made STRICTLY TIGHTER in the process (exactly one file may carry the block, so any re-introduction fails anywhere; the old form would have passed a sixth copy added to the constant). Verified by construction: a copy was appended to lineage.html, the guard failed, the file was reverted, the guard passed.",
+        "the .doc-body table / shared pre fix was deliberately scoped to the reader rather than generalised to a bare `table` selector that lineage's and diagnostics' tables also match, since those are unmeasured for this defect and outside the round's licensed paths. The recipe is written once in app.css and needs only a broadened selector if they develop it. Sound scoping, recorded as the strand's judgment.",
+        "reader.html:21 carries data-diagnostics-state instead of a reader-specific attribute (open item O-6)"
+      ],
+      "deviations": ""
     }
   ],
   "dispatch_record_notes": [
@@ -2474,6 +2505,13 @@
       "text": "models.Evidence.returned_rank is a required int with no default, so identifier mode supplies 0 as an unrendered placeholder. The HTML never shows it (identifier mode has its own macro), but any /api/search caller in identifier mode sees a raw returned_rank of 0, which reads as a rank rather than as 'no ranking in this mode'.",
       "owner": "integrator (explorer/models.py is integrator-owned)",
       "note": "Disclosed by the strand as an assumption rather than left silent."
+    },
+    {
+      "id": "O-6",
+      "status": "OPEN -- change request from S8-B16",
+      "text": "explorer/reader/templates/reader/reader.html:21 -- the adapter_absent banner carries diagnostics.html's data-diagnostics-state attribute verbatim instead of a reader-specific name. A copy-paste artifact, found incidentally by the web round's n-gram duplication scan while auditing whether #keyhelp was one instance of a class.",
+      "owner": "reader (2 of 4 rounds left) or an integrator edit",
+      "note": "Not user-visible; it makes a reader page assert a diagnostics state name to any consumer reading data attributes. Found by a method looking for something else."
     }
   ],
   "workspace_push_policy": "Director ruling O-1 (2026-09-04): push main at each session boundary with the build_state.json commit and at terminal state; fast-forward only; each push recorded in the handback resumption entry.",
@@ -3090,7 +3128,7 @@
         "class": "fidelity",
         "disposition": "ACCEPTED. The critic is right that KB2 and KB4 are not qualified for the code now shipping.",
         "action": "Integrator re-runs the FINAL fixture suite (KG + KB1-KB5) at the convergence commit and pins that commit in the qualification ledger. Running the probe consumes no builder round, so this costs nothing.",
-        "landed": "PENDING -- the FINAL fixture suite re-run at the convergence commit (CCX step 5), costs no round."
+        "landed": "YES -- round-8 convergence boundary. All five known-bad classes re-run WITH THEIR FAULTS at fe4e053 (a no-fault smoke run would have qualified nothing) -- KB1 wrong_doc_for_id, KB2 stale_card, KB3 reverse_edges, KB4 broken_jump, KB5 console_error, all five QUALIFICATION_PASS -- and the commit is now pinned into docs/probe-qualification/qualification_ledger.json per class. The critic was right that KB2 and KB4 were not qualified for the code shipping, and right that it cost nothing."
       },
       {
         "rank": 4,
@@ -3098,7 +3136,8 @@
         "class": "polish",
         "disposition": "ACCEPTED.",
         "action": "Web-owned (app.css / template width rules); web has 3 of 4 rounds left. Queued for a web round 2 alongside the O-2 keyhelp de-duplication and ranked issue 9. If no web round 2 lands before terminal state, this is declared BOUNDED_FAIL, not quietly dropped.",
-        "mechanism_note": "The catalog builder identified the shared mechanism: ranked issue 4 (reader overflow) and the catalog's own clipped header are the same gap -- no shared table/}pre{ legibility rule -- surfacing in two modules. Carried into the web round-2 dispatch as a shared app.css utility rather than two module-local patches."
+        "mechanism_note": "The catalog builder identified the shared mechanism: ranked issue 4 (reader overflow) and the catalog's own clipped header are the same gap -- no shared table/}pre{ legibility rule -- surfacing in two modules. Carried into the web round-2 dispatch as a shared app.css utility rather than two module-local patches.",
+        "landed": "YES -- round 8, S8-B16, merged 014ef53; fixed once in app.css rather than per module."
       },
       {
         "rank": 5,
@@ -3137,7 +3176,8 @@
         "issue": "'/' advertised on five pages, works on one",
         "class": "polish",
         "disposition": "ACCEPTED. The critic is also right about the deeper point: keyboard behaviour is string-matched in three places and executed in none, so no layer of this harness has ever run it.",
-        "action": "Web-owned; queued for web round 2 with ranked issue 4. The unexecuted-keyboard blind spot is recorded as a standing limit of L1-L4 for the M3 ANL regardless of whether the fix lands."
+        "action": "Web-owned; queued for web round 2 with ranked issue 4. The unexecuted-keyboard blind spot is recorded as a standing limit of L1-L4 for the M3 ANL regardless of whether the fix lands.",
+        "landed": "YES -- round 8, S8-B16. The harder shape: a real global search affordance in the shell, so the advertised key is true, rather than deleting the advertisement. The keyboard remains unexecuted by any layer -- the claim is now accurate, the behaviour still unevidenced."
       },
       {
         "rank": 10,
@@ -3190,5 +3230,42 @@
       "independence": "EXPECTED_SENTENCES hand-written from CONSTRAINTS O8, not imported from explorer.models; asserted by a committed test so it cannot be quietly replaced by the product's own table",
       "cost": "integrator act; consumes no builder round"
     }
-  ]
+  ],
+  "convergence_evidence_set": {
+    "commit": "fe4e053",
+    "why": "CCX-20260905-001 section 4 step (5). Every acceptance instrument re-run at ONE commit, after the last builder round of the Director's ceiling, so critic round 2 reviews a product whose evidence is contemporaneous with it rather than scattered across eight rounds.",
+    "known_bad_requalification": {
+      "note": "critic ranked issue 3, closed. Faults injected, not a no-fault smoke run.",
+      "KB1": "20260905T171410Z QUALIFICATION_PASS (wrong_doc_for_id)",
+      "KB2": "20260905T171413Z QUALIFICATION_PASS (stale_card)",
+      "KB3": "20260905T171415Z QUALIFICATION_PASS (reverse_edges)",
+      "KB4": "20260905T171417Z QUALIFICATION_PASS (broken_jump)",
+      "KB5": "20260905T171420Z QUALIFICATION_PASS (console_error)",
+      "ledger": "each class entry now carries commit fe4e053"
+    },
+    "final_fixture_suite": "20260905T171432Z FRAMEWORK_SMOKE_PASS (KG + all five KB, no fault)",
+    "production_acceptance_set": {
+      "W1": "20260905T171444Z PRODUCT_EVIDENCE_PASS",
+      "W2": "20260905T171447Z PRODUCT_EVIDENCE_PASS",
+      "W3": "20260905T171451Z PRODUCT_EVIDENCE_PASS",
+      "W4": "20260905T171457Z PRODUCT_EVIDENCE_PASS",
+      "W5": "20260905T171500Z **FAIL -- BOUNDED_FAIL BF-1, see below**",
+      "W6": "20260905T171503Z PRODUCT_EVIDENCE_PASS",
+      "W7 (--disable-vec)": "20260905T171534Z PRODUCT_EVIDENCE_PASS",
+      "W8": "20260905T171506Z PRODUCT_EVIDENCE_PASS",
+      "W9": "20260905T171510Z PRODUCT_EVIDENCE_PASS",
+      "W10": "20260905T171514Z PRODUCT_EVIDENCE_PASS",
+      "healthz": "20260905T171518Z PRODUCT_EVIDENCE_PASS",
+      "diagnostics": "20260905T171520Z PRODUCT_EVIDENCE_PASS",
+      "result": "11 of 12 PRODUCT_EVIDENCE_PASS; W5 FAIL, declared in advance as BF-1"
+    },
+    "w5_failure_is_the_declared_one_and_only_that": "VERIFIED, not assumed -- a BOUNDED_FAIL is only honest if the failure is the one declared. W5.json carries exactly one reason: \"W5: direction_label does not match RELATION_LABELS for [('campaign_child', 'incoming', 'is campaign child of'), ('cites', 'incoming', 'cited by')]\". Nothing else. And the two values it reports as wrong ARE THE CORRECT SENTENCES: an incoming campaign_child edge does read 'is campaign child of', an incoming cites edge does read 'cited by'. W5 fails BECAUSE THE PRODUCT IS NOW RIGHT. That is the tautology critic round 1 named -- a check comparing the product against the constant the product renders from -- caught in the act of breaking when the product improved. The clearest single artifact this build has produced for the M3 ANL.",
+    "l4_oracles": {
+      "gold": "0.675 (27/40) adapter, 0.675 module, lists_equal 40/40, vector available, adapter_matches_module TRUE, threshold_met FALSE, verdict SCOPE -- unchanged, and the SCOPE row carries the cause",
+      "direction": "213 cards / 213 pages / 5,052 edges / 93 chain heads / 0 defects, PASS",
+      "card_agreement": "120 sampled, AGREE 541 / TYPE_ARTIFACT 59 / GENUINE_DIFFERENCE 0, 0 reader errors, 0 false markers, PASS"
+    },
+    "criterion_6": "live db ea8f7df2... 115,081,216 B unchanged before and after every run above",
+    "suite": "332 passed; ruff clean; l1-index-write-check and l1-import-boundary both PASS"
+  }
 }

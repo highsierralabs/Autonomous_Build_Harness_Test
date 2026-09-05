@@ -1,0 +1,35 @@
+{
+  "body": {
+    "adapter": "present",
+    "db": "C:\\highsierralabs\\RHACO\\index\\corpus_index.db",
+    "docs_root": "C:\\highsierralabs\\RHACO\\docs",
+    "status": "ok",
+    "vector": {
+      "available": true,
+      "model_tag": "nomic-embed-text",
+      "reason": "ok"
+    },
+    "version": "0.1.0"
+  },
+  "console_errors": [],
+  "error": null,
+  "failed_requests": [],
+  "http_status": 200,
+  "kind": "json_endpoint",
+  "label": "Server health/readiness JSON (GET /healthz, status must equal \"ok\")",
+  "mode": null,
+  "ok": true,
+  "preset": "healthz",
+  "result_ids": [],
+  "route_absent": false,
+  "screenshot": null,
+  "selected_doc_id": null,
+  "timings": {
+    "elapsed_ms": 16.9,
+    "nav_end_utc": "2026-09-05T17:15:19.837581+00:00",
+    "nav_start_utc": "2026-09-05T17:15:19.820683+00:00"
+  },
+  "title": null,
+  "url": "http://127.0.0.1:8765/healthz",
+  "viewport": null
+}

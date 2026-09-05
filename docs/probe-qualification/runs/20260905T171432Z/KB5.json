@@ -1,0 +1,80 @@
+{
+  "console_errors": [],
+  "failed_requests": [],
+  "fault_class": null,
+  "fault_detected": false,
+  "kind": "workflow",
+  "label": "Known-bad KB5 (console_error): diagnostics page-error detection, extended to catalog/search/reader as clean control navigations on the same wave-2 surfaces",
+  "observations": {
+    "diagnostics_console_error_count": 0,
+    "observable": "diagnostics step's own console/pageerror text (fault-attributed via FAULT_TEXT_MARKERS); catalog/search/reader are clean control navigations on the same wave-2 surfaces, expected to show no console error of their own",
+    "other_steps_console_error_count": 0,
+    "steps_visited": [
+      "diagnostics",
+      "catalog_home",
+      "search_lexical",
+      "reader_anl"
+    ]
+  },
+  "ok": true,
+  "page_errors": [],
+  "preset": "KB5",
+  "reasons": [],
+  "requests_total": 14,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\docs\\probe-qualification\\runs\\20260905T171432Z\\KB5.png",
+  "steps": [
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "diagnostics",
+      "timings": {
+        "elapsed_ms": 87.6,
+        "nav_end_utc": "2026-09-05T17:14:36.530465+00:00",
+        "nav_start_utc": "2026-09-05T17:14:36.442854+00:00"
+      },
+      "title": "Diagnostics -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/diagnostics"
+    },
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "catalog_home",
+      "timings": {
+        "elapsed_ms": 69.0,
+        "nav_end_utc": "2026-09-05T17:14:36.599475+00:00",
+        "nav_start_utc": "2026-09-05T17:14:36.530486+00:00"
+      },
+      "title": "Catalog -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/"
+    },
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "search_lexical",
+      "timings": {
+        "elapsed_ms": 26.1,
+        "nav_end_utc": "2026-09-05T17:14:36.625657+00:00",
+        "nav_start_utc": "2026-09-05T17:14:36.599528+00:00"
+      },
+      "title": "Search -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/search?q=quartz%20lattice%20lantern&mode=lexical"
+    },
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "reader_anl",
+      "timings": {
+        "elapsed_ms": 52.4,
+        "nav_end_utc": "2026-09-05T17:14:36.678066+00:00",
+        "nav_start_utc": "2026-09-05T17:14:36.625685+00:00"
+      },
+      "title": "Fixture Analysis -- Reader -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/doc/reports/RHACO-ANL-20260115-002_Fixture_Analysis.card.yaml"
+    }
+  ],
+  "verdict": "PASS"
+}

@@ -2,9 +2,9 @@
   "tool": "l4_card_agreement_check v1.0",
   "db_path": "C:\\RHACO\\index\\corpus_index.db",
   "docs_root": "C:\\RHACO\\docs",
-  "census_rows": 1443,
+  "census_rows": 1444,
   "bare_date_cards": 866,
-  "quoted_date_cards": 577,
+  "quoted_date_cards": 578,
   "sampled": 120,
   "compared_fields": [
     "title",

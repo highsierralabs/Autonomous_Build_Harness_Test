@@ -76,10 +76,10 @@
       "recall": 0.375
     }
   },
-  "started_utc": "2026-09-05T04:46:55+00:00",
-  "finished_utc": "2026-09-05T04:48:27+00:00",
+  "started_utc": "2026-09-05T17:16:15+00:00",
+  "finished_utc": "2026-09-05T17:17:52+00:00",
   "db_path": "C:\\RHACO\\index\\corpus_index.db",
-  "index_meta_corpus_cards_sha": "9d36e8973132442b631f137232ef29be9bb9c3bb872b24e9ff26a5fe1ca6b40b",
+  "index_meta_corpus_cards_sha": "bf0d0a53ebf37130171c83af42d4bfeffdfdb2f93f8dffa79b0b94ec31938a73",
   "verdict": {
     "adapter_matches_module": true,
     "threshold_met": false,

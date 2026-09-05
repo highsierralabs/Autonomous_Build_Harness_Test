@@ -1,0 +1,39 @@
+{
+  "console_errors": [],
+  "failed_requests": [],
+  "fault_class": null,
+  "fault_detected": false,
+  "kind": "workflow",
+  "label": "Known-bad KB2 (stale_card): reader index row vs card file comparison",
+  "observations": {
+    "file_status": "Active",
+    "file_title": "Fixture Analysis",
+    "indexed_status": "Active",
+    "indexed_title": "Fixture Analysis",
+    "observable_independent": "probe's own file read (identity.title/status) vs /api/doc card_row.title/status",
+    "observable_page": "#card-panel data-card-index-mismatch attribute",
+    "page_card_index_mismatch": ""
+  },
+  "ok": true,
+  "page_errors": [],
+  "preset": "KB2",
+  "reasons": [],
+  "requests_total": 4,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\docs\\probe-qualification\\runs\\20260905T171432Z\\KB2.png",
+  "steps": [
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "reader_anl",
+      "timings": {
+        "elapsed_ms": 97.7,
+        "nav_end_utc": "2026-09-05T17:14:35.558830+00:00",
+        "nav_start_utc": "2026-09-05T17:14:35.461144+00:00"
+      },
+      "title": "Fixture Analysis -- Reader -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/doc/reports/RHACO-ANL-20260115-002_Fixture_Analysis.card.yaml"
+    }
+  ],
+  "verdict": "PASS"
+}

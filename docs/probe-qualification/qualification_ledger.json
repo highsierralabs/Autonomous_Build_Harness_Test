@@ -1,24 +1,34 @@
 {
   "classes": {
     "KB1": {
-      "recorded_utc": "2026-09-05T01:42:36.870991+00:00",
-      "run": "docs/probe-qualification/runs/20260905T014234Z"
+      "recorded_utc": "2026-09-05T17:14:12.754539+00:00",
+      "run": "docs/probe-qualification/runs/20260905T171410Z",
+      "commit": "fe4e05346f23167c56572b031279908cc24be61b",
+      "commit_short": "fe4e053"
     },
     "KB2": {
-      "recorded_utc": "2026-09-05T02:00:25.503189+00:00",
-      "run": "docs/probe-qualification/runs/20260905T020023Z"
+      "recorded_utc": "2026-09-05T17:14:15.214551+00:00",
+      "run": "docs/probe-qualification/runs/20260905T171413Z",
+      "commit": "fe4e05346f23167c56572b031279908cc24be61b",
+      "commit_short": "fe4e053"
     },
     "KB3": {
-      "recorded_utc": "2026-09-05T04:31:04.529724+00:00",
-      "run": "docs/probe-qualification/runs/20260905T043102Z"
+      "recorded_utc": "2026-09-05T17:14:17.658561+00:00",
+      "run": "docs/probe-qualification/runs/20260905T171415Z",
+      "commit": "fe4e05346f23167c56572b031279908cc24be61b",
+      "commit_short": "fe4e053"
     },
     "KB4": {
-      "recorded_utc": "2026-09-05T01:42:49.390158+00:00",
-      "run": "docs/probe-qualification/runs/20260905T014247Z"
+      "recorded_utc": "2026-09-05T17:14:20.138290+00:00",
+      "run": "docs/probe-qualification/runs/20260905T171417Z",
+      "commit": "fe4e05346f23167c56572b031279908cc24be61b",
+      "commit_short": "fe4e053"
     },
     "KB5": {
-      "recorded_utc": "2026-09-05T01:42:51.804827+00:00",
-      "run": "docs/probe-qualification/runs/20260905T014249Z"
+      "recorded_utc": "2026-09-05T17:14:22.741671+00:00",
+      "run": "docs/probe-qualification/runs/20260905T171420Z",
+      "commit": "fe4e05346f23167c56572b031279908cc24be61b",
+      "commit_short": "fe4e053"
     }
   },
   "runs": [
@@ -70,6 +80,42 @@
       ],
       "qualification_state": "QUALIFICATION_PASS",
       "run": "docs/probe-qualification/runs/20260905T043102Z"
+    },
+    {
+      "classes": [
+        "KB1"
+      ],
+      "qualification_state": "QUALIFICATION_PASS",
+      "run": "docs/probe-qualification/runs/20260905T171410Z"
+    },
+    {
+      "classes": [
+        "KB2"
+      ],
+      "qualification_state": "QUALIFICATION_PASS",
+      "run": "docs/probe-qualification/runs/20260905T171413Z"
+    },
+    {
+      "classes": [
+        "KB3"
+      ],
+      "qualification_state": "QUALIFICATION_PASS",
+      "run": "docs/probe-qualification/runs/20260905T171415Z"
+    },
+    {
+      "classes": [
+        "KB4"
+      ],
+      "qualification_state": "QUALIFICATION_PASS",
+      "run": "docs/probe-qualification/runs/20260905T171417Z"
+    },
+    {
+      "classes": [
+        "KB5"
+      ],
+      "qualification_state": "QUALIFICATION_PASS",
+      "run": "docs/probe-qualification/runs/20260905T171420Z"
     }
-  ]
+  ],
+  "commit_pin_note": "Each known-bad class carries the COMMIT it was qualified at, added at the round-8 convergence boundary. Critic round 1, ranked issue 3: 'No known-bad probe run exists at or after the reviewed commit -- every ledger entry predates the reader repair. Until that exists, KB2 and KB4 are not qualified for the code now shipping.' The build accepted that in full. All five classes were re-run WITH THEIR FAULTS at fe4e053 (not merely smoke-run without faults, which would have qualified nothing) and all five returned QUALIFICATION_PASS. Re-running the probe consumes no builder round, which is why this cost nothing and should have been done sooner."
 }

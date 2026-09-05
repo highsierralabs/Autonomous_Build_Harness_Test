@@ -1,0 +1,37 @@
+{
+  "console_errors": [],
+  "failed_requests": [],
+  "fault_class": null,
+  "fault_detected": false,
+  "kind": "workflow",
+  "label": "Known-bad KB4 (broken_jump): reader heading line-anchor re-verification",
+  "observations": {
+    "independent_mismatch_count": 0,
+    "independent_mismatches": [],
+    "observable_independent": "for each /api/doc heading, lines[line_no-1] must begin a matching ATX heading marker (re-derived independently, never trusting the app's own line_verified claim)",
+    "observable_page": ".toc li[data-line-verified] -- any value 'false'",
+    "page_any_heading_unverified": false
+  },
+  "ok": true,
+  "page_errors": [],
+  "preset": "KB4",
+  "reasons": [],
+  "requests_total": 4,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\docs\\probe-qualification\\runs\\20260905T171432Z\\KB4.png",
+  "steps": [
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "reader_anl",
+      "timings": {
+        "elapsed_ms": 99.6,
+        "nav_end_utc": "2026-09-05T17:14:36.188674+00:00",
+        "nav_start_utc": "2026-09-05T17:14:36.089080+00:00"
+      },
+      "title": "Fixture Analysis -- Reader -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/doc/reports/RHACO-ANL-20260115-002_Fixture_Analysis.card.yaml"
+    }
+  ],
+  "verdict": "PASS"
+}

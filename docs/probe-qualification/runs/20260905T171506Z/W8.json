@@ -1,0 +1,70 @@
+{
+  "console_errors": [],
+  "failed_requests": [],
+  "fault_class": null,
+  "fault_detected": false,
+  "kind": "workflow",
+  "label": "Staleness -- freshness DRIFT surfaced, never silently treated as current",
+  "observations": {
+    "api_freshness_added": [
+      "C:\\Users\\kgran\\AppData\\Local\\Temp\\probe_w8_u2cybnu6\\corpus\\reports\\RHACO-OBS-20260115-999_Fixture_Drift.card.yaml"
+    ],
+    "api_freshness_status": "DRIFT",
+    "corpus_card_count_index": 7,
+    "corpus_card_count_live": 8,
+    "drift_card_added": "C:\\Users\\kgran\\AppData\\Local\\Temp\\probe_w8_u2cybnu6\\corpus\\reports\\RHACO-OBS-20260115-999_Fixture_Drift.card.yaml",
+    "fixture_build_summary": {
+      "broken_yamls": 0,
+      "cards": 7,
+      "corpus_cards_sha": "d4157fba10500688c9e9504df827eebbfb2d02565d2c9b7195e1879cf8e0c08e",
+      "db_path": "C:\\Users\\kgran\\AppData\\Local\\Temp\\probe_w8_u2cybnu6\\fixture_index.db",
+      "docs_root": "C:\\Users\\kgran\\AppData\\Local\\Temp\\probe_w8_u2cybnu6\\corpus",
+      "edges": 7,
+      "edges_unresolved": 1,
+      "elapsed_s": 0.05793339997762814,
+      "fts_docs": 8,
+      "id_aliases": 11,
+      "missing_cards": 0,
+      "orphan_cards": 0,
+      "programs_written": 8,
+      "tags_written": 19
+    },
+    "page_freshness_status": "DRIFT"
+  },
+  "ok": true,
+  "page_errors": [],
+  "preset": "W8",
+  "reasons": [],
+  "requests_total": 6,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\docs\\probe-qualification\\runs\\20260905T171506Z\\W8.png",
+  "steps": [
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "diagnostics_before",
+      "timings": {
+        "elapsed_ms": 143.1,
+        "nav_end_utc": "2026-09-05T17:15:09.984875+00:00",
+        "nav_start_utc": "2026-09-05T17:15:09.841789+00:00"
+      },
+      "title": "Diagnostics -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:57816/diagnostics"
+    },
+    {
+      "action": "click",
+      "error": null,
+      "http_status": null,
+      "selector": "form[action='/diagnostics/freshness'] button[type=submit]",
+      "step": "freshness_submit",
+      "timings": {
+        "elapsed_ms": 124.6,
+        "nav_end_utc": "2026-09-05T17:15:10.109457+00:00",
+        "nav_start_utc": "2026-09-05T17:15:09.984901+00:00"
+      },
+      "title": "Diagnostics -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:57816/diagnostics/freshness"
+    }
+  ],
+  "verdict": "PASS"
+}

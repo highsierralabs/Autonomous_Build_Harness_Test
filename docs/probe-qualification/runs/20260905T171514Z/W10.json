@@ -1,0 +1,112 @@
+{
+  "console_errors": [],
+  "failed_requests": [],
+  "fault_class": null,
+  "fault_detected": false,
+  "kind": "workflow",
+  "label": "No-LLM operation -- full standard workflow, no frontier model access",
+  "observations": {
+    "non_localhost_requests": [],
+    "requests_total": 25
+  },
+  "ok": true,
+  "page_errors": [],
+  "preset": "W10",
+  "reasons": [],
+  "requests_total": 25,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\docs\\probe-qualification\\runs\\20260905T171514Z\\W10.png",
+  "steps": [
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "catalog_home",
+      "timings": {
+        "elapsed_ms": 218.6,
+        "nav_end_utc": "2026-09-05T17:15:16.346071+00:00",
+        "nav_start_utc": "2026-09-05T17:15:16.127450+00:00"
+      },
+      "title": "Catalog -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/"
+    },
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "w1_identifier_search",
+      "timings": {
+        "elapsed_ms": 72.0,
+        "nav_end_utc": "2026-09-05T17:15:16.418087+00:00",
+        "nav_start_utc": "2026-09-05T17:15:16.346129+00:00"
+      },
+      "title": "Search -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/search?q=RHACO-CMP-20260903-001&mode=identifier"
+    },
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "w1_reader",
+      "timings": {
+        "elapsed_ms": 222.5,
+        "nav_end_utc": "2026-09-05T17:15:16.681755+00:00",
+        "nav_start_utc": "2026-09-05T17:15:16.459299+00:00"
+      },
+      "title": "Corpus Explorer \u2014 Autonomous Build Harness Test -- Reader -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/doc/reports/RHACO-CMP-20260903-001_Corpus_Explorer_Autonomous_Build_Harness.card.yaml"
+    },
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "w2_lexical_search",
+      "timings": {
+        "elapsed_ms": 498.8,
+        "nav_end_utc": "2026-09-05T17:15:17.210284+00:00",
+        "nav_start_utc": "2026-09-05T17:15:16.711526+00:00"
+      },
+      "title": "Search -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/search?q=tungsten%20putty%20seal&mode=lexical"
+    },
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "w9_reader_jump",
+      "timings": {
+        "elapsed_ms": 187.6,
+        "nav_end_utc": "2026-09-05T17:15:17.885991+00:00",
+        "nav_start_utc": "2026-09-05T17:15:17.698412+00:00"
+      },
+      "title": "Castle Lid Notch and Tungsten Putty Seal Execution -- Reader -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/doc/reports/RHACO-MTN-20260520-001_Castle_Lid_Notch_And_Tungsten_Putty_Seal.card.yaml?line=1"
+    },
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "w4_catalog_cmp",
+      "timings": {
+        "elapsed_ms": 94.6,
+        "nav_end_utc": "2026-09-05T17:15:18.008910+00:00",
+        "nav_start_utc": "2026-09-05T17:15:17.914278+00:00"
+      },
+      "title": "Catalog -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/?doc_type=CMP"
+    },
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "diagnostics",
+      "timings": {
+        "elapsed_ms": 40.3,
+        "nav_end_utc": "2026-09-05T17:15:18.070147+00:00",
+        "nav_start_utc": "2026-09-05T17:15:18.029893+00:00"
+      },
+      "title": "Diagnostics -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/diagnostics"
+    }
+  ],
+  "verdict": "PASS"
+}
