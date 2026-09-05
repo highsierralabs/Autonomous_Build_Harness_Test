@@ -1111,6 +1111,21 @@
         "post_merge_differential": "A baseline was taken BEFORE the merge precisely because this round touched base.html, app.css and all five page templates, making a rendering regression the risk worth measuring rather than assuming away. Post-merge the L4 direction oracle returned 213 cards / 213 pages / 5,052 edges / 93 chain heads / 0 defects -- identical on every figure -- and the card-agreement oracle returned 120 sampled, AGREE 541 / TYPE_ARTIFACT 59 / GENUINE_DIFFERENCE 0, 0 reader errors, 0 false markers, also identical. Live db unchanged across both."
       },
       "gates_at_boundary": "ruff clean; both L1 checks PASS; pytest 332 passed"
+    },
+    {
+      "round": 9,
+      "wave": null,
+      "kind": "critic round 2 -- the convergence round; consumes no builder round",
+      "status": "IN FLIGHT -- dispatched 2026-09-05T17:22:00Z, not yet returned",
+      "modules": [],
+      "base_commit": "6d74f2e (product at the convergence commit fe4e053)",
+      "orchestrator_model": "claude-opus-5[1m]",
+      "dispatched_utc": "2026-09-05T17:22:00Z",
+      "workflow_run": "wf_af9af694-3ae",
+      "task_id": "w53icu1tc",
+      "dispatch_form": "section 2 L D-12 + D-3 blocks verbatim (byte-diffed, P-11 control PASS) + sha-pinned pointer to the archived prompt",
+      "wave_cap_check": "one strand dispatched; no other strand live; concurrency_exceedance: none",
+      "builder_rounds_consumed": 0
     }
   ],
   "l1_index_write_grep": [
@@ -2426,6 +2441,42 @@
         "reader.html:21 carries data-diagnostics-state instead of a reader-specific attribute (open item O-6)"
       ],
       "deviations": ""
+    },
+    {
+      "session": 8,
+      "round": 9,
+      "strand_id": "S8-CR2",
+      "stem": "R11_critic",
+      "role": "CRITIC (PROMPT.md section 7), round 2 -- the second of the two-round convergence window",
+      "model": "claude-opus-5[1m] (requested; client-reported string recorded at return)",
+      "orchestrator_model": "claude-opus-5[1m] (MOD-1)",
+      "effort": "xhigh (Workflow opts.effort, explicit -- hand section 2 I requires the critic's effort be set explicitly)",
+      "pattern_primary": "judgment tier, read-only review (#7); not a builder pattern",
+      "agent_type": "Workflow agent() / Explore (read-only; writes nothing -- the integrator files the report under docs/critique/)",
+      "execution_mode": "sequential (one strand live)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-05T17:22:00Z",
+      "returned_utc": null,
+      "workflow_run": "wf_af9af694-3ae",
+      "task_id": "w53icu1tc",
+      "module_round": "critic round 2 of the 2-round convergence window; consumes NO builder round",
+      "reviewed_at": "the convergence commit fe4e053 (main at dispatch 6d74f2e, which adds only this prompt and records)",
+      "status": "IN FLIGHT -- dispatched, not yet returned",
+      "prompt": {
+        "file": "docs/rounds/R11_critic.prompt.md",
+        "sha256": "d8cef25f42cec8ca93aae09620486c49e9fdf6fb748adc965e9b4b418bcc8c03",
+        "bytes": 14572
+      },
+      "design_notes": [
+        "Round 2 is a COMPARISON, not a re-derivation: PROMPT.md section 7 defines convergence on unchanged ranked issue sets, so round 1's own report is the instrument and is read first, in full.",
+        "A named bias risk: the build accepted all ten ranked issues, disputed none, and withdrew its own gate PASS in favour of the critic's FAIL. That is when a critic drifts into agreeableness, and the prompt says so.",
+        "It must judge the NEW INSTRUMENTS as instruments, reading their source -- including turning its own 'a check that could not have failed' question on the direction oracle built to answer its gate-7 FAIL, and it is told that oracle first reported PASS having rendered zero pages and then carried a dead head-check.",
+        "It is told the acceptance set is 11 of 12 and asked to VERIFY the BF-1 claim rather than accept it, on the explicit ground that retiring a failing acceptance check by declaring the check wrong is a serious power.",
+        "The scale-validity question of PROMPT.md section 12 is put directly and left unresolved in the build's favour; 'has not converged' and a LOWER score than round 1 are both named as available answers.",
+        "O-4's disposition is conditioned on its answer, and it is told so, with the instruction to decide on merits rather than accommodate in either direction.",
+        "It receives the sealed-audit disclosure round 1 could not have, because it cannot judge those repairs without knowing what they repair."
+      ],
+      "record_provenance": "written at dispatch, before the strand returned (the GD-1 remedy applied prospectively)"
     }
   ],
   "dispatch_record_notes": [
