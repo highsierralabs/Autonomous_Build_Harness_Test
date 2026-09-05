@@ -32,7 +32,7 @@ from markdown_it import MarkdownIt
 from explorer.config import Settings
 from explorer.corpus_adapter.adapter import ConfigurationError
 from explorer.corpus_adapter.paths import both_spellings
-from explorer.models import FROZEN_STATUSES, CardRow, Heading
+from explorer.models import FROZEN_STATUSES, CardRow, Heading, relation_sentence
 
 # CONSTRAINTS.md O23 / task B6 item 1: independently re-verify every heading
 # anchor against the source line it claims, using the same ATX shape the
@@ -442,27 +442,36 @@ def _campaign_child_of(edge_set) -> list[EdgeLink]:
 
 def _lineage_links(edge_set) -> list[EdgeLink]:
     """Every resolved edge touching this card, typed and directional
-    (Edge.direction_label, O8) -- the complete record, alongside (not instead
-    of) the narrative sentences above."""
+    (`relation_sentence`, O8) -- the complete record, alongside (not instead
+    of) the narrative sentences above.
+
+    Integrator revalidation of the `models.relation_sentence` contract change
+    (critic round 1, ranked issue 1): an incoming edge previously took the
+    OUTGOING sentence here, so this list printed the converse of the recorded
+    fact -- e.g. "is superseded by" against the predecessor on a current head.
+    The narrative sentences above were already direction-aware; only this
+    generic list read the label off the relation alone.
+    """
     links: list[EdgeLink] = []
     for e in edge_set.outgoing:
         links.append(EdgeLink(
-            relation=e.relation, direction_label=e.direction_label, doc_id=e.to_id,
-            direction="outgoing", note=e.note, cards=e.target_cards,
+            relation=e.relation, direction_label=relation_sentence(e.relation, "outgoing"),
+            doc_id=e.to_id, direction="outgoing", note=e.note, cards=e.target_cards,
         ))
     for e in edge_set.incoming:
         links.append(EdgeLink(
-            relation=e.relation, direction_label=e.direction_label, doc_id=e.from_id,
-            direction="incoming", note=e.note, cards=e.source_cards,
+            relation=e.relation, direction_label=relation_sentence(e.relation, "incoming"),
+            doc_id=e.from_id, direction="incoming", note=e.note, cards=e.source_cards,
         ))
     return links
 
 
 def _unresolved_edges(edge_set) -> list[EdgeLink]:
+    # An unresolved edge is always a `cites` read from the citing end, i.e. outgoing.
     return [
         EdgeLink(
-            relation=e.relation, direction_label=e.direction_label, doc_id=e.to_id,
-            direction="outgoing", note=e.note, resolved=False,
+            relation=e.relation, direction_label=relation_sentence(e.relation, "outgoing"),
+            doc_id=e.to_id, direction="outgoing", note=e.note, resolved=False,
         )
         for e in edge_set.unresolved
     ]

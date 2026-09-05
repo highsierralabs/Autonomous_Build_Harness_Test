@@ -21,12 +21,48 @@ CARDS_COLUMNS = (
 FROZEN_STATUSES = frozenset({"Superseded", "Archived"})
 
 # CONSTRAINTS.md O8: direction labels per relation (from -> to).
+# CONSTRAINTS.md O8: direction labels per relation.
+#
+# A typed edge reads DIFFERENTLY from each of its two ends, so the sentence shown to a
+# human is a function of (relation, direction) and never of relation alone. Rendering the
+# outgoing sentence on an incoming edge states the converse of the recorded fact: the
+# current head of a supersession family would read "is superseded by <its own
+# predecessor>", and a campaign member would read "has campaign child <its own parent>".
+# Critic round 1 found exactly that (docs/critique/R06_critic_round_1.report.md, ranked
+# issue 1) after the machine-readable direction had been qualified and the sentence had
+# not (ledger P-16).
 RELATION_LABELS = {
+    # The sentence read from the edge's `from` end (O8: from = citing card / superseded
+    # document / amendment stem / campaign).
     "cites": "cites",
     "supersedes": "is superseded by",
     "amends": "amends",
     "campaign_child": "has campaign child",
 }
+
+RELATION_LABELS_INCOMING = {
+    # The SAME edge read from its `to` end.
+    "cites": "cited by",
+    "supersedes": "supersedes",
+    "amends": "amended by",
+    "campaign_child": "is campaign child of",
+}
+
+
+def relation_sentence(relation: str, direction: str) -> str:
+    """The human-readable sentence for one edge as read from one end.
+
+    `direction` is the edge's position relative to the card being displayed:
+    "outgoing" (the card is the edge's `from`), "incoming" (the card is its `to`), or
+    "unresolved" (a `cites` edge whose target is a literal the index could not resolve --
+    read from the citing end, so it takes the outgoing sentence).
+
+    Every surface that renders an edge as prose must call this rather than reading a
+    label off the relation alone.
+    """
+    if direction == "incoming":
+        return RELATION_LABELS_INCOMING.get(relation, relation)
+    return RELATION_LABELS.get(relation, relation)
 
 COMPONENT_RANK_NOT_EXPOSED = "not exposed by current RHACO retrieval API"
 
@@ -154,6 +190,13 @@ class Edge:
 
     @property
     def direction_label(self) -> str:
+        """The OUTGOING sentence only -- this object carries no direction of its own.
+
+        Kept for callers that already know they hold an outgoing edge. Any surface
+        rendering an edge whose direction it knows must call `relation_sentence(relation,
+        direction)` instead: reading this property for an incoming edge prints the
+        converse of the recorded fact (see the RELATION_LABELS note above).
+        """
         return RELATION_LABELS.get(self.relation, self.relation)
 
 
