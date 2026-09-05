@@ -1,6 +1,10 @@
 """CorpusAdapter: the read-only adapter over RHACO_corpus_index and
-RHACO_tool_catalog_librarian (ARCHITECTURE.md 4.1). The only module in the
-workspace that imports either.
+RHACO_tool_catalog_librarian (ARCHITECTURE.md 4.1). One of three licensed
+product-tree importers of either module (ARCHITECTURE.md 4.1's importer
+table; the other two are `explorer/diagnostics/service.py` under O17 and
+`fixtures/build_fixture_index.py` under O3) -- corrected from the earlier,
+false "the only module in the workspace" claim (ARCHITECTURE.md 4.1, SA-3;
+this round's item 4).
 
 Every SQL statement this file runs is one of D-Q1..D-Q11 in `sql.py`; every
 call into the RHACO module is one of the S2 allowlist (`connect`, `get_meta`,
@@ -52,8 +56,30 @@ from explorer.models import (
     VectorAvailability,
 )
 
+# Checked against RHACO_corpus_index.search_hybrid's own docstring/body (module
+# lines 1387-1410): under VecUnavailable, `rankings = [fts_rank]` -- a single
+# ranking list -- so `_rrf_fuse` reduces to the FTS order, and the identifier
+# short-circuit precedes it; the fused ordering really does collapse to
+# lexical-only here. This notice is examined (dispatch R07 item 1) and found
+# CORRECT as written; left unchanged.
 HYBRID_DEGRADED_NOTICE = "Hybrid unavailable: using lexical retrieval. Result ordering is lexical-only."
-GRAPH_DEGRADED_NOTICE = "Graph unavailable: hybrid seed channel degraded to lexical. Result ordering is lexical-only."
+
+# Checked against RHACO_corpus_index.search_graph's own docstring/body (module
+# lines 1559-1573+): graph mode seeds from search_hybrid (which degrades to
+# identifier + FTS under VecUnavailable, exactly as HYBRID_DEGRADED_NOTICE
+# describes) and then expands 1 hop, reading ONLY the `edges` table -- a step
+# `VecUnavailable` never touches. So the graph itself is not unavailable, and
+# the surviving edge-expansion still shapes the final ordering (seeds first,
+# then expansions ordered by anchor-seed rank and relation priority -- not a
+# lexical rank). The old wording asserted both those things falsely (SA-1,
+# dispatch R07 item 1); this corrects it to name what actually degraded (the
+# hybrid seed channel) and what survives (the graph expansion).
+GRAPH_DEGRADED_NOTICE = (
+    "Graph seed channel degraded: hybrid seeding fell back to identifier "
+    "resolution plus lexical (FTS) search. The graph expansion itself -- one "
+    "hop over the typed edges table -- is unaffected and still shapes result "
+    "ordering."
+)
 
 _BASE_META_KEYS = (
     "index_schema_version", "librarian_version", "current_nc_version",
@@ -286,6 +312,19 @@ class CorpusAdapter:
         finally:
             conn.close()
 
+    def _cards_for_filename_stem(self, conn, stem: str) -> list[CardRow]:
+        """O8/D-Q12: resolve a card by its document filename stem -- the form
+        an `amends` edge's `from_id` takes, and which never matches a `doc_id`
+        (D-Q3). Additive per this round's item 3 (SCOPE.md's deferred amends
+        click-through row): no existing caller depended on this list being
+        empty, since nothing called it before this round."""
+        if not stem:
+            return []
+        rows = conn.execute(
+            sql.Q12_CARDS_BY_FILENAME_STEM, (sql.filename_stem_like_pattern(stem),)
+        ).fetchall()
+        return [self._row_to_card(conn, r) for r in rows]
+
     def _card_by_yaml_paths(self, conn, junction: str, physical: str) -> CardRow | None:
         row = conn.execute(sql.Q4_CARD_BY_YAML_PATH, (junction, physical)).fetchone()
         if row is None:
@@ -470,7 +509,18 @@ class CorpusAdapter:
         if vec.available:
             mode_effective, notice, degradation_status = "graph", None, "none"
         else:
-            mode_effective, notice, degradation_status = "graph-degraded", GRAPH_DEGRADED_NOTICE, vec.reason
+            # SA-1 (dispatch R07 item 1): names the channel that actually
+            # degraded (the hybrid seed) rather than the bare "graph-degraded"
+            # token, which named no surviving channel and, read literally,
+            # claimed the whole graph mode was unavailable (GRAPH_DEGRADED_NOTICE
+            # above). ARCHITECTURE.md 4.1's mode_effective enum and the
+            # explorer.models.ModeResult.mode_effective comment still list the
+            # old token -- filed as a change request (see this round's report)
+            # rather than edited here, since both files are outside this
+            # module's owned paths.
+            mode_effective, notice, degradation_status = (
+                "graph-degraded-semantic-seed", GRAPH_DEGRADED_NOTICE, vec.reason,
+            )
         items = self._items_from_doc_ids(q, doc_ids, mode_effective, degradation_status)
         return ModeResult(
             query=q,
@@ -509,7 +559,13 @@ class CorpusAdapter:
                     unresolved.append(edge)
                     continue
                 edge.target_cards = self._cards_for_doc_id(conn, edge.to_id)
-                edge.source_cards = self._cards_for_doc_id(conn, edge.from_id)
+                if edge.relation == "amends":
+                    # O8: this edge's from_id is the amendment's filename
+                    # stem, never a doc_id -- D-Q3 can never match it (this
+                    # round's item 3; SCOPE.md's deferred click-through row).
+                    edge.source_cards = self._cards_for_filename_stem(conn, edge.from_id)
+                else:
+                    edge.source_cards = self._cards_for_doc_id(conn, edge.from_id)
                 if edge.from_id in (doc_id, stem):
                     outgoing.append(edge)
                 if edge.to_id in (doc_id, stem):
