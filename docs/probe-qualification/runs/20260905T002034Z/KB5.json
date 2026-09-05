@@ -1,0 +1,8 @@
+{
+  "fault": "console_error",
+  "kind": "not_implemented",
+  "label": "Known-bad qualification case KB5: RHACO_EXPLORER_FAULT=console_error (explorer/faults.py; the probe must flag it once the reader/lineage/search surfaces the fault touches are built)",
+  "ok": true,
+  "preset": "KB5",
+  "status": "not_implemented_yet"
+}

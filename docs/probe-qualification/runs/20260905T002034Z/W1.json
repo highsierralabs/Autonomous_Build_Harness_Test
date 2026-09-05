@@ -1,0 +1,8 @@
+{
+  "fault": null,
+  "kind": "not_implemented",
+  "label": "Exact known document -- search a canonical id, expect direct result -> correct card",
+  "ok": true,
+  "preset": "W1",
+  "status": "not_implemented_yet"
+}

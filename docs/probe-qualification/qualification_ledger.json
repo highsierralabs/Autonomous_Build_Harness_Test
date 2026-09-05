@@ -1,0 +1,17 @@
+{
+  "classes": {
+    "KB5": {
+      "recorded_utc": "2026-09-05T00:20:26.215108+00:00",
+      "run": "docs/probe-qualification/runs/20260905T002024Z"
+    }
+  },
+  "runs": [
+    {
+      "classes": [
+        "KB5"
+      ],
+      "qualification_state": "QUALIFICATION_PASS",
+      "run": "docs/probe-qualification/runs/20260905T002024Z"
+    }
+  ]
+}

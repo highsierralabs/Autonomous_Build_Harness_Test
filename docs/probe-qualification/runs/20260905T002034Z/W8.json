@@ -1,0 +1,8 @@
+{
+  "fault": null,
+  "kind": "not_implemented",
+  "label": "Staleness -- freshness DRIFT surfaced, never silently treated as current",
+  "ok": true,
+  "preset": "W8",
+  "status": "not_implemented_yet"
+}

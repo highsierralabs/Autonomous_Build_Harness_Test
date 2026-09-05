@@ -1,0 +1,35 @@
+{
+  "body": {
+    "adapter": "present",
+    "db": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\fixtures\\fixture_index.db",
+    "docs_root": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\fixtures\\corpus",
+    "status": "ok",
+    "vector": {
+      "available": false,
+      "model_tag": "nomic-embed-text",
+      "reason": "vec_table_missing"
+    },
+    "version": "0.1.0"
+  },
+  "console_errors": [],
+  "error": null,
+  "failed_requests": [],
+  "http_status": 200,
+  "kind": "json_endpoint",
+  "label": "Server health/readiness JSON (GET /healthz, status must equal \"ok\")",
+  "mode": null,
+  "ok": true,
+  "preset": "healthz",
+  "result_ids": [],
+  "route_absent": false,
+  "screenshot": null,
+  "selected_doc_id": null,
+  "timings": {
+    "elapsed_ms": 3.0,
+    "nav_end_utc": "2026-09-05T00:20:35.927637+00:00",
+    "nav_start_utc": "2026-09-05T00:20:35.924675+00:00"
+  },
+  "title": null,
+  "url": "http://127.0.0.1:8913/healthz",
+  "viewport": null
+}

@@ -1,0 +1,32 @@
+{
+  "console_errors": [],
+  "error": null,
+  "failed_requests": [],
+  "fault_class": null,
+  "fault_detected": false,
+  "http_status": 200,
+  "kind": "page",
+  "label": "Diagnostics page (GET /diagnostics; must return HTTP 200 with data-mode in {hybrid, hybrid-degraded-lexical}, data-vector in {available, unavailable}, and a non-empty title -- task C1 item 3, now that the diagnostics module is merged)",
+  "mode": "hybrid-degraded-lexical",
+  "ok": true,
+  "page_errors": [],
+  "preset": "diagnostics",
+  "reasons": [],
+  "result_ids": [],
+  "route_absent": false,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\docs\\probe-qualification\\runs\\20260905T002034Z\\diagnostics.png",
+  "selected_doc_id": null,
+  "timings": {
+    "elapsed_ms": 179.3,
+    "nav_end_utc": "2026-09-05T00:20:36.169381+00:00",
+    "nav_start_utc": "2026-09-05T00:20:35.990132+00:00"
+  },
+  "title": "Diagnostics -- RHACO Corpus Explorer",
+  "url": "http://127.0.0.1:8913/diagnostics",
+  "vector": "unavailable",
+  "verdict": "PASS",
+  "viewport": {
+    "height": 900,
+    "width": 1280
+  }
+}
