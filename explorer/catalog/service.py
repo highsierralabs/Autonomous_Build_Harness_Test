@@ -159,8 +159,30 @@ def build_view(adapter: Any, settings: Any, query: dict) -> CatalogView:
     next_page = page + 1 if has_next else None
 
     # ARCHITECTURE.md 4.2 / task B4 item 2: the lifecycle_state control is a
-    # SEPARATE control shown only when CMP is among the results or selected.
-    show_lifecycle_control = bool(filters.doc_type == "CMP") or bool(catalog_page.facets.lifecycle_states)
+    # SEPARATE control shown when CMP is among the results or selected, OR
+    # when the filter is itself active (R09 catalog item 1 / critic round 1
+    # ranked issue 6). The third disjunct is load-bearing: `catalog_page.facets`
+    # is computed UNDER the current filter set (D-Q6), so a combination such as
+    # doc_type=ANL + lifecycle_state=<anything> yields zero rows and therefore
+    # empty under-filter lifecycle facets even though `filters.lifecycle_state`
+    # is genuinely in force -- without this disjunct the control (and with it
+    # the operator's only way to change or clear just this one filter) would
+    # vanish while the filter still narrowed the result set and still rode
+    # along in `query_string_no_page`. The invariant this satisfies: a filter
+    # that is in force is always visible and always individually clearable --
+    # never silently dropped (that would be the same fidelity failure in the
+    # other direction) and never left in force with no visible control. The
+    # <select>'s own options still come only from `global_facets` (O14 / D-Q2,
+    # unfiltered), so the active value always has a matching <option selected>
+    # to render against, and its "Any lifecycle state" option is the existing,
+    # already-general per-filter clear affordance every other catalog filter
+    # already relies on (reselect the blank option, Apply filters) -- reusing
+    # it here rather than inventing a lifecycle_state-only mechanism.
+    show_lifecycle_control = (
+        bool(filters.doc_type == "CMP")
+        or bool(catalog_page.facets.lifecycle_states)
+        or bool(filters.lifecycle_state)
+    )
 
     # Pagination links preserve the filters (task B4 item 2) -- and sort /
     # page_size, so a page-2 link never silently resets either.

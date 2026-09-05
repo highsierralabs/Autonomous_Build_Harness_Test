@@ -147,8 +147,27 @@
   <p class="degradation" role="status">{{ view.no_match_text }}</p>
   {% else %}
   <div class="table-scroll">
-  <table>
+  <table class="catalog-table">
     <caption class="sr-only">Catalog cards matching the current filters, sorted by {{ view.sort_column }} ({{ view.sort_direction }})</caption>
+    <!-- Fixed, budgeted column widths (task B15 item 3 / critic round 1
+         browse_search_usability: the header row clipped after "Prog..." at a
+         1280px viewport probe preset). table-layout: fixed (catalog.css) makes
+         these <col> widths -- not cell content -- decide layout, so the table
+         cannot blow out past its .table-scroll container the way free-form
+         content (long doc_ids/filenames in <code>, long abstracts) previously
+         forced it to; the CMP lifecycle state column sits inside that budget,
+         reachable at 1280px without horizontal scrolling. -->
+    <colgroup>
+      <col class="col-title">
+      <col class="col-id">
+      <col class="col-type">
+      <col class="col-date">
+      <col class="col-status">
+      <col class="col-programs">
+      <col class="col-lifecycle">
+      <col class="col-abstract">
+      <col class="col-open">
+    </colgroup>
     <thead>
       <tr>
         <th scope="col">Title</th>
@@ -180,7 +199,7 @@
           {{ row.lifecycle_state }} <span class="informational">informational (non-CMP)</span>
           {%- endif -%}
         </td>
-        <td class="abstract">{% if row.abstract %}{{ row.abstract[:200] }} ...{% endif %}</td>
+        <td class="abstract">{% if row.abstract %}{{ row.abstract[:200] }}{% if row.abstract|length > 200 %} ...{% endif %}{% endif %}</td>
         <td><a href="/doc/{{ row.card_ref }}">Open</a></td>
       </tr>
       {% endfor %}
