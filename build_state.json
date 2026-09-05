@@ -2461,10 +2461,12 @@
     },
     {
       "id": "O-4",
-      "status": "OPEN -- change request from S8-B14, queued",
+      "status": "OPEN -- STANDS OPEN by Director ruling 2026-09-05",
       "text": "explorer/diagnostics/service.py:34-37 RERANK_STANDING_TEXT names RHACO-ANL-20260712-001 but carries no explicit evaluation date -- the same undated-standing gap round 7 closed on the search page. Found by the search strand while answering its product-wide S8 question and correctly filed rather than edited (not its path).",
       "owner": "diagnostics (2 of 4 rounds left) or an integrator text edit",
-      "note": "S8 is therefore satisfied on the search page and NOT yet product-wide. Recorded that way rather than as closed."
+      "note": "S8 is therefore satisfied on the search page and NOT yet product-wide. Recorded that way rather than as closed.",
+      "director_ruling": "O-4 STANDS AS AN OPEN ITEM. S8 is recorded as satisfied on the search page and NOT product-wide -- the honest state, carried rather than closed. Disposition deferred to critic round 2: a DIAGNOSTICS ROUND 3 only if the critic ranks it convergence-blocking, and NEVER as a third integrator edit. The one-line fix being cheap is not a reason to make it; two P-13 instances are already on the record, and a third would turn a twice-observed pattern into a habit.",
+      "terminal_state_handling": "If critic round 2 does not rank it convergence-blocking, O-4 is carried into the terminal state as an open item with its cause -- an undated standing figure on the diagnostics page, of the same class the search page closed -- not as a BOUNDED_FAIL (no round was spent and refused) and not as closed."
     },
     {
       "id": "O-5",
@@ -2588,6 +2590,14 @@
         "1_catalog_concurrent_web_after": "Catalog round 2 dispatched NOW, concurrent with search round 2; web round 2 ALONE after both merge; then CCX section 4 steps (4)-(6). BUDGET CEILING 20 of 28 for the convergence phase -- 17 consumed at the ruling, search 18, catalog 19, web 20.",
         "2_p13_second_instance": "The search.html prefix-match integrator edit is ACCEPTED AS DISCLOSED and recorded as a P-13 SECOND INSTANCE. Two conditions, both discharged: before merging search round 2, confirm its base commit includes that edit (base 26816db contains dcb0443 -- confirmed in advance and again against the strand's own reported base); after the merge, re-run the DISABLE_VEC live check for SA-1 (re-run, PASS, live db unchanged).",
         "3_bf2_disposition": "BF-2: if edges_for is module-side, move it to the section 7 queue beside O29 as a Director-side CHG candidate; if adapter-side, it stands as recorded. DETERMINATION: ADAPTER-SIDE. The double-append is at explorer/corpus_adapter/adapter.py:569-572 -- two independent `if` statements in the build's OWN workspace code, reading a result set from the build's own Q7_EDGES_FOR in explorer/corpus_adapter/sql.py. Nothing in RHACO_corpus_index is involved. BF-2 therefore STANDS AS RECORDED and does not join the section 7 queue beside O29."
+      }
+    },
+    "S8_rulings_3_20260905": {
+      "ruled_utc": "2026-09-05 (Director disposition on the round-7 report)",
+      "items": {
+        "1_o4_stands_open": "O-4 STANDS AS AN OPEN ITEM. S8 is recorded as satisfied on the search page and NOT product-wide -- the honest state, carried rather than closed. Disposition deferred to critic round 2: a DIAGNOSTICS ROUND 3 only if the critic ranks it convergence-blocking, and NEVER as a third integrator edit. The one-line fix being cheap is not a reason to make it; two P-13 instances are already on the record, and a third would turn a twice-observed pattern into a habit.",
+        "2_s8_scope_recorded_honestly": "S8 (no hidden epistemic uplift) is recorded as satisfied ON THE SEARCH PAGE and not product-wide. The build does not get to claim the constraint product-wide because the surface the critic looked at is clean.",
+        "3_sequence": "Merge web round 2, then CCX-20260905-001 section 4 steps (5)-(6): acceptance set re-run plus the FINAL fixture suite at the convergence commit, then critic round 2."
       }
     }
   },
