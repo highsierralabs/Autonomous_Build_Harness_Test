@@ -95,10 +95,12 @@ by `kind`:
   temp-fixture server -- see "Which presets are real" below).
 - **`not_implemented`** -- a clean stub that reports
   `{"status": "not_implemented_yet", "ok": true}` without touching the
-  server. After round 2 (task B7), only `W5`, `W6`, and `KB3` remain --
-  lineage (`reverse_edges` / typed-edge direction) is wave 3 (Q3). A run
-  that selects any of these three is `INCOMPLETE` (never a PASS of any
-  kind, task C1 item 2).
+  server. After round 4 (task B10, Q3 + FINAL), no preset in
+  `PRESET_REGISTRY` uses this kind any more -- `W5`, `W6`, and `KB3` (the
+  last three real-runner presets, lineage) are now `kind="workflow"` like
+  every other preset. A run selecting a preset name would need to be a typo
+  to hit `INCOMPLETE` via this path today (task C1 item 2's rule stays in
+  force for exactly that reason, even though nothing currently triggers it).
 
 ## The observed-fault predicate (task C1 item 1)
 
@@ -160,6 +162,16 @@ unit-tested in `tests/probe/test_workflow_verdicts.py`) fed by its
   re-check (`_verify_heading_independently`: `lines[line_no-1]` must begin
   an ATX heading marker matching the heading's text -- re-implemented here,
   never imported from `explorer.reader.service`) finds a mismatch.
+- `_kb3_verdict(observed, expected_correct, expected_fault)` (task B10) --
+  `reverse_edges`: FAIL/KB3 when the observed `(from_id, to_id, direction)`
+  triple for the CMP fixture's campaign_child edge to the ANL fixture card
+  equals the known SWAPPED triple, not the frozen known-correct one. The
+  SAME predicate doubles as the clean-match sanity check (a match to
+  `expected_correct` is a quiet PASS), so KB3's runner is safe in an
+  ordinary smoke run, exactly like `_kb1_verdict`. Its `kind="workflow"`
+  runner (`_run_kb3`) locates the edge in BOTH the `.edge-list` row and the
+  graph `<line>`, asserts the two agree with each other and with
+  `/api/lineage`, then feeds the one triple to the predicate.
 
 `KB5`'s real runner (a `kind="workflow"` preset, not `kind="page"`) visits
 diagnostics AND catalog/search/reader in one composite run, demonstrating
@@ -252,29 +264,43 @@ cover (`PRESET_REGISTRY[name].required_classes` in
 - **Q2** -- reader (KB4, known-good body-and-card-match). **Done this round
   (task B7)**: `KG`'s reader check and `KB4`'s runner are real and
   QUALIFICATION_PASS against the fixture.
-- **Q3** -- lineage (KB3, known-good typed edge direction). Wave 3 -- `W5`,
-  `W6`, and `KB3` remain `not_implemented_yet`.
+- **Q3** -- lineage (KB3, known-good typed edge direction). **Done this round
+  (task B10)**: `KG`'s typed-edge-direction extension and `KB3`'s runner are
+  real; `KB3` is `QUALIFICATION_PASS` against the fixture (ledger run
+  `docs/probe-qualification/runs/20260905T043102Z`).
 - **FINAL** -- the complete known-good + known-bad suite before the critic's
-  first round.
+  first round. **Done this round (task B10)**: one fixture run
+  (`docs/probe-qualification/runs/20260905T043117Z`, preset list
+  `KG,KB1,KB2,KB3,KB4,KB5`) is `FRAMEWORK_SMOKE_PASS` -- every preset in
+  `PRESET_REGISTRY` is now real (no `not_implemented_yet` left) -- and the
+  production acceptance set (`W1`-`W10`, `healthz`, `diagnostics`) was
+  refreshed at this commit (see this round's report, `docs/rounds/
+  R04_probe.report.md`, Evidence): every one is `PRODUCT_EVIDENCE_PASS`
+  **except `W6`**, which is a genuine, reproduced `FAIL` -- a pre-existing
+  `explorer/reader` defect (an unquoted YAML date scalar in a `.card.yaml`
+  parses to a Python `datetime.date`, which crashes `{{ view.card_parsed |
+  tojson }}` with a 500) that this round's W6 was the first preset to reach,
+  filed as a Change Request rather than fixed here (out of the probe's own
+  paths).
 
-### Which presets are real (task B7)
+### Which presets are real (rounds 2 + 4, tasks B7 + B10)
 
 | Preset | Status | Substrate |
 |---|---|---|
 | healthz | real (round 1) | either |
 | diagnostics | real (round 1/C1) | either |
-| KG | real (task B7) | fixture only |
+| KG | real (task B7; Q3 extension task B10) | fixture only |
 | KB1 | real (task B7) | fixture only (`--fault wrong_doc_for_id`) |
 | KB2 | real (task B7) | fixture only (`--fault stale_card`) |
-| KB3 | `not_implemented_yet` | -- lineage, wave 3 (Q3) |
+| KB3 | real (task B10) | fixture only (`--fault reverse_edges`) |
 | KB4 | real (task B7) | fixture only (`--fault broken_jump`) |
 | KB5 | real (task B7) | fixture only (`--fault console_error`) |
 | W1 | real (task B7) | production |
 | W2 | real (task B7) | production |
 | W3 | real (task B7) | production (INCOMPLETE, not FAIL, if the vector channel is unavailable) |
 | W4 | real (task B7) | production |
-| W5 | `not_implemented_yet` | -- lineage, wave 3 (Q3) |
-| W6 | `not_implemented_yet` | -- lineage, wave 3 (Q3) |
+| W5 | real (task B10) | production |
+| W6 | real (task B10) | production -- currently a genuine `FAIL` (explorer/reader defect above), not `not_implemented_yet` |
 | W7 | real (task B7) | production (`--disable-vec`) |
 | W8 | real (task B7) | fixture only -- builds and drives its OWN dedicated temp-fixture server (see below); the run's main `--db`/`--docs-root` is unused by this preset |
 | W9 | real (task B7) | production |
