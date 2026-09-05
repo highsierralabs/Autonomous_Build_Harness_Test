@@ -94,18 +94,18 @@
     "builder_rounds_total_max": 28,
     "builder_rounds_per_module_max": 4,
     "convergence_window_rounds": 2,
-    "builder_rounds_consumed_total": 18,
+    "builder_rounds_consumed_total": 19,
     "per_module_consumed": {
       "corpus_adapter": 4,
       "probe": 4,
       "diagnostics": 2,
-      "catalog": 1,
+      "catalog": 2,
       "search": 2,
       "reader": 2,
       "lineage": 2,
       "web": 1
     },
-    "note": "18 of 28 consumed after search round 2; catalog round 2 in flight will make 19, and web round 2 will make 20 -- the Director's ceiling of 20 of 28 for the convergence phase. EXHAUSTED: probe 4 of 4, corpus_adapter 4 of 4. Remaining after the ceiling: 8 rounds, held for anything critic round 2 turns up. RUNNING the probe still costs no builder round; MODIFYING it is impossible.",
+    "note": "19 of 28 consumed after round 7. Web round 2 will make 20 -- the Director's ceiling for the convergence phase, leaving 8 rounds held for whatever critic round 2 turns up. EXHAUSTED: probe 4 of 4, corpus_adapter 4 of 4. Remaining: reader 2, lineage 2, diagnostics 2, catalog 2, search 2, web 3 -- capacity far exceeds the 9 rounds left, so the total is the binding constraint. RUNNING the probe costs no builder round; MODIFYING it is impossible.",
     "corpus_adapter_round_4_policy": "HELD by Director ruling (boundary-3 disposition item 2): do NOT spend before the critic. After critic round 1, ONE batched dispatch carrying the critic's adapter findings AND the deferred amends-link change request together. Whatever does not fit that single round is declared BOUNDED_FAIL on the record, never silently dropped and never traded for a lowered bar.",
     "arithmetic_correction_of_record": "The session-7 next_action said 'budgets 12 -> 13 with reader 1 -> 2'. That was short by one: probe round 4 (S6-B10) was also unrecorded. The observed total is 14 (corpus_adapter 3 + probe 4 + diagnostics 1 + catalog 1 + search 1 + reader 2 + lineage 1 + web 1 = 14). Recorded here rather than silently corrected because it is a second instance of the P-6 class (a predicted count stated as an observed one) and the M3 ANL counts instances. Session-7 text was authored under claude-fable-5-1 with the identity halt open."
   },
@@ -386,9 +386,9 @@
       "scope_references": []
     },
     "catalog": {
-      "owner": "builder S4-B4 (Sonnet 5) on build/catalog",
-      "status": "round 1 complete; merged 2698b66; 24 fixture/live tests green; open issues 3; probe runners pending (probe round 3)",
-      "round": 1,
+      "owner": "builder S8-B15 (Sonnet 5) on build/catalog",
+      "status": "round 2 of 4 complete; merged b90f0c1. An active lifecycle_state filter can no longer go into force while invisible; abstracts are marked truncated only when they are; the nine-column table renders inside 1280px, evidenced by a re-run W4 capture. 32 tests. Two rounds left.",
+      "round": 2,
       "objective_gates": {
         "ruff": "pass",
         "pytest": "pass",
@@ -397,9 +397,7 @@
       },
       "ref_score": null,
       "open_issues": [
-        "compact-abstract marker convention (always ' ...') unexercised at the 200-char boundary",
-        "path_prefix / project_knowledge controls have no dedicated test",
-        "data-mode='catalog' literal unverified against the probe's W4 runner (probe round 3)"
+        "item 3 lacks a programmatic scrollWidth <= clientWidth assertion (needs a probe change; probe exhausted)"
       ],
       "assumptions": [],
       "blocked_dependencies": [],
@@ -1043,7 +1041,7 @@
       "round": 7,
       "wave": null,
       "kind": "builder round -- two strands: search round 2 (CCX section 4 step 2) and catalog round 2 (Director ruling, dispatched concurrently)",
-      "status": "PARTIAL -- search merged 2b7e56c; catalog (S8-B15) still in flight. Two strands, dispatched as two workflows, never more than two live (cap 3).",
+      "status": "complete -- both strands merged and integrated; round-7 boundary",
       "modules": [
         "search",
         "catalog"
@@ -1057,7 +1055,7 @@
       "workflow_run": "wf_6d243214-90f",
       "task_id": "wuftmy5xu",
       "dispatch_form": "section 2 L D-12 + D-3 blocks verbatim (byte-diffed, P-11 control PASS) + sha-pinned pointer to the archived prompt",
-      "wave_cap_check": "one strand dispatched; no other strand live; concurrency_exceedance: none",
+      "wave_cap_check": "two strands, dispatched as two separate workflows; never more than two live against the A1.3 cap of 3; concurrency_exceedance: none",
       "builder_rounds_consumed": 2,
       "prompts": {
         "docs/rounds/R08_search.prompt.md": {
@@ -1067,9 +1065,13 @@
       },
       "scope_note": "Search round 2 was dispatched alone first, matching the Director's instruction to continue at CCX section 4 step (2) exactly; the orchestrator recommended web round 2 and catalog round 2 as a following wave rather than bundling them, on the ground that spending rounds beyond the ruled step is a budget decision for the Director. Ruling 2026-09-05: catalog round 2 concurrent with search, web round 2 alone after both merge, budget ceiling 20 of 28. Web cannot run concurrently with either: its O-2 keyhelp fix deletes duplicated markup from all five page templates.",
       "merges": {
-        "search": "2b7e56c"
+        "search": "2b7e56c",
+        "catalog": "b90f0c1"
       },
-      "post_merge_verification_search": "Director ruling 2 conditions, both discharged. BEFORE the merge: the strand's own reported base 26816db was confirmed to contain dcb0443, the prefix-match integrator edit, so the round was built on a tree that already had it. AFTER the merge: the SA-1 DISABLE_VEC live check re-run -- mode_effective graph-degraded-semantic-seed, both evidence disclosures present, the notice names the surviving channel, no false 'Graph unavailable', hybrid page carries the July figure attributed and dated alongside the build's own 0.675, live db ea8f7df2... unchanged."
+      "post_merge_verification_search": "Director ruling 2 conditions, both discharged. BEFORE the merge: the strand's own reported base 26816db was confirmed to contain dcb0443, the prefix-match integrator edit, so the round was built on a tree that already had it. AFTER the merge: the SA-1 DISABLE_VEC live check re-run -- mode_effective graph-degraded-semantic-seed, both evidence disclosures present, the notice names the surviving channel, no false 'Graph unavailable', hybrid page carries the July figure attributed and dated alongside the build's own 0.675, live db ea8f7df2... unchanged.",
+      "returned_utc": "2026-09-05T16:40:4xZ (catalog; search 16:23:2xZ)",
+      "gates_at_boundary": "ruff clean; l1-index-write-check hits=6 allowlisted=6 defects=0 PASS; l1-import-boundary hits=10 licensed=10 defects=0 PASS; pytest 303 passed (290 before the round: +5 search, +8 catalog)",
+      "budget_note": "19 of 28 consumed. Web round 2 will make 20, the Director's convergence ceiling."
     }
   ],
   "l1_index_write_grep": [
@@ -2268,6 +2270,74 @@
         "only explorer/**/*.py was grepped for bare figures; a number written as literal prose directly in an .html template would not have been caught. Judged low risk by the strand and labelled UNVERIFIED rather than claimed"
       ],
       "deviations": ""
+    },
+    {
+      "session": 8,
+      "round": 7,
+      "strand_id": "S8-B15",
+      "stem": "R09_catalog",
+      "role": "module builder (catalog): filter legibility, abstract truncation honesty, table column budget",
+      "model": "claude-sonnet-5 (client-reported by the strand: 'You are powered by the model named Sonnet 5.')",
+      "orchestrator_model": "claude-opus-5[1m] (MOD-1)",
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/catalog)",
+      "execution_mode": "concurrent (two strands live -- search round 2 in its own worktree; the A1.3 cap is 3)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-05T16:23:1xZ",
+      "returned_utc": "2026-09-05T16:40:4xZ (workflow wf_62c680ea-413 completed)",
+      "workflow_run": "wf_62c680ea-413",
+      "task_id": "wp7cewfwb",
+      "prompt": {
+        "file": "docs/rounds/R09_catalog.prompt.md",
+        "sha256": "35766a0d9b2e44bad14d2362924c0485af39caf532686b7eaebfced267b5efc4",
+        "bytes": 11991
+      },
+      "prompt_sha256_verified_by_strand": true,
+      "prefix": "section 2 L D-12 + D-3 blocks built at runtime and byte-diffed against the archived prefix before dispatch (P-11 control): 1,111 chars, sha256 6a893dbb94c0207f...",
+      "t_start_utc": "2026-09-05T16:23:45.4010658Z",
+      "t_end_utc": "2026-09-05T16:39:56.1246345Z",
+      "base": "c26825e (main at dispatch)",
+      "base_commit_observed": "c26825e6e7779da65dc09317083593cd9851dfbd",
+      "contains_6cca928_verified_by_strand": true,
+      "head_commit": "291234c7069a4d38217f93bb551862c7c24a423e",
+      "commits": 5,
+      "merged": "b90f0c1 (--no-ff)",
+      "status": "COMPLETE",
+      "module_round": "catalog round 2 of 4",
+      "gates": "ruff clean; pytest tests/catalog 32 passed (24 + 8 new); full tree 298 passed at the strand's gate, 303 after the merge; L1 both checks PASS; worktree clean",
+      "items": [
+        {
+          "item": "1 -- an active lifecycle_state filter could be invisible and unclearable (critic ranked issue 6)",
+          "disposition": "landed",
+          "detail": "show_lifecycle_control is now also true when filters.lifecycle_state is set, so a filter in force is always rendered. Evidenced RED-then-GREEN: the strand stashed its own fix and observed the new test fail, then restored it."
+        },
+        {
+          "item": "2 -- every abstract was labelled truncated, including complete ones",
+          "disposition": "landed",
+          "detail": "the ellipsis is appended only when the abstract actually exceeds the cut. Verified against a real 166-character complete fixture abstract (no ellipsis after the fix) and a real 339-character truncated one (ellipsis retained)."
+        },
+        {
+          "item": "3 -- the nine-column table header was clipped at the probe's 1280px viewport",
+          "disposition": "landed",
+          "detail": "colgroup + table-layout: fixed + nine column widths summing to 100 inside the 1200px-max container. The strand labelled the PIXEL OUTCOME explicitly UNVERIFIED, having no browser: see verification_upgrade below."
+        },
+        {
+          "item": "4 -- tests",
+          "disposition": "landed",
+          "detail": "8 new tests; the three covering item 3 are labelled static/non-behavioural in their own docstrings rather than presented as rendering evidence."
+        }
+      ],
+      "verification_upgrade": "INTEGRATOR, at the merge, converting the strand's honest UNVERIFIED into rendered evidence at zero budget cost. RUNNING the probe consumes no builder round (only modifying it does), so W4 -- the preset that exists to make the CMP lifecycle column visible -- was re-run against the live index at the merge commit: run 20260905T164214Z, PRODUCT_EVIDENCE_PASS. The capture shows ALL NINE columns rendered within the 1280px viewport (Title, Canonical ID / filename, Type, Date, Status, Programs, CMP lifecycle state, Abstract, Open), with the CMP lifecycle column carrying real values -- the exact column critic round 1 said W4 existed to make visible and could not. Page height fell 9,619 -> 7,219 px. HONEST LIMIT: this is rendered-browser evidence from a full-page capture, NOT the programmatic scrollWidth <= clientWidth assertion the critic's round-2 question asks for; that would require a new probe assertion, and the probe is exhausted at 4 of 4. Stronger than the CSS argument it replaces, weaker than the assertion the critic wants, and recorded as exactly that.",
+      "class_audit": "The strand audited whether item 1 was one instance of a class, by grepping every show_* and visibility gate in its own module rather than asserting from memory: show_lifecycle_control was the ONLY per-filter visibility gate in the catalog. The other eight filter controls render unconditionally, and the five select-backed ones source their options from the UNFILTERED global facets (O14/D-Q2), so an active value is always present as a selected option by construction. It could not extend the audit to explorer/search/** -- concurrently edited, contractually off-limits -- and disclosed that gap rather than presuming. INTEGRATOR CLOSED THE GAP after the search merge: the search module has NO show_* gates and no {% if %} around any filter control; its conditionals are per-row display, evidence-panel content, and whole-page states. So for once the round-6 'a finding in one place is usually a population' lesson does NOT apply: this one really is isolated, across both filtering surfaces, and that is recorded as a checked negative rather than an assumption.",
+      "change_requests": [
+        "to web: a shared table-legibility utility in explorer/web/static/app.css (e.g. a .data-table class carrying table-layout: fixed, overflow-wrap: anywhere, word-break: break-word). The strand's own finding: critic ranked issue 4 (the reader's unbounded horizontal overflow) and this round's item 3 are the SAME underlying mechanism gap in two modules. Not acted on -- app.css is web-owned. Carried directly into the web round-2 dispatch."
+      ],
+      "open_issues": [
+        "item 3's pixel geometry is now evidenced by a rendered capture but still not by a scrollWidth <= clientWidth assertion; that needs a probe change and the probe is exhausted"
+      ],
+      "deviations": "Two disclosed, neither substantive. (1) Commit 89cc48d's subject describes only the abstract-ellipsis half of its own diff -- the colgroup/table-class edit to the same file was made before any commit and rode along. The strand did not reach for amend or rebase to tidy it, both being forbidden, and disclosed it instead of leaving it implicit. (2) The report's stamped window end (16:38:05Z) is an internal checkpoint; the session actually ended at 16:39:56Z after the final gate re-runs, and the strand judged the ~2 minutes not worth an extra commit. Recorded as the strand told it.",
+      "record_provenance": "from the strand's returned structured result, the workflow run record wf_62c680ea-413, and git log; the verification upgrade and class-audit closure are the integrator's own acts at the merge"
     }
   ],
   "dispatch_record_notes": [
@@ -2788,6 +2858,16 @@
       },
       "result": "ALL TWELVE production presets PRODUCT_EVIDENCE_PASS -- the complete acceptance workflow set W1-W10 plus healthz and diagnostics",
       "criterion_6": "live db pin 61ea99c9... 115,089,408 B mtime 2026-09-04T23:58:11.272Z unchanged before and after the whole set"
+    },
+    {
+      "run_set": "W4 re-run at the round-7 boundary (integrator; running the probe consumes no builder round)",
+      "utc": "2026-09-05T16:42:14Z",
+      "base_commit": "b90f0c1",
+      "presets": {
+        "W4": "20260905T164214Z PRODUCT_EVIDENCE_PASS -- all nine columns rendered within the 1280px viewport, CMP lifecycle state among them; capture height 9,619 -> 7,219 px"
+      },
+      "purpose": "convert catalog round 2's item-3 static CSS argument into rendered evidence, which the strand had correctly labelled UNVERIFIED",
+      "criterion_6": "live db ea8f7df2... unchanged"
     }
   ],
   "objective_gates_status": {
@@ -2949,7 +3029,8 @@
         "issue": "Reader page overflows its viewport horizontally on every capture",
         "class": "polish",
         "disposition": "ACCEPTED.",
-        "action": "Web-owned (app.css / template width rules); web has 3 of 4 rounds left. Queued for a web round 2 alongside the O-2 keyhelp de-duplication and ranked issue 9. If no web round 2 lands before terminal state, this is declared BOUNDED_FAIL, not quietly dropped."
+        "action": "Web-owned (app.css / template width rules); web has 3 of 4 rounds left. Queued for a web round 2 alongside the O-2 keyhelp de-duplication and ranked issue 9. If no web round 2 lands before terminal state, this is declared BOUNDED_FAIL, not quietly dropped.",
+        "mechanism_note": "The catalog builder identified the shared mechanism: ranked issue 4 (reader overflow) and the catalog's own clipped header are the same gap -- no shared table/}pre{ legibility rule -- surfacing in two modules. Carried into the web round-2 dispatch as a shared app.css utility rather than two module-local patches."
       },
       {
         "rank": 5,
@@ -2964,7 +3045,8 @@
         "issue": "An active catalog lifecycle_state filter can become invisible and unclearable",
         "class": "polish",
         "disposition": "ACCEPTED.",
-        "action": "Catalog-owned, 3 of 4 rounds left. Queued for a catalog round 2; BOUNDED_FAIL if none lands."
+        "action": "Catalog-owned, 3 of 4 rounds left. Queued for a catalog round 2; BOUNDED_FAIL if none lands.",
+        "landed": "YES -- round 7, S8-B15, merged b90f0c1. And the class audit came back NEGATIVE in both filtering surfaces: this was genuinely an isolated instance, not a population."
       },
       {
         "rank": 7,
