@@ -76,7 +76,18 @@
     "builder_rounds_total_max": 28,
     "builder_rounds_per_module_max": 4,
     "convergence_window_rounds": 2,
-    "builder_rounds_consumed_total": 3
+    "builder_rounds_consumed_total": 5,
+    "per_module_consumed": {
+      "corpus_adapter": 2,
+      "probe": 2,
+      "diagnostics": 1,
+      "catalog": 0,
+      "search": 0,
+      "reader": 0,
+      "lineage": 0,
+      "web": 0
+    },
+    "note": "probe has 2 of 4 rounds left before wave 2 (round 3 = the wave-2 runners, round 4 = Q3/FINAL in wave 3): a repair round for the probe after wave 3 would exhaust its budget -- flagged to the Director"
   },
   "caps": {
     "CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH": {
@@ -129,8 +140,8 @@
   "modules": {
     "corpus_adapter": {
       "owner": "builder S3-B1 (Sonnet 5) on build/corpus_adapter",
-      "status": "round 1 complete; merged; 15 live-index tests green; open issues 3 (see dispatch record)",
-      "round": 1,
+      "status": "round 2 complete (correction: connect() per-call db-exists guard); merged 90c8c71; 17 live-index tests green",
+      "round": 2,
       "objective_gates": {
         "ruff": "pass",
         "pytest": "pass",
@@ -139,6 +150,7 @@
       },
       "ref_score": null,
       "open_issues": [
+        "availability.py line 49: direct RHACO_corpus_index.connect(db_path) inside the vector probe bypasses the per-call isfile guard (same O10 class; disclosed by S4-C2; Director disposition pending)",
         "availability probe 8 s thread-timeout bound unexercised against a hung Ollama (verified by code reading)",
         "campaign_subtree / dangling_references have no dedicated pytest (not in the assigned test list)",
         "wrong_doc_for_id fault semantics (rotate by one within the id's own rows) not yet confirmed against a fixture index"
@@ -153,8 +165,8 @@
     },
     "probe": {
       "owner": "builder S3-B2 (Sonnet 5) on build/probe",
-      "status": "round 1 complete; framework + fixture substrate merged; qualification presets KG/KB1-KB5 and W1-W10 pending wave 2",
-      "round": 1,
+      "status": "round 2 complete (correction: observed-fault predicate, AC-3 vocabulary, ledger); merged 5ba2274; Q0 qualified (KB5); W1-W10 / KG / KB1-KB4 runners pending round 3 (wave 2)",
+      "round": 2,
       "objective_gates": {
         "ruff": "pass",
         "pytest": "pass",
@@ -163,23 +175,38 @@
       },
       "ref_score": null,
       "open_issues": [
-        "W1-W10 / KG / KB1-KB5 are not_implemented stubs by design until wave 2",
-        "diagnostics preset verified only on the 404 path in the worktree (the integrator's post-merge production run verified the 200 path)",
-        "DOM convention was a proposal until adopted (now A19)",
-        "t_start approximate",
-        "healthz pass criterion mirrors section 4.8 literally (status == ok)"
+        "W1-W10 / KG / KB1-KB5 remain not_implemented stubs (wave 2)",
+        "KB1-KB4 attribution rules not implemented (wave 2 must define each fault's observable signature; wrong_doc_for_id needs a DOM/API-comparison rule)",
+        "KB3, W5, W6 wait for lineage (wave 3)",
+        "PRODUCT_EVIDENCE_PASS path verified on synthetic data only in the worktree; the integrator's post-merge product run supplies the first real observation",
+        "_FAULTS_TOUCHING_ALL_PAGES generalizes only console_error",
+        "ledger idempotency verified by code inspection only",
+        "RHACO_CORPUS_DISABLE_VEC=1 (W7) path not exercised this round"
       ],
       "assumptions": [],
       "blocked_dependencies": [],
       "invalidated_evidence": [],
       "probe_artifacts": [
         "docs/probe-qualification/runs/20260904T033047Z (fixture db, worktree)",
-        "docs/probe-qualification/runs/20260904T034711Z (live db, production path)"
+        "docs/probe-qualification/runs/20260904T034711Z (live db, production path)",
+        "docs/probe-qualification/runs/20260905T002014Z (fixture, smoke, FRAMEWORK_SMOKE_PASS)",
+        "docs/probe-qualification/runs/20260905T002024Z (fixture, --fault console_error, QUALIFICATION_PASS KB5)",
+        "docs/probe-qualification/runs/20260905T002034Z (fixture, --preset all, INCOMPLETE demonstration)",
+        "docs/probe-qualification/runs/20260905T002845Z (live db, diagnostics, PRODUCT_EVIDENCE_PASS)",
+        "docs/probe-qualification/qualification_ledger.json (KB5)"
       ],
       "scope_references": [],
       "run_classifications": {
         "docs/probe-qualification/runs/20260904T033047Z": "FRAMEWORK_SMOKE_PASS (fixture db, worktree; predates the AC-3 vocabulary; diagnostics preset recorded http 404 + one console error + one failed request with ok:true -- the predicate defect that probe round 2 repairs)",
-        "docs/probe-qualification/runs/20260904T034711Z": "FRAMEWORK_SMOKE_PASS (reclassified by Director ruling AC-3 from the round-1 record's 'PASS': production-path mechanism evidence only -- not qualification, not product evidence; run directory not rewritten)"
+        "docs/probe-qualification/runs/20260904T034711Z": "FRAMEWORK_SMOKE_PASS (reclassified by Director ruling AC-3 from the round-1 record's 'PASS': production-path mechanism evidence only -- not qualification, not product evidence; run directory not rewritten)",
+        "docs/probe-qualification/runs/20260905T002845Z": "PRODUCT_EVIDENCE_PASS (integrator product-path run after the correction merge; probe v1.1 vocabulary)"
+      },
+      "qualification": {
+        "Q0": "qualified (probe mechanism; KB5 console_error detected on the fixture path)",
+        "Q1": "pending wave 2",
+        "Q2": "pending wave 2",
+        "Q3": "pending wave 3",
+        "FINAL": "pending"
       }
     },
     "diagnostics": {
@@ -391,6 +418,76 @@
         "note": "worktree isolation kept the three builders from touching each other's files; every integration cost was in the shared layer (models, base template, tests that assumed a partial tree)"
       },
       "live_db_pin_during_round": "274c1e96b67b560073be9683ff0788ca86192a5ca40ae59ca821fe83008e28f1, 115,093,504 B, mtime 2026-09-04T02:10:08.415Z -- unchanged through builder tests, the oracle, and the probe run"
+    },
+    {
+      "round": "1C",
+      "kind": "correction round between rounds 1 and 2 (S4 launch note steps 5-7): probe module round 2, corpus_adapter module round 2",
+      "status": "complete",
+      "modules": [
+        "probe",
+        "corpus_adapter"
+      ],
+      "base_commit": "62685dad6f40f91c6b1b84500a213f0a43ea8673",
+      "worktrees": {
+        "probe": ".worktrees/probe @ build/probe (branch fast-forwarded from its round-1 tip 736ed1c to main 62685da, which contains it)",
+        "corpus_adapter": ".worktrees/corpus_adapter @ build/corpus_adapter (fast-forwarded from 0395f74 to 62685da)"
+      },
+      "dispatched_utc": "2026-09-05T00:08:56.827Z",
+      "workflow_run": "wf_0d9310f0-d5c",
+      "task_id": "wave4n9eu",
+      "dispatch_form": "Session-4 dispatch form: the dispatched text = the section 2 L blocks verbatim + a pointer naming the archived prompt file and its sha256; the strand reads the file (authorized read of one file in the main checkout) and executes it. Reason: an 18 KB prompt carrying Windows paths cannot be passed through the client's JSON tool parameter without hand-escaping every backslash (\\t, \\b, \\f, \\n, \\r sequences inside paths would silently corrupt); the archived file is the prompt of record and the strand's hash check makes the two identical by construction. Every dispatched prompt still begins with the section 2 L text (HND section 3 standing halt; acceptance criterion 7).",
+      "wave_cap_check": "exactly two strands dispatched in one parallel() call; no other strand live",
+      "builder_rounds_consumed": 2,
+      "prompts": {
+        "S4-C1": "docs/rounds/R01C_probe.prompt.md sha256 b601c51d144d072a7672d74cc5903e10b93c4459de6f1e96b83406c39a9224ae (18,135 B)",
+        "S4-C2": "docs/rounds/R01C_corpus_adapter.prompt.md sha256 23ef44b5922234b2f560cacc75017b6861431cfeefbe8018e58440cc6ae1e870 (8,906 B)"
+      },
+      "returned_utc": {
+        "S4-C2": "2026-09-05T00:18:33.467Z",
+        "S4-C1": "2026-09-05T00:26:28.601Z"
+      },
+      "concurrency_audit": "two strands live 00:08:57Z-00:18:33Z, one until 00:26:28Z; never three, never four; concurrency_exceedance: none",
+      "workflow_usage": {
+        "agents": 2,
+        "errors": 0,
+        "subagent_tokens": 332422,
+        "tool_uses": 117,
+        "duration_ms": 1023760
+      },
+      "merges": {
+        "corpus_adapter": "90c8c71",
+        "probe": "5ba2274",
+        "mode": "--no-ff, zero conflicts (disjoint owned paths); merged 2026-09-05T00:28:05Z"
+      },
+      "post_merge_gates": {
+        "ruff": "clean",
+        "l1_index_write_grep": "hits=6 allowlisted=6 defects=0 PASS",
+        "pytest": "82 passed (52 + 28 probe + 2 adapter)",
+        "invalidated_evidence_after_merge": "none (no test assumed the other module's absence)"
+      },
+      "integrator_product_run": {
+        "dir": "docs/probe-qualification/runs/20260905T002845Z",
+        "db": "C:\\highsierralabs\\RHACO\\index\\corpus_index.db",
+        "presets": [
+          "diagnostics"
+        ],
+        "run_kind": "product",
+        "qualification_state": "PRODUCT_EVIDENCE_PASS",
+        "product_evidence_eligible": true,
+        "qualified_failure_classes": [
+          "KB5"
+        ],
+        "product_evidence_blocked_by": [],
+        "verdict": "PASS",
+        "note": "the first product-path run under the AC-3 vocabulary: the diagnostics preset's only required class (KB5) is ledgered from run 20260905T002024Z, so a clean pass is PRODUCT_EVIDENCE_PASS for that surface alone; live db read only through the server; pin unchanged before/after"
+      },
+      "pattern_3_disposition_evidence": {
+        "merge_conflicts": 0,
+        "contract_change_requests": 0,
+        "template_change_requests": 0,
+        "invalidated_tests_after_merge": 0,
+        "note": "two builders on disjoint paths; the only cross-module coupling was read-only (the probe reads the diagnostics template's fault hook)"
+      }
     }
   ],
   "l1_index_write_grep": [
@@ -400,6 +497,10 @@
     },
     {
       "round": 1,
+      "result": "hits=6 allowlisted=6 (fixtures/build_fixture_index.py) defects=0 PASS"
+    },
+    {
+      "round": "1C",
       "result": "hits=6 allowlisted=6 (fixtures/build_fixture_index.py) defects=0 PASS"
     }
   ],
@@ -916,6 +1017,76 @@
         "ARCHITECTURE 4.6 names docs/probe-qualification/last_run.json while the dispatch named runs/*/run_summary.json -- the dispatch form was followed and is what the probe writes"
       ],
       "deviations": "opening timestamp captured late (closeout phase), self-reported rather than fabricated"
+    },
+    {
+      "session": 4,
+      "round": "1C",
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "execution_mode": "concurrent (correction round of 2, under the cap of 3)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-05T00:08:56.827Z",
+      "workflow_run": "wf_0d9310f0-d5c",
+      "task_id": "wave4n9eu",
+      "prefix": "section 2 L as amended (D-12 + D-3 blocks) verbatim at the top of the dispatched prompt, followed by a sha-pinned pointer to the archived prompt of record docs/rounds/<stem>.prompt.md (which itself begins with the same two blocks); the strand verified the file's sha256 before acting",
+      "strand_id": "S4-C1",
+      "stem": "R01C_probe",
+      "role": "module builder (probe), correction round: observed-fault predicate + AC-3 vocabulary (PROMPT.md section 2 repair rule; Director ruling AC-3)",
+      "model": "claude-sonnet-5 (client-reported: 'You are powered by the model named Sonnet 5. The exact model ID is claude-sonnet-5.')",
+      "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/probe on build/probe from 62685da)",
+      "agent_id": "a648efc07f6749486",
+      "returned_utc": "2026-09-05T00:26:28.601Z",
+      "t_start_utc": "2026-09-05T00:09:30Z",
+      "t_end_utc": "2026-09-05T00:22:55Z",
+      "head_commit": "96440d8317e9495fea0d6962ff1c1cb85c5bfec0",
+      "commits": 5,
+      "status": "COMPLETE",
+      "module_round": "probe round 2 of 4",
+      "gates": "ruff clean; pytest tests/probe 40 passed (12 round-1 + 28 new); L1 PASS (6 allowlisted hits) -- re-run by the integrator at the worktree root: identical",
+      "acceptance": "COMPLETE -- merged 5ba2274 (--no-ff); evaluate_page predicate (rules a-e), pageerror capture (empirical finding: the template's throw arrives on pageerror, not console), FAULT_CLASS_TABLE / FAULT_TEXT_MARKERS (KB5), AC-3 vocabulary + derive_qualification, qualification ledger, --ledger flag, exit codes 0/1/3; Q0 evidence runs 20260905T002014Z (FRAMEWORK_SMOKE_PASS), 20260905T002024Z (QUALIFICATION_PASS, KB5), 20260905T002034Z (INCOMPLETE demo, exit 3); ledger holds KB5",
+      "change_requests": [],
+      "open_issues": [
+        "W1-W10 / KG / KB1-KB5 remain not_implemented stubs (wave 2)",
+        "KB1-KB4 attribution rules not implemented (wave 2 must define each fault's observable signature; wrong_doc_for_id needs a DOM/API-comparison rule)",
+        "KB3, W5, W6 wait for lineage (wave 3)",
+        "PRODUCT_EVIDENCE_PASS path verified on synthetic data only in the worktree; the integrator's post-merge product run supplies the first real observation",
+        "_FAULTS_TOUCHING_ALL_PAGES generalizes only console_error",
+        "ledger idempotency verified by code inspection only",
+        "RHACO_CORPUS_DISABLE_VEC=1 (W7) path not exercised this round"
+      ],
+      "deviations": "none reported; opening timestamp captured at the first tool call (rule 7 as reworded)"
+    },
+    {
+      "session": 4,
+      "round": "1C",
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "execution_mode": "concurrent (correction round of 2, under the cap of 3)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-05T00:08:56.827Z",
+      "workflow_run": "wf_0d9310f0-d5c",
+      "task_id": "wave4n9eu",
+      "prefix": "section 2 L as amended (D-12 + D-3 blocks) verbatim at the top of the dispatched prompt, followed by a sha-pinned pointer to the archived prompt of record docs/rounds/<stem>.prompt.md (which itself begins with the same two blocks); the strand verified the file's sha256 before acting",
+      "strand_id": "S4-C2",
+      "stem": "R01C_corpus_adapter",
+      "role": "module builder (corpus_adapter), correction round: connect() per-call db-exists guard (Director-owned invariant; CONSTRAINTS O10; criterion 6)",
+      "model": "claude-sonnet-5 (client-reported: 'You are powered by the model named Sonnet 5. The exact model ID is claude-sonnet-5.')",
+      "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/corpus_adapter on build/corpus_adapter from 62685da)",
+      "agent_id": "a1c420963bf31471e",
+      "returned_utc": "2026-09-05T00:18:33.467Z",
+      "t_start_utc": "2026-09-05T00:09:34Z",
+      "t_end_utc": "2026-09-05T00:14:49Z",
+      "head_commit": "202282fb5704887d7eb2b156c04c196116818ec3",
+      "commits": 4,
+      "status": "COMPLETE",
+      "module_round": "corpus_adapter round 2 of 4",
+      "gates": "ruff clean; pytest tests/corpus_adapter 17 passed (15 + 2 new); L1 PASS -- re-run by the integrator at the worktree root: identical; live db corpus_cards_sha 9d36e897... and mtime unchanged across the strand's test session",
+      "acceptance": "COMPLETE -- merged 90c8c71 (--no-ff); CorpusAdapter._require_db_exists() shared by __init__ and connect(); test_connect_guard.py (raises after removal, creates nothing; still connects when the file exists)",
+      "change_requests": [],
+      "open_issues": [
+        "explorer/corpus_adapter/availability.py line 49 calls RHACO_corpus_index.connect(db_path) directly inside vector_availability()'s probe, bypassing the adapter's per-call isfile guard -- the same O10 hazard class at a second call site; left unfixed (outside the stated deliverable); disclosed for Director disposition (a follow-up adapter round would either guard-and-raise inside probe(), changing 'never raises', or route the call through CorpusAdapter.connect())"
+      ],
+      "deviations": "none reported"
     }
   ],
   "dispatch_record_notes": [
