@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+{% block title %}{% if view %}{{ view.card_panel.title or view.doc_id }} -- {% endif %}Reader -- RHACO Corpus Explorer{% endblock %}
+{% block html_attrs %} data-mode="reader"{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="/static/reader/reader.css">
+
+<div id="keyhelp" hidden>
+  <h2>Keyboard shortcuts</h2>
+  <dl>
+    <dt><kbd>/</kbd></dt><dd>focus search</dd>
+    <dt><kbd>?</kbd></dt><dd>toggle this help</dd>
+  </dl>
+</div>
+
+<h1>Reader</h1>
+
+{% if adapter_absent %}
+<div class="degradation" role="status" data-diagnostics-state="adapter-absent">
+  <p><strong>corpus_adapter not built.</strong>
+  {{ adapter_absent_message or "The corpus_adapter module is not available in this build; the reader cannot open any document." }}</p>
+</div>
+
+{% elif not_found %}
+<div class="degradation" role="alert">
+  <p>no card at <code>{{ card_ref }}</code> in the index</p>
+</div>
+
+{% else %}
+<p class="lede">What this artifact actually says, and its catalog identity -- shown as two distinct regions (S1): the document is never visually collapsed into the card.</p>
+
+<div class="reader-layout">
+
+<section aria-labelledby="document-heading" id="document"
+         data-selected-doc-id="{{ view.doc_id }}"
+         data-card-ref="{{ view.card_ref }}"
+         data-body-sha256="{{ view.document.sha256 or '' }}"
+         data-jump-line="{{ view.jump_line_attr }}">
+  <h2 id="document-heading">Document</h2>
+
+  {% if view.jump_message %}
+  <p class="degradation" role="status" data-jump-status="{{ 'found' if view.jump_found else 'not-found' }}">{{ view.jump_message }}</p>
+  {% endif %}
+
+  {% if view.document.body_missing %}
+  <div class="degradation" role="alert" data-body-missing="true">
+    <p><strong>Document body unavailable.</strong> {{ view.document.body_missing_message }}</p>
+    <p>The card record above is still authoritative and is rendered regardless (S1).</p>
+  </div>
+
+  {% elif view.document.unsupported_binary %}
+  <div class="degradation" role="note">
+    <p>This document is a <strong>{{ view.document.kind }}</strong> file (O15). The explorer does not render
+    non-text bodies inline -- card and path only.</p>
+    <p>sha256: <code>{{ view.document.sha256 }}</code> -- size: {{ view.document.size_bytes }} bytes</p>
+  </div>
+
+  {% else %}
+
+  {% if view.document.headings %}
+  <nav aria-label="Table of contents" class="toc">
+    <h3>Table of contents</h3>
+    <ul>
+      {% for h in view.document.headings %}
+      <li class="toc-level-{{ h.level }}" data-line="{{ h.line_no }}" data-line-verified="{{ 'true' if h.line_verified else 'false' }}">
+        <a href="#{{ h.slug }}">{{ h.text }}</a>
+        (<a href="/doc/{{ view.card_ref }}?line={{ h.line_no }}">go to source line</a>)
+        {%- if not h.line_verified %} <span class="degradation" role="note">anchor mismatch</span>{% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </nav>
+  {% endif %}
+
+  {% if view.document.anchor_mismatches %}
+  <p class="degradation" role="status" data-anchor-mismatch-count="{{ view.document.anchor_mismatches | length }}">
+    anchor mismatch: {{ view.document.anchor_mismatches | map(attribute='text') | join(', ') }}
+  </p>
+  {% endif %}
+
+  {% if view.document.kind == "markdown" %}
+  <div class="doc-body">{{ view.document.rendered_html | safe }}</div>
+  {% elif view.document.kind == "text" %}
+  <pre class="doc-body doc-body-text">{{ view.document.plain_text }}</pre>
+  {% endif %}
+
+  <details class="source-view" open>
+    <summary>Source (verbatim, {{ view.document.line_count }} lines)</summary>
+    <div class="source-scroll">
+      {% for l in view.document.lines %}
+      <div id="L{{ l.number }}" data-line="{{ l.number }}" class="source-line{{ ' hit' if l.is_hit else '' }}"><span class="line-no">{{ l.number }}</span><span class="line-text">{{ l.text }}</span></div>
+      {% endfor %}
+    </div>
+  </details>
+
+  {% endif %}
+</section>
+
+<aside aria-labelledby="card-heading" id="card-panel" data-card-index-mismatch="{{ view.index_mismatch_fields | join(',') }}">
+  <h2 id="card-heading">Card (catalog metadata)</h2>
+
+  {% if view.card_panel.superseded_banner %}
+  <p class="degradation" role="status" data-superseded-banner="true">
+    This version is superseded -- current head:
+    <a href="/doc/{{ view.card_panel.superseded_banner.head.card_ref }}" data-doc-id="{{ view.card_panel.superseded_banner.head.doc_id }}">{{ view.card_panel.superseded_banner.head.title or view.card_panel.superseded_banner.head.doc_id }}</a>
+  </p>
+  {% endif %}
+
+  <section aria-labelledby="identity-heading">
+    <h3 id="identity-heading">Identity</h3>
+    <dl>
+      <dt>Document id <span class="from-index">(from index)</span></dt><dd>{{ view.doc_id }}</dd>
+      <dt>Document type</dt><dd>{{ view.card_panel.doc_type }}</dd>
+      <dt>Date</dt><dd>{{ view.card_panel.date }}</dd>
+      <dt>Sequence</dt><dd>{{ view.card_panel.seq }}</dd>
+      <dt>Title</dt><dd>{{ view.card_panel.title }}</dd>
+      <dt>Status</dt>
+      <dd>{{ view.card_panel.status }}{% if view.card_panel.frozen %} <span class="frozen">frozen</span>{% endif %}</dd>
+      {% if view.card_panel.lifecycle_label %}
+      <dt>{{ view.card_panel.lifecycle_label }}</dt><dd>{{ view.card_panel.lifecycle_value }}</dd>
+      {% endif %}
+      <dt>Programs</dt><dd>{{ view.card_panel.programs | join(", ") if view.card_panel.programs else "none" }}</dd>
+      <dt>Tags</dt><dd>{{ view.card_panel.tags | join(", ") if view.card_panel.tags else "none" }}</dd>
+      <dt>Project knowledge</dt><dd>{{ view.card_panel.project_knowledge }}</dd>
+      <dt>Schema / naming-convention versions</dt>
+      <dd>schema {{ view.card_panel.schema_version }} / naming convention {{ view.card_panel.naming_convention_version }}</dd>
+      <dt>Last human review</dt><dd>{{ view.card_panel.last_human_review }}</dd>
+      <dt>Reviewer</dt><dd>{{ view.card_panel.reviewer }}</dd>
+    </dl>
+  </section>
+
+  <section aria-labelledby="abstract-heading">
+    <h3 id="abstract-heading">Abstract</h3>
+    <p>{{ view.card_panel.abstract or "(none)" }}</p>
+  </section>
+
+  <section aria-labelledby="index-row-heading">
+    <h3 id="index-row-heading">Index row <span class="from-index">(as indexed)</span></h3>
+    <dl>
+      <dt>Indexed at (UTC)</dt><dd>{{ view.card_row.indexed_at_utc }}</dd>
+      <dt>Card sha256</dt><dd><code>{{ view.card_row.card_sha256 }}</code></dd>
+      <dt>Title (as indexed)</dt><dd>{{ view.card_row.title }}</dd>
+      <dt>Status (as indexed)</dt><dd>{{ view.card_row.status }}</dd>
+      <dt>Lifecycle state (as indexed)</dt><dd>{{ view.card_row.lifecycle_state }}</dd>
+      <dt>Date (as indexed)</dt><dd>{{ view.card_row.date }}</dd>
+      <dt>Document type (as indexed)</dt><dd>{{ view.card_row.doc_type }}</dd>
+    </dl>
+    {% if view.index_mismatch_fields %}
+    <p class="degradation" role="alert">index row differs from card file: {{ view.index_mismatch_fields | join(", ") }}</p>
+    {% else %}
+    <p role="note">index row agrees with the card file (title, status, lifecycle_state, date, doc_type).</p>
+    {% endif %}
+  </section>
+
+  <section aria-labelledby="deps-heading">
+    <h3 id="deps-heading">Dependencies</h3>
+    <h4>depends_on</h4>
+    {% if view.card_panel.depends_on %}
+    <ul>
+      {% for r in view.card_panel.depends_on %}
+      <li>
+        {% if r.cards %}
+          {% for c in r.cards %}<a href="/doc/{{ c.card_ref }}" data-doc-id="{{ c.doc_id }}" data-card-ref="{{ c.card_ref }}">{{ r.id }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+        {% else %}
+          {{ r.id }} <span class="degradation" role="note">unresolved in index</span>
+        {% endif %}
+        {%- if r.note %} -- {{ r.note }}{% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}<p>none</p>{% endif %}
+
+    <h4>see_also</h4>
+    {% if view.card_panel.see_also %}
+    <ul>
+      {% for r in view.card_panel.see_also %}
+      <li>
+        {% if r.cards %}
+          {% for c in r.cards %}<a href="/doc/{{ c.card_ref }}" data-doc-id="{{ c.doc_id }}" data-card-ref="{{ c.card_ref }}">{{ r.id }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+        {% else %}
+          {{ r.id }} <span class="degradation" role="note">unresolved in index</span>
+        {% endif %}
+        {%- if r.note %} -- {{ r.note }}{% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}<p>none</p>{% endif %}
+  </section>
+
+  <section aria-labelledby="lineage-heading">
+    <h3 id="lineage-heading">Supersession / amendment state</h3>
+    <ul>
+      {% for e in view.card_panel.supersedes_text %}
+      <li>{{ e.direction_label }}:
+        {% for c in e.cards %}<a href="/doc/{{ c.card_ref }}" data-doc-id="{{ c.doc_id }}" data-card-ref="{{ c.card_ref }}">{{ c.title or e.doc_id }}</a>{% if not loop.last %}, {% endif %}{% else %}{{ e.doc_id }} <span class="degradation" role="note">unresolved in index</span>{% endfor %}
+      </li>
+      {% endfor %}
+      {% for c in view.card_panel.amendment_of %}
+      <li>amendment of: <a href="/doc/{{ c.card_ref }}" data-doc-id="{{ c.doc_id }}" data-card-ref="{{ c.card_ref }}">{{ c.title or c.doc_id }}</a></li>
+      {% endfor %}
+      {% if view.card_panel.amended_by %}
+      <li>amended by:
+        {% for c in view.card_panel.amended_by %}<a href="/doc/{{ c.card_ref }}" data-doc-id="{{ c.doc_id }}" data-card-ref="{{ c.card_ref }}">{{ c.title or c.doc_id }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+      </li>
+      {% endif %}
+      {% for e in view.card_panel.campaign_child_of %}
+      <li>campaign child of:
+        {% for c in e.cards %}<a href="/doc/{{ c.card_ref }}" data-doc-id="{{ c.doc_id }}" data-card-ref="{{ c.card_ref }}">{{ c.title or e.doc_id }}</a>{% if not loop.last %}, {% endif %}{% else %}{{ e.doc_id }}{% endfor %}
+      </li>
+      {% endfor %}
+      {% for e in view.card_panel.unresolved_edges %}
+      <li>{{ e.relation }} -> {{ e.doc_id }} <span class="degradation" role="note">unresolved</span></li>
+      {% endfor %}
+    </ul>
+
+    <h4>Lineage (all typed edges)</h4>
+    {% if view.card_panel.lineage_links %}
+    <ul>
+      {% for e in view.card_panel.lineage_links %}
+      <li>[{{ e.direction }}] {{ e.direction_label }}:
+        {% if e.cards %}
+          {% for c in e.cards %}<a href="/doc/{{ c.card_ref }}" data-doc-id="{{ c.doc_id }}" data-card-ref="{{ c.card_ref }}">{{ c.title or e.doc_id }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+        {% else %}
+          {{ e.doc_id }}
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}<p>none</p>{% endif %}
+    <p><a href="{{ view.lineage_href }}">lineage view</a></p>
+  </section>
+
+  <section aria-labelledby="location-heading">
+    <h3 id="location-heading">Local path</h3>
+    <p><code>{{ view.card_panel.local_path }}</code></p>
+    <input type="text" readonly value="{{ view.card_panel.local_path }}" aria-label="Local path (copyable)">
+  </section>
+
+  <details>
+    <summary>Card source (.card.yaml)</summary>
+    <pre>{{ view.card_panel.raw_text }}</pre>
+  </details>
+
+  <details>
+    <summary>Parsed card fields (complete)</summary>
+    {% if view.card_parse_error %}
+    <p class="degradation" role="alert">Card YAML did not parse cleanly: {{ view.card_parse_error }}</p>
+    {% endif %}
+    <pre>{{ view.card_parsed | tojson(indent=2) }}</pre>
+  </details>
+
+</aside>
+
+</div>
+{% endif %}
+{% endblock %}
