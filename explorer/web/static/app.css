@@ -1,20 +1,257 @@
-/* RHACO Corpus Explorer -- base stylesheet (integrator seed; owned by the web builder from wave 3).
-   No external assets. System font stack; #4B286D accent (RHACO house colour, CONSTRAINTS.md O28). */
-:root { --accent: #4B286D; --ink: #1c1c1e; --muted: #5b5b66; --line: #d9d6e0; --bg: #ffffff; --panel: #f6f4f9; --warn: #8a4b00; --warn-bg: #fff4e5; }
+/* RHACO Corpus Explorer -- base stylesheet (builder-owned: web, wave 3).
+   No external assets of any kind (CONSTRAINTS.md O11): no font CDN, no image
+   URL, no at-rule that fetches a remote stylesheet. This is the base every
+   other module's page renders
+   through; module stylesheets (catalog.css, reader.css) sit on top of it and
+   own their own selectors -- this file supplies shared tokens, the shell
+   (header/nav/main/footer), generic form/table/details elements no module
+   otherwise styles, and the epistemic-distinction classes used by more than
+   one module's templates.
+
+   Shared selectors this file takes ownership of, and why (report "Change,
+   Evidence" section has the file:line citations):
+     .sr-only        -- used by catalog.html AND diagnostics.html, but only
+                         catalog.css defined it (round 2); on diagnostics,
+                         which loads no stylesheet of its own, every
+                         class="sr-only" caption was rendering VISIBLE before
+                         this round. Defined here so every page gets it.
+     .frozen-marker  -- used by search.html; had no CSS anywhere.
+     .mode-badge     -- used by search.html; had no CSS anywhere.
+     .evidence       -- used by search.html (the Evidence <details>); no CSS.
+     #keyhelp        -- identical markup on all four merged pages; no CSS.
+     dl/dt/dd, details/summary, fieldset/legend, form inputs and buttons --
+                         generic element styling for diagnostics and search,
+                         neither of which ships its own stylesheet. Catalog's
+                         and reader's own, more specific selectors
+                         (`.catalog-filters input[...]`, `#card-panel dl`)
+                         win where they exist, so this does not fight them.
+   .frozen and .degradation were already this file's own (round-0 seed). */
+
+:root {
+  --accent: #4B286D;
+  --accent-hover: #3a1f57;
+  --ink: #1c1c1e;
+  --muted: #5b5b66;
+  --line: #d9d6e0;
+  --bg: #ffffff;
+  --panel: #f6f4f9;
+  --warn: #8a4b00;
+  --warn-bg: #fff4e5;
+  --select-bg: #f1ecf7;
+}
 html { color-scheme: light; }
-body { margin: 0; font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: var(--ink); background: var(--bg); }
-.skip-link { position: absolute; left: -999px; top: 0; background: var(--accent); color: #fff; padding: .5rem 1rem; }
-.skip-link:focus { left: 0; z-index: 10; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+/* -- Accessibility utilities -------------------------------------------- */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--accent);
+  color: #fff;
+  padding: .5rem 1rem;
+  z-index: 20;
+}
+.skip-link:focus { left: 0; z-index: 20; }
+
+/* High-contrast focus rings on every interactive element (accent on white
+   is 11.52:1, well past WCAG AA's 3:1 non-text minimum; see report). */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* -- Shell: header / nav / main / footer --------------------------------- */
+
 .site-header { border-bottom: 2px solid var(--accent); background: var(--panel); }
-.site-header nav { display: flex; gap: 1.25rem; align-items: center; padding: .6rem 1.25rem; }
+.site-header nav { display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: center; padding: .6rem 1.25rem; }
 .site-header .brand { font-weight: 700; color: var(--accent); text-decoration: none; margin-right: 1rem; }
-.site-header a { color: var(--ink); }
+.site-header a { color: var(--ink); text-decoration: none; padding: .15rem .1rem; border-bottom: 2px solid transparent; }
+.site-header a:hover { border-bottom-color: var(--line); }
+.site-header a[aria-current="page"] {
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
 main { max-width: 1200px; margin: 0 auto; padding: 1rem 1.25rem 3rem; }
+main:focus-visible { outline: none; }
+
 .site-footer { border-top: 1px solid var(--line); padding: 1rem 1.25rem; color: var(--muted); font-size: .9rem; }
 .authority-notice { max-width: 70ch; }
-a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-.degradation { background: var(--warn-bg); color: var(--warn); border: 1px solid var(--warn); padding: .6rem .8rem; border-radius: 4px; }
-.frozen { font-variant: small-caps; color: var(--muted); }
+.lede { color: var(--muted); max-width: 70ch; }
+
+/* -- Generic content elements (diagnostics and search ship no CSS of their
+   own; catalog's and reader's more specific rules still win where set) --- */
+
 table { border-collapse: collapse; width: 100%; }
 th, td { text-align: left; padding: .35rem .5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
 code, pre { font-family: ui-monospace, Consolas, "Courier New", monospace; }
+pre { white-space: pre-wrap; overflow-x: auto; }
+
+dl { margin: 0 0 1rem; }
+dt { font-weight: 600; margin-top: .5rem; }
+dd { margin: 0 0 .25rem 0; }
+
+details { margin: .5rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+
+fieldset { border: 1px solid var(--line); border-radius: 6px; padding: .75rem 1rem; margin: 0 0 1rem; min-width: 0; }
+legend { font-weight: 700; padding: 0 .4rem; }
+
+label { font-weight: 600; font-size: .85rem; }
+.field { display: flex; flex-direction: column; gap: .25rem; margin: 0 0 .75rem; }
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="search"],
+select {
+  padding: .35rem .5rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font: inherit;
+  color: var(--ink);
+  background: var(--bg);
+  max-width: 100%;
+}
+
+button {
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  padding: .45rem .9rem;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+button:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+
+/* -- Epistemic distinctions: text-first, colour is reinforcement only ---- */
+
+.degradation {
+  background: var(--warn-bg);
+  color: var(--warn);
+  border: 1px solid var(--warn);
+  border-radius: 4px;
+  padding: .6rem .8rem;
+  margin: .5rem 0;
+}
+.degradation::before { content: "\26A0 "; }
+
+.frozen, .frozen-marker {
+  display: inline-block;
+  font-variant: small-caps;
+  font-weight: 700;
+  color: var(--warn);
+  background: var(--warn-bg);
+  border: 1px solid var(--warn);
+  border-radius: 3px;
+  padding: 0 .4em;
+  margin-left: .4em;
+  font-size: .82em;
+  line-height: 1.4;
+}
+
+.mode-badge {
+  display: inline-block;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  background: var(--panel);
+  border-radius: 999px;
+  padding: .2rem .7rem;
+  font-weight: 700;
+  font-size: .85rem;
+}
+
+.evidence {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel);
+  padding: .5rem .75rem;
+  margin: .5rem 0 1rem;
+}
+.evidence summary { color: var(--accent); }
+.evidence dl { margin: .5rem 0 0; }
+
+/* -- Keyboard-navigation help panel (#keyhelp: identical markup on every
+   merged page; app.js toggles its `hidden` attribute) ------------------- */
+
+#keyhelp {
+  border: 2px solid var(--accent);
+  background: var(--panel);
+  border-radius: 6px;
+  padding: .75rem 1rem;
+  margin: 0 0 1rem;
+}
+#keyhelp dl { display: grid; grid-template-columns: auto 1fr; gap: .3rem 1rem; margin: .5rem 0 0; }
+#keyhelp dt { margin: 0; }
+#keyhelp dd { margin: 0; }
+#keyhelp kbd {
+  display: inline-block;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: .05rem .45rem;
+  font-family: ui-monospace, Consolas, "Courier New", monospace;
+  box-shadow: 0 1px 0 var(--line);
+}
+
+/* -- Keyboard result-list navigation (app.js): the selection is a visible,
+   styled state (never native focus alone), and is also announced through
+   the #kbd-status aria-live region. Border + outline + background so the
+   marker survives on both light table rows and list items. ------------- */
+
+[data-doc-id].kbd-selected {
+  outline: 3px solid var(--accent);
+  outline-offset: -2px;
+  background: var(--select-bg);
+}
+
+/* -- Reduced motion -------------------------------------------------------
+   No decorative animation exists in this file; the only transitions are the
+   nav underline and button hover, both disabled here per user preference. */
+.site-header a, button { transition: background-color .12s ease, border-color .12s ease; }
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; scroll-behavior: auto !important; }
+}
+
+/* -- Small screens: stack the header nav, let filter/field grids collapse
+   (module grids use auto-fill/minmax and already respond on their own) -- */
+@media (max-width: 640px) {
+  .site-header nav { padding: .5rem .9rem; gap: .75rem; }
+  main { padding: .75rem .9rem 2rem; }
+}
+
+/* -- Print: keep the document content, drop interactive chrome ---------- */
+@media print {
+  .skip-link, #kbd-status, .site-header, #keyhelp, button, .pagination, form { display: none; }
+  main { max-width: none; padding: 0; }
+  .site-footer { border-top: 1px solid #000; color: #000; }
+}
