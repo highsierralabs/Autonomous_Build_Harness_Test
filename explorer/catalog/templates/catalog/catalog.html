@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+{% block title %}Catalog -- RHACO Corpus Explorer{% endblock %}
+{% block html_attrs %} data-mode="catalog"{% endblock %}
+{% block scripts %}<link rel="stylesheet" href="/static/catalog/catalog.css">{% endblock %}
+{% block content %}
+<h1>Catalog</h1>
+<p class="lede">What is in the RHACO corpus? Browse, filter, and sort every carded document.</p>
+
+<div id="keyhelp" hidden>
+  <h2>Keyboard shortcuts</h2>
+  <dl>
+    <dt><kbd>/</kbd></dt><dd>focus search</dd>
+    <dt><kbd>?</kbd></dt><dd>toggle this help</dd>
+  </dl>
+</div>
+
+{% if adapter_absent %}
+<div class="degradation" role="status" data-catalog-state="adapter-absent">
+  <p><strong>corpus_adapter not built.</strong>
+  {{ adapter_absent_message or "The corpus_adapter module is not available in this build; the catalog cannot list any cards." }}</p>
+</div>
+{% else %}
+<div id="catalog-root">
+
+<section aria-labelledby="counts-heading">
+  <h2 id="counts-heading" class="sr-only">Counts</h2>
+  <p class="counts">
+    <span data-total-indexed="{{ view.index_total_cards }}"><strong>{{ view.index_total_cards }}</strong> cards indexed in total</span>
+    &middot;
+    <span data-total-matching="{{ view.total }}"><strong>{{ view.total }}</strong> matching the current filters</span>
+  </p>
+</section>
+
+<section aria-labelledby="filters-heading">
+  <h2 id="filters-heading">Filters</h2>
+  <form method="get" action="/" class="catalog-filters">
+    <div class="field">
+      <label for="f-doc_type">Document type</label>
+      <select id="f-doc_type" name="doc_type">
+        <option value="">All types</option>
+        {% for value, count in view.global_facets.doc_types %}
+        <option value="{{ value }}"{% if view.filters.doc_type == value %} selected{% endif %}>{{ value }} ({{ count }})</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="f-status">Status</label>
+      <select id="f-status" name="status">
+        <option value="">All statuses</option>
+        {% for value, count in view.global_facets.statuses %}
+        <option value="{{ value }}"{% if view.filters.status == value %} selected{% endif %}>{{ value }} ({{ count }})</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    {% if view.show_lifecycle_control %}
+    <div class="field" data-lifecycle-control="shown">
+      <label for="f-lifecycle_state">CMP lifecycle state (campaigns only)</label>
+      <select id="f-lifecycle_state" name="lifecycle_state">
+        <option value="">Any lifecycle state</option>
+        {% for value, count in view.global_facets.lifecycle_states %}
+        <option value="{{ value }}"{% if view.filters.lifecycle_state == value %} selected{% endif %}>{{ value }} ({{ count }})</option>
+        {% endfor %}
+      </select>
+    </div>
+    {% endif %}
+
+    <div class="field">
+      <label for="f-program">Program</label>
+      <select id="f-program" name="program">
+        <option value="">All programs</option>
+        {% for value, count in view.global_facets.programs %}
+        <option value="{{ value }}"{% if view.filters.program == value %} selected{% endif %}>{{ value }} ({{ count }})</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="f-tag">Tag</label>
+      <select id="f-tag" name="tag">
+        <option value="">All tags</option>
+        {% for value, count in view.global_facets.tags %}
+        <option value="{{ value }}"{% if view.filters.tag == value %} selected{% endif %}>{{ value }} ({{ count }})</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="f-project_knowledge">Project knowledge</label>
+      <select id="f-project_knowledge" name="project_knowledge">
+        <option value="">Either</option>
+        {% for value, count in view.global_facets.project_knowledge %}
+        <option value="{{ value }}"{% if view.filters.project_knowledge == value %} selected{% endif %}>{{ value }} ({{ count }})</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="f-date_from">Date from</label>
+      <input id="f-date_from" type="date" name="date_from" value="{{ view.filters.date_from or '' }}">
+    </div>
+
+    <div class="field">
+      <label for="f-date_to">Date to</label>
+      <input id="f-date_to" type="date" name="date_to" value="{{ view.filters.date_to or '' }}">
+    </div>
+
+    <div class="field">
+      <label for="f-path_prefix">Path prefix</label>
+      <input id="f-path_prefix" type="text" name="path_prefix" value="{{ view.filters.path_prefix or '' }}" placeholder="e.g. handoffs/">
+    </div>
+
+    <div class="field">
+      <label for="f-sort">Sort by</label>
+      <select id="f-sort" name="sort">
+        <option value="date:desc"{% if view.sort_column == "date" and view.sort_direction == "desc" %} selected{% endif %}>Date (newest first)</option>
+        <option value="date:asc"{% if view.sort_column == "date" and view.sort_direction == "asc" %} selected{% endif %}>Date (oldest first)</option>
+        <option value="doc_id:asc"{% if view.sort_column == "doc_id" and view.sort_direction == "asc" %} selected{% endif %}>Canonical ID (A-Z)</option>
+        <option value="doc_id:desc"{% if view.sort_column == "doc_id" and view.sort_direction == "desc" %} selected{% endif %}>Canonical ID (Z-A)</option>
+        <option value="title:asc"{% if view.sort_column == "title" and view.sort_direction == "asc" %} selected{% endif %}>Title (A-Z)</option>
+        <option value="title:desc"{% if view.sort_column == "title" and view.sort_direction == "desc" %} selected{% endif %}>Title (Z-A)</option>
+        <option value="status:asc"{% if view.sort_column == "status" and view.sort_direction == "asc" %} selected{% endif %}>Status (A-Z)</option>
+        <option value="status:desc"{% if view.sort_column == "status" and view.sort_direction == "desc" %} selected{% endif %}>Status (Z-A)</option>
+      </select>
+    </div>
+
+    <input type="hidden" name="page_size" value="{{ view.page_size }}">
+
+    <div class="field field-actions">
+      <button type="submit">Apply filters</button>
+      <a href="/">Clear filters</a>
+    </div>
+  </form>
+  <p class="active-sort" data-sort-column="{{ view.sort_column }}" data-sort-direction="{{ view.sort_direction }}">
+    Active sort: <strong>{{ view.sort_column }}</strong> ({{ view.sort_direction }})
+  </p>
+</section>
+
+<section aria-labelledby="results-heading">
+  <h2 id="results-heading" class="sr-only">Results</h2>
+
+  {% if view.no_matches %}
+  <p class="degradation" role="status">{{ view.no_match_text }}</p>
+  {% else %}
+  <div class="table-scroll">
+  <table>
+    <caption class="sr-only">Catalog cards matching the current filters, sorted by {{ view.sort_column }} ({{ view.sort_direction }})</caption>
+    <thead>
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Canonical ID / filename</th>
+        <th scope="col">Type</th>
+        <th scope="col">Date</th>
+        <th scope="col">Status</th>
+        <th scope="col">Programs</th>
+        <th scope="col">CMP lifecycle state</th>
+        <th scope="col">Abstract</th>
+        <th scope="col">Open</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in view.rows %}
+      <tr data-doc-id="{{ row.doc_id }}" data-card-ref="{{ row.card_ref }}" data-status="{{ row.status or '' }}" data-lifecycle-state="{{ row.lifecycle_state or '' }}">
+        <td>{{ row.title or "(untitled)" }}</td>
+        <td><code>{{ row.doc_id }}</code><br>{{ row.doc_filename or "" }}</td>
+        <td>{{ row.doc_type }}</td>
+        <td>{{ row.date }}</td>
+        <td>
+          {{ row.status }}{% if row.frozen %} <span class="frozen">frozen</span>{% endif %}
+        </td>
+        <td>{{ row.programs | join(", ") }}</td>
+        <td>
+          {%- if row.is_cmp -%}
+          {{ row.lifecycle_state or "" }}
+          {%- elif row.lifecycle_state -%}
+          {{ row.lifecycle_state }} <span class="informational">informational (non-CMP)</span>
+          {%- endif -%}
+        </td>
+        <td class="abstract">{% if row.abstract %}{{ row.abstract[:200] }} ...{% endif %}</td>
+        <td><a href="/doc/{{ row.card_ref }}">Open</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+
+  <nav class="pagination" aria-label="Catalog pages">
+    <p>Page {{ view.page }} of {{ view.page_count }}</p>
+    {% if view.has_prev %}
+    <a href="/?{{ view.query_string_no_page }}&amp;page={{ view.prev_page }}" rel="prev">Previous page</a>
+    {% endif %}
+    {% if view.has_next %}
+    <a href="/?{{ view.query_string_no_page }}&amp;page={{ view.next_page }}" rel="next">Next page</a>
+    {% endif %}
+  </nav>
+  {% endif %}
+</section>
+
+</div>
+{% endif %}
+{% endblock %}
