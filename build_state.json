@@ -2155,5 +2155,85 @@
       "semantic-unavailable degradation explicit and functional": "PASS -- W7 with --disable-vec: mode relabelled, exact notice, identifier and lexical retrieval still return"
     },
     "summary": "All nine objective gates now pass, one of them only as of this refresh. This is the precondition PROMPT.md section 7 sets before a ref_score means anything, so the critic can now be dispatched against a product whose objective gates hold rather than one with a known 500 on most of the corpus."
+  },
+  "sealed_audit_release": {
+    "released_utc": "2026-09-05 (release condition met: the first docs/critique/ report exists -- docs/critique/R06_critic_round_1.report.md)",
+    "seal": {
+      "file": "working/sealed_audit_HND-20260903-001_S4.md",
+      "sha256": "7400496508b823dac6f1a5f2231cb6f58cdf4efe13ab1adbe24259592e823ed9",
+      "bytes": 6138,
+      "integrity": "re-hashed at release: byte-identical to the P-SEAL pin recorded in session 4, unopened in between"
+    },
+    "companion_still_sealed": {
+      "file": "working/RHACO_Corpus_Explorer_Build_Review_Pattern_3_Prompt_Recommendations.md",
+      "sha256": "2f3914e971d30bbed6a0aac9f3bc7a92f1c6e11f0de48a9cf587215ed5ec51a2",
+      "bytes": 24699,
+      "status": "re-hashed at release and NOT opened. The seal's own text says 'hash it, do not read it' and its On-release section directs only the SA classification; it gives no instruction to open the companion. Held for a Director instruction rather than opened on an inference."
+    },
+    "purpose": "measure what the harness's own L1-L4 and critic detect, without Director contamination (Director ruling C-prime)",
+    "items": [
+      {
+        "id": "SA-1",
+        "subject": "GRAPH_DEGRADED_NOTICE misdescribes what degraded in graph mode",
+        "classification": "MISSED",
+        "still_live": true,
+        "verified_now": "explorer/corpus_adapter/adapter.py:56 still reads 'Graph unavailable: hybrid seed channel degraded to lexical. Result ordering is lexical-only.' and line 473 still sets mode_effective='graph-degraded'. The sealed quote elided the middle clause; the text is unchanged. 'Graph unavailable' is false -- the 1-hop edge expansion reads only the edges table and is unaffected by VecUnavailable -- and 'Result ordering is lexical-only' is false for the same reason. mode_effective does not name the surviving channel.",
+        "detection_evidence": "No mention anywhere in explorer/, docs/, SCOPE.md, CONSTRAINTS.md or build_state.json (grep for the corrected wording returns nothing). The critic passed the degradation-honesty criterion on W7 evidence, which exercises HYBRID degradation only; no layer exercises graph mode under --disable-vec at all.",
+        "note": "The seal anticipated this: a MISS here is a finding about the critic persona and L1 scope, not grounds to discard the run. The structural cause is that W7 is the only degradation preset and it drives hybrid; a false statement on a mode nothing exercises is invisible to every layer."
+      },
+      {
+        "id": "SA-2",
+        "subject": "the 8 s vector-probe budget is not a wall-clock bound",
+        "classification": "MISSED (partial credit: the harness flagged the claim as unverified, but nobody found the defect)",
+        "still_live": true,
+        "verified_now": "explorer/corpus_adapter/availability.py:90-92 still reads 'with ThreadPoolExecutor(max_workers=1) as pool:' followed by future.result(timeout=PROBE_BUDGET_S). The with-block exit calls shutdown(wait=True), which joins the worker, so a hung embed_query_cpu blocks the caller for the module's own OLLAMA_TIMEOUT_S=300, not 8 s. The module docstring's 'daemon-thread' claim is also false. corpus_adapter round 3 edited this file for the O10 isfile guard and did not touch this -- correctly, it was not its task.",
+        "detection_evidence": "The round-1 builder recorded 'verified by code reading, not an observed slow run', and that honest UNVERIFIED flag has been carried forward in build_state open_issues ever since. That is the precursor to the finding, not the finding: no layer and not the critic identified that the bound does not hold.",
+        "note": "Same seal clause as SA-1: a MISS here is a finding about L1 scope and the critic persona."
+      },
+      {
+        "id": "SA-3",
+        "subject": "the 'sole RHACO importer' invariant is false in the merged tree, and one importer inserts at sys.path[0]",
+        "classification": "MISSED",
+        "still_live": true,
+        "verified_now": "Three importers exist outside adapter.py: explorer/diagnostics/service.py:85 (import RHACO_corpus_index) and fixtures/build_fixture_index.py:57-58 (both modules). Both were orchestrator-licensed, so the imports are not the defect -- the drift is: ARCHITECTURE.md 4.1 and the corpus_adapter package docstring still say 'the only importer'. Separately, explorer/diagnostics/service.py:83 uses sys.path.insert(0, entry) while explorer/corpus_adapter/paths.py:37 uses sys.path.append(entry); S2's rule is append, never insert-at-0.",
+        "detection_evidence": "Not flagged in any round report, in build_state, or by the critic. The critic verified the write-path gate against adapter.py directly and did not test the 'only importer' claim as a claim.",
+        "note": "This is exactly the class SA-4 predicts L1 cannot see: an import-boundary invariant asserted in prose and checked by nothing."
+      },
+      {
+        "id": "SA-4",
+        "subject": "L1's scope is narrower than the invariants it is read as establishing",
+        "classification": "MISSED as stated (partial credit: the critic found three instances of the same class)",
+        "still_live": true,
+        "verified_now": "tools/l1_index_write_check.py checks exactly one property: a grep for the five index-writing names (NAME_PARTS). It does not check the import boundary (SA-3), does not check that corpus_index.db is never opened outside the module's connect (no sqlite3.connect check at all), and does not check read-authority paths. docs/LAYERS.md also lists pytest under 'L1 Static', a category slip.",
+        "detection_evidence": "The critic did not make SA-4's claim about L1. It did independently identify the SAME CLASS -- a check narrower than its apparent guarantee -- in three separate places: W5's direction_label assertion compares the product against the constant that produces it; keyboard navigation is string-matched in three files and executed in none; W3 is a regression pin against the build's own earlier output. Partial credit is honest here: the class was found, the instance was not.",
+        "note": ""
+      },
+      {
+        "id": "SA-5",
+        "subject": "ARCHITECTURE 4.6 names last_run.json; the implementation reads runs/*/run_summary.json",
+        "classification": "HARNESS-DETECTED (builder self-report, L1, round 1) and CRITIC-DETECTED (round 1)",
+        "still_live": true,
+        "verified_now": "ARCHITECTURE.md 4.6 unchanged; the diagnostics service reads the runs glob.",
+        "detection_evidence": "Harness: the diagnostics builder recorded it as an open issue in build_state at round 1 and it has been carried since. Critic: listed explicitly in its overstated-claims set, with the note that it was already disclosed 'so listed for completeness rather than as a hidden claim'. Both layers found it; neither repaired it, because it is an ARCHITECTURE text fix and no round has owned it.",
+        "note": "The only sealed defect item both the harness and the critic caught."
+      },
+      {
+        "id": "SA-6",
+        "subject": "watch item: does the probe compare the DOM against fixture sources ON DISK, or against adapter output?",
+        "classification": "HARNESS-SATISFIED, and satisfied unprompted by the Director",
+        "still_live": false,
+        "verified_now": "The probe compares against disk throughout: KG asserts the reader's data-body-sha256 equals the sha256 of the fixture file read from disk and that /api/doc lines equal the file's lines; KB2 compares the card file the probe itself parses from disk against the indexed row the API reports; KB4 re-implements the heading check (_verify_heading_independently) rather than importing explorer.reader.service, so the comparison is genuinely independent of the code under test.",
+        "detection_evidence": "The disk comparison was specified by the ORCHESTRATOR in the round-2 probe dispatch (docs/rounds/R02_probe.prompt.md) and implemented by the probe builder. It was NOT prompted by the Director: the session-4 launch note asked only for W1-W10/KG/KB1-KB5 under AC-3 and said nothing about comparing against disk. So the harness reached the right comparison on its own -- which is what this watch item was placed to find out. A probe that compared to adapter output could not fail the adapter, and this one does not have that flaw.",
+        "note": "This is the affirmative answer to SA-6's question, and it is the reason criterion 3 is genuinely satisfiable rather than nominally so."
+      }
+    ],
+    "tally": {
+      "defect_items": 5,
+      "harness_or_critic_detected": 1,
+      "missed": 4,
+      "watch_item_satisfied": 1,
+      "reading": "FOUR of the five sealed defect items were missed by the whole harness AND by the critic; one (SA-5) was caught by both. This is the honest headline and it is not softened here: an external reader with no access to the harness found four real defects that four builder waves, 262 tests, twelve green production presets, two L4 oracles and a dedicated Opus critic did not. Three of the four (SA-1, SA-2, SA-3) share a structure: they are FALSE OR UNSUPPORTED CLAIMS IN PROSE about code behaviour -- a degradation notice that misnames what degraded, a docstring asserting a timeout bound the code does not implement, an architectural invariant contradicted by the tree. The harness tests behaviour well and audits its own claims poorly. SA-4 names precisely that gap, and the critic independently found the same class three times without naming the instance. Against this, SA-6 is a genuine success: the harness independently built the probe's comparison against disk rather than against adapter output, which is the difference between a probe that can fail the adapter and one that cannot."
+    },
+    "next": "Repair per PROMPT.md section 14 steps 15-16, consuming builder rounds honestly. SA-1 and SA-2 are corpus_adapter defects and fall inside the Director's boundary-3 HOLD: the adapter's LAST round must batch them with the deferred amends-link change request and any critic adapter findings, and whatever does not fit is declared BOUNDED_FAIL on the record. SA-3's prose half and SA-5 are ARCHITECTURE text, integrator-owned. SA-3's sys.path.insert half is diagnostics-owned. SA-4 is tools/l1_index_write_check.py, integrator-owned."
   }
 }
