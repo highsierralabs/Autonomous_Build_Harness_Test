@@ -76,10 +76,10 @@
     "builder_rounds_total_max": 28,
     "builder_rounds_per_module_max": 4,
     "convergence_window_rounds": 2,
-    "builder_rounds_consumed_total": 8,
+    "builder_rounds_consumed_total": 9,
     "per_module_consumed": {
       "corpus_adapter": 2,
-      "probe": 2,
+      "probe": 3,
       "diagnostics": 1,
       "catalog": 1,
       "search": 1,
@@ -87,7 +87,7 @@
       "lineage": 0,
       "web": 0
     },
-    "note": "probe has 2 of 4 rounds left before wave 2 (round 3 = the wave-2 runners, round 4 = Q3/FINAL in wave 3): a repair round for the probe after wave 3 would exhaust its budget -- flagged to the Director"
+    "note": "probe has 1 of 4 rounds left (round 4 = Q3 lineage cases KB3 / W5 / W6 and FINAL in wave 3); any probe repair round after that would exceed its module budget -- flagged to the Director"
   },
   "caps": {
     "CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH": {
@@ -133,8 +133,8 @@
     {
       "index": 4,
       "opened_utc": "2026-09-04T23:39:34Z",
-      "closed_utc": null,
-      "note": "client PID 9800 (claude.exe --dangerously-skip-permissions) started 23:39:34Z from the same launching shell (PID 24716) as sessions 1-3; first tool call 23:47Z; launch note working\\S4_launch_note_HND-20260903-001.md executed in order under RHACO-CCX-20260904-001 section 4.1: Rule-2 commit of the CCX pair (RHACO 4032742), criterion-6 reconciliation, section 2 M re-entry with A1 (PASS), Director ruling AC-3 recorded, probe verdict-predicate repair (probe round 2) and connect() guard (corpus_adapter round 2) dispatched as a correction round, then wave 2"
+      "closed_utc": "2026-09-05T02:01:30Z",
+      "note": "client PID 9800 (claude.exe --dangerously-skip-permissions) started 23:39:34Z from the same launching shell (PID 24716) as sessions 1-3; first tool call 23:47Z; launch note working\\S4_launch_note_HND-20260903-001.md executed in order under RHACO-CCX-20260904-001 section 4.1: Rule-2 commit of the CCX pair (RHACO 4032742), criterion-6 reconciliation, section 2 M re-entry with A1 (PASS), Director ruling AC-3 recorded, probe verdict-predicate repair (probe round 2) and connect() guard (corpus_adapter round 2) dispatched as a correction round, then wave 2; round 2 closed at this boundary (wave 2 + probe round 3 merged; 181 tests; 9 of 28 rounds consumed); pushed per O-1"
     }
   ],
   "modules": {
@@ -165,8 +165,8 @@
     },
     "probe": {
       "owner": "builder S3-B2 (Sonnet 5) on build/probe",
-      "status": "round 2 complete (correction: observed-fault predicate, AC-3 vocabulary, ledger); merged 5ba2274; Q0 qualified (KB5); W1-W10 / KG / KB1-KB4 runners pending round 3 (wave 2)",
-      "round": 2,
+      "status": "round 3 complete (wave-2 runners); merged 3d81949; ledger KB1/KB2/KB4/KB5; Q0-Q2 qualified; production presets W1-W4, W7, W9, W10, healthz, diagnostics PRODUCT_EVIDENCE_PASS; W5/W6/KB3 wait for lineage (round 4)",
+      "round": 3,
       "objective_gates": {
         "ruff": "pass",
         "pytest": "pass",
@@ -175,13 +175,12 @@
       },
       "ref_score": null,
       "open_issues": [
-        "W1-W10 / KG / KB1-KB5 remain not_implemented stubs (wave 2)",
-        "KB1-KB4 attribution rules not implemented (wave 2 must define each fault's observable signature; wrong_doc_for_id needs a DOM/API-comparison rule)",
-        "KB3, W5, W6 wait for lineage (wave 3)",
-        "PRODUCT_EVIDENCE_PASS path verified on synthetic data only in the worktree; the integrator's post-merge product run supplies the first real observation",
-        "_FAULTS_TOUCHING_ALL_PAGES generalizes only console_error",
-        "ledger idempotency verified by code inspection only",
-        "RHACO_CORPUS_DISABLE_VEC=1 (W7) path not exercised this round"
+        "W5, W6, KB3 (lineage) not_implemented by design (wave 3 / Q3)",
+        "W3 exact-order match against the L4 oracle's recorded top-10 (row 21) is a snapshot of a growing live corpus, not a standing guarantee",
+        "W2/W9/W10 lexical target occurrence is whichever rank the live FTS returns (this round: the amendment file's line 1), verified against disk rather than assumed",
+        "KB3 attribution rule undesigned until the lineage surface exists",
+        "_run_w8 temp-directory cleanup is best-effort on Windows",
+        "single run per production preset (no flake-detection repeat)"
       ],
       "assumptions": [],
       "blocked_dependencies": [],
@@ -193,20 +192,45 @@
         "docs/probe-qualification/runs/20260905T002024Z (fixture, --fault console_error, QUALIFICATION_PASS KB5)",
         "docs/probe-qualification/runs/20260905T002034Z (fixture, --preset all, INCOMPLETE demonstration)",
         "docs/probe-qualification/runs/20260905T002845Z (live db, diagnostics, PRODUCT_EVIDENCE_PASS)",
-        "docs/probe-qualification/qualification_ledger.json (KB5)"
+        "docs/probe-qualification/qualification_ledger.json (KB5)",
+        "docs/probe-qualification/runs/20260905014232Z (KG)",
+        "docs/probe-qualification/runs/20260905014234Z (KB1)",
+        "docs/probe-qualification/runs/20260905014244Z (KB2)",
+        "docs/probe-qualification/runs/20260905014247Z (KB4)",
+        "docs/probe-qualification/runs/20260905014249Z (KB5)",
+        "docs/probe-qualification/runs/20260905014258Z (W8)",
+        "docs/probe-qualification/runs/20260905014316Z (W1)",
+        "docs/probe-qualification/runs/20260905014319Z (W2)",
+        "docs/probe-qualification/runs/20260905014330Z (W3)",
+        "docs/probe-qualification/runs/20260905014336Z (W4)",
+        "docs/probe-qualification/runs/20260905014346Z (W9)",
+        "docs/probe-qualification/runs/20260905014349Z (W10)",
+        "docs/probe-qualification/runs/20260905014401Z (healthz)",
+        "docs/probe-qualification/runs/20260905014402Z (diagnostics)",
+        "docs/probe-qualification/runs/20260905014404Z (W7 disable-vec)",
+        "docs/probe-qualification/runs/20260905T020023Z (integrator re-run)",
+        "docs/probe-qualification/runs/20260905T020025Z (integrator re-run)",
+        "docs/probe-qualification/runs/20260905T020028Z (integrator re-run)",
+        "docs/probe-qualification/runs/20260905T020032Z (integrator re-run)",
+        "docs/probe-qualification/runs/20260905T020036Z (integrator re-run)"
       ],
       "scope_references": [],
       "run_classifications": {
         "docs/probe-qualification/runs/20260904T033047Z": "FRAMEWORK_SMOKE_PASS (fixture db, worktree; predates the AC-3 vocabulary; diagnostics preset recorded http 404 + one console error + one failed request with ok:true -- the predicate defect that probe round 2 repairs)",
         "docs/probe-qualification/runs/20260904T034711Z": "FRAMEWORK_SMOKE_PASS (reclassified by Director ruling AC-3 from the round-1 record's 'PASS': production-path mechanism evidence only -- not qualification, not product evidence; run directory not rewritten)",
-        "docs/probe-qualification/runs/20260905T002845Z": "PRODUCT_EVIDENCE_PASS (integrator product-path run after the correction merge; probe v1.1 vocabulary)"
+        "docs/probe-qualification/runs/20260905T002845Z": "PRODUCT_EVIDENCE_PASS (integrator product-path run after the correction merge; probe v1.1 vocabulary)",
+        "docs/probe-qualification/runs/20260905T020023Z": "QUALIFICATION_PASS (integrator re-run at the round-2 boundary)",
+        "docs/probe-qualification/runs/20260905T020025Z": "PRODUCT_EVIDENCE_PASS (integrator re-run at the round-2 boundary)",
+        "docs/probe-qualification/runs/20260905T020028Z": "PRODUCT_EVIDENCE_PASS (integrator re-run at the round-2 boundary)",
+        "docs/probe-qualification/runs/20260905T020032Z": "PRODUCT_EVIDENCE_PASS (integrator re-run at the round-2 boundary)",
+        "docs/probe-qualification/runs/20260905T020036Z": "PRODUCT_EVIDENCE_PASS (integrator re-run at the round-2 boundary)"
       },
       "qualification": {
-        "Q0": "qualified (probe mechanism; KB5 console_error detected on the fixture path)",
-        "Q1": "pending wave 2",
-        "Q2": "pending wave 2",
-        "Q3": "pending wave 3",
-        "FINAL": "pending"
+        "Q0": "qualified (KB5)",
+        "Q1": "qualified (KB1, KB2; known-good exact-id + lexical phrase in KG)",
+        "Q2": "qualified (KB4; known-good body-and-card match in KG)",
+        "Q3": "pending wave 3 (KB3; typed edge direction)",
+        "FINAL": "pending (complete suite before the critic's first round)"
       }
     },
     "diagnostics": {
@@ -521,7 +545,7 @@
     {
       "round": 2,
       "kind": "builder round -- wave 2 (PROMPT.md section 4): catalog, search, reader",
-      "status": "complete (integration); probe round 3 (wave-2 runners) follows as a sequential strand",
+      "status": "complete -- wave-2 builders merged and integrated; probe round 3 merged; round-2 boundary",
       "modules": [
         "catalog",
         "search",
@@ -582,6 +606,128 @@
         "template_change_requests": 1,
         "invalidated_tests_after_merge": 0,
         "note": "three builders on disjoint paths against merged (not faked) substrate modules; one additive template hook request; one same-basename test-module collision avoided inside the builder's own round (reader)"
+      },
+      "probe_round_3": {
+        "merge": "3d819498648222cc85713229d7d58bf2e05b6d1f",
+        "post_merge_gates": {
+          "ruff": "clean",
+          "l1_index_write_grep": "hits=6 allowlisted=6 defects=0 PASS",
+          "pytest": "181 passed (162 + 19)"
+        },
+        "qualification_ledger": [
+          "KB1",
+          "KB2",
+          "KB4",
+          "KB5"
+        ],
+        "strand_runs": {
+          "qualification": [
+            "20260905T014232Z KG FRAMEWORK_SMOKE_PASS",
+            "20260905T014234Z KB1 QUALIFICATION_PASS",
+            "20260905T014244Z KB2 QUALIFICATION_PASS",
+            "20260905T014247Z KB4 QUALIFICATION_PASS",
+            "20260905T014249Z KB5 QUALIFICATION_PASS",
+            "20260905T014258Z W8 FRAMEWORK_SMOKE_PASS"
+          ],
+          "production": [
+            "20260905T014316Z W1",
+            "20260905T014319Z W2",
+            "20260905T014330Z W3",
+            "20260905T014336Z W4",
+            "20260905T014346Z W9",
+            "20260905T014349Z W10",
+            "20260905T014401Z healthz",
+            "20260905T014402Z diagnostics",
+            "20260905T014404Z W7 (--disable-vec)",
+            "-- all PRODUCT_EVIDENCE_PASS"
+          ]
+        },
+        "integrator_reruns": [
+          {
+            "dir": "docs/probe-qualification/runs/20260905T020023Z",
+            "presets": [
+              "KB2"
+            ],
+            "fault": "stale_card",
+            "disable_vec": false,
+            "run_kind": "qualification",
+            "qualification_state": "QUALIFICATION_PASS",
+            "verdict": "PASS",
+            "qualified_failure_classes": [
+              "KB2"
+            ]
+          },
+          {
+            "dir": "docs/probe-qualification/runs/20260905T020025Z",
+            "presets": [
+              "W1"
+            ],
+            "fault": null,
+            "disable_vec": false,
+            "run_kind": "product",
+            "qualification_state": "PRODUCT_EVIDENCE_PASS",
+            "verdict": "PASS",
+            "qualified_failure_classes": [
+              "KB1",
+              "KB2",
+              "KB4",
+              "KB5"
+            ]
+          },
+          {
+            "dir": "docs/probe-qualification/runs/20260905T020028Z",
+            "presets": [
+              "W9"
+            ],
+            "fault": null,
+            "disable_vec": false,
+            "run_kind": "product",
+            "qualification_state": "PRODUCT_EVIDENCE_PASS",
+            "verdict": "PASS",
+            "qualified_failure_classes": [
+              "KB1",
+              "KB2",
+              "KB4",
+              "KB5"
+            ]
+          },
+          {
+            "dir": "docs/probe-qualification/runs/20260905T020032Z",
+            "presets": [
+              "W10"
+            ],
+            "fault": null,
+            "disable_vec": false,
+            "run_kind": "product",
+            "qualification_state": "PRODUCT_EVIDENCE_PASS",
+            "verdict": "PASS",
+            "qualified_failure_classes": [
+              "KB1",
+              "KB2",
+              "KB4",
+              "KB5"
+            ]
+          },
+          {
+            "dir": "docs/probe-qualification/runs/20260905T020036Z",
+            "presets": [
+              "W7"
+            ],
+            "fault": null,
+            "disable_vec": true,
+            "run_kind": "product",
+            "qualification_state": "PRODUCT_EVIDENCE_PASS",
+            "verdict": "PASS",
+            "qualified_failure_classes": [
+              "KB1",
+              "KB2",
+              "KB4",
+              "KB5"
+            ]
+          }
+        ],
+        "strand_deviation": "Self-disclosed by the strand: before its workflow-runner code existed it used a small ad hoc scratch script (outside the worktree, never committed) to launch `uvicorn explorer.app:create_app` directly against the FIXTURE db several times to inspect /api/* JSON shapes and fault behaviours -- the workspace interpreter running workspace code against the fixture only (never the live index, never a RHACO_* process, no device), but NOT launched 'via the probe' as the section 2 L D-12 block and working rule 3 / DISPATCH_PARAMETERS item K require (the probe is the only sanctioned launcher, CONSTRAINTS O12). Every committed evidence run was produced by the probe alone and the integrator re-produced the production presets independently after the merge. Recorded as a strand deviation of record for Director disposition (the L text says a violation is a halt, not a retry; the strand disclosed instead of halting); precedent: session-2 D-3 breaches recorded as deviations.",
+        "builder_rounds_consumed": 1
       }
     }
   ],
@@ -600,6 +746,10 @@
     },
     {
       "round": 2,
+      "result": "hits=6 allowlisted=6 (fixtures/build_fixture_index.py) defects=0 PASS"
+    },
+    {
+      "round": "2 (probe round 3 merge)",
       "result": "hits=6 allowlisted=6 (fixtures/build_fixture_index.py) defects=0 PASS"
     }
   ],
@@ -1293,6 +1443,43 @@
         "renamed tests/reader/test_reader.py -> test_reader_page.py to avoid a basename collision with tests/corpus_adapter/test_reader.py under pytest's default import mode"
       ],
       "deviations": "none reported"
+    },
+    {
+      "strand_id": "S4-B7",
+      "session": 4,
+      "round": 2,
+      "stem": "R02_probe",
+      "role": "module builder (probe), wave-2 runners W1-W10 / KG / KB1-KB5 under AC-3 Q1 / Q2",
+      "model": "claude-sonnet-5 (client-reported: 'You are powered by the model named Sonnet 5. The exact model ID is claude-sonnet-5.')",
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/probe on build/probe from 2d83808)",
+      "execution_mode": "sequential (dispatched alone after the wave-2 merge; one strand live)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-05T01:03:27.115Z",
+      "returned_utc": "2026-09-05T01:58:15.508Z",
+      "workflow_run": "wf_6149474e-16a",
+      "task_id": "wxkrqx320",
+      "agent_id": "a93ab8458987e2a85",
+      "prefix": "section 2 L as amended verbatim + sha-pinned pointer to docs/rounds/R02_probe.prompt.md (sha256 67cb18fe...)",
+      "t_start_utc": "2026-09-05T01:03:53Z",
+      "t_end_utc": "2026-09-05T01:55:51Z",
+      "head_commit": "a0dacd7895de28fa5d9d3ec0cb4e77bc7f2eadd7",
+      "commits": 6,
+      "status": "COMPLETE",
+      "module_round": "probe round 3 of 4",
+      "gates": "ruff clean; pytest tests/probe 59 passed (40 kept + 19 new); L1 PASS -- re-run by the integrator at the worktree root: identical",
+      "acceptance": "COMPLETE -- merged 3d81949 (--no-ff); real runners for W1-W4, W7-W10, KG, KB1, KB2, KB4, KB5 (Session multi-step page driver; attribution rules KB1 first-card_ref rotation, KB2 mismatch marker + file comparison, KB4 heading/line disagreement, KB5 marker; W10 localhost-only request rule); qualification ledger KB1, KB2, KB4, KB5; Q1/Q2 qualification runs (KG FRAMEWORK_SMOKE_PASS; KB1 / KB2 / KB4 / KB5 QUALIFICATION_PASS; W8 FRAMEWORK_SMOKE_PASS on a temp-fixture drift server); production-path runs W1, W2, W3, W4, W9, W10, healthz, diagnostics, W7 (--disable-vec) all PRODUCT_EVIDENCE_PASS; W5, W6, KB3 remain not_implemented (Q3, wave 3)",
+      "change_requests": [],
+      "open_issues": [
+        "W5, W6, KB3 (lineage) not_implemented by design (wave 3 / Q3)",
+        "W3 exact-order match against the L4 oracle's recorded top-10 (row 21) is a snapshot of a growing live corpus, not a standing guarantee",
+        "W2/W9/W10 lexical target occurrence is whichever rank the live FTS returns (this round: the amendment file's line 1), verified against disk rather than assumed",
+        "KB3 attribution rule undesigned until the lineage surface exists",
+        "_run_w8 temp-directory cleanup is best-effort on Windows",
+        "single run per production preset (no flake-detection repeat)"
+      ],
+      "deviations": "Self-disclosed by the strand: before its workflow-runner code existed it used a small ad hoc scratch script (outside the worktree, never committed) to launch `uvicorn explorer.app:create_app` directly against the FIXTURE db several times to inspect /api/* JSON shapes and fault behaviours -- the workspace interpreter running workspace code against the fixture only (never the live index, never a RHACO_* process, no device), but NOT launched 'via the probe' as the section 2 L D-12 block and working rule 3 / DISPATCH_PARAMETERS item K require (the probe is the only sanctioned launcher, CONSTRAINTS O12). Every committed evidence run was produced by the probe alone and the integrator re-produced the production presets independently after the merge. Recorded as a strand deviation of record for Director disposition (the L text says a violation is a halt, not a retry; the strand disclosed instead of halting); precedent: session-2 D-3 breaches recorded as deviations."
     }
   ],
   "dispatch_record_notes": [
@@ -1345,7 +1532,7 @@
       "recorded_in_commit": "the session-4 correction-boundary commit"
     }
   ],
-  "next_action": "Session 4 (re-entry per section 2 M with A1): re-run section 0 items 1, 5, 6, 7, 8, 9, 14; read build_state.json; wave 2 = round 2 builders catalog, search, reader (three worktrees from the boundary commit), each prompt beginning with the section 2 L text as amended; wave-2 probe presets W1-W10 / KG / KB1-KB5 to be implemented by the probe builder once surfaces exist; then wave 3 (lineage, web).",
+  "next_action": "Session 5 (re-entry per section 2 M with A1): re-run section 0 items 1, 5, 6, 7, 8, 9, 14; read build_state.json; wave 3 = round 3 builders lineage (module round 1) and web (module round 1) from the round-2 boundary commit, each prompt beginning with the section 2 L text as amended (dispatch form: L blocks + sha-pinned pointer); then probe round 4 (Q3: KB3, W5, W6; FINAL suite) as a sequential strand; then the L4 oracle re-run, the acceptance workflow set on the production path, and the critic (Opus 5, Explore, effort set explicitly). Director items pending: availability.py direct connect() (O10 class); S4-B7 launcher-rule deviation disposition; OS-temp writes reading; probe budget 1 round left.",
   "concurrency_exceedances_note": "Three exceedances, all session 2, all deliberate item-9(b) cap probes taken before A1.3 re-homed the wave cap; zero exceedances under A1.3 (sessions 3 onward) -- the closeout reports the three with the qualifier, never silently.",
   "workspace_pushes_note": "Structural: a push follows the boundary commit that carries build_state.json, so each push is recorded in the NEXT commit's build_state.json (and in the handback resumption entry at the time of the push).",
   "director_rulings": {
@@ -1369,5 +1556,13 @@
       "qualified_failure_classes"
     ],
     "since": "Q0 (probe round 2, session 4)"
-  }
+  },
+  "strand_deviations_of_record": [
+    {
+      "strand_id": "S4-B7",
+      "round": 2,
+      "text": "Self-disclosed by the strand: before its workflow-runner code existed it used a small ad hoc scratch script (outside the worktree, never committed) to launch `uvicorn explorer.app:create_app` directly against the FIXTURE db several times to inspect /api/* JSON shapes and fault behaviours -- the workspace interpreter running workspace code against the fixture only (never the live index, never a RHACO_* process, no device), but NOT launched 'via the probe' as the section 2 L D-12 block and working rule 3 / DISPATCH_PARAMETERS item K require (the probe is the only sanctioned launcher, CONSTRAINTS O12). Every committed evidence run was produced by the probe alone and the integrator re-produced the production presets independently after the merge. Recorded as a strand deviation of record for Director disposition (the L text says a violation is a halt, not a retry; the strand disclosed instead of halting); precedent: session-2 D-3 breaches recorded as deviations."
+    }
+  ],
+  "governance_defects_note": "dispatch records: all rows carry the seven governance fields plus dispatched_utc / returned_utc from session 3 onward; zero concurrency exceedances under A1.3; one strand-conduct deviation of record (S4-B7, launcher rule) for Director disposition"
 }

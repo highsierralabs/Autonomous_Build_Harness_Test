@@ -5,8 +5,8 @@
       "run": "docs/probe-qualification/runs/20260905T014234Z"
     },
     "KB2": {
-      "recorded_utc": "2026-09-05T01:42:47.065497+00:00",
-      "run": "docs/probe-qualification/runs/20260905T014244Z"
+      "recorded_utc": "2026-09-05T02:00:25.503189+00:00",
+      "run": "docs/probe-qualification/runs/20260905T020023Z"
     },
     "KB4": {
       "recorded_utc": "2026-09-05T01:42:49.390158+00:00",
@@ -52,6 +52,13 @@
       ],
       "qualification_state": "QUALIFICATION_PASS",
       "run": "docs/probe-qualification/runs/20260905T014249Z"
+    },
+    {
+      "classes": [
+        "KB2"
+      ],
+      "qualification_state": "QUALIFICATION_PASS",
+      "run": "docs/probe-qualification/runs/20260905T020023Z"
     }
   ]
 }
