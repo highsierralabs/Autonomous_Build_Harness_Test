@@ -9,19 +9,27 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<div id="kbd-status" class="sr-only" role="status" aria-live="polite"></div>
+{% set _path = request.url.path if request is defined else "" %}
+{% set _nav_active = {
+  "catalog": _path == "/" or _path.startswith("/doc/") or _path.startswith("/lineage/"),
+  "search": _path.startswith("/search"),
+  "diagnostics": _path.startswith("/diagnostics"),
+} %}
 <header class="site-header">
   <nav aria-label="Primary">
     <a class="brand" href="/">RHACO Corpus Explorer</a>
-    <a href="/">Catalog</a>
-    <a href="/search">Search</a>
-    <a href="/diagnostics">Diagnostics</a>
+    <a href="/"{% if _nav_active.catalog %} aria-current="page"{% endif %}>Catalog</a>
+    <a href="/search"{% if _nav_active.search %} aria-current="page"{% endif %}>Search</a>
+    <a href="/diagnostics"{% if _nav_active.diagnostics %} aria-current="page"{% endif %}>Diagnostics</a>
   </nav>
 </header>
 <main id="main" tabindex="-1"{% block main_attrs %}{% endblock %}>
 {% block content %}{% endblock %}
 </main>
 <footer class="site-footer">
-  <p class="authority-notice"><strong>Retrieval is not adjudication.</strong> {{ authority_notice.split('. ', 1)[1] }}</p>
+  {% set _lead = "Retrieval is not adjudication." %}
+  <p class="authority-notice">{% if authority_notice.startswith(_lead) %}<strong>{{ _lead }}</strong>{{ authority_notice[_lead|length:] }}{% else %}{{ authority_notice }}{% endif %}</p>
   <p class="version">Explorer v{{ app_version }} -- read-only; the derived index is not the record.</p>
 </footer>
 <script src="/static/web/app.js" defer></script>
