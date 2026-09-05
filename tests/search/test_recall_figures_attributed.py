@@ -65,3 +65,48 @@ def test_recall_figures_are_attributed_to_the_source_anl_and_date(fixture_client
     assert "This build ran its own oracle" in body
     assert "0.675" in body
     assert "SCOPE.md" in body
+
+
+def test_the_pages_own_measurement_date_matches_the_artifact_it_describes(fixture_client):
+    """The date the page gives for THIS BUILD's own oracle run must be the UTC date
+    of the run it describes -- critic round 2, ranked issue 2, and a P-13(a) control.
+
+    The page first said "on 2026-09-04": a local-Pacific rendering of a UTC instant,
+    matching no oracle run's UTC date. SCOPE.md row 16 was corrected off exactly that
+    ambiguity in the same round, and the product page was left carrying it, so the
+    surface and the scope register disagreed about when this build measured its own
+    retrieval figure -- in a tool whose whole subject is provenance.
+
+    A date on a provenance surface is a claim about an artifact. This test is the
+    control that makes it one: it reads gold_v1_1_compat.json and fails if the page
+    and the artifact ever disagree again, including after a future oracle re-run that
+    moves the date and leaves the page behind.
+    """
+    import datetime
+    import json
+    import os
+
+    from explorer.search import service
+
+    repo = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    artifact = os.path.join(repo, "docs", "probe-qualification", "gold_v1_1_compat.json")
+    with open(artifact, encoding="utf-8") as fh:
+        report = json.load(fh)
+
+    started = report.get("started_utc")
+    assert started, "gold_v1_1_compat.json carries no started_utc to derive a date from"
+    observed = datetime.datetime.fromisoformat(started).astimezone(datetime.UTC)
+    artifact_date = observed.date().isoformat()
+
+    assert service.GOLD_V1_1_CURRENT_RUN_UTC_DATE == artifact_date, (
+        f"the search page dates this build's own oracle measurement "
+        f"{service.GOLD_V1_1_CURRENT_RUN_UTC_DATE}, but gold_v1_1_compat.json's "
+        f"started_utc is {started} -> {artifact_date} UTC. The page and the artifact "
+        "it describes disagree; update GOLD_V1_1_CURRENT_RUN_UTC_DATE from the artifact."
+    )
+
+    body = fixture_client.get("/search").text
+    assert f"on {artifact_date} UTC" in body, (
+        "the rendered page does not carry the artifact-derived UTC date; the constant "
+        "and the rendering have drifted apart"
+    )

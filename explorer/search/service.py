@@ -74,11 +74,25 @@ GOLD_V1_1_EVAL_DATE = "2026-07-12"
 # whose cause is corpus evolution (one gold row's target family gained a new
 # supersession head after the July evaluation), not the adapter. Restated here,
 # dated, rather than left as a second bare figure beside the first.
+#
+# THE DATE IS DERIVED FROM THE ARTIFACT, NOT RETYPED (critic round 2, ranked issue 2).
+# This line first read "on 2026-09-04" -- a local-Pacific rendering of a UTC instant,
+# and no oracle run bears that UTC date. SCOPE.md row 16 was corrected off exactly
+# that ambiguity in the same round and the page was left carrying it, so the surface
+# and the scope register disagreed about when this build measured its own retrieval
+# figure, in a tool whose subject is provenance. The value below is the UTC date of
+# `started_utc` in docs/probe-qualification/gold_v1_1_compat.json, the artifact this
+# sentence describes, and tests/search/test_recall_figures_attributed.py fails if the
+# page and that artifact ever disagree again -- including after a future oracle re-run
+# that moves the date and leaves the page behind. A date on a provenance surface is a
+# claim about an artifact; it gets a control, not a comment.
+GOLD_V1_1_CURRENT_RUN_UTC_DATE = "2026-09-05"
+
 HYBRID_CURRENT_MEASURE = (
     "This build ran its own oracle (tools/l4_gold_oracle.py), which evaluated "
-    "Recall@10 at 0.675 (27/40) on 2026-09-04, on the corpus as it then stood -- "
-    "see the Gold v1.1 compatibility row in SCOPE.md for the evidence and its "
-    "cause (corpus evolution, not the adapter)."
+    f"Recall@10 at 0.675 (27/40) on {GOLD_V1_1_CURRENT_RUN_UTC_DATE} UTC, on the "
+    "corpus as it then stood -- see the Gold v1.1 compatibility row in SCOPE.md for "
+    "the evidence and its cause (corpus evolution, not the adapter)."
 )
 
 HYBRID_RERANK_NOTE = (
