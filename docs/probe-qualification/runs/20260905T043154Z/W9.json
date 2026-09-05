@@ -1,0 +1,39 @@
+{
+  "console_errors": [],
+  "failed_requests": [],
+  "fault_class": null,
+  "fault_detected": false,
+  "kind": "workflow",
+  "label": "Reader provenance -- open a hit at a line/section, body vs card rendered distinctly",
+  "observations": {
+    "card_ref": "reports/RHACO-MTN-20260520-001_Castle_Lid_Notch_And_Tungsten_Putty_Seal.card.yaml",
+    "card_section_exists": true,
+    "doc_section_exists": true,
+    "hit_line_text": "# RHACO-MTN-20260520-001 \u2014 Castle Lid Notch and Tungsten Putty Seal Execution",
+    "jump_line": "1",
+    "line_no": 1,
+    "selected_doc_id": "RHACO-MTN-20260520-001"
+  },
+  "ok": true,
+  "page_errors": [],
+  "preset": "W9",
+  "reasons": [],
+  "requests_total": 4,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\docs\\probe-qualification\\runs\\20260905T043154Z\\W9.png",
+  "steps": [
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "reader_jump",
+      "timings": {
+        "elapsed_ms": 345.7,
+        "nav_end_utc": "2026-09-05T04:31:57.064904+00:00",
+        "nav_start_utc": "2026-09-05T04:31:56.719227+00:00"
+      },
+      "title": "Castle Lid Notch and Tungsten Putty Seal Execution -- Reader -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/doc/reports/RHACO-MTN-20260520-001_Castle_Lid_Notch_And_Tungsten_Putty_Seal.card.yaml?line=1"
+    }
+  ],
+  "verdict": "PASS"
+}

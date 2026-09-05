@@ -1,0 +1,54 @@
+INFO:     Started server process [22076]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8911 (Press CTRL+C to quit)
+INFO:     127.0.0.1:60073 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60078 - "GET /api/diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60081 - "GET /search?q=E000777&mode=identifier HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60081 - "GET /static/web/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60082 - "GET /static/web/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60082 - "GET /search?q=quartz%20lattice%20lantern&mode=lexical HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60083 - "GET /api/search?q=quartz%20lattice%20lantern&mode=lexical HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60082 - "GET /doc/reports/RHACO-ANL-20260115-002_Fixture_Analysis.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60082 - "GET /static/reader/reader.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60084 - "GET /api/doc/reports/RHACO-ANL-20260115-002_Fixture_Analysis.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60082 - "GET /lineage/reports/RHACO-CMP-20260115-001_Fixture_Campaign.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60082 - "GET /static/lineage/lineage.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60081 - "GET /static/lineage/lineage.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60085 - "GET /api/lineage/reports/RHACO-CMP-20260115-001_Fixture_Campaign.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60082 - "GET /lineage/handoffs/RHACO-HND-20260115-003_Fixture_Handoff_Amendment_A1.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60086 - "GET /api/lineage/handoffs/RHACO-HND-20260115-003_Fixture_Handoff_Amendment_A1.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60082 - "GET /lineage/reference/RHACO_Fixture_Reference_v1_0.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60087 - "GET /api/lineage/reference/RHACO_Fixture_Reference_v1_0.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60082 - "GET /lineage/handoffs/RHACO-HND-20260115-003_Fixture_Handoff.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60088 - "GET /api/lineage/handoffs/RHACO-HND-20260115-003_Fixture_Handoff.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60089 - "GET /search?q=RHACO-HND-20260115-003&mode=identifier HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60089 - "GET /static/web/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60090 - "GET /static/web/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60090 - "GET /doc/handoffs/RHACO-HND-20260115-003_Fixture_Handoff.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60090 - "GET /static/reader/reader.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60091 - "GET /doc/reports/RHACO-ANL-20260115-002_Fixture_Analysis.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60091 - "GET /static/web/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60092 - "GET /static/reader/reader.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60093 - "GET /static/web/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60094 - "GET /api/doc/reports/RHACO-ANL-20260115-002_Fixture_Analysis.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60095 - "GET /lineage/reports/RHACO-CMP-20260115-001_Fixture_Campaign.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60095 - "GET /static/web/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60097 - "GET /static/web/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60096 - "GET /static/lineage/lineage.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60098 - "GET /static/lineage/lineage.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60099 - "GET /api/lineage/reports/RHACO-CMP-20260115-001_Fixture_Campaign.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60101 - "GET /doc/reports/RHACO-ANL-20260115-002_Fixture_Analysis.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60101 - "GET /static/web/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60103 - "GET /static/web/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60102 - "GET /static/reader/reader.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60104 - "GET /api/doc/reports/RHACO-ANL-20260115-002_Fixture_Analysis.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60106 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60106 - "GET /static/web/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60107 - "GET /static/web/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60107 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60107 - "GET /static/catalog/catalog.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60107 - "GET /search?q=quartz%20lattice%20lantern&mode=lexical HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60107 - "GET /doc/reports/RHACO-ANL-20260115-002_Fixture_Analysis.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60107 - "GET /static/reader/reader.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60108 - "GET /api/diagnostics HTTP/1.1" 200 OK

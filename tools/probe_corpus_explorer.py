@@ -42,13 +42,16 @@ PURPOSE
 
 USAGE
   <venv python> tools/probe_corpus_explorer.py --db <path> --docs-root <path>
-      [--port 8765] [--preset NAME|all] [--out DIR] [--fault NAME]
+      [--port 8765] [--preset NAME|NAME1,NAME2,...|all] [--out DIR] [--fault NAME]
       [--disable-vec] [--timeout 30] [--ledger PATH]
 
   --db and --docs-root are REQUIRED (no default) so this tool can never launch
   the explorer against the live corpus_index.db by omission -- every run names
-  its database explicitly. --preset defaults to "all" (every registry entry).
-  --out defaults to docs/probe-qualification/runs/<utc stamp>. --ledger
+  its database explicitly. --preset defaults to "all" (every registry entry);
+  a comma-separated list (task B10, round 4) selects exactly those presets in
+  one run, e.g. "KG,KB1,KB2,KB3,KB4,KB5" for the fixture FINAL suite -- an
+  unknown name in the list is a hard error (exit 2), same as a single unknown
+  name. --out defaults to docs/probe-qualification/runs/<utc stamp>. --ledger
   defaults to <workspace root>/docs/probe-qualification/qualification_ledger.json,
   resolved from this file's own location (so a worktree run writes the
   worktree's ledger, never another checkout's).
@@ -86,6 +89,34 @@ VERSION HISTORY
                      fixture, and PRODUCT_EVIDENCE_PASS / FRAMEWORK_SMOKE_PASS
                      evidence against the live index. W5, W6, KB3 remain
                      `not_implemented_yet` (lineage, wave 3 / Q3).
+  v1.3  2026-09-05  Q3 + FINAL suite (strand S6-B10, round 4 of 4 -- the
+                     LAST probe round). Real `kind="workflow"` runners for
+                     `KB3` (`_kb3_verdict`, fed by the runner's own DOM +
+                     `/api/lineage` observations, cross-checking the
+                     `.edge-list` row against the graph `<line>` against the
+                     API, against the frozen fixture fact), `W5` (reasoning
+                     lineage: typed directional edges, `direction_label` vs
+                     `explorer.models.RELATION_LABELS`, a chronological
+                     reasoning trail, page/API edge-set parity, and an
+                     independent read of two production `.card.yaml` files
+                     confirming the rendered relation is actually declared
+                     on disk), and `W6` (supersession chain + banner, the
+                     historical artifact still readable through the reader,
+                     an amendment's outgoing `amends` edge, and the parent's
+                     incoming `amends` edge recorded against SCOPE.md row 17
+                     -- present/typed/directional/resolved, never failed on
+                     the disclosed missing click-through). `KG` gains the
+                     Q3 typed-edge-direction case (CMP campaign_child x2,
+                     amendment's outgoing `amends`, reference `supersedes` +
+                     chain + banner, HND's unresolved `cites`). No preset in
+                     `PRESET_REGISTRY` is `not_implemented_yet` after this
+                     round. `--preset` accepts a comma-separated list (the
+                     fixture FINAL run selects `KG,KB1,KB2,KB3,KB4,KB5` in
+                     one invocation). `Session` gains `attr_dicts` (several
+                     attributes -- or `"$text"` for `textContent` -- off the
+                     same matched elements at once, in DOM order), used by
+                     every Q3 runner in place of repeated single-attribute
+                     `attr_all` calls.
 """
 from __future__ import annotations
 
@@ -117,7 +148,7 @@ if _WORKSPACE_ROOT not in sys.path:
     sys.path.insert(0, _WORKSPACE_ROOT)
 
 from explorer.faults import FAULTS, is_under_rhaco_tree  # noqa: E402
-from explorer.models import COMPONENT_RANK_NOT_EXPOSED  # noqa: E402
+from explorer.models import COMPONENT_RANK_NOT_EXPOSED, RELATION_LABELS  # noqa: E402
 
 VIEWPORT = {"width": 1280, "height": 900}
 DEFAULT_TIMEOUT_S = 30.0
@@ -162,10 +193,11 @@ def _kb(n: int, fault: str, kind: str = "not_implemented", label: str | None = N
 # (ARCHITECTURE.md section 6 / explorer/faults.FAULTS) -- KG first (known-good
 # baseline, no fault), then KB1-KB5 mapped 1:1 onto FAULTS in its declared
 # order (wrong_doc_for_id, stale_card, reverse_edges, broken_jump,
-# console_error). Round 2 (task B7) gives real `kind="workflow"` runners
+# console_error). Round 2 (task B7) gave real `kind="workflow"` runners
 # (WORKFLOW_RUNNERS, defined further down) to W1-W4, W7-W10, KG, KB1, KB2,
-# KB4, KB5; W5, W6, and KB3 stay `kind="not_implemented"` stubs -- lineage
-# lands in wave 3 (Q3), and a run selecting one of those three is INCOMPLETE.
+# KB4, KB5. Round 4 (task B10, Q3 + FINAL) gives the same to the remaining
+# three -- W5, W6 (lineage, production) and KB3 (reverse_edges, fixture) --
+# so every preset in this registry is now real; none is `not_implemented`.
 PRESET_REGISTRY: dict[str, PresetSpec] = {
     "healthz": PresetSpec(
         "healthz", "json_endpoint",
@@ -193,9 +225,9 @@ PRESET_REGISTRY: dict[str, PresetSpec] = {
     "W4": _w(4, "Campaign lifecycle browse -- CMP filter, status + lifecycle_state both visible/filterable",
              required_classes=("KB2", "KB5"), kind="workflow"),
     "W5": _w(5, "Reasoning lineage -- edges match indexed relationships and direction",
-             required_classes=("KB3", "KB5")),
+             required_classes=("KB3", "KB5"), kind="workflow"),
     "W6": _w(6, "Supersession/amendment -- historical artifact visible, replacement relationship clear",
-             required_classes=("KB3", "KB5")),
+             required_classes=("KB3", "KB5"), kind="workflow"),
     "W7": _w(7, "Degraded semantic channel -- RHACO_CORPUS_DISABLE_VEC=1, lexical/direct still usable",
              required_classes=("KB5",), kind="workflow"),
     "W8": _w(8, "Staleness -- freshness DRIFT surfaced, never silently treated as current",
@@ -215,7 +247,9 @@ PRESET_REGISTRY: dict[str, PresetSpec] = {
                      "the first listed card_ref must be the id's own card, not a sibling amendment"),
     "KB2": _kb(2, FAULTS[1], kind="workflow",
                label="Known-bad KB2 (stale_card): reader index row vs card file comparison"),
-    "KB3": _kb(3, FAULTS[2]),
+    "KB3": _kb(3, FAULTS[2], kind="workflow",
+               label="Known-bad KB3 (reverse_edges): the CMP center's campaign_child edge to the ANL "
+                     "fixture card -- from/to swapped and direction flipped under the fault"),
     "KB4": _kb(4, FAULTS[3], kind="workflow",
                label="Known-bad KB4 (broken_jump): reader heading line-anchor re-verification"),
     "KB5": _kb(5, FAULTS[4], kind="workflow",
@@ -314,6 +348,42 @@ def _kb2_verdict(mismatch_attr: str | None, file_title: Any, file_status: Any,
          f"independent file comparison: indexed title/status={indexed_title!r}/{indexed_status!r} "
          f"vs file title/status={file_title!r}/{file_status!r}"],
         True, "KB2",
+    )
+
+
+def _kb3_verdict(
+    observed: tuple[str | None, str | None, str | None],
+    expected_correct: tuple[str, str, str],
+    expected_fault: tuple[str, str, str],
+) -> tuple[list[str], bool, str | None]:
+    """KB3 / reverse_edges (task B10): an edge's `(from_id, to_id, direction)`
+    triple must equal the frozen known-correct fixture fact (docs/rounds/
+    R03_lineage.report.md Evidence #6/#11; tests/lineage/test_faults.py). The
+    fault swaps `from_id`/`to_id` inside `CorpusAdapter.edges_for`
+    (explorer/corpus_adapter/adapter.py lines 506-507), and the lineage module
+    never re-derives direction from the ids (explorer/lineage/service.py
+    module docstring) -- it renders whichever `EdgeSet` bucket the adapter
+    placed the (already swapped) edge into, faithfully. So a faulted edge is
+    observed with from/to swapped AND its direction bucket flipped (outgoing
+    <-> incoming) all at once, never one without the other.
+
+    Symmetric, like `_kb1_verdict`: a match to `expected_correct` is a quiet
+    PASS (also the no-fault sanity check, so this predicate is safe to run
+    unconditionally), a match to `expected_fault` is the known-bad detection,
+    and anything else -- including a missing edge, observed as a tuple of
+    `None`s -- is an unattributed FAIL."""
+    if observed == expected_correct:
+        return [], False, None
+    if observed == expected_fault:
+        return (
+            [f"KB3: observed edge (from_id, to_id, direction)={observed!r} is the SWAPPED "
+             f"known-fault triple, not the known-correct {expected_correct!r} -- fault reverse_edges"],
+            True, "KB3",
+        )
+    return (
+        [f"KB3: observed edge triple {observed!r} matches neither the known-correct "
+         f"{expected_correct!r} nor the known fault swap {expected_fault!r}"],
+        False, None,
     )
 
 
@@ -887,6 +957,66 @@ PRODUCT_W4_DOC_TYPE = "CMP"
 # text contract rather than merely re-reading the same module constant both builders share).
 HYBRID_DEGRADED_NOTICE_TEXT = "Hybrid unavailable: using lexical retrieval. Result ordering is lexical-only."
 
+# ─── Lineage fixture/production constants (task B10, Q3, round 4) ───────────
+#
+# Fixture facts reproduced verbatim from tests/lineage/conftest.py and
+# docs/rounds/R03_lineage.report.md Evidence #6/#8/#9/#10/#11 (not imported --
+# the probe verifies the observable contract, never the other module's own
+# test fixtures, matching this file's existing HYBRID_DEGRADED_NOTICE_TEXT
+# convention above).
+FIXTURE_CMP_CARD_REF = "reports/RHACO-CMP-20260115-001_Fixture_Campaign.card.yaml"
+FIXTURE_CMP_DOC_ID = "RHACO-CMP-20260115-001"
+FIXTURE_HND_DOC_ID = "RHACO-HND-20260115-003"
+FIXTURE_AMENDMENT_STEM = "RHACO-HND-20260115-003_Fixture_Handoff_Amendment_A1"
+FIXTURE_UNRESOLVED_TARGET = "RHACO-ANL-20260101-099"
+FIXTURE_REF_V1_0_CARD_REF = "reference/RHACO_Fixture_Reference_v1_0.card.yaml"
+FIXTURE_REF_V1_1_DOC_ID = "RHACO_Fixture_Reference_v1_1"
+
+# W5/W6 (production): this build's own campaign, and two of its members whose
+# card.yaml `depends_on` entry names the campaign directly (the "independent
+# check" task 3 requires) -- verified by reading C:\RHACO\docs\** directly,
+# never through the index (PROMPT.md 5.5 invariant; task 3's own instruction).
+PRODUCT_W5_CMP_CARD_REF = "reports/RHACO-CMP-20260903-001_Corpus_Explorer_Autonomous_Build_Harness.card.yaml"
+PRODUCT_W5_INDEPENDENT_CHECKS: tuple[tuple[str, str, str], ...] = (
+    # (child_doc_id, child_card_ref relative to docs_root, the depends_on id expected on disk)
+    ("RHACO-HND-20260903-001",
+     "handoffs/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch.card.yaml",
+     "RHACO-CMP-20260903-001"),
+    ("RHACO-CHG-20260903-001",
+     "reports/RHACO-CHG-20260903-001_Subagent_Guide_v1_3_Model_Tier_Declaration.card.yaml",
+     "RHACO-CMP-20260903-001"),
+)
+
+# W6 (production): (a) supersession -- Card Schema v1.8 (Superseded) -> v1.9 (head).
+PRODUCT_W6_SUPERSEDED_CARD_REF = "reference/RHACO_Card_YAML_Schema_Specification_v1_8.card.yaml"
+PRODUCT_W6_SUPERSEDED_DOC_ID = "RHACO_Card_YAML_Schema_Specification_v1_8"
+PRODUCT_W6_HEAD_DOC_ID = "RHACO_Card_YAML_Schema_Specification_v1_9"
+# (b) amendment -- this build's own A1 amendment of its own dispatch hand.
+PRODUCT_W6_AMENDMENT_CARD_REF = (
+    "handoffs/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch_"
+    "Amendment_A1_Cap_Rehome_And_Session_2_Findings.card.yaml"
+)
+PRODUCT_W6_AMENDMENT_STEM = (
+    "RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch_"
+    "Amendment_A1_Cap_Rehome_And_Session_2_Findings"
+)
+PRODUCT_W6_PARENT_CARD_REF = "handoffs/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch.card.yaml"
+PRODUCT_W6_PARENT_DOC_ID = "RHACO-HND-20260903-001"
+# SCOPE.md row 17: the known, dispositioned limitation task 4(b) says to
+# record and NOT fail on -- the parent's own incoming `amends` edge renders
+# as typed, directional, resolved (never `unresolved`) text with no link,
+# because CorpusAdapter.edges_for resolves source_cards/target_cards through
+# cards_for_doc_id (doc_id only), while an `amends` edge's from_id is the
+# amendment's filename STEM (CONSTRAINTS.md O8), which matches no card's
+# doc_id.
+W6_KNOWN_LIMITATION = (
+    "SCOPE.md row 17 (\"Click-through from an amends edge to the amendment, on the "
+    "lineage graph and trail\", status LIMITED): on the PARENT card's own lineage page "
+    "the incoming amends edge from the amendment renders as typed, directional text "
+    "with no link (source_cards is empty -- cards_for_doc_id cannot resolve a "
+    "filename stem) but is NOT marked unresolved, since resolved=true for this edge."
+)
+
 
 # ─── Session: one browser context reused across a workflow's steps ──────────
 
@@ -998,6 +1128,27 @@ class Session:
     def attr_all(self, selector: str, name: str) -> list:
         try:
             return self.page.eval_on_selector_all(selector, "(els, n) => els.map((e) => e.getAttribute(n))", name)
+        except Exception:  # noqa: BLE001
+            return []
+
+    def attr_dicts(self, selector: str, names: list[str]) -> list[dict]:
+        """Every element matching `selector`, as one dict of {name: value} per
+        element in DOM order (task B10) -- unlike `attr_all` (one attribute
+        across every match), the Q3 lineage runners need several attributes
+        off the SAME element at once (e.g. an edge row's data-relation,
+        data-edge-from, data-edge-to, data-edge-direction together, so they
+        can be compared against each other and against /api/lineage without
+        an ordering assumption across separate calls). Pass the literal name
+        `"$text"` to also capture an element's `textContent` alongside its
+        attributes (e.g. the visible direction_label text, or "current head")."""
+        try:
+            return self.page.eval_on_selector_all(
+                selector,
+                "(els, ns) => els.map((el) => { const o = {}; "
+                "ns.forEach((n) => { o[n] = (n === '$text') ? el.textContent : el.getAttribute(n); }); "
+                "return o; })",
+                names,
+            )
         except Exception:  # noqa: BLE001
             return []
 
@@ -1210,6 +1361,107 @@ def _run_kg(browser, base_url: str, ctx: ProbeContext, out_dir: Path) -> dict:
                 reasons.append(f"KG(c): card_panel.status={card_panel.get('status')!r} != "
                                 f"file identity.status={identity.get('status')!r}")
 
+        # (d) Q3 typed-edge-direction (task B10): CMP page -- both campaign_child
+        # edges outgoing (to ANL, to HND); page and /api/lineage agree.
+        edge_attrs = ["data-relation", "data-edge-from", "data-edge-to", "data-edge-direction"]
+        session.goto("lineage_cmp", f"{base_url}/lineage/{FIXTURE_CMP_CARD_REF}")
+        cmp_rows = session.attr_dicts(".edge-list li", edge_attrs)
+        cmp_campaign_child = [r for r in cmp_rows if r.get("data-relation") == "campaign_child"]
+        obs["cmp_campaign_child_rows"] = cmp_campaign_child
+        cmp_targets = {r.get("data-edge-to") for r in cmp_campaign_child}
+        if cmp_targets != {FIXTURE_ANL_DOC_ID, FIXTURE_HND_DOC_ID}:
+            reasons.append(f"KG(d): CMP campaign_child targets={sorted(cmp_targets)!r}, expected "
+                            f"{sorted([FIXTURE_ANL_DOC_ID, FIXTURE_HND_DOC_ID])!r}")
+        if not all(r.get("data-edge-from") == FIXTURE_CMP_DOC_ID and r.get("data-edge-direction") == "outgoing"
+                   for r in cmp_campaign_child):
+            reasons.append(f"KG(d): not every CMP campaign_child row is outgoing from the CMP: {cmp_campaign_child!r}")
+
+        cmp_api_status, cmp_api_body, cmp_api_err = _http_get_json(base_url, f"/api/lineage/{FIXTURE_CMP_CARD_REF}")
+        if cmp_api_err or not cmp_api_body:
+            reasons.append(f"KG(d): /api/lineage(CMP) returned no usable body (status={cmp_api_status}, error={cmp_api_err})")
+        else:
+            api_targets = {e.get("to_id") for e in cmp_api_body.get("outgoing") or [] if e.get("relation") == "campaign_child"}
+            obs["cmp_api_campaign_child_targets"] = sorted(api_targets)
+            if api_targets != cmp_targets:
+                reasons.append(f"KG(d): page campaign_child targets {sorted(cmp_targets)!r} != /api/lineage {sorted(api_targets)!r}")
+
+        # (e) amendment page: outgoing amends edge, from=amendment's own filename
+        # stem, to=RHACO-HND-20260115-003.
+        session.goto("lineage_amendment", f"{base_url}/lineage/{FIXTURE_HND_AMENDMENT_CARD_REF}")
+        amend_rows = session.attr_dicts(".edge-list li", edge_attrs)
+        amends_row = next((r for r in amend_rows
+                            if r.get("data-relation") == "amends" and r.get("data-edge-direction") == "outgoing"), None)
+        obs["amendment_outgoing_amends_row"] = amends_row
+        if amends_row is None or amends_row.get("data-edge-from") != FIXTURE_AMENDMENT_STEM \
+                or amends_row.get("data-edge-to") != FIXTURE_HND_DOC_ID:
+            reasons.append(f"KG(e): amendment page's outgoing amends row={amends_row!r}, expected "
+                            f"from={FIXTURE_AMENDMENT_STEM!r} to={FIXTURE_HND_DOC_ID!r}")
+
+        amend_api_status, amend_api_body, amend_api_err = _http_get_json(base_url, f"/api/lineage/{FIXTURE_HND_AMENDMENT_CARD_REF}")
+        if amend_api_err or not amend_api_body:
+            reasons.append(f"KG(e): /api/lineage(amendment) returned no usable body (status={amend_api_status}, error={amend_api_err})")
+        else:
+            api_amends = next((e for e in amend_api_body.get("outgoing") or [] if e.get("relation") == "amends"), None)
+            obs["amendment_api_outgoing_amends"] = api_amends
+            if api_amends is None or api_amends.get("from_id") != FIXTURE_AMENDMENT_STEM or api_amends.get("to_id") != FIXTURE_HND_DOC_ID:
+                reasons.append(f"KG(e): /api/lineage(amendment) outgoing amends={api_amends!r} disagrees with the page")
+
+        # (f) reference v1_0 page: outgoing supersedes to v1_1; chain marks v1_1
+        # head; superseded banner present.
+        session.goto("lineage_ref_v1_0", f"{base_url}/lineage/{FIXTURE_REF_V1_0_CARD_REF}")
+        ref_rows = session.attr_dicts(".edge-list li", edge_attrs)
+        supersedes_row = next((r for r in ref_rows if r.get("data-relation") == "supersedes"), None)
+        obs["ref_v1_0_supersedes_row"] = supersedes_row
+        if supersedes_row is None or supersedes_row.get("data-edge-to") != FIXTURE_REF_V1_1_DOC_ID \
+                or supersedes_row.get("data-edge-direction") != "outgoing":
+            reasons.append(f"KG(f): reference v1_0 supersedes row={supersedes_row!r}, expected "
+                            f"to={FIXTURE_REF_V1_1_DOC_ID!r} direction=outgoing")
+
+        chain_rows = session.attr_dicts(".supersession-chain li", ["data-doc-id", "data-chain-head"])
+        obs["ref_v1_0_chain"] = chain_rows
+        head_row = next((r for r in chain_rows if r.get("data-chain-head") == "true"), None)
+        if head_row is None or head_row.get("data-doc-id") != FIXTURE_REF_V1_1_DOC_ID:
+            reasons.append(f"KG(f): supersession chain head={head_row!r}, expected doc-id={FIXTURE_REF_V1_1_DOC_ID!r}")
+
+        banner_present = session.count("[data-superseded-banner]") > 0
+        obs["ref_v1_0_banner_present"] = banner_present
+        if not banner_present:
+            reasons.append("KG(f): reference v1_0's own page does not carry the superseded banner")
+
+        ref_api_status, ref_api_body, ref_api_err = _http_get_json(base_url, f"/api/lineage/{FIXTURE_REF_V1_0_CARD_REF}")
+        if ref_api_err or not ref_api_body:
+            reasons.append(f"KG(f): /api/lineage(reference v1_0) returned no usable body (status={ref_api_status}, error={ref_api_err})")
+        else:
+            api_supersedes = next((e for e in ref_api_body.get("outgoing") or [] if e.get("relation") == "supersedes"), None)
+            if api_supersedes is None or api_supersedes.get("to_id") != FIXTURE_REF_V1_1_DOC_ID:
+                reasons.append(f"KG(f): /api/lineage(reference v1_0) outgoing supersedes={api_supersedes!r} disagrees with the page")
+            chain_ids = [(c.get("card") or {}).get("doc_id") for c in ref_api_body.get("chain") or []]
+            if FIXTURE_REF_V1_1_DOC_ID not in chain_ids:
+                reasons.append(f"KG(f): /api/lineage(reference v1_0) chain doc_ids={chain_ids!r} does not include the head")
+            if not ref_api_body.get("superseded_banner"):
+                reasons.append("KG(f): /api/lineage(reference v1_0) superseded_banner is falsy")
+
+        # (g) HND page: unresolved cites to the deliberately-absent id.
+        session.goto("lineage_hnd", f"{base_url}/lineage/{FIXTURE_HND_CARD_REF}")
+        hnd_rows = session.attr_dicts(".edge-list li", edge_attrs)
+        unresolved_row = next((r for r in hnd_rows
+                                if r.get("data-relation") == "cites" and r.get("data-edge-direction") == "unresolved"), None)
+        obs["hnd_unresolved_cites_row"] = unresolved_row
+        unresolved_marker_present = session.count(".edge-list li .degradation[role='note']") > 0
+        obs["hnd_unresolved_marker_present"] = unresolved_marker_present
+        if unresolved_row is None or unresolved_row.get("data-edge-to") != FIXTURE_UNRESOLVED_TARGET:
+            reasons.append(f"KG(g): HND unresolved cites row={unresolved_row!r}, expected to={FIXTURE_UNRESOLVED_TARGET!r}")
+        if not unresolved_marker_present:
+            reasons.append("KG(g): HND page does not render the unresolved marker")
+
+        hnd_api_status, hnd_api_body, hnd_api_err = _http_get_json(base_url, f"/api/lineage/{FIXTURE_HND_CARD_REF}")
+        if hnd_api_err or not hnd_api_body:
+            reasons.append(f"KG(g): /api/lineage(HND) returned no usable body (status={hnd_api_status}, error={hnd_api_err})")
+        else:
+            api_unresolved = next((e for e in hnd_api_body.get("unresolved") or [] if e.get("relation") == "cites"), None)
+            if api_unresolved is None or api_unresolved.get("to_id") != FIXTURE_UNRESOLVED_TARGET:
+                reasons.append(f"KG(g): /api/lineage(HND) unresolved cites={api_unresolved!r} disagrees with the page")
+
         return _finish_workflow(spec, session, out_dir, custom_reasons=reasons, observations=obs, screenshot_name="KG")
     finally:
         session.close()
@@ -1278,6 +1530,97 @@ def _run_kb2(browser, base_url: str, ctx: ProbeContext, out_dir: Path) -> dict:
         return _finish_workflow(spec, session, out_dir, custom_reasons=custom_reasons,
                                  fault_detected=fault_detected, fault_class=fault_class,
                                  observations=obs, screenshot_name="KB2")
+    finally:
+        session.close()
+
+
+def _run_kb3(browser, base_url: str, ctx: ProbeContext, out_dir: Path) -> dict:
+    """KB3 / reverse_edges (task B10, Q3). Drives the CMP fixture center's
+    lineage page under the fault, locates the campaign_child edge to the ANL
+    fixture card in BOTH the `.edge-list` row and the graph `<line>`, cross-
+    checks the two against each other and against `/api/lineage`, then hands
+    the observed `(from_id, to_id, direction)` triple to `_kb3_verdict`
+    against the frozen known-correct fixture fact (outgoing, CMP -> ANL) and
+    its known-fault swap (incoming, ANL -> CMP)."""
+    del ctx
+    spec = PRESET_REGISTRY["KB3"]
+    session = Session(browser)
+    try:
+        expected_correct = (FIXTURE_CMP_DOC_ID, FIXTURE_ANL_DOC_ID, "outgoing")
+        expected_fault = (FIXTURE_ANL_DOC_ID, FIXTURE_CMP_DOC_ID, "incoming")
+        obs: dict = {
+            "detection_observable": "the CMP center's campaign_child edge to the ANL fixture card: the "
+                                     ".edge-list <li> and the graph <line>'s data-edge-from/data-edge-to/"
+                                     "data-edge-direction, cross-checked against each other and against "
+                                     "/api/lineage, against the frozen known-correct fixture fact",
+            "expected_correct_triple": list(expected_correct),
+            "expected_fault_triple": list(expected_fault),
+        }
+        custom_reasons: list[str] = []
+        fault_detected = False
+        fault_class: str | None = None
+
+        session.goto("lineage_cmp", f"{base_url}/lineage/{FIXTURE_CMP_CARD_REF}")
+
+        def _find_campaign_child_to_anl(rows: list[dict], from_key: str, to_key: str) -> dict | None:
+            return next(
+                (r for r in rows
+                 if r.get("data-relation") == "campaign_child"
+                 and FIXTURE_ANL_DOC_ID in (r.get(from_key), r.get(to_key))),
+                None,
+            )
+
+        list_rows = session.attr_dicts(
+            ".edge-list li", ["data-relation", "data-edge-from", "data-edge-to", "data-edge-direction"]
+        )
+        list_row = _find_campaign_child_to_anl(list_rows, "data-edge-from", "data-edge-to")
+        obs["edge_list_row"] = list_row
+
+        graph_lines = session.attr_dicts(
+            ".lineage-graph line", ["data-relation", "data-edge-from", "data-edge-to", "data-edge-direction"]
+        )
+        graph_line = _find_campaign_child_to_anl(graph_lines, "data-edge-from", "data-edge-to")
+        obs["graph_line"] = graph_line
+
+        api_status, api_body, api_err = _http_get_json(base_url, f"/api/lineage/{FIXTURE_CMP_CARD_REF}")
+        api_edge = None
+        if api_err or not api_body:
+            custom_reasons.append(f"KB3: /api/lineage returned no usable body (status={api_status}, error={api_err})")
+        else:
+            for bucket in ("outgoing", "incoming", "unresolved"):
+                api_edge = next(
+                    (e for e in api_body.get(bucket) or []
+                     if e.get("relation") == "campaign_child" and FIXTURE_ANL_DOC_ID in (e.get("from_id"), e.get("to_id"))),
+                    None,
+                )
+                if api_edge:
+                    break
+        obs["api_edge"] = api_edge
+
+        if list_row is None or graph_line is None:
+            custom_reasons.append(
+                "KB3: could not locate the CMP<->ANL campaign_child edge in both the .edge-list rows "
+                f"and the graph <line> elements (list_row={list_row!r}, graph_line={graph_line!r})"
+            )
+            observed = (None, None, None)
+        else:
+            list_triple = (list_row.get("data-edge-from"), list_row.get("data-edge-to"), list_row.get("data-edge-direction"))
+            graph_triple = (graph_line.get("data-edge-from"), graph_line.get("data-edge-to"), graph_line.get("data-edge-direction"))
+            if list_triple != graph_triple:
+                custom_reasons.append(f"KB3: edge-list row and graph <line> disagree: list={list_triple} line={graph_triple}")
+            if api_edge is not None:
+                api_triple = (api_edge.get("from_id"), api_edge.get("to_id"), api_edge.get("direction"))
+                if api_triple != list_triple:
+                    custom_reasons.append(f"KB3: page edge-list and /api/lineage disagree: page={list_triple} api={api_triple}")
+            observed = list_triple
+        obs["observed_triple"] = list(observed)
+
+        verdict_reasons, fault_detected, fault_class = _kb3_verdict(observed, expected_correct, expected_fault)
+        custom_reasons.extend(verdict_reasons)
+
+        return _finish_workflow(spec, session, out_dir, custom_reasons=custom_reasons,
+                                 fault_detected=fault_detected, fault_class=fault_class,
+                                 observations=obs, screenshot_name="KB3")
     finally:
         session.close()
 
@@ -1555,6 +1898,251 @@ def _run_w4(browser, base_url: str, ctx: ProbeContext, out_dir: Path) -> dict:
         session.close()
 
 
+def _run_w5(browser, base_url: str, ctx: ProbeContext, out_dir: Path) -> dict:
+    """W5 -- reasoning lineage (production, task B10). Centers on this build's
+    own campaign, RHACO-CMP-20260903-001: typed directional edges, every
+    edge's direction_label checked against explorer.models.RELATION_LABELS,
+    the reasoning trail's chronological order, page/API edge-set parity, and
+    an independent read of two production .card.yaml files off disk
+    confirming the rendered campaign_child relation is actually declared
+    there (never through the index)."""
+    spec = PRESET_REGISTRY["W5"]
+    session = Session(browser)
+    try:
+        obs: dict = {}
+        custom_reasons: list[str] = []
+        edge_attrs = ["data-relation", "data-edge-from", "data-edge-to", "data-edge-direction"]
+
+        session.goto("lineage_cmp", f"{base_url}/lineage/{PRODUCT_W5_CMP_CARD_REF}")
+        page_rows = session.attr_dicts(".edge-list li", edge_attrs)
+        page_edges = {
+            (r.get("data-relation"), r.get("data-edge-from"), r.get("data-edge-to"), r.get("data-edge-direction"))
+            for r in page_rows
+        }
+        obs["page_edge_count"] = len(page_edges)
+
+        page_campaign_child_targets = {
+            r.get("data-edge-to") for r in page_rows
+            if r.get("data-relation") == "campaign_child" and r.get("data-edge-direction") == "outgoing"
+        }
+        obs["page_campaign_child_outgoing_targets"] = sorted(page_campaign_child_targets)
+        if not page_campaign_child_targets:
+            custom_reasons.append("W5: no outgoing campaign_child edge rendered on the CMP's own lineage page")
+        for child_doc_id, _card_ref, _dep in PRODUCT_W5_INDEPENDENT_CHECKS:
+            if child_doc_id not in page_campaign_child_targets:
+                custom_reasons.append(
+                    f"W5: expected an outgoing campaign_child edge to {child_doc_id!r} on the page, "
+                    f"observed targets={sorted(page_campaign_child_targets)!r}"
+                )
+
+        api_status, api_body, api_err = _http_get_json(base_url, f"/api/lineage/{PRODUCT_W5_CMP_CARD_REF}")
+        if api_err or not api_body:
+            custom_reasons.append(f"W5: /api/lineage returned no usable body (status={api_status}, error={api_err})")
+        else:
+            all_api_edges = [
+                (e.get("relation"), e.get("from_id"), e.get("to_id"), e.get("direction"), e.get("direction_label"))
+                for bucket in ("outgoing", "incoming", "unresolved")
+                for e in api_body.get(bucket) or []
+            ]
+            obs["api_edge_count"] = len(all_api_edges)
+
+            api_edge_triples = {(rel, frm, to, direc) for rel, frm, to, direc, _label in all_api_edges}
+            if api_edge_triples != page_edges:
+                custom_reasons.append(
+                    f"W5: page edge-list set != /api/lineage edge set (page-only={sorted(page_edges - api_edge_triples)!r}, "
+                    f"api-only={sorted(api_edge_triples - page_edges)!r})"
+                )
+
+            mismatched_labels = sorted({
+                (rel, direc, label) for rel, _frm, _to, direc, label in all_api_edges
+                if label != RELATION_LABELS.get(rel, rel)
+            })
+            obs["mismatched_direction_labels"] = mismatched_labels
+            if mismatched_labels:
+                custom_reasons.append(f"W5: direction_label does not match RELATION_LABELS for {mismatched_labels!r}")
+
+            api_campaign_child_targets = {
+                e.get("to_id") for e in api_body.get("outgoing") or [] if e.get("relation") == "campaign_child"
+            }
+            if api_campaign_child_targets != page_campaign_child_targets:
+                custom_reasons.append(
+                    f"W5: page campaign_child outgoing targets {sorted(page_campaign_child_targets)!r} != "
+                    f"/api/lineage {sorted(api_campaign_child_targets)!r}"
+                )
+
+            trail = api_body.get("reasoning_trail") or []
+            trail_dates = [(e.get("card") or {}).get("date") for e in trail]
+            obs["reasoning_trail_dates"] = trail_dates
+            sortable = [(d is None, d or "") for d in trail_dates]
+            if sortable != sorted(sortable):
+                custom_reasons.append(f"W5: reasoning_trail is not chronological (dates observed: {trail_dates!r})")
+
+        # Independent check (task 3): for at least two resolved edges, read the
+        # relevant .card.yaml from C:\RHACO\docs directly and confirm the
+        # rendered campaign_child relation is actually declared there. Never
+        # opens the index; a missing correspondence is UNVERIFIED, never a
+        # FAIL (task instruction: "not inventing a correspondence").
+        independent_checks = []
+        for child_doc_id, child_card_ref, expected_dep_id in PRODUCT_W5_INDEPENDENT_CHECKS:
+            abs_path = os.path.join(ctx.docs_root, child_card_ref.replace("/", os.sep))
+            if not os.path.isfile(abs_path):
+                independent_checks.append({
+                    "child_doc_id": child_doc_id, "status": "UNVERIFIED",
+                    "reason": f"card file not found on disk: {abs_path!r}",
+                })
+                continue
+            parsed = _parse_card_yaml_file(abs_path)
+            dep_ids = [d.get("id") for d in (parsed.get("depends_on") or []) if isinstance(d, dict)]
+            if expected_dep_id in dep_ids:
+                independent_checks.append({
+                    "child_doc_id": child_doc_id, "status": "VERIFIED",
+                    "detail": f"card.yaml depends_on declares {expected_dep_id!r} on disk, backing the "
+                              "rendered campaign_child edge",
+                })
+            else:
+                independent_checks.append({
+                    "child_doc_id": child_doc_id, "status": "UNVERIFIED",
+                    "reason": f"card.yaml depends_on={dep_ids!r} does not name {expected_dep_id!r}",
+                })
+        obs["independent_checks"] = independent_checks
+
+        return _finish_workflow(spec, session, out_dir, custom_reasons=custom_reasons, observations=obs, screenshot_name="W5")
+    finally:
+        session.close()
+
+
+def _run_w6(browser, base_url: str, ctx: ProbeContext, out_dir: Path) -> dict:
+    """W6 -- supersession and amendment (production, task B10). (a) Card Schema
+    v1.8 (Superseded) -> v1.9 (current head): banner, chain, the historical
+    v1.8 document still openable through the reader, the replacement edge.
+    (b) this build's own A1 amendment: its outgoing amends edge, resolved and
+    linked. The parent's own incoming amends edge is recorded against
+    SCOPE.md row 17 (`W6_KNOWN_LIMITATION`) -- present/typed/directional/
+    resolved is asserted; the missing click-through is NEVER a FAIL, only
+    disclosed."""
+    del ctx
+    spec = PRESET_REGISTRY["W6"]
+    session = Session(browser)
+    try:
+        obs: dict = {}
+        custom_reasons: list[str] = []
+        edge_attrs = ["data-relation", "data-edge-from", "data-edge-to", "data-edge-direction"]
+
+        # (a) Supersession.
+        session.goto("lineage_v1_8", f"{base_url}/lineage/{PRODUCT_W6_SUPERSEDED_CARD_REF}")
+        banner_present = session.count("[data-superseded-banner]") > 0
+        obs["v1_8_banner_present"] = banner_present
+        if not banner_present:
+            custom_reasons.append("W6(a): v1_8's own lineage page does not carry the superseded banner")
+
+        chain_rows = session.attr_dicts(".supersession-chain li", ["data-doc-id", "data-chain-head", "$text"])
+        obs["v1_8_chain"] = chain_rows
+        head_row = next((r for r in chain_rows if r.get("data-chain-head") == "true"), None)
+        if head_row is None or head_row.get("data-doc-id") != PRODUCT_W6_HEAD_DOC_ID:
+            custom_reasons.append(f"W6(a): supersession chain head={head_row!r}, expected doc-id={PRODUCT_W6_HEAD_DOC_ID!r}")
+        elif "current head" not in (head_row.get("$text") or ""):
+            custom_reasons.append(f"W6(a): chain head row text {head_row.get('$text')!r} does not contain 'current head'")
+
+        v8_edges = session.attr_dicts(".edge-list li", edge_attrs)
+        supersedes_edge = next((r for r in v8_edges if r.get("data-relation") == "supersedes"), None)
+        obs["v1_8_supersedes_edge"] = supersedes_edge
+        if supersedes_edge is None or supersedes_edge.get("data-edge-to") != PRODUCT_W6_HEAD_DOC_ID \
+                or supersedes_edge.get("data-edge-direction") != "outgoing":
+            custom_reasons.append(f"W6(a): v1_8 outgoing supersedes edge={supersedes_edge!r}, expected to={PRODUCT_W6_HEAD_DOC_ID!r}")
+
+        # The historical v1_8 document itself remains openable and readable
+        # through the reader (PROMPT.md W6: the historical artifact remains visible).
+        session.goto("reader_v1_8", f"{base_url}/doc/{PRODUCT_W6_SUPERSEDED_CARD_REF}")
+        v8_selected = session.attr("#document", "data-selected-doc-id")
+        obs["v1_8_reader_selected_doc_id"] = v8_selected
+        if v8_selected != PRODUCT_W6_SUPERSEDED_DOC_ID:
+            custom_reasons.append(f"W6(a): reader for v1_8 data-selected-doc-id={v8_selected!r}, "
+                                    f"expected {PRODUCT_W6_SUPERSEDED_DOC_ID!r}")
+
+        v8_api_status, v8_api_body, v8_api_err = _http_get_json(base_url, f"/api/lineage/{PRODUCT_W6_SUPERSEDED_CARD_REF}")
+        if v8_api_err or not v8_api_body:
+            custom_reasons.append(f"W6(a): /api/lineage(v1_8) returned no usable body (status={v8_api_status}, error={v8_api_err})")
+        else:
+            api_chain_ids = [(c.get("card") or {}).get("doc_id") for c in v8_api_body.get("chain") or []]
+            if PRODUCT_W6_HEAD_DOC_ID not in api_chain_ids:
+                custom_reasons.append(f"W6(a): /api/lineage(v1_8) chain doc_ids={api_chain_ids!r} missing the head")
+            if not v8_api_body.get("superseded_banner"):
+                custom_reasons.append("W6(a): /api/lineage(v1_8) superseded_banner is falsy")
+
+        # (b) Amendment -- outgoing amends edge, resolved and linked.
+        session.goto("lineage_amendment", f"{base_url}/lineage/{PRODUCT_W6_AMENDMENT_CARD_REF}")
+        amend_edges = session.attr_dicts(".edge-list li", edge_attrs)
+        amends_row = next((r for r in amend_edges
+                            if r.get("data-relation") == "amends" and r.get("data-edge-direction") == "outgoing"), None)
+        obs["amendment_outgoing_amends_row"] = amends_row
+        if amends_row is None or amends_row.get("data-edge-to") != PRODUCT_W6_PARENT_DOC_ID:
+            custom_reasons.append(f"W6(b): amendment's outgoing amends row={amends_row!r}, "
+                                    f"expected to={PRODUCT_W6_PARENT_DOC_ID!r}")
+
+        amend_link = session.attr(
+            '.edge-list li[data-relation="amends"][data-edge-direction="outgoing"] a', "href"
+        )
+        obs["amendment_outgoing_amends_link"] = amend_link
+        if not amend_link:
+            custom_reasons.append("W6(b): amendment's outgoing amends edge is not rendered as a resolved link")
+
+        amend_api_status, amend_api_body, amend_api_err = _http_get_json(base_url, f"/api/lineage/{PRODUCT_W6_AMENDMENT_CARD_REF}")
+        if amend_api_err or not amend_api_body:
+            custom_reasons.append(f"W6(b): /api/lineage(amendment) returned no usable body (status={amend_api_status}, error={amend_api_err})")
+        else:
+            api_amends = next((e for e in amend_api_body.get("outgoing") or [] if e.get("relation") == "amends"), None)
+            obs["amendment_api_outgoing_amends"] = api_amends
+            if api_amends is None or not api_amends.get("resolved") or api_amends.get("to_id") != PRODUCT_W6_PARENT_DOC_ID:
+                custom_reasons.append(f"W6(b): /api/lineage(amendment) outgoing amends={api_amends!r} not "
+                                        "resolved/to-parent as expected")
+
+        # Known, dispositioned limitation (SCOPE.md row 17, task 4(b)): visit
+        # the PARENT's own page too and record -- never FAIL on -- the incoming
+        # amends edge rendering as typed/directional/resolved text with no link.
+        session.goto("lineage_parent", f"{base_url}/lineage/{PRODUCT_W6_PARENT_CARD_REF}")
+        parent_edges = session.attr_dicts(".edge-list li", edge_attrs)
+        parent_incoming_amends = next(
+            (r for r in parent_edges if r.get("data-relation") == "amends" and r.get("data-edge-direction") == "incoming"),
+            None,
+        )
+        obs["parent_incoming_amends_row"] = parent_incoming_amends
+        parent_link = session.attr('.edge-list li[data-relation="amends"][data-edge-direction="incoming"] a', "href")
+        obs["parent_incoming_amends_link"] = parent_link
+        obs["known_limitation"] = W6_KNOWN_LIMITATION
+
+        if parent_incoming_amends is None or parent_incoming_amends.get("data-edge-from") != PRODUCT_W6_AMENDMENT_STEM:
+            custom_reasons.append(f"W6(b): parent's incoming amends row={parent_incoming_amends!r}, "
+                                    f"expected from={PRODUCT_W6_AMENDMENT_STEM!r}")
+
+        parent_api_status, parent_api_body, parent_api_err = _http_get_json(base_url, f"/api/lineage/{PRODUCT_W6_PARENT_CARD_REF}")
+        if parent_api_err or not parent_api_body:
+            custom_reasons.append(f"W6(b): /api/lineage(parent) returned no usable body (status={parent_api_status}, error={parent_api_err})")
+        else:
+            api_incoming_amends = next(
+                (e for e in parent_api_body.get("incoming") or [] if e.get("relation") == "amends"), None
+            )
+            obs["parent_api_incoming_amends"] = api_incoming_amends
+            if api_incoming_amends is None:
+                custom_reasons.append("W6(b): /api/lineage(parent) has no incoming amends edge at all")
+            elif not api_incoming_amends.get("resolved"):
+                # This WOULD contradict SCOPE.md row 17, which says this edge is
+                # resolved (only its click-through is missing) -- a real FAIL.
+                custom_reasons.append(
+                    f"W6(b): parent's incoming amends edge is marked unresolved (resolved="
+                    f"{api_incoming_amends.get('resolved')!r}) -- contradicts SCOPE.md row 17"
+                )
+        obs["known_limitation_reproduced"] = not bool(parent_link)
+        if parent_link:
+            obs["known_limitation_note"] = (
+                "the amends click-through now resolves to a link -- SCOPE.md row 17 may be stale; "
+                "not treated as a FAIL here, filed as a change request instead"
+            )
+
+        return _finish_workflow(spec, session, out_dir, custom_reasons=custom_reasons, observations=obs, screenshot_name="W6")
+    finally:
+        session.close()
+
+
 def _run_w7(browser, base_url: str, ctx: ProbeContext, out_dir: Path) -> dict:
     del ctx
     spec = PRESET_REGISTRY["W7"]
@@ -1801,12 +2389,15 @@ WORKFLOW_RUNNERS: dict[str, Callable[[Any, str, ProbeContext, Path], dict]] = {
     "KG": _run_kg,
     "KB1": _run_kb1,
     "KB2": _run_kb2,
+    "KB3": _run_kb3,
     "KB4": _run_kb4,
     "KB5": _run_kb5,
     "W1": _run_w1,
     "W2": _run_w2,
     "W3": _run_w3,
     "W4": _run_w4,
+    "W5": _run_w5,
+    "W6": _run_w6,
     "W7": _run_w7,
     "W8": _run_w8,
     "W9": _run_w9,
@@ -2014,7 +2605,8 @@ def _build_arg_parser() -> argparse.ArgumentParser:
                      help="docs root matching --db (display + confinement only)")
     ap.add_argument("--port", type=int, default=DEFAULT_PORT)
     ap.add_argument("--preset", default="all",
-                     help=f"one of {{{', '.join(PRESET_REGISTRY)}}} or 'all' (default)")
+                     help=f"one of {{{', '.join(PRESET_REGISTRY)}}}, a comma-separated list of them, "
+                          "or 'all' (default)")
     ap.add_argument("--out", default=None,
                      help="output dir (default: docs/probe-qualification/runs/<utc stamp>)")
     ap.add_argument("--fault", default=None, choices=sorted(FAULTS),
@@ -2034,6 +2626,17 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.preset == "all":
         names = list(PRESET_REGISTRY.keys())
+    elif "," in args.preset:
+        # Task B10, round 4: a comma-separated list selects exactly those
+        # presets in one run (e.g. the fixture FINAL suite,
+        # "KG,KB1,KB2,KB3,KB4,KB5") -- an unknown name is a hard error, same
+        # as a single unknown name.
+        requested = [p.strip() for p in args.preset.split(",") if p.strip()]
+        unknown = [p for p in requested if p not in PRESET_REGISTRY]
+        if unknown:
+            print(f"ERROR: unknown preset(s) {unknown!r}. Known presets: {', '.join(PRESET_REGISTRY)}")
+            return 2
+        names = requested
     elif args.preset in PRESET_REGISTRY:
         names = [args.preset]
     else:

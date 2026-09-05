@@ -1,0 +1,67 @@
+{
+  "db_meta_after": {
+    "db_bytes": 115089408,
+    "db_mtime_utc": "2026-09-04T23:58:11Z",
+    "db_path": "C:\\highsierralabs\\RHACO\\index\\corpus_index.db"
+  },
+  "db_meta_before": {
+    "db_bytes": 115089408,
+    "db_mtime_utc": "2026-09-04T23:58:11Z",
+    "db_path": "C:\\highsierralabs\\RHACO\\index\\corpus_index.db"
+  },
+  "db_path": "C:\\highsierralabs\\RHACO\\index\\corpus_index.db",
+  "disable_vec": false,
+  "docs_root": "C:\\highsierralabs\\RHACO\\docs",
+  "fault": null,
+  "healthz": {
+    "adapter": "present",
+    "db": "C:\\highsierralabs\\RHACO\\index\\corpus_index.db",
+    "docs_root": "C:\\highsierralabs\\RHACO\\docs",
+    "status": "ok",
+    "vector": {
+      "available": true,
+      "model_tag": "nomic-embed-text",
+      "reason": "ok"
+    },
+    "version": "0.1.0"
+  },
+  "incomplete_presets": [],
+  "ledger_path": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\docs\\probe-qualification\\qualification_ledger.json",
+  "port": 8765,
+  "presets_run": [
+    "W6"
+  ],
+  "product_evidence_blocked_by": [],
+  "product_evidence_eligible": false,
+  "qualification_state": "FAIL",
+  "qualified_failure_classes": [],
+  "reasons": [
+    "preset W6 failed"
+  ],
+  "results": {
+    "W6": {
+      "fault_class": null,
+      "fault_detected": false,
+      "http_status": null,
+      "incomplete": false,
+      "kind": "workflow",
+      "ok": false,
+      "reasons": [
+        "W6(a): reader for v1_8 data-selected-doc-id=None, expected 'RHACO_Card_YAML_Schema_Specification_v1_8'",
+        "unexpected_http_status[reader_v1_8]: 500",
+        "console_error[error@reader_v1_8]: Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+        "failed_request[response@reader_v1_8]: http://127.0.0.1:8765/doc/reference/RHACO_Card_YAML_Schema_Specification_v1_8.card.yaml (500)"
+      ],
+      "route_absent": null,
+      "status": null,
+      "verdict": "FAIL"
+    }
+  },
+  "run_error": null,
+  "run_finished_utc": "2026-09-05T04:31:50.570991+00:00",
+  "run_kind": "product",
+  "run_started_utc": "2026-09-05T04:31:47.545443+00:00",
+  "server_log": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\docs\\probe-qualification\\runs\\20260905T043147Z\\server.log",
+  "timeout_s": 30.0,
+  "verdict": "FAIL"
+}

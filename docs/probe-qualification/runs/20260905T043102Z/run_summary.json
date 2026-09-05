@@ -1,0 +1,64 @@
+{
+  "db_meta_after": {
+    "db_bytes": 126976,
+    "db_mtime_utc": "2026-09-05T04:25:13Z",
+    "db_path": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\fixtures\\fixture_index.db"
+  },
+  "db_meta_before": {
+    "db_bytes": 126976,
+    "db_mtime_utc": "2026-09-05T04:25:13Z",
+    "db_path": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\fixtures\\fixture_index.db"
+  },
+  "db_path": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\fixtures\\fixture_index.db",
+  "disable_vec": false,
+  "docs_root": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\fixtures\\corpus",
+  "fault": "reverse_edges",
+  "healthz": {
+    "adapter": "present",
+    "db": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\fixtures\\fixture_index.db",
+    "docs_root": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\fixtures\\corpus",
+    "status": "ok",
+    "vector": {
+      "available": false,
+      "model_tag": "nomic-embed-text",
+      "reason": "vec_table_missing"
+    },
+    "version": "0.1.0"
+  },
+  "incomplete_presets": [],
+  "ledger_path": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\docs\\probe-qualification\\qualification_ledger.json",
+  "port": 8910,
+  "presets_run": [
+    "KB3"
+  ],
+  "product_evidence_blocked_by": [],
+  "product_evidence_eligible": false,
+  "qualification_state": "QUALIFICATION_PASS",
+  "qualified_failure_classes": [
+    "KB3"
+  ],
+  "reasons": [],
+  "results": {
+    "KB3": {
+      "fault_class": "KB3",
+      "fault_detected": true,
+      "http_status": null,
+      "incomplete": false,
+      "kind": "workflow",
+      "ok": false,
+      "reasons": [
+        "KB3: observed edge (from_id, to_id, direction)=('RHACO-ANL-20260115-002', 'RHACO-CMP-20260115-001', 'incoming') is the SWAPPED known-fault triple, not the known-correct ('RHACO-CMP-20260115-001', 'RHACO-ANL-20260115-002', 'outgoing') -- fault reverse_edges"
+      ],
+      "route_absent": null,
+      "status": null,
+      "verdict": "FAIL"
+    }
+  },
+  "run_error": null,
+  "run_finished_utc": "2026-09-05T04:31:04.529247+00:00",
+  "run_kind": "qualification",
+  "run_started_utc": "2026-09-05T04:31:02.479137+00:00",
+  "server_log": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\docs\\probe-qualification\\runs\\20260905T043102Z\\server.log",
+  "timeout_s": 30.0,
+  "verdict": "PASS"
+}

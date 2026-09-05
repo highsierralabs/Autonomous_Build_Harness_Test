@@ -1,0 +1,52 @@
+{
+  "console_errors": [],
+  "failed_requests": [],
+  "fault_class": null,
+  "fault_detected": false,
+  "kind": "workflow",
+  "label": "Degraded semantic channel -- RHACO_CORPUS_DISABLE_VEC=1, lexical/direct still usable",
+  "observations": {
+    "degradation_notice_text": "Hybrid unavailable: using lexical retrieval. Result ordering is lexical-only.",
+    "diagnostics_mode": "hybrid-degraded-lexical",
+    "diagnostics_vector": "unavailable",
+    "hybrid_badge_mode_effective": "hybrid-degraded-lexical",
+    "hybrid_html_mode": "hybrid-degraded-lexical",
+    "identifier_returned": true,
+    "lexical_returned": true
+  },
+  "ok": true,
+  "page_errors": [],
+  "preset": "W7",
+  "reasons": [],
+  "requests_total": 6,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\docs\\probe-qualification\\runs\\20260905T043213Z\\W7.png",
+  "steps": [
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "hybrid_search",
+      "timings": {
+        "elapsed_ms": 1399.7,
+        "nav_end_utc": "2026-09-05T04:32:16.251389+00:00",
+        "nav_start_utc": "2026-09-05T04:32:14.851703+00:00"
+      },
+      "title": "Search -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/search?q=tungsten%20putty%20seal&mode=hybrid"
+    },
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "diagnostics",
+      "timings": {
+        "elapsed_ms": 40.5,
+        "nav_end_utc": "2026-09-05T04:32:16.326857+00:00",
+        "nav_start_utc": "2026-09-05T04:32:16.286368+00:00"
+      },
+      "title": "Diagnostics -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/diagnostics"
+    }
+  ],
+  "verdict": "PASS"
+}

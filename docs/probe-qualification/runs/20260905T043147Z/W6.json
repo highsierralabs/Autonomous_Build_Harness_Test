@@ -1,0 +1,172 @@
+{
+  "console_errors": [
+    {
+      "step": "reader_v1_8",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "type": "error"
+    }
+  ],
+  "failed_requests": [
+    {
+      "source": "response",
+      "status": 500,
+      "step": "reader_v1_8",
+      "url": "http://127.0.0.1:8765/doc/reference/RHACO_Card_YAML_Schema_Specification_v1_8.card.yaml"
+    }
+  ],
+  "fault_class": null,
+  "fault_detected": false,
+  "kind": "workflow",
+  "label": "Supersession/amendment -- historical artifact visible, replacement relationship clear",
+  "observations": {
+    "amendment_api_outgoing_amends": {
+      "anchor_card_ref": "handoffs/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch_Amendment_A1_Cap_Rehome_And_Session_2_Findings.card.yaml",
+      "direction": "outgoing",
+      "direction_label": "amends",
+      "from_card_refs": [],
+      "from_id": "RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch_Amendment_A1_Cap_Rehome_And_Session_2_Findings",
+      "hop": 1,
+      "note": "Re-homes the concurrency cap from client-enforced to orchestrator-enforced and audited, adds the D-3 foreground line to the strand prefix, reconciles the index-write grep with the fixture build, adds a strand-refusal rule, and records session-2 facts",
+      "relation": "amends",
+      "resolved": true,
+      "target_card_refs": [
+        "handoffs/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch.card.yaml",
+        "handoffs/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch_Amendment_A1_Cap_Rehome_And_Session_2_Findings.card.yaml"
+      ],
+      "to_card_refs": [
+        "handoffs/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch.card.yaml",
+        "handoffs/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch_Amendment_A1_Cap_Rehome_And_Session_2_Findings.card.yaml"
+      ],
+      "to_id": "RHACO-HND-20260903-001"
+    },
+    "amendment_outgoing_amends_link": "/doc/handoffs/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch.card.yaml",
+    "amendment_outgoing_amends_row": {
+      "data-edge-direction": "outgoing",
+      "data-edge-from": "RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch_Amendment_A1_Cap_Rehome_And_Session_2_Findings",
+      "data-edge-to": "RHACO-HND-20260903-001",
+      "data-relation": "amends"
+    },
+    "known_limitation": "SCOPE.md row 17 (\"Click-through from an amends edge to the amendment, on the lineage graph and trail\", status LIMITED): on the PARENT card's own lineage page the incoming amends edge from the amendment renders as typed, directional text with no link (source_cards is empty -- cards_for_doc_id cannot resolve a filename stem) but is NOT marked unresolved, since resolved=true for this edge.",
+    "known_limitation_reproduced": true,
+    "parent_api_incoming_amends": {
+      "anchor_card_ref": "handoffs/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch.card.yaml",
+      "direction": "incoming",
+      "direction_label": "amends",
+      "from_card_refs": [],
+      "from_id": "RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch_Amendment_A1_Cap_Rehome_And_Session_2_Findings",
+      "hop": 1,
+      "note": "Re-homes the concurrency cap from client-enforced to orchestrator-enforced and audited, adds the D-3 foreground line to the strand prefix, reconciles the index-write grep with the fixture build, adds a strand-refusal rule, and records session-2 facts",
+      "relation": "amends",
+      "resolved": true,
+      "target_card_refs": [],
+      "to_card_refs": [
+        "handoffs/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch.card.yaml",
+        "handoffs/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch_Amendment_A1_Cap_Rehome_And_Session_2_Findings.card.yaml"
+      ],
+      "to_id": "RHACO-HND-20260903-001"
+    },
+    "parent_incoming_amends_link": null,
+    "parent_incoming_amends_row": {
+      "data-edge-direction": "incoming",
+      "data-edge-from": "RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch_Amendment_A1_Cap_Rehome_And_Session_2_Findings",
+      "data-edge-to": "RHACO-HND-20260903-001",
+      "data-relation": "amends"
+    },
+    "v1_8_banner_present": true,
+    "v1_8_chain": [
+      {
+        "$text": "\n      Card YAML Schema Specification v1.6\n      \n    ",
+        "data-chain-head": "false",
+        "data-doc-id": "RHACO_Card_YAML_Schema_Specification_v1_6"
+      },
+      {
+        "$text": "\n      Card YAML Schema Specification v1.7\n      \n    ",
+        "data-chain-head": "false",
+        "data-doc-id": "RHACO_Card_YAML_Schema_Specification_v1_7"
+      },
+      {
+        "$text": "\n      Card YAML Schema Specification v1.8\n      \n    ",
+        "data-chain-head": "false",
+        "data-doc-id": "RHACO_Card_YAML_Schema_Specification_v1_8"
+      },
+      {
+        "$text": "\n      Card YAML Schema Specification v1.9\n      current head\n    ",
+        "data-chain-head": "true",
+        "data-doc-id": "RHACO_Card_YAML_Schema_Specification_v1_9"
+      }
+    ],
+    "v1_8_reader_selected_doc_id": null,
+    "v1_8_supersedes_edge": {
+      "data-edge-direction": "outgoing",
+      "data-edge-from": "RHACO_Card_YAML_Schema_Specification_v1_8",
+      "data-edge-to": "RHACO_Card_YAML_Schema_Specification_v1_9",
+      "data-relation": "supersedes"
+    }
+  },
+  "ok": false,
+  "page_errors": [],
+  "preset": "W6",
+  "reasons": [
+    "W6(a): reader for v1_8 data-selected-doc-id=None, expected 'RHACO_Card_YAML_Schema_Specification_v1_8'",
+    "unexpected_http_status[reader_v1_8]: 500",
+    "console_error[error@reader_v1_8]: Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "failed_request[response@reader_v1_8]: http://127.0.0.1:8765/doc/reference/RHACO_Card_YAML_Schema_Specification_v1_8.card.yaml (500)"
+  ],
+  "requests_total": 16,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\docs\\probe-qualification\\runs\\20260905T043147Z\\W6.png",
+  "steps": [
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "lineage_v1_8",
+      "timings": {
+        "elapsed_ms": 274.2,
+        "nav_end_utc": "2026-09-05T04:31:49.546702+00:00",
+        "nav_start_utc": "2026-09-05T04:31:49.272536+00:00"
+      },
+      "title": "Card YAML Schema Specification v1.8 -- Lineage -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/lineage/reference/RHACO_Card_YAML_Schema_Specification_v1_8.card.yaml"
+    },
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 500,
+      "step": "reader_v1_8",
+      "timings": {
+        "elapsed_ms": 233.6,
+        "nav_end_utc": "2026-09-05T04:31:49.807939+00:00",
+        "nav_start_utc": "2026-09-05T04:31:49.574329+00:00"
+      },
+      "title": "",
+      "url": "http://127.0.0.1:8765/doc/reference/RHACO_Card_YAML_Schema_Specification_v1_8.card.yaml"
+    },
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "lineage_amendment",
+      "timings": {
+        "elapsed_ms": 90.6,
+        "nav_end_utc": "2026-09-05T04:31:50.016081+00:00",
+        "nav_start_utc": "2026-09-05T04:31:49.925523+00:00"
+      },
+      "title": "Corpus Explorer Autonomous Build Dispatch - Amendment A1 Concurrency Cap Re-homed, D-3 Prefix, Fixture Carve-out, Refusal Rule -- Lineage -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/lineage/handoffs/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch_Amendment_A1_Cap_Rehome_And_Session_2_Findings.card.yaml"
+    },
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "lineage_parent",
+      "timings": {
+        "elapsed_ms": 89.0,
+        "nav_end_utc": "2026-09-05T04:31:50.216001+00:00",
+        "nav_start_utc": "2026-09-05T04:31:50.127027+00:00"
+      },
+      "title": "Corpus Explorer Autonomous Build \u2014 Dispatch Hand (M0 completion, harness execution, terminal-state handback) -- Lineage -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/lineage/handoffs/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch.card.yaml"
+    }
+  ],
+  "verdict": "FAIL"
+}

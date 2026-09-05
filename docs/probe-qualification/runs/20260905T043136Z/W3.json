@@ -1,0 +1,58 @@
+{
+  "console_errors": [],
+  "failed_requests": [],
+  "fault_class": null,
+  "fault_detected": false,
+  "kind": "workflow",
+  "label": "Semantic inquiry -- frozen gold semantic query, accepted hybrid baseline preserved",
+  "observations": {
+    "html_data_mode": "hybrid",
+    "html_data_vector": "available",
+    "oracle_order": [
+      "RHACO-ANL-20260710-001",
+      "RHACO-ANL-20260711-001",
+      "RHACO-MTN-20260426-001",
+      "RHACO-CHG-20260617-002",
+      "RHACO-HND-20260609-001",
+      "RHACO-CCX-20260617-002",
+      "RHACO-CHG-20260502-001",
+      "RHACO-CHG-20260423-004",
+      "RHACO-HND-20260524-004",
+      "RHACO-CHG-20260531-004"
+    ],
+    "returned_ids": [
+      "RHACO-ANL-20260710-001",
+      "RHACO-ANL-20260711-001",
+      "RHACO-MTN-20260426-001",
+      "RHACO-CHG-20260617-002",
+      "RHACO-HND-20260609-001",
+      "RHACO-CCX-20260617-002",
+      "RHACO-CHG-20260502-001",
+      "RHACO-CHG-20260423-004",
+      "RHACO-HND-20260524-004",
+      "RHACO-CHG-20260531-004"
+    ]
+  },
+  "ok": true,
+  "page_errors": [],
+  "preset": "W3",
+  "reasons": [],
+  "requests_total": 3,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\docs\\probe-qualification\\runs\\20260905T043136Z\\W3.png",
+  "steps": [
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "hybrid_search",
+      "timings": {
+        "elapsed_ms": 1798.0,
+        "nav_end_utc": "2026-09-05T04:31:40.185537+00:00",
+        "nav_start_utc": "2026-09-05T04:31:38.387592+00:00"
+      },
+      "title": "Search -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/search?q=moving%20the%20shielded%20enclosure%20to%20a%20new%20spot&mode=hybrid&top_k=10"
+    }
+  ],
+  "verdict": "PASS"
+}
