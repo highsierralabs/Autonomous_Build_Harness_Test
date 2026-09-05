@@ -20,28 +20,46 @@ without calling `connect()` at all -- the adapter never creates a database
 is `os.path.isfile` only.
 
 This module never imports RHACO_corpus_index directly -- adapter.py imports it
-(the sole importer, ARCHITECTURE.md section 2) and passes the live module
-object in as `rhaco_index`, matching every other file in this package.
+and passes the live module object in as `rhaco_index`, matching every other
+file in this package. adapter.py is one of three licensed product-tree
+importers of RHACO_corpus_index (ARCHITECTURE.md 4.1's importer table; the
+other two are explorer/diagnostics/service.py under O17 and
+fixtures/build_fixture_index.py under O3) -- corrected from the earlier,
+false "the sole importer" claim (ARCHITECTURE.md 4.1, SA-3; dispatch R07
+item 4).
 
-Probe budget note (dispatch B1 item 4): `embed_query_cpu` has no timeout
-parameter of its own -- `OLLAMA_TIMEOUT_S = 300` is fixed inside the module,
-and the public API exposes no way to lower it. Rather than accept a
-worst-case 300 s hang inside a 5-second-cached availability check, the probe
-below bounds its OWN wall-clock exposure with a one-shot daemon-thread call
-(`ThreadPoolExecutor(max_workers=1).result(timeout=PROBE_BUDGET_S)`): if the
-embed call has not returned within the budget, the probe reports
-`embedder_unreachable` and moves on. The call itself is a plain read-only
-network request (no state it can corrupt), so leaving it to finish or fail on
-its own in the background thread is safe; this is a calling-side bound, not a
-change to the module's own timeout. See docs/rounds/R01_corpus_adapter.report.md,
-"Material alternatives".
+Probe budget note (dispatch B1 item 4; corrected dispatch R07 item 2, SA-2):
+`embed_query_cpu` has no timeout parameter of its own -- `OLLAMA_TIMEOUT_S =
+300` is fixed inside the module, and the public API exposes no way to lower
+it. Rather than accept a worst-case 300 s hang inside a 5-second-cached
+availability check, the probe below bounds its OWN wall-clock exposure with a
+plain `threading.Thread(daemon=True)` that it starts and then waits on with
+`threading.Event.wait(timeout=PROBE_BUDGET_S)` -- NOT joined, and NOT run
+through `ThreadPoolExecutor`: an executor's context manager (or its own
+`shutdown(wait=True)`) joins its worker on the way out regardless of what
+`future.result(timeout=...)` did, so the *previous* implementation's "one-shot
+daemon-thread call" description was false in exactly the way SA-2 found -- its
+worker threads are plain (non-daemon) `Thread` objects that ARE joined, so the
+caller was still blocked by `Executor.__exit__` until `embed_query_cpu`
+itself returned or raised, i.e. up to `OLLAMA_TIMEOUT_S=300`, not
+`PROBE_BUDGET_S=8`. The call itself is a plain read-only network request (no
+state it can corrupt), so leaving a genuinely hung one to finish or fail on
+its own, unjoined, in a daemon thread is safe: a daemon thread never blocks
+interpreter exit, and `CACHE_TTL_S` bounds how often a new one can be spun up
+while the embedder stays unreachable (at most roughly `OLLAMA_TIMEOUT_S /
+CACHE_TTL_S` ~ 60 such threads outstanding at once in the worst continuous-
+outage case, each self-terminating within OLLAMA_TIMEOUT_S regardless). See
+docs/rounds/R01_corpus_adapter.report.md, "Material alternatives", and this
+round's report, "Decisions", for the alternatives considered (a long-lived
+shared single-worker executor was rejected: a hung call would occupy its one
+worker indefinitely, queuing every later probe's task behind it for the life
+of the outage rather than running independently).
 """
 from __future__ import annotations
 
 import os
+import threading
 import time
-from concurrent.futures import ThreadPoolExecutor
-from concurrent.futures import TimeoutError as FutureTimeoutError
 
 from explorer.models import VectorAvailability
 
@@ -87,16 +105,37 @@ def probe(rhaco_index, db_path: str) -> VectorAvailability:
         conn.close()
 
     try:
-        with ThreadPoolExecutor(max_workers=1) as pool:
-            future = pool.submit(rhaco_index.embed_query_cpu, tag, ["probe"])
-            future.result(timeout=PROBE_BUDGET_S)
-    except FutureTimeoutError:
-        return _result(
-            False, "embedder_unreachable", tag, t0,
-            f"embed_query_cpu did not return within the {PROBE_BUDGET_S:.0f}s probe "
-            "budget (the module's own OLLAMA_TIMEOUT_S=300 is not the probe's bound)",
-        )
-    except Exception as exc:  # noqa: BLE001 -- VecUnavailable or any other embed-path failure
+        done = threading.Event()
+        outcome: dict = {}
+
+        def _embed_probe() -> None:
+            try:
+                outcome["value"] = rhaco_index.embed_query_cpu(tag, ["probe"])
+            except Exception as exc:  # noqa: BLE001 -- VecUnavailable or any other embed-path failure
+                outcome["error"] = exc
+            finally:
+                done.set()
+
+        # SA-2 fix: a plain daemon thread, never joined -- NOT ThreadPoolExecutor,
+        # whose `with` block (or an explicit shutdown(wait=True)) joins its
+        # worker on exit regardless of the timeout below, which is exactly how
+        # the previous implementation's bound was not a real wall-clock bound
+        # (see the module docstring's "Probe budget note"). `daemon=True` means
+        # this thread never blocks interpreter exit either.
+        worker = threading.Thread(target=_embed_probe, daemon=True)
+        worker.start()
+        if not done.wait(timeout=PROBE_BUDGET_S):
+            return _result(
+                False, "embedder_unreachable", tag, t0,
+                f"embed_query_cpu did not return within the {PROBE_BUDGET_S:.0f}s probe "
+                "budget (the module's own OLLAMA_TIMEOUT_S=300 is not the probe's bound); "
+                "the worker is a daemon thread, left unjoined to finish or fail on its "
+                "own rather than waited on again",
+            )
+        if "error" in outcome:
+            exc = outcome["error"]
+            return _result(False, "embedder_unreachable", tag, t0, f"{type(exc).__name__}: {exc}")
+    except Exception as exc:  # noqa: BLE001 -- belt-and-suspenders around the thread machinery itself
         return _result(False, "embedder_unreachable", tag, t0, f"{type(exc).__name__}: {exc}")
 
     return _result(True, "ok", tag, t0, "")

@@ -6,7 +6,16 @@ Values are always bound (`?`); the only text ever assembled from caller input
 is a fixed whitelist of column/table fragments (never the values themselves),
 and every fragment is chosen from a small local `dict`/`set`, never taken
 verbatim from caller input. This module never imports RHACO_corpus_index or
-RHACO_tool_catalog_librarian (adapter.py is the sole importer).
+RHACO_tool_catalog_librarian -- one of three licensed product-tree importers
+does that (ARCHITECTURE.md 4.1's importer table); `adapter.py` is the one
+that also imports `sql.py` (corrected from the earlier, false "adapter.py is
+the sole importer" claim, ARCHITECTURE.md 4.1 SA-3; this round's item 4).
+
+D-Q12 below is a twelfth statement, added this round (dispatch R07 item 3;
+SCOPE.md's deferred amends click-through row) -- a change request against
+ARCHITECTURE.md 4.1's documented table is filed in this round's report
+rather than edited here, since that file is outside this module's owned
+paths.
 """
 from __future__ import annotations
 
@@ -200,3 +209,22 @@ def build_dangling_query(relation: str | None, from_doc_type: str | None, max_re
     )
     params.append(max_results)
     return sql_text, params
+
+
+# --- D-Q12: card by document filename stem (amends' from_id is a stem, O8) --
+# An `amends` edge's `from_id` is the amendment's filename stem, never a
+# `doc_id` (CONSTRAINTS.md O8) -- D-Q3 (doc_id-keyed) can never match it. This
+# resolves it through `cards.doc_filename` instead: an exact stem match is a
+# LIKE prefix ending in a literal '.' (escaped the same way D-Q5's
+# `path_prefix` is), so "stem" matches "stem.md" or "stem.txt" but never
+# "stemX.md" (the next literal character after the escaped prefix must be
+# the '.' the pattern names).
+Q12_CARDS_BY_FILENAME_STEM = (
+    f"SELECT {CARDS_SELECT_COLUMNS} FROM cards WHERE doc_filename LIKE ? ESCAPE '\\' ORDER BY yaml_path"
+)
+
+
+def filename_stem_like_pattern(stem: str) -> str:
+    """The bound parameter for Q12_CARDS_BY_FILENAME_STEM: `stem` escaped for
+    LIKE, followed by a literal '.', then any suffix."""
+    return _escape_like(stem) + ".%"
