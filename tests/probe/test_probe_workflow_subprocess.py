@@ -1,4 +1,5 @@
-"""Subprocess tests for the wave-2 workflow presets (task B7 deliverable 4).
+"""Subprocess tests for the wave-2 workflow presets (task B7 deliverable 4),
+plus the Q3 addition (task B10 deliverable 7: KB3 / reverse_edges).
 
 The probe is the ONLY sanctioned launcher of the explorer server
 (CONSTRAINTS.md O12) -- both tests run it as a subprocess against a
@@ -115,6 +116,43 @@ def test_probe_kb2_stale_card_fault_subprocess_qualifies(fixture_db, tmp_path):
     ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
     assert "KB2" in ledger["classes"]
     assert any(run["classes"] == ["KB2"] for run in ledger["runs"])
+
+    # ... and the committed ledger is untouched by this test.
+    committed_ledger_after = COMMITTED_LEDGER.read_bytes() if COMMITTED_LEDGER.is_file() else None
+    assert committed_ledger_after == committed_ledger_before
+
+
+def test_probe_kb3_reverse_edges_fault_subprocess_qualifies(fixture_db, tmp_path):
+    out_dir = tmp_path / "kb3_out"
+    ledger_path = tmp_path / "kb3_ledger.json"
+    committed_ledger_before = COMMITTED_LEDGER.read_bytes() if COMMITTED_LEDGER.is_file() else None
+
+    result = _run_probe(fixture_db, out_dir, ledger_path, ["--preset", "KB3", "--fault", "reverse_edges"])
+
+    assert result.returncode == 0, f"probe exited {result.returncode}\nstdout:\n{result.stdout}\nstderr:\n{result.stderr}"
+
+    summary = json.loads((out_dir / "run_summary.json").read_text(encoding="utf-8"))
+    assert summary["run_kind"] == "qualification"
+    assert summary["qualification_state"] == "QUALIFICATION_PASS"
+    assert summary["qualified_failure_classes"] == ["KB3"]
+    assert summary["verdict"] == "PASS"
+    assert summary["run_error"] is None
+
+    kb3 = json.loads((out_dir / "KB3.json").read_text(encoding="utf-8"))
+    assert kb3["verdict"] == "FAIL"
+    assert kb3["fault_detected"] is True
+    assert kb3["fault_class"] == "KB3"
+    obs = kb3["observations"]
+    assert obs["observed_triple"] == ["RHACO-ANL-20260115-002", "RHACO-CMP-20260115-001", "incoming"]
+    assert obs["edge_list_row"]["data-edge-direction"] == "incoming"
+    assert obs["graph_line"]["data-edge-direction"] == "incoming"
+    assert obs["api_edge"]["direction"] == "incoming"
+
+    # the tmp ledger gains KB3 ...
+    assert ledger_path.is_file()
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    assert "KB3" in ledger["classes"]
+    assert any(run["classes"] == ["KB3"] for run in ledger["runs"])
 
     # ... and the committed ledger is untouched by this test.
     committed_ledger_after = COMMITTED_LEDGER.read_bytes() if COMMITTED_LEDGER.is_file() else None

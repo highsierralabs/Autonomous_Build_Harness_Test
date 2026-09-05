@@ -1,5 +1,6 @@
-"""Unit tests for the wave-2 fault-attribution predicates (task B7 deliverable 4):
-`_kb1_verdict`, `_kb2_verdict`, `_kb4_verdict`, `_w10_localhost_check`, and
+"""Unit tests for the wave-2 fault-attribution predicates (task B7 deliverable 4)
+plus the Q3 addition (task B10 deliverable 7): `_kb1_verdict`, `_kb2_verdict`,
+`_kb3_verdict`, `_kb4_verdict`, `_w10_localhost_check`, and
 `_verify_heading_independently`. All are pure functions over synthetic
 already-observed values -- no server, no browser, no fixture index. Free of the
 five index-writing names (CONSTRAINTS.md O2 / tools/l1_index_write_check.py).
@@ -16,6 +17,7 @@ if str(REPO_ROOT) not in sys.path:
 from tools.probe_corpus_explorer import (  # noqa: E402
     _kb1_verdict,
     _kb2_verdict,
+    _kb3_verdict,
     _kb4_verdict,
     _verify_heading_independently,
     _w10_localhost_check,
@@ -89,6 +91,44 @@ def test_kb2_both_observables_set_is_still_kb2():
     assert reasons
     assert detected is True
     assert cls == "KB2"
+
+
+# --- _kb3_verdict (reverse_edges) ----------------------------------------------
+
+CORRECT_TRIPLE = ("RHACO-CMP-20260115-001", "RHACO-ANL-20260115-002", "outgoing")
+FAULT_TRIPLE = ("RHACO-ANL-20260115-002", "RHACO-CMP-20260115-001", "incoming")
+
+
+def test_kb3_correct_direction_is_a_clean_pass():
+    reasons, detected, cls = _kb3_verdict(CORRECT_TRIPLE, CORRECT_TRIPLE, FAULT_TRIPLE)
+    assert reasons == []
+    assert detected is False
+    assert cls is None
+
+
+def test_kb3_swapped_direction_is_detected_as_kb3():
+    reasons, detected, cls = _kb3_verdict(FAULT_TRIPLE, CORRECT_TRIPLE, FAULT_TRIPLE)
+    assert reasons and "reverse_edges" in reasons[0]
+    assert detected is True
+    assert cls == "KB3"
+
+
+def test_kb3_missing_edge_fails_without_attribution():
+    # The runner could not locate the edge in both the edge-list and the
+    # graph <line> elements -- observed as a tuple of Nones.
+    reasons, detected, cls = _kb3_verdict((None, None, None), CORRECT_TRIPLE, FAULT_TRIPLE)
+    assert reasons
+    assert detected is False
+    assert cls is None
+
+
+def test_kb3_unexpected_triple_fails_without_attribution():
+    reasons, detected, cls = _kb3_verdict(
+        ("RHACO-CMP-20260115-001", "RHACO-ANL-20260115-002", "unresolved"), CORRECT_TRIPLE, FAULT_TRIPLE
+    )
+    assert reasons
+    assert detected is False
+    assert cls is None
 
 
 # --- _kb4_verdict (broken_jump) ------------------------------------------------
