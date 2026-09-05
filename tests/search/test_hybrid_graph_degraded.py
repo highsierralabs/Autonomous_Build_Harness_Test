@@ -7,7 +7,12 @@ never shown as the active mode (CONSTRAINTS.md S3/O4).
 from __future__ import annotations
 
 HYBRID_NOTICE = "Hybrid unavailable: using lexical retrieval. Result ordering is lexical-only."
-GRAPH_NOTICE = "Graph unavailable: hybrid seed channel degraded to lexical. Result ordering is lexical-only."
+GRAPH_NOTICE = (
+    "Graph seed channel degraded: hybrid seeding fell back to identifier "
+    "resolution plus lexical (FTS) search. The graph expansion itself -- one "
+    "hop over the typed edges table -- is unaffected and still shapes result "
+    "ordering."
+)
 
 
 def test_hybrid_degrades_on_fixture(fixture_client):
@@ -40,8 +45,8 @@ def test_graph_degrades_on_fixture(fixture_client):
     resp = fixture_client.get("/search", params={"q": "quartz lattice lantern", "mode": "graph"})
     assert resp.status_code == 200
     body = resp.text
-    assert 'data-mode="graph-degraded"' in body
-    assert 'data-mode-effective="graph-degraded"' in body
+    assert 'data-mode="graph-degraded-semantic-seed"' in body
+    assert 'data-mode-effective="graph-degraded-semantic-seed"' in body
     assert GRAPH_NOTICE in body
     assert "expansion of a seed; relation not exposed by the current RHACO API" in body
 

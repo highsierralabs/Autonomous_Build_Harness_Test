@@ -167,7 +167,14 @@ class ResultItem:
 class ModeResult:
     query: str
     mode_requested: str                 # identifier | lexical | hybrid | graph
-    mode_effective: str                 # identifier | lexical | hybrid | hybrid-degraded-lexical | graph | graph-degraded
+    # identifier | lexical | hybrid | hybrid-degraded-lexical | graph |
+    # graph-degraded-semantic-seed.  A degraded token names the channel that
+    # actually degraded and, where one survives, the one that did: graph mode's
+    # 1-hop edge expansion is unaffected by VecUnavailable, so only its hybrid
+    # SEED falls back (SA-1, round 6).  Consumers must match this vocabulary by
+    # PREFIX, never by an exact token list -- the old bare "graph-degraded" was
+    # both false and load-bearing in two callers.
+    mode_effective: str
     items: list[ResultItem] = field(default_factory=list)
     degradation_notice: str | None = None
     truncated: bool = False

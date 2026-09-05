@@ -41,13 +41,20 @@
     <dt>Excerpt</dt>
     <dd>no literal match for this query in the document</dd>
     {% endif %}
-    {% if evidence.retrieval_mode in ("graph", "graph-degraded") %}
+    {# Matched by PREFIX, not by an exact token list: mode_effective carries a
+       degradation suffix that names the surviving channel (e.g.
+       graph-degraded-semantic-seed), and an exact list silently drops this
+       disclosure the moment the vocabulary gains a token -- which is exactly
+       what happened when round 6 corrected the false "graph-degraded" label.
+       A disclosure that disappears when the mode degrades is the worst possible
+       failure mode for it, so the check is written to fail open. #}
+    {% if evidence.retrieval_mode.startswith("graph") %}
     <dt>Graph relation</dt>
     <dd>expansion of a seed; relation not exposed by the current RHACO API</dd>
     {% endif %}
     <dt>Degradation status</dt>
     <dd>{{ evidence.degradation_status }}</dd>
-    {% if evidence.retrieval_mode in ("hybrid", "hybrid-degraded-lexical", "graph", "graph-degraded") %}
+    {% if evidence.retrieval_mode.startswith("hybrid") or evidence.retrieval_mode.startswith("graph") %}
     <dt>Component rank</dt>
     <dd>Component rank: {{ evidence.component_rank }}</dd>
     {% endif %}
