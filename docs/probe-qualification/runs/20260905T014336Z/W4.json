@@ -1,0 +1,47 @@
+{
+  "console_errors": [],
+  "failed_requests": [],
+  "fault_class": null,
+  "fault_detected": false,
+  "kind": "workflow",
+  "label": "Campaign lifecycle browse -- CMP filter, status + lifecycle_state both visible/filterable",
+  "observations": {
+    "base_total": 36,
+    "lifecycle_control_present": true,
+    "lifecycle_state_narrow": {
+      "facet_count": 9,
+      "new_total": 9,
+      "param": "lifecycle_state",
+      "value": "ACTIVE"
+    },
+    "row_count": 36,
+    "status_narrow": {
+      "facet_count": 29,
+      "new_total": 29,
+      "param": "status",
+      "value": "Active"
+    }
+  },
+  "ok": true,
+  "page_errors": [],
+  "preset": "W4",
+  "reasons": [],
+  "requests_total": 4,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\docs\\probe-qualification\\runs\\20260905T014336Z\\W4.png",
+  "steps": [
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "catalog_cmp",
+      "timings": {
+        "elapsed_ms": 193.7,
+        "nav_end_utc": "2026-09-05T01:43:38.419490+00:00",
+        "nav_start_utc": "2026-09-05T01:43:38.225788+00:00"
+      },
+      "title": "Catalog -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8824/?doc_type=CMP"
+    }
+  ],
+  "verdict": "PASS"
+}

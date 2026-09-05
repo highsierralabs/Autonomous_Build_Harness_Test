@@ -29,18 +29,40 @@ docs/probe-qualification/
                               healthz body recorded at readiness, the ledger
                               path used, and any run_error
       server.log          -- the child uvicorn process's stdout+stderr
-      <preset>.json        -- one observation file per preset that ran
-                              (url, viewport, http_status, title, active
-                              retrieval mode, vector state, selected document
-                              id, observed result ids, console errors, page
-                              errors, failed requests, timings, screenshot
-                              path, verdict, reasons, fault_detected,
-                              fault_class, ok)
-      <preset>.png         -- full-page screenshot, for "page"-kind presets
-                              only (a "json_endpoint" preset like healthz has
-                              no page to screenshot; a "not_implemented" stub
-                              writes no files under runs/ at all beyond its
-                              own <preset>.json)
+      <preset>.json        -- one observation file per preset that ran. A
+                              "page"-kind preset (url, viewport, http_status,
+                              title, active retrieval mode, vector state,
+                              selected document id, observed result ids,
+                              console errors, page errors, failed requests,
+                              timings, screenshot path, verdict, reasons,
+                              fault_detected, fault_class, ok). A
+                              "workflow"-kind preset (task B7 -- KG, KB1,
+                              KB2, KB4, KB5, W1-W4, W7-W10): `steps` (one
+                              entry per named navigation, each with its own
+                              url/http_status/error/title/timings),
+                              `requests_total`, `console_errors`,
+                              `failed_requests`, `page_errors` (accumulated
+                              across every step, each tagged with the step
+                              active when captured), `observations` (the
+                              preset's own named findings -- e.g. KG's
+                              `identifier_first_doc_id`, W3's `returned_ids`
+                              vs `oracle_order`), `screenshot` (the final
+                              step's page), `verdict`, `reasons`,
+                              `fault_detected`, `fault_class`, `ok`, and
+                              (W3 only, when applicable) `incomplete: true`.
+      <preset>.png         -- full-page screenshot (final step, for a
+                              "workflow" preset), for "page"/"workflow"-kind
+                              presets only (a "json_endpoint" preset like
+                              healthz has no page to screenshot; a
+                              "not_implemented" stub writes no files under
+                              runs/ at all beyond its own <preset>.json)
+      W8_server.log         -- W8 only: its OWN dedicated uvicorn child's
+                              stdout+stderr (W8 builds a temp fixture copy,
+                              adds one more card+document without
+                              rebuilding, and drives a SECOND server against
+                              it -- the run's main --db/--docs-root, and
+                              this directory's plain server.log, are unused
+                              by this one preset)
 ```
 
 ## What each preset kind means
@@ -59,15 +81,24 @@ by `kind`:
   `{hybrid, hybrid-degraded-lexical}`, `data-vector` in
   `{available, unavailable}`, and a non-empty title; a 404 ("route absent")
   is **no longer an accepted state** (round 1's tolerance for it is gone).
+- **`workflow`** (task B7, round 2) -- a `Session` (one Playwright browser
+  context + page, reused across a short, named sequence of navigation
+  "steps" -- `tools/probe_corpus_explorer.py`'s `Session` class) drives the
+  merged catalog / search / reader / diagnostics surfaces, cross-checks the
+  `/api` twin, and (where the dispatch specifies) reads the fixture or
+  production docs root directly from disk for an independent comparison
+  (sha256, verbatim line content, YAML parsing) -- never through the index,
+  only through the server this file launches. `WORKFLOW_RUNNERS` maps each
+  such preset name to its runner function. This round: `KG`, `KB1`, `KB2`,
+  `KB4`, `KB5` (fixture only) and `W1`, `W2`, `W3`, `W4`, `W7`, `W8`, `W9`,
+  `W10` (production, except `W8` which builds and drives its own dedicated
+  temp-fixture server -- see "Which presets are real" below).
 - **`not_implemented`** -- a clean stub that reports
   `{"status": "not_implemented_yet", "ok": true}` without touching the
-  server. This round: the ten acceptance workflows `W1`-`W10` (PROMPT.md
-  section 8) and the qualification cases `KG` / `KB1`-`KB5` (one per
-  `RHACO_EXPLORER_FAULT` value in `explorer/faults.FAULTS`, same order:
-  KB1=wrong_doc_for_id, KB2=stale_card, KB3=reverse_edges, KB4=broken_jump,
-  KB5=console_error). A run that selects any of these is `INCOMPLETE`
-  (never a PASS of any kind, task C1 item 2). Wave 2, once catalog/search/
-  reader/lineage exist to drive, replaces these stubs with real runners.
+  server. After round 2 (task B7), only `W5`, `W6`, and `KB3` remain --
+  lineage (`reverse_edges` / typed-edge direction) is wave 3 (Q3). A run
+  that selects any of these three is `INCOMPLETE` (never a PASS of any
+  kind, task C1 item 2).
 
 ## The observed-fault predicate (task C1 item 1)
 
@@ -100,12 +131,50 @@ carries the one captured message directly. The probe therefore registers
 both a `console` listener and a `pageerror` listener.
 
 A FAIL is additionally attributed to a known-bad class when its text matches
-`FAULT_TEXT_MARKERS` (next to `PRESET_REGISTRY` in the module): this round,
-only KB5 has a rule (its text is `CONSOLE_ERROR_FAULT_TEXT`, the exact string
-above). `FAULT_CLASS_TABLE` maps `KB1..KB5` onto `explorer.faults.FAULTS`
-(`wrong_doc_for_id, stale_card, reverse_edges, broken_jump, console_error`);
-wave 2 adds KB1-KB4's attribution rules to `FAULT_TEXT_MARKERS` without
-restructuring `evaluate_page` or the registry.
+`FAULT_TEXT_MARKERS` (next to `PRESET_REGISTRY` in the module): `KB5`'s rule
+(its text is `CONSOLE_ERROR_FAULT_TEXT`, the exact string above) is the only
+one that works this way -- a substring match against a console/page-error
+message. `FAULT_CLASS_TABLE` maps `KB1..KB5` onto `explorer.faults.FAULTS`
+(`wrong_doc_for_id, stale_card, reverse_edges, broken_jump, console_error`).
+
+**KB1, KB2, KB4's attribution rules (task B7) are not text markers** -- each
+fault's observable signature has no console/page error at all, so each gets
+its own pure, dependency-free predicate (`tools/probe_corpus_explorer.py`,
+unit-tested in `tests/probe/test_workflow_verdicts.py`) fed by its
+`kind="workflow"` runner's own DOM/`/api` observations:
+
+- `_kb1_verdict(observed_first_card_ref, expected_correct_ref,
+  expected_fault_ref)` -- `wrong_doc_for_id`: an identifier search for a
+  multi-card-row id must list that id's OWN card first; the fault rotates
+  the row order by one. The SAME predicate doubles as the clean-match sanity
+  check when no fault is active (a match to `expected_correct_ref` is a
+  quiet PASS), so KB1's runner is safe to include in an ordinary smoke run.
+- `_kb2_verdict(mismatch_attr, file_title, file_status, indexed_title,
+  indexed_status)` -- `stale_card`: FAIL/KB2 when EITHER the reader's own
+  `data-card-index-mismatch` marker is set OR the probe's independent
+  title/status comparison (the card file, parsed by the probe itself from
+  disk, vs. the index row the `/api/doc` twin reports) disagrees.
+- `_kb4_verdict(page_any_unverified, independent_mismatch_count)` --
+  `broken_jump`: FAIL/KB4 when EITHER the reader's TOC shows a
+  `data-line-verified="false"` heading OR the probe's own independent
+  re-check (`_verify_heading_independently`: `lines[line_no-1]` must begin
+  an ATX heading marker matching the heading's text -- re-implemented here,
+  never imported from `explorer.reader.service`) finds a mismatch.
+
+`KB5`'s real runner (a `kind="workflow"` preset, not `kind="page"`) visits
+diagnostics AND catalog/search/reader in one composite run, demonstrating
+the fault on a wave-2 surface: only the diagnostics step's own
+`_attribute_fault_class` match sets `fault_detected`/`fault_class`, while
+the other three steps are expected to stay clean (no console error of their
+own) -- proving the round-1 rule ("every page-kind preset run" touches
+`console_error`) still holds precisely where it is true (diagnostics) and
+does not accidentally also require catalog/search/reader to fail.
+`_touched_presets` (next to `derive_qualification`) unions two rules so
+neither invocation shape regresses the other: the legacy "every kind=page
+preset, for `console_error`" rule (kept for `--preset diagnostics --fault
+console_error`, still exercised by the C1 tests) and the round-2 rule
+(any selected preset whose own `PresetSpec.fault` equals the requested
+fault -- how `KB1`/`KB2`/`KB4`/`KB5` are matched regardless of `kind`).
 
 ## The qualification-state vocabulary (Director ruling AC-3; task C1 item 2)
 
@@ -117,13 +186,17 @@ under a RHACO tree, i.e. `explorer.faults.is_under_rhaco_tree`; else
 `incomplete_presets`, and `product_evidence_blocked_by`.
 
 - **`INCOMPLETE`** -- any selected preset still reports `not_implemented_yet`
-  (a run with stubs is never a PASS of any kind, regardless of run_kind).
-- **`QUALIFICATION_PASS`** (qualification runs only) -- every page-kind
-  preset the injected fault touches (for `console_error`: every page-kind
-  preset run, per the dispatch) reported `FAIL` with `fault_detected=true`
-  and `fault_class` equal to the injected fault's class, and every other
-  selected preset passed. `qualified_failure_classes` becomes `[that
-  class]`; the class (and the run) is appended to
+  (a run with stubs is never a PASS of any kind, regardless of run_kind) --
+  **or** (task B7) a `workflow`-kind preset self-reports `"incomplete":
+  true` in its own JSON (currently only `W3`, when the vector channel is
+  unavailable on this host at run time: the dispatch's own "recorded as
+  INCOMPLETE for W3, not FAIL" rule, folded into this same run-level state
+  rather than a sixth vocabulary value).
+- **`QUALIFICATION_PASS`** (qualification runs only) -- every preset
+  `_touched_presets(results, fault)` names (see above) reported `FAIL` with
+  `fault_detected=true` and `fault_class` equal to the injected fault's
+  class, and every other selected preset passed. `qualified_failure_classes`
+  becomes `[that class]`; the class (and the run) is appended to
   `qualification_ledger.json`. Otherwise the run is `FAIL` -- the probe did
   not detect a known-bad.
 - **`FRAMEWORK_SMOKE_PASS`** -- a fixture-db run with no fault, every preset
@@ -170,14 +243,42 @@ cover (`PRESET_REGISTRY[name].required_classes` in
 ### Qualification waves (AC-3 reading)
 
 - **Q0** -- probe mechanism (server lifecycle, screenshot, DOM capture,
-  console/network/page-error capture, the observed-fault predicate). **This
-  round.**
+  console/network/page-error capture, the observed-fault predicate). Round 1
+  / C1.
 - **Q1** -- search surfaces (KB1, KB2, known-good exact-id and lexical
-  phrase). Wave 2.
-- **Q2** -- reader (KB4, known-good body-and-card-match). Wave 2.
-- **Q3** -- lineage (KB3, known-good typed edge direction). Wave 3.
+  phrase). **Done this round (task B7)**: `KG`'s identifier/lexical checks
+  and `KB1`/`KB2`'s runners are real and QUALIFICATION_PASS against the
+  fixture (see `docs/rounds/R02_probe.report.md` Evidence).
+- **Q2** -- reader (KB4, known-good body-and-card-match). **Done this round
+  (task B7)**: `KG`'s reader check and `KB4`'s runner are real and
+  QUALIFICATION_PASS against the fixture.
+- **Q3** -- lineage (KB3, known-good typed edge direction). Wave 3 -- `W5`,
+  `W6`, and `KB3` remain `not_implemented_yet`.
 - **FINAL** -- the complete known-good + known-bad suite before the critic's
   first round.
+
+### Which presets are real (task B7)
+
+| Preset | Status | Substrate |
+|---|---|---|
+| healthz | real (round 1) | either |
+| diagnostics | real (round 1/C1) | either |
+| KG | real (task B7) | fixture only |
+| KB1 | real (task B7) | fixture only (`--fault wrong_doc_for_id`) |
+| KB2 | real (task B7) | fixture only (`--fault stale_card`) |
+| KB3 | `not_implemented_yet` | -- lineage, wave 3 (Q3) |
+| KB4 | real (task B7) | fixture only (`--fault broken_jump`) |
+| KB5 | real (task B7) | fixture only (`--fault console_error`) |
+| W1 | real (task B7) | production |
+| W2 | real (task B7) | production |
+| W3 | real (task B7) | production (INCOMPLETE, not FAIL, if the vector channel is unavailable) |
+| W4 | real (task B7) | production |
+| W5 | `not_implemented_yet` | -- lineage, wave 3 (Q3) |
+| W6 | `not_implemented_yet` | -- lineage, wave 3 (Q3) |
+| W7 | real (task B7) | production (`--disable-vec`) |
+| W8 | real (task B7) | fixture only -- builds and drives its OWN dedicated temp-fixture server (see below); the run's main `--db`/`--docs-root` is unused by this preset |
+| W9 | real (task B7) | production |
+| W10 | real (task B7) | production |
 
 ### Historical runs predate this vocabulary
 
@@ -205,7 +306,7 @@ run.
 
 ## Template attribute conventions the probe reads
 
-Page-kind presets extract these from the DOM, by convention:
+`evaluate_page` (page-kind presets: healthz's sibling `diagnostics`) reads:
 
 | Observation | DOM read |
 |---|---|
@@ -216,12 +317,32 @@ Page-kind presets extract these from the DOM, by convention:
 
 `explorer/diagnostics/templates/diagnostics/diagnostics.html` originates
 `data-mode`/`data-vector` on both `<html>` (`{% block html_attrs %}`) and a
-wrapper `<div>`, per ARCHITECTURE.md A19; later builders (catalog/search/
-reader/lineage) should emit the same three attributes on their templates'
-root/result elements so the probe can observe them without reading page
-source; see `docs/rounds/R01_probe.report.md` ("Change requests" /
-"Assumptions") for the same note filed as a convention proposal to the
-integrator.
+wrapper `<div>`, per ARCHITECTURE.md A19; catalog/search/reader (wave 2)
+follow the same convention on their own templates' root/result elements.
+
+The wave-2 `workflow`-kind runners (task B7, `Session.attr`/`.attr_all`/
+`.count`/`.text`/`.html_attr` in `tools/probe_corpus_explorer.py`) additionally
+read, by the same convention -- one attribute contract per surface, never
+scraped page text where a `data-*` attribute or the `/api` twin already
+carries the value:
+
+| Observation | DOM read | Surface |
+|---|---|---|
+| catalog row id / card ref / status / lifecycle | `data-doc-id` / `data-card-ref` / `data-status` / `data-lifecycle-state` on each result `<tr>` | catalog |
+| lifecycle filter control shown | `[data-lifecycle-control="shown"]` present | catalog |
+| identifier result row id | `.identifier-results > li`'s `data-doc-id` | search |
+| identifier/lexical result card ref | `.result-card`'s `data-card-ref` (nested inside a result row) | search |
+| lexical/hybrid/graph result id + rank | `.search-results > li`'s `data-doc-id` / `data-rank` | search |
+| active mode badge | `.mode-badge`'s `data-mode-effective` | search |
+| narrowing counts | `[data-narrowed-from]` / `data-narrowed-to` | search |
+| document identity / body hash / jump line | `#document`'s `data-selected-doc-id` / `data-card-ref` / `data-body-sha256` / `data-jump-line` | reader |
+| card/index mismatch | `#card-panel`'s `data-card-index-mismatch` (comma-joined field names, `""` when clean) | reader |
+| heading line-anchor verification | `.toc li`'s `data-line` / `data-line-verified` | reader |
+| source line hit marker | `#L<n>.hit .line-text` | reader |
+| freshness result | `[data-freshness-status]` | diagnostics |
+
+See `docs/rounds/R01_probe.report.md` ("Change requests" / "Assumptions")
+for the original convention proposal filed to the integrator.
 
 ## Fixture substrate
 

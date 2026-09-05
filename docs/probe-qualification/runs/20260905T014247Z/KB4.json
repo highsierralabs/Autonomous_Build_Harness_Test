@@ -1,0 +1,68 @@
+{
+  "console_errors": [],
+  "failed_requests": [],
+  "fault_class": "KB4",
+  "fault_detected": true,
+  "kind": "workflow",
+  "label": "Known-bad KB4 (broken_jump): reader heading line-anchor re-verification",
+  "observations": {
+    "independent_mismatch_count": 4,
+    "independent_mismatches": [
+      {
+        "level": 1,
+        "line_no": 51,
+        "line_verified": false,
+        "slug": "rhaco-anl-20260115-002----fixture-analysis",
+        "text": "RHACO-ANL-20260115-002 -- Fixture Analysis"
+      },
+      {
+        "level": 2,
+        "line_no": 53,
+        "line_verified": false,
+        "slug": "1-purpose",
+        "text": "1. Purpose"
+      },
+      {
+        "level": 2,
+        "line_no": 59,
+        "line_verified": false,
+        "slug": "2-unique-lexical-marker",
+        "text": "2. Unique lexical marker"
+      },
+      {
+        "level": 2,
+        "line_no": 67,
+        "line_verified": false,
+        "slug": "3-notes",
+        "text": "3. Notes"
+      }
+    ],
+    "observable_independent": "for each /api/doc heading, lines[line_no-1] must begin a matching ATX heading marker (re-derived independently, never trusting the app's own line_verified claim)",
+    "observable_page": ".toc li[data-line-verified] -- any value 'false'",
+    "page_any_heading_unverified": true
+  },
+  "ok": false,
+  "page_errors": [],
+  "preset": "KB4",
+  "reasons": [
+    "KB4: broken heading line-anchor(s) detected -- page shows a data-line-verified=\"false\" heading: True; independent re-check found 4 mismatched heading(s)"
+  ],
+  "requests_total": 4,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\docs\\probe-qualification\\runs\\20260905T014247Z\\KB4.png",
+  "steps": [
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "reader_anl",
+      "timings": {
+        "elapsed_ms": 174.8,
+        "nav_end_utc": "2026-09-05T01:42:49.132812+00:00",
+        "nav_start_utc": "2026-09-05T01:42:48.958028+00:00"
+      },
+      "title": "Fixture Analysis -- Reader -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8814/doc/reports/RHACO-ANL-20260115-002_Fixture_Analysis.card.yaml"
+    }
+  ],
+  "verdict": "FAIL"
+}

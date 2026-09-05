@@ -1,0 +1,14 @@
+INFO:     Started server process [27880]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8824 (Press CTRL+C to quit)
+INFO:     127.0.0.1:55260 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55271 - "GET /api/diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55277 - "GET /?doc_type=CMP HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55277 - "GET /static/web/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55278 - "GET /static/catalog/catalog.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55279 - "GET /static/web/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55280 - "GET /api/catalog?doc_type=CMP HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55281 - "GET /api/catalog?doc_type=CMP&lifecycle_state=ACTIVE HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55282 - "GET /api/catalog?doc_type=CMP&status=Active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55285 - "GET /api/diagnostics HTTP/1.1" 200 OK

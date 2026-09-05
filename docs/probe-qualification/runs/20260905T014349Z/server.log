@@ -1,0 +1,19 @@
+INFO:     Started server process [6592]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8826 (Press CTRL+C to quit)
+INFO:     127.0.0.1:55319 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55328 - "GET /api/diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55331 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55331 - "GET /static/web/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55332 - "GET /static/catalog/catalog.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55333 - "GET /static/web/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55333 - "GET /search?q=RHACO-CMP-20260903-001&mode=identifier HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55333 - "GET /doc/reports/RHACO-CMP-20260903-001_Corpus_Explorer_Autonomous_Build_Harness.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55333 - "GET /static/reader/reader.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55333 - "GET /search?q=tungsten%20putty%20seal&mode=lexical HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55336 - "GET /api/search?q=tungsten%20putty%20seal&mode=lexical HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55333 - "GET /doc/reports/RHACO-MTN-20260520-001_Castle_Lid_Notch_And_Tungsten_Putty_Seal.card.yaml?line=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55333 - "GET /?doc_type=CMP HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55333 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55337 - "GET /api/diagnostics HTTP/1.1" 200 OK
