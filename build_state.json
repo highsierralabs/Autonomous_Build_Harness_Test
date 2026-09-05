@@ -986,6 +986,45 @@
         "Contract change c861680: direction-aware RELATION_LABELS / Edge.direction_label (D-1 integrator act, repairing the critic's gate-7 FAIL)"
       ],
       "record_provenance": "RECONSTRUCTED session 8 (2026-09-05, orchestrator claude-opus-5[1m] / xhigh under MOD-1) from the session-6 transcript, wf_cee90f83-a60.json / wf_12116ea4-c3e.json, git log and the on-disk oracle outputs."
+    },
+    {
+      "round": 6,
+      "wave": null,
+      "kind": "builder round -- three concurrent strands (the A1.3 cap): lineage round 2, corpus_adapter round 4 (batched, last), diagnostics round 2",
+      "status": "IN FLIGHT -- dispatched 2026-09-05T15:27:50Z, not yet returned",
+      "modules": [
+        "lineage",
+        "corpus_adapter",
+        "diagnostics"
+      ],
+      "base_commit": "3e7521b",
+      "orchestrator_model": "claude-opus-5[1m]",
+      "worktrees": {
+        "lineage": ".worktrees/lineage @ build/lineage (removed stale at 386afba, branch fast-forwarded to main, recreated)",
+        "corpus_adapter": ".worktrees/corpus_adapter @ build/corpus_adapter (removed stale at 7c1e9f4, branch fast-forwarded to main, recreated)",
+        "diagnostics": ".worktrees/diagnostics @ build/diagnostics (no worktree had existed since round 1; branch fast-forwarded to main, created)"
+      },
+      "dispatched_utc": "2026-09-05T15:27:50Z",
+      "workflow_run": "wf_b0d40995-3c0",
+      "task_id": "w92gupckt",
+      "dispatch_form": "section 2 L D-12 + D-3 blocks verbatim (byte-diffed against all three archives before dispatch, P-11 control PASS) + sha-pinned pointer to each archived prompt",
+      "wave_cap_check": "exactly three strands dispatched in one parallel() call; no other strand live; concurrency_exceedance: none",
+      "builder_rounds_consumed": 3,
+      "prompts": {
+        "docs/rounds/R07_lineage.prompt.md": {
+          "sha256": "c53f2f9c2ed508cbfa30c2d589cb9553ef0ce8c118de82bab7efcac3312fafe2",
+          "bytes": 15142
+        },
+        "docs/rounds/R07_corpus_adapter.prompt.md": {
+          "sha256": "c0ce0841192189811a3332ab38c2d587b486c3233ac9dd3adab1fcdb26668f3b",
+          "bytes": 14810
+        },
+        "docs/rounds/R07_diagnostics.prompt.md": {
+          "sha256": "5bf9dc7eb636f660f5ab889900e292d4c9c69591c3c5f76311feb0b4908be84c",
+          "bytes": 11563
+        }
+      },
+      "budget_note": "14 of 28 consumed before this round; 17 of 28 at merge. corpus_adapter is EXHAUSTED after this round (4 of 4); probe already is."
     }
   ],
   "l1_index_write_grep": [
@@ -1969,6 +2008,90 @@
       "independence_caveat": "Under MOD-1 the critic and the orchestrator share a model family; docs/LAYERS.md section 3 records this as a limit on independence. The critic answered it by weighting its disagreements above its agreements and by naming the limit in its own section 5. Its one gate FAIL contradicts build_state.json directly and several overstated claims it lists are the integrator's own bookkeeping -- which is the behaviour the arrangement was supposed to make difficult.",
       "deviations": "",
       "record_provenance": "RECONSTRUCTED session 8 (2026-09-05, orchestrator claude-opus-5[1m] / xhigh under MOD-1) from primary evidence: orchestrator times from the session-6 transcript; strand fields from wf_12116ea4-c3e.json and the filed report header. No field is estimated."
+    },
+    {
+      "session": 8,
+      "round": 6,
+      "model": "claude-sonnet-5 (requested; client-reported string recorded at return)",
+      "orchestrator_model": "claude-opus-5[1m] (MOD-1)",
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "execution_mode": "concurrent (round 6 = three strands, the A1.3 cap of 3)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-05T15:27:50Z",
+      "returned_utc": null,
+      "workflow_run": "wf_b0d40995-3c0",
+      "task_id": "w92gupckt",
+      "base": "3e7521b (current main at dispatch; each strand records its own rev-parse HEAD and asserts its HEAD contains f29bcc9)",
+      "status": "IN FLIGHT -- dispatched, not yet returned",
+      "prefix": "section 2 L D-12 + D-3 blocks built at runtime and byte-diffed against all three archived prompt prefixes BEFORE dispatch (P-11 control): 1,111 chars, sha256 6a893dbb94c0207fb84727035a5908aaec3df809ae19defe4be07e53fbc175a3, byte-identical to each; then a sha-pinned pointer to the archived prompt of record",
+      "record_provenance": "written at dispatch, session 8, from the orchestrator's own observed dispatch time and the Workflow tool's returned run/task ids -- recorded BEFORE the strands returned so a client crash cannot lose it (the session-7 precedent, where a crash cost a push)",
+      "strand_id": "S8-B12",
+      "stem": "R07_lineage",
+      "role": "module builder (lineage): render every typed edge with the sentence true from the end the reader stands on",
+      "module_round": "lineage round 2 of 4",
+      "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/lineage)",
+      "prompt": {
+        "file": "docs/rounds/R07_lineage.prompt.md",
+        "sha256": "c53f2f9c2ed508cbfa30c2d589cb9553ef0ce8c118de82bab7efcac3312fafe2",
+        "bytes": 15142
+      }
+    },
+    {
+      "session": 8,
+      "round": 6,
+      "model": "claude-sonnet-5 (requested; client-reported string recorded at return)",
+      "orchestrator_model": "claude-opus-5[1m] (MOD-1)",
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "execution_mode": "concurrent (round 6 = three strands, the A1.3 cap of 3)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-05T15:27:50Z",
+      "returned_utc": null,
+      "workflow_run": "wf_b0d40995-3c0",
+      "task_id": "w92gupckt",
+      "base": "3e7521b (current main at dispatch; each strand records its own rev-parse HEAD and asserts its HEAD contains f29bcc9)",
+      "status": "IN FLIGHT -- dispatched, not yet returned",
+      "prefix": "section 2 L D-12 + D-3 blocks built at runtime and byte-diffed against all three archived prompt prefixes BEFORE dispatch (P-11 control): 1,111 chars, sha256 6a893dbb94c0207fb84727035a5908aaec3df809ae19defe4be07e53fbc175a3, byte-identical to each; then a sha-pinned pointer to the archived prompt of record",
+      "record_provenance": "written at dispatch, session 8, from the orchestrator's own observed dispatch time and the Workflow tool's returned run/task ids -- recorded BEFORE the strands returned so a client crash cannot lose it (the session-7 precedent, where a crash cost a push)",
+      "strand_id": "S8-C4",
+      "stem": "R07_corpus_adapter",
+      "role": "module builder (corpus_adapter): the single batched LAST round -- SA-1, SA-2, the deferred amends click-through CR, then the remaining sole-importer docstrings, in that ruled priority order",
+      "module_round": "corpus_adapter round 4 of 4 (the last)",
+      "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/corpus_adapter)",
+      "prompt": {
+        "file": "docs/rounds/R07_corpus_adapter.prompt.md",
+        "sha256": "c0ce0841192189811a3332ab38c2d587b486c3233ac9dd3adab1fcdb26668f3b",
+        "bytes": 14810
+      }
+    },
+    {
+      "session": 8,
+      "round": 6,
+      "model": "claude-sonnet-5 (requested; client-reported string recorded at return)",
+      "orchestrator_model": "claude-opus-5[1m] (MOD-1)",
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "execution_mode": "concurrent (round 6 = three strands, the A1.3 cap of 3)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-05T15:27:50Z",
+      "returned_utc": null,
+      "workflow_run": "wf_b0d40995-3c0",
+      "task_id": "w92gupckt",
+      "base": "3e7521b (current main at dispatch; each strand records its own rev-parse HEAD and asserts its HEAD contains f29bcc9)",
+      "status": "IN FLIGHT -- dispatched, not yet returned",
+      "prefix": "section 2 L D-12 + D-3 blocks built at runtime and byte-diffed against all three archived prompt prefixes BEFORE dispatch (P-11 control): 1,111 chars, sha256 6a893dbb94c0207fb84727035a5908aaec3df809ae19defe4be07e53fbc175a3, byte-identical to each; then a sha-pinned pointer to the archived prompt of record",
+      "record_provenance": "written at dispatch, session 8, from the orchestrator's own observed dispatch time and the Workflow tool's returned run/task ids -- recorded BEFORE the strands returned so a client crash cannot lose it (the session-7 precedent, where a crash cost a push)",
+      "strand_id": "S8-B13",
+      "stem": "R07_diagnostics",
+      "role": "module builder (diagnostics): the sys.path.insert(0, ...) vs S2 append conformance fix only",
+      "module_round": "diagnostics round 2 of 4",
+      "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/diagnostics)",
+      "prompt": {
+        "file": "docs/rounds/R07_diagnostics.prompt.md",
+        "sha256": "5bf9dc7eb636f660f5ab889900e292d4c9c69591c3c5f76311feb0b4908be84c",
+        "bytes": 11563
+      }
     }
   ],
   "dispatch_record_notes": [
