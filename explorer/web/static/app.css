@@ -18,7 +18,18 @@
      .frozen-marker  -- used by search.html; had no CSS anywhere.
      .mode-badge     -- used by search.html; had no CSS anywhere.
      .evidence       -- used by search.html (the Evidence <details>); no CSS.
-     #keyhelp        -- identical markup on all four merged pages; no CSS.
+     #keyhelp        -- round 2 (task B16 item 1 / open item O-2): the block
+                         itself now lives ONCE in base.html (moved out of the
+                         five page templates that used to carry a byte-
+                         identical copy each -- catalog, search, reader,
+                         diagnostics, lineage); this file's rule is unchanged
+                         by the move, since #keyhelp was always styled here,
+                         never in a page's own stylesheet.
+     .global-search  -- round 2 (task B16 item 2): the shell's own search
+                         affordance in the nav (base.html), so `/` has
+                         something real to focus on every page except
+                         search itself (which already has one); no CSS
+                         anywhere before this round.
      dl/dt/dd, details/summary, fieldset/legend, form inputs and buttons --
                          generic element styling for diagnostics and search,
                          neither of which ships its own stylesheet. Catalog's
@@ -99,6 +110,23 @@ summary:focus-visible,
   border-bottom-color: var(--accent);
 }
 
+/* -- Global search affordance (task B16 item 2, critic ranked issue 9):
+   the shell's own <form method="get" action="/search"> in the nav, present
+   on every page except search (which already has one) -- a real navigation
+   to /search, never a second retrieval surface. `/` (app.js) focuses
+   whichever input[name="q"] the current page has: this one everywhere but
+   search, the page's own on search. Pushed to the row's far end so it
+   never crowds the three primary nav links. --------------------------- */
+.site-header .global-search {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+.site-header .global-search input[type="search"] {
+  min-width: 11rem;
+  padding: .3rem .5rem;
+}
+
 main { max-width: 1200px; margin: 0 auto; padding: 1rem 1.25rem 3rem; }
 main:focus-visible { outline: none; }
 
@@ -112,7 +140,36 @@ main:focus-visible { outline: none; }
 table { border-collapse: collapse; width: 100%; }
 th, td { text-align: left; padding: .35rem .5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
 code, pre { font-family: ui-monospace, Consolas, "Courier New", monospace; }
-pre { white-space: pre-wrap; overflow-x: auto; }
+/* white-space: pre-wrap already lets a <pre> wrap at whitespace; that alone
+   does not break an unbroken long token (a path, a hash) that has no space
+   to wrap at, which is exactly what #card-panel's raw_text/card_parsed
+   blocks hold (reader.html:243,251 -- unclassed <pre>, no reader.css rule
+   of its own for either). overflow-wrap: anywhere gives the browser a break
+   opportunity inside such a token instead of forcing the box wider;
+   overflow-x: auto stays as a fallback, not the fix (task B16 item 3: never
+   trade a visible overflow for a hidden one, and never fix this by hiding
+   content -- this reaches the reader's markup without editing reader-owned
+   files, since app.css already applied `pre` globally before this round). */
+pre { white-space: pre-wrap; overflow-x: auto; overflow-wrap: anywhere; word-break: break-word; }
+
+/* Reader's markdown-rendered tables (reader.html:84, `.doc-body` from
+   reader.css) had no width budget at all -- browser default `auto` table
+   layout sizes columns from content, which is exactly the mechanism the
+   catalog builder identified for its own clipped header (R09_catalog.report.md
+   "Change requests": "there is no shared table/pre legibility rule -- it
+   belongs in app.css once rather than as a patch per module"). Scoped to
+   `.doc-body table` rather than the shared `table` selector above so this
+   does not change layout behaviour for catalog's own `.catalog-table` (which
+   already budgets its own columns) or any other module's table -- reader.css
+   is not mine to edit (working rule 1), so the selector reaches the markup
+   instead of a class reader would have to add. Mirrors the catalog module's
+   own recipe: table-layout: fixed hands column sizing to the (equal, absent
+   any <colgroup>) budget instead of to content; overflow-wrap + word-break
+   let a long unbroken cell token (a doc_id, a filename) wrap inside its own
+   column instead of forcing the table wider than `.doc-body`'s container. */
+.doc-body table { table-layout: fixed; }
+.doc-body table th,
+.doc-body table td { overflow-wrap: anywhere; word-break: break-word; }
 
 dl { margin: 0 0 1rem; }
 dt { font-weight: 600; margin-top: .5rem; }
@@ -200,8 +257,9 @@ button:hover { background: var(--accent-hover); border-color: var(--accent-hover
 .evidence summary { color: var(--accent); }
 .evidence dl { margin: .5rem 0 0; }
 
-/* -- Keyboard-navigation help panel (#keyhelp: identical markup on every
-   merged page; app.js toggles its `hidden` attribute) ------------------- */
+/* -- Keyboard-navigation help panel (#keyhelp: one copy, in base.html,
+   rendered inside every merged page's <main>; app.js toggles its `hidden`
+   attribute) -------------------------------------------------------------- */
 
 #keyhelp {
   border: 2px solid var(--accent);

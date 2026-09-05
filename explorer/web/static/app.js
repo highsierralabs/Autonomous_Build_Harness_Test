@@ -4,8 +4,14 @@
    no-ops when nothing matches (ARCHITECTURE.md 4.7).
 
    Keys:
-     /              focus the search box (input[name="q"], round-0 seed)
+     /              focus the search box (input[name="q"]; round 2, task
+                    B16 item 2, gave every page but search itself this via
+                    a shell-level affordance in base.html's nav -- search
+                    already has its own inline field, so `/` there focuses
+                    that one instead. Either way the target is real
+                    input[name="q"], never a second retrieval surface.)
      ?              toggle the #keyhelp panel every merged page renders
+                    (round 2: the panel itself now lives once in base.html)
      j / ArrowDown  move the result-list selection down
      k / ArrowUp    move the result-list selection up
      Enter          open the selected row's first <a href>

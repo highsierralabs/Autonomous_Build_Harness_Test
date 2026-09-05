@@ -22,9 +22,25 @@
     <a href="/"{% if _nav_active.catalog %} aria-current="page"{% endif %}>Catalog</a>
     <a href="/search"{% if _nav_active.search %} aria-current="page"{% endif %}>Search</a>
     <a href="/diagnostics"{% if _nav_active.diagnostics %} aria-current="page"{% endif %}>Diagnostics</a>
+    {% if not _nav_active.search %}
+    <form class="global-search" method="get" action="/search" id="global-search-form" role="search">
+      <label class="sr-only" for="global-search-q">Search the corpus</label>
+      <input type="search" id="global-search-q" name="q" placeholder="Search the corpus" autocomplete="off">
+    </form>
+    {% endif %}
   </nav>
 </header>
 <main id="main" tabindex="-1"{% block main_attrs %}{% endblock %}>
+<div id="keyhelp" hidden>
+  <h2>Keyboard shortcuts</h2>
+  <dl>
+    <dt><kbd>/</kbd></dt><dd>focus search</dd>
+    <dt><kbd>j</kbd> / <kbd>k</kbd></dt><dd>move the result selection down / up (<kbd>Down</kbd> / <kbd>Up</kbd> also work)</dd>
+    <dt><kbd>Enter</kbd></dt><dd>open the selected result</dd>
+    <dt><kbd>Escape</kbd></dt><dd>clear the selection</dd>
+    <dt><kbd>?</kbd></dt><dd>toggle this help</dd>
+  </dl>
+</div>
 {% block content %}{% endblock %}
 </main>
 <footer class="site-footer">
