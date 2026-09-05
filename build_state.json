@@ -1116,7 +1116,7 @@
       "round": 9,
       "wave": null,
       "kind": "critic round 2 -- the convergence round; consumes no builder round",
-      "status": "IN FLIGHT -- dispatched 2026-09-05T17:22:00Z, not yet returned",
+      "status": "complete -- critic round 2 filed; NOT CONVERGED",
       "modules": [],
       "base_commit": "6d74f2e (product at the convergence commit fe4e053)",
       "orchestrator_model": "claude-opus-5[1m]",
@@ -1125,7 +1125,9 @@
       "task_id": "w53icu1tc",
       "dispatch_form": "section 2 L D-12 + D-3 blocks verbatim (byte-diffed, P-11 control PASS) + sha-pinned pointer to the archived prompt",
       "wave_cap_check": "one strand dispatched; no other strand live; concurrency_exceedance: none",
-      "builder_rounds_consumed": 0
+      "builder_rounds_consumed": 0,
+      "returned_utc": "2026-09-05T17:42:0xZ",
+      "outcome": "NOT CONVERGED. Five of the critic's top seven ranked findings are against integrator-owned work, not any builder's. Its central argument: the defect class the sealed audit named as this harness's structural weakness was reproduced three times inside the artifacts built after round 1 to end it -- all three the integrator's."
     }
   ],
   "l1_index_write_grep": [
@@ -2448,7 +2450,7 @@
       "strand_id": "S8-CR2",
       "stem": "R11_critic",
       "role": "CRITIC (PROMPT.md section 7), round 2 -- the second of the two-round convergence window",
-      "model": "claude-opus-5[1m] (requested; client-reported string recorded at return)",
+      "model": "claude-opus-5[1m] (client-reported by the strand: 'You are powered by the model named Opus 5 (1M context). The exact model ID is claude-opus-5[1m].')",
       "orchestrator_model": "claude-opus-5[1m] (MOD-1)",
       "effort": "xhigh (Workflow opts.effort, explicit -- hand section 2 I requires the critic's effort be set explicitly)",
       "pattern_primary": "judgment tier, read-only review (#7); not a builder pattern",
@@ -2456,12 +2458,12 @@
       "execution_mode": "sequential (one strand live)",
       "tier_escalation": "none",
       "dispatched_utc": "2026-09-05T17:22:00Z",
-      "returned_utc": null,
+      "returned_utc": "2026-09-05T17:42:0xZ (workflow wf_af9af694-3ae completed)",
       "workflow_run": "wf_af9af694-3ae",
       "task_id": "w53icu1tc",
       "module_round": "critic round 2 of the 2-round convergence window; consumes NO builder round",
       "reviewed_at": "the convergence commit fe4e053 (main at dispatch 6d74f2e, which adds only this prompt and records)",
-      "status": "IN FLIGHT -- dispatched, not yet returned",
+      "status": "COMPLETE",
       "prompt": {
         "file": "docs/rounds/R11_critic.prompt.md",
         "sha256": "d8cef25f42cec8ca93aae09620486c49e9fdf6fb748adc965e9b4b418bcc8c03",
@@ -2476,7 +2478,14 @@
         "O-4's disposition is conditioned on its answer, and it is told so, with the instruction to decide on merits rather than accommodate in either direction.",
         "It receives the sealed-audit disclosure round 1 could not have, because it cannot judge those repairs without knowing what they repair."
       ],
-      "record_provenance": "written at dispatch, before the strand returned (the GD-1 remedy applied prospectively)"
+      "record_provenance": "written at dispatch, before the strand returned (the GD-1 remedy applied prospectively)",
+      "t_start_utc": "2026-09-05T17:21:15.9293132Z",
+      "t_end_utc": "2026-09-05T17:41:46.1518802Z",
+      "prompt_sha256_verified_by_strand": true,
+      "reviewed_at_commit": "6d74f2e3b784cb5e564d68965247d16451a9da61",
+      "result": "ref_score 8 (unchanged, ORDINAL); critic scale NOT validly usable; 9 gates PASS; 3 of 10 build dispositions disputed; 13 ranked issues; CONVERGENCE: NOT CONVERGED",
+      "filed": "docs/critique/R11_critic_round_2.report.md (filed by the integrator; the critic's text verbatim)",
+      "deviations": ""
     }
   ],
   "dispatch_record_notes": [
@@ -2559,10 +2568,11 @@
     },
     {
       "id": "O-6",
-      "status": "OPEN -- change request from S8-B16",
+      "status": "OPEN -- STANDS OPEN by Director ruling 2026-09-05, on the same terms as O-4",
       "text": "explorer/reader/templates/reader/reader.html:21 -- the adapter_absent banner carries diagnostics.html's data-diagnostics-state attribute verbatim instead of a reader-specific name. A copy-paste artifact, found incidentally by the web round's n-gram duplication scan while auditing whether #keyhelp was one instance of a class.",
       "owner": "reader (2 of 4 rounds left) or an integrator edit",
-      "note": "Not user-visible; it makes a reader page assert a diagnostics state name to any consumer reading data attributes. Found by a method looking for something else."
+      "note": "Not user-visible; it makes a reader page assert a diagnostics state name to any consumer reading data attributes. Found by a method looking for something else.",
+      "director_ruling": "O-6 takes O-4's disposition exactly: it STANDS AS AN OPEN ITEM, and a reader round 3 is spent on it ONLY if critic round 2 ranks it convergence-blocking -- never as an integrator edit. The fix being a one-word attribute rename is not a reason to make it. That reasoning does not depend on the size of the edit, which is the point of it. OUTCOME: critic round 2 ranked it 13th of 13, polish, and did not rank it convergence-blocking. O-6 is carried into the terminal state as an open item with its cause."
     }
   ],
   "workspace_push_policy": "Director ruling O-1 (2026-09-04): push main at each session boundary with the build_state.json commit and at terminal state; fast-forward only; each push recorded in the handback resumption entry.",
@@ -3106,7 +3116,8 @@
         "still_live": true,
         "verified_now": "tools/l1_index_write_check.py checks exactly one property: a grep for the five index-writing names (NAME_PARTS). It does not check the import boundary (SA-3), does not check that corpus_index.db is never opened outside the module's connect (no sqlite3.connect check at all), and does not check read-authority paths. docs/LAYERS.md also lists pytest under 'L1 Static', a category slip.",
         "detection_evidence": "The critic did not make SA-4's claim about L1. It did independently identify the SAME CLASS -- a check narrower than its apparent guarantee -- in three separate places: W5's direction_label assertion compares the product against the constant that produces it; keyboard navigation is string-matched in three files and executed in none; W3 is a regression pin against the build's own earlier output. Partial credit is honest here: the class was found, the instance was not.",
-        "note": ""
+        "note": "",
+        "closure_correction": "CORRECTED critic round 2 (S8-CR2), 2026-09-05, which found this object contradicting itself. SA-4 carried still_live: true while status_after_round_6 in the SAME object asserted 'ALL FIVE sealed defect items are now closed'. Both could not be true, and the flag was right: SA-4 is NOT closed.\n\nSA-4 named FOUR unchecked properties. The round-8 import-boundary check closed the FIRST. The other three are untouched: (a) there is no sqlite3.connect check at all, so 'corpus_index.db is never opened outside the module's own connect' -- the second half of DISPATCH_PARAMETERS item C -- remains asserted and unchecked; (b) read-authority paths are unchecked; (c) docs/LAYERS.md:9 still files `pytest tests/` under **L1 Static**, the category slip SA-4 named explicitly.\n\nThe integrator claimed SA-4 closed on the strength of one of its four parts. That is the SA-4 defect itself -- a check establishing less than it is read as establishing -- committed in the ledger entry recording SA-4's repair."
       },
       {
         "id": "SA-5",
@@ -3146,7 +3157,7 @@
       "SA-6": "Satisfied unprompted; no remedy owed.",
       "bounded_fail_rule": "Whatever of SA-1 / SA-2 / the deferred amends-link change request does not fit the single batched corpus_adapter round 4 is declared BOUNDED_FAIL on the record, per item, never silently dropped and never traded for a lowered bar."
     },
-    "status_after_round_6": "SA-1, SA-2, SA-3 repaired in round 6 and verified; SA-5 repaired in round 8 (integrator text). SA-4 CLOSED in round 8 by the import-boundary check in tools/l1_index_write_check.py, built to the Director-ruled licensed set and carrying tests that construct violations. SA-6 was never a defect. ALL FIVE sealed defect items are now closed -- including the four that the harness and the critic both missed. What does not change is the measurement the seal was placed to take: they were missed, by four builder waves, 262 tests, twelve green production presets, two L4 oracles and a dedicated Opus critic, and an external reader found them. Closing them later does not retroactively make the harness that missed them adequate, and the M3 ANL reads the miss, not the repair."
+    "status_after_round_6": "CORRECTED critic round 2 (S8-CR2), 2026-09-05. The previous text -- 'ALL FIVE sealed defect items are now closed' -- was FALSE and contradicted SA-4's own still_live flag in the same object.\n\nAccurate state: SA-1, SA-2 and SA-3 repaired in round 6 and verified. SA-5 repaired in round 8. SA-6 was never a defect. **SA-4 is PARTIALLY repaired**: the import-boundary check closed one of the four properties it named; the sqlite3.connect check, the read-authority paths, and the docs/LAYERS.md L1-Static category slip are untouched. See SA-4.closure_correction.\n\nUnchanged by any of it: four of the five were MISSED, by four builder waves, 262 tests, twelve green production presets, two L4 oracles and a dedicated critic, and an external reader found them. Closing them later does not make the harness that missed them adequate, and the M3 ANL reads the miss, not the repair."
   },
   "next_action_prior": {
     "superseded_utc": "2026-09-05 (session 8 reconciliation)",
@@ -3171,7 +3182,7 @@
         "class": "fidelity",
         "disposition": "ACCEPTED. Two defects in one: a stale figure on a live surface, and a SCOPE row that describes a product that does not exist.",
         "action": "Search round 2 removes the bare 0.700 from explorer/search/service.py:93 (diagnostics may carry it attributed and dated, per Standing Constraint 8); SCOPE row 16 corrected in the same round. Queued as CCX-20260905-001 section 4 step (2).",
-        "landed": "YES -- round 7, S8-B14, merged 2b7e56c. Both halves: the page no longer states a bare figure, and SCOPE's false 'states neither number' sentence is corrected. Note the strand answered 'would the original sentence have become true on its own after the fix?' with NO -- it chose to state both numbers attributed rather than remove them, so the cell needed new wording rather than vindication."
+        "landed": "YES -- round 7, S8-B14, merged 2b7e56c. Both halves: the page no longer states a bare figure, and SCOPE's false 'states neither number' sentence is corrected. Note the strand answered 'would the original sentence have become true on its own after the fix?' with NO -- it chose to state both numbers attributed rather than remove them, so the cell needed new wording rather than vindication.\n\nDISPUTED BY critic round 2 (S8-CR2), 2026-09-05 (its ranked issue 2): repaired, but the repair introduced a new problem. The search page dates the build's own figure '2026-09-04' while no oracle run bears that UTC date (gold_v1_1_compat.json started_utc 2026-09-05T17:16:15Z; the prior run 2026-09-05T04:46:55Z). SCOPE.md row 16, corrected by the integrator in the SAME round, explicitly repudiated that date as an undated-timezone ambiguity -- and left the product page carrying it. The surface and the scope register now disagree about when the build measured its own retrieval figure, in a tool whose subject is provenance. The integrator corrected one side of the ambiguity and not the other."
       },
       {
         "rank": 3,
@@ -3188,7 +3199,8 @@
         "disposition": "ACCEPTED.",
         "action": "Web-owned (app.css / template width rules); web has 3 of 4 rounds left. Queued for a web round 2 alongside the O-2 keyhelp de-duplication and ranked issue 9. If no web round 2 lands before terminal state, this is declared BOUNDED_FAIL, not quietly dropped.",
         "mechanism_note": "The catalog builder identified the shared mechanism: ranked issue 4 (reader overflow) and the catalog's own clipped header are the same gap -- no shared table/}pre{ legibility rule -- surfacing in two modules. Carried into the web round-2 dispatch as a shared app.css utility rather than two module-local patches.",
-        "landed": "YES -- round 8, S8-B16, merged 014ef53; fixed once in app.css rather than per module."
+        "landed": "**NO -- CORRECTED critic round 2 (S8-CR2), 2026-09-05. The previous entry read 'YES -- round 8, S8-B16, merged 014ef53; fixed once in app.css rather than per module', and that was false.**\n\nThe critic re-derived the round-1 observable rather than the round-1 finding, and the observable did not move: at the convergence commit the two reader-terminated presets capture at 1387 px against a pinned 1280x900 viewport (W1 20260905T171444Z, W9 20260905T171510Z) -- byte-identical in width to round 1's captures of the same presets. Every non-reader capture in the same set is exactly 1280. The CSS landed (app.css:153, :170-172) and does not reach whatever is 107 px too wide.\n\nThe integrator's failure here is specific and worth naming: the web builder stated TWICE, unprompted, that the rendered geometry was UNVERIFIED, and the integrator recorded 'landed: YES' with no qualifier. The ledger dropped the qualifier its own builder had insisted on keeping. That is not a disagreement with the builder; it is the integrator asserting more than the evidence it was handed.",
+        "now": "CR2 ranked issue 1, the highest-ranked finding of round 2. NOT repaired."
       },
       {
         "rank": 5,
@@ -3220,7 +3232,7 @@
         "class": "fidelity",
         "disposition": "ACCEPTED, and it was worse than the critic could see.",
         "action": "Closed by this reconciliation: dispatch records for S6-B10, S6-B11 and S6-CR1 added; budgets 12 -> 14 (not 13 -- the session-7 correction was itself short by one, a second P-6 instance); rounds 4 and 5 added; sessions 5, 6 closed_utc set; the post-fix card-agreement run recorded; the 'all nine gates pass' summary withdrawn; GD-1 filed.",
-        "landed": "YES -- the session-8 reconciliation; GD-1 filed and carried as an open defect."
+        "landed": "YES -- the session-8 reconciliation; GD-1 filed and carried as an open defect.\n\nDISPUTED BY critic round 2 (S8-CR2), 2026-09-05 (its ranked issue 4): the round-1 instance is repaired 'and then some', but the CLASS is live in the same file -- the SA-4 closure contradiction above. The critic's words: the disposition 'is right about round 1's instance and understates the present state: the ledger still contains a self-contradictory closure claim about the one sealed item whose subject is checks that establish less than they appear to.'"
       },
       {
         "rank": 9,
@@ -3247,11 +3259,13 @@
       {
         "id": "BF-1",
         "subject": "probe preset W5 now fails on incoming edges",
-        "cause": "W5 asserts every edge's direction_label against RELATION_LABELS across all three buckets -- it compares the product against the constant the product renders from. Once lineage renders direction-aware sentences (round 6), incoming edges no longer match, so W5 fails BY CONSTRUCTION on correct behaviour.",
+        "cause": "W5 asserts every edge's direction_label against RELATION_LABELS across all three buckets -- it draws its expectation from the product's own constant. When the direction labels became direction-aware (round 6), W5's expectation and the product's rendering diverged on incoming edges, and W5 reports that divergence as a failure.",
         "why_not_repaired": "the probe is exhausted at 4 of 4 and the Director did not waive the budget; modifying the probe would be a fifth round.",
         "compensating_control": "seven committed lineage tests asserting the rendered sentence, plus the L4 direction oracle owed at CCX section 4 step (3).",
         "accepted_when": "at the c861680 contract change, deliberately and in writing, before round 6 was dispatched.",
-        "not_a_lowered_bar": "the alternative -- keeping a vestigial direction-blind field alive so W5 stayed green -- would have made the check verify something no one displays, which is the exact pathology the critic named."
+        "not_a_lowered_bar": "the alternative -- keeping a vestigial direction-blind field alive so W5 stayed green -- would have made the check verify something no one displays, which is the exact pathology the critic named.",
+        "framing_of_record": "DIRECTOR RULING 2026-09-05, correcting this build's own first statement of it. BF-1 is an INSTRUMENT DISAGREEMENT RESOLVED BY AN INDEPENDENT EXPECTATION -- NOT 'the product is now right, therefore the check may be retired'.\n\nThe distinction is not stylistic. W5 and the product disagree about what an incoming typed edge should say. The product's correctness is precisely what is in dispute, so citing it to justify retiring the check that disputes it argues in a circle, and a build that can retire a failing acceptance check by asserting its own correctness has no acceptance gate at all.\n\nWhat resolves the disagreement is a THIRD PARTY: tools/l4_direction_oracle.py holds EXPECTED_SENTENCES written by hand from CONSTRAINTS O8 and not imported from explorer.models, a property a committed test asserts. It compared 5,052 edges and found 0 defects -- agreeing with the product's rendering and against W5's expectation. W5 cannot arbitrate, because its expectation IS the constant in dispute. The product's correctness is the CONCLUSION of that comparison, never its premise; had the oracle disagreed, W5's FAIL would stand.\n\nINDEPENDENTLY CONFIRMED by critic round 2 (S8-CR2), 2026-09-05, which verified rather than accepted the claim: it checked both flagged sentences against CONSTRAINTS O8 itself, traced the mechanism to probe_corpus_explorer.py:1956-1962 and the RELATION_LABELS import at :151, and considered whether the check could have been retired dishonestly -- concluding not, because the failure was accepted in writing at c861680 BEFORE round 6 was dispatched rather than discovered afterwards and rationalised, the preset was left failing rather than edited green, and the compensating control was built and run.",
+        "additions_owed_per_cr2": "Critic round 2, ranked issue 5, names two things this register should say and does not.\n(1) W5 is now a CONSTANT-FAIL preset, so its four other assertions have lost their automated signal: page/API edge-set parity (:1950), page-vs-API campaign_child target agreement (:1967), reasoning-trail chronology (:1977), and two on-disk card.yaml cross-checks (:1931). A future regression in any of them arrives as a SECOND string in `reasons` on a preset already red, and is caught only by a human reading the JSON. The build did read it this round and said so; it had not recorded that the reading is now MANDATORY. It is: any future W5 run must be read reason-by-reason, not by its verdict.\n(2) The parity assertion is set-based and its two recorded counts are not the same measurement: `page_edge_count` is a SET cardinality, `api_edge_count` a LIST length (W5.json records 21 and 22 under symmetric names). So a duplicate in the API payload -- exactly what BF-2's double-append produces -- is deduplicated before comparison and is invisible to the one check positioned to see it. BF-2's symptom reaches its natural detector and is dropped on the way in."
       },
       {
         "id": "BF-2",
@@ -3318,5 +3332,31 @@
     },
     "criterion_6": "live db ea8f7df2... 115,081,216 B unchanged before and after every run above",
     "suite": "332 passed; ruff clean; l1-index-write-check and l1-import-boundary both PASS"
+  },
+  "critic_round_2": {
+    "strand": "S8-CR2",
+    "filed": "docs/critique/R11_critic_round_2.report.md",
+    "reviewed_at_commit": "6d74f2e (product byte-unchanged since the convergence commit fe4e053 -- the critic verified that itself with git diff --stat)",
+    "ref_score": 8,
+    "ref_score_note": "unchanged from round 1, and the critic is explicit that an unchanged digit does not mean an unchanged product: 'the digit is the least informative thing in this report'",
+    "score_precision": "ORDINAL, not metrological",
+    "critic_scale_validly_usable": false,
+    "scale_validity_consequence": "The critic's reading, recorded as its reading and not as a ruling: PROMPT.md section 12 conditions PASS on the score reaching 8.5 'IF the critic scale was validly usable'. It was not -- no calibrated exemplar, no second scorer, no cross-family scorer, and the two scores that exist were taken on TWO DIFFERENT PRODUCTS (seven builder rounds apart), which is precisely the case round 1's 'matched rounds on an UNCHANGED product' was worded to exclude. So the 8.5 clause is VACUOUS: it neither blocks nor licenses PASS, and the 8 must not be read as the thing standing between this build and PASS. What binds instead is the unconditional part of section 12 -- all objective gates pass (they do, nine of nine) AND production-path probes pass (they do not: 11 of 12, W5 red as declared BF-1). On section 12's own words that is the BOUNDED_FAIL shape.",
+    "objective_gates": "9 PASS / 0 FAIL, independently assessed; gate 7 moved FAIL -> PASS and the critic judged the INSTRUMENT as well as its output",
+    "convergence_determination": "NOT CONVERGED",
+    "convergence_reasoning_summary": "The critic declined the literal reading and said why. PROMPT.md section 7's 'unchanged ranked issue set' rule was written to detect a fixed point in a build that MAY OR MAY NOT act. When a build accepts and acts on every item, the rule INVERTS: an unchanged set would mean the repairs did not take (the worst outcome) and a changed set means they did (the best), so the rule can no longer distinguish 'converged' from 'still improving'.\n\nIts substitute reading: convergence means the CLASS distribution of findings is stable and no longer regenerating. Round 1's classes were (a) direction prose stating the converse of the record, (b) a claim in prose that nothing checks against the artifact, (c) layout and keyboard polish, (d) a check narrower than its apparent guarantee. Round 2: (a) is gone at the mechanism. (c) persists with its principal instance unmoved. (d) persists one degree smaller. And (b) HAS PRODUCED THREE NEW INSTANCES INSIDE ARTIFACTS CREATED AFTER ROUND 1 IN RESPONSE TO IT -- an oracle report saying 213 pages were rendered when none was; a comment claiming no raw SQL directly above raw SQL; and a ledger asserting all five sealed items closed while carrying still_live: true on one.\n\n'The sealed audit named class (b) as this harness's structural weakness. The build read that, repaired every named instance, and reproduced the class in the instruments it built to end it. That is not a fixed point. A build that reproduces the critic's named defect class inside the compensating controls for that class is still generating, not converging.'",
+    "integrator_acknowledgement": "TWO of those three new instances are the integrator's, and the third (the ledger) is also the integrator's -- so all three are. The oracle's 'pages_rendered' and its 'never raw SQL from here' comment are in tools/l4_direction_oracle.py, written by the integrator in round 8 to close the critic's own gate-7 finding. The SA-4 closure claim is the integrator's ledger entry. Recorded plainly because the M3 ANL's question is whether the harness can audit its own claims, and the answer this round is that it could not, in the very act of building the instruments meant to prove it could.",
+    "round_1_verdicts": "6 repaired; 1 partially (rank 7); 2 repaired-but-created-a-new-problem (ranks 2, 8); 1 not repaired (rank 4); rank 10 not repaired but honestly declined under a scope ruling",
+    "build_dispositions_disputed": [
+      2,
+      4,
+      8
+    ],
+    "ranked_issues_count": 13,
+    "o4_convergence_blocking": false,
+    "o6_convergence_blocking": false,
+    "bf1_verified_honest": true,
+    "what_a_third_round_would_need": "The critic's own three, in order, the first two costing no builder round: (1) MEASURE the reader page's rendered width and find what the 107 px is -- 'until someone knows what the 107 px is, any further CSS is guessing', and running the probe is free; (2) correct four affirmatively false statements (the search page's date, the oracle's pages_rendered and its raw-SQL comment, the SA-4 ledger contradiction, and docs/LAYERS.md's L1-Static slip); (3) add a CLAIM-AUDIT PASS -- 'read a claim, then read the artifact it describes, and compare' -- over the round-6-to-8 artifacts, because 'nobody in this harness does that systematically: L1 lints and greps, L2/L3 test behaviour, L4 compares outputs, and no layer audits assertions against their referents'. A third round that only fixed the thirteen items 'would leave the generator running'.\n\nExplicitly NOT worth the budget, in its words: a diagnostics round for O-4; a fifth probe round; re-litigating BF-1 or BF-2, 'both of which are declared correctly'; and any further scoring by the same critic -- 'a third critic round from the same model that wrote the first two adds no independence and would be the least valuable use of the remaining eight rounds.'",
+    "critic_self_assessment_note": "Its bias section is the most useful page in the report and should be read whole. The load-bearing admission: on round-1 issue 4 it read the disposition, read the CSS, saw plausible rules, and 'was ready to write repaired' -- and only did not because it had decided in advance to re-derive round 1's EVIDENCE rather than round 1's FINDING. Reading the PNG headers took two minutes and reversed the verdict on the highest-ranked item in the report. It then generalises against itself: every other 'repaired' verdict rests on source reading rather than an independent observable, and 'they establish that the code now says the right thing, not that the product now does the right thing.'"
   }
 }
