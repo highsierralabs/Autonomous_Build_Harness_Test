@@ -1,0 +1,82 @@
+{
+  "console_errors": [],
+  "failed_requests": [],
+  "fault_class": "KB3",
+  "fault_detected": true,
+  "kind": "workflow",
+  "label": "Known-bad KB3 (reverse_edges): the CMP center's campaign_child edge to the ANL fixture card -- from/to swapped and direction flipped under the fault",
+  "observations": {
+    "api_edge": {
+      "anchor_card_ref": "reports/RHACO-CMP-20260115-001_Fixture_Campaign.card.yaml",
+      "direction": "incoming",
+      "direction_label": "has campaign child",
+      "from_card_refs": [
+        "reports/RHACO-ANL-20260115-002_Fixture_Analysis.card.yaml"
+      ],
+      "from_id": "RHACO-ANL-20260115-002",
+      "hop": 1,
+      "note": "Parent fixture campaign -- membership produces a campaign_child edge.",
+      "relation": "campaign_child",
+      "resolved": true,
+      "target_card_refs": [
+        "reports/RHACO-ANL-20260115-002_Fixture_Analysis.card.yaml"
+      ],
+      "to_card_refs": [
+        "reports/RHACO-CMP-20260115-001_Fixture_Campaign.card.yaml"
+      ],
+      "to_id": "RHACO-CMP-20260115-001"
+    },
+    "detection_observable": "the CMP center's campaign_child edge to the ANL fixture card: the .edge-list <li> and the graph <line>'s data-edge-from/data-edge-to/data-edge-direction, cross-checked against each other and against /api/lineage, against the frozen known-correct fixture fact",
+    "edge_list_row": {
+      "data-edge-direction": "incoming",
+      "data-edge-from": "RHACO-ANL-20260115-002",
+      "data-edge-to": "RHACO-CMP-20260115-001",
+      "data-relation": "campaign_child"
+    },
+    "expected_correct_triple": [
+      "RHACO-CMP-20260115-001",
+      "RHACO-ANL-20260115-002",
+      "outgoing"
+    ],
+    "expected_fault_triple": [
+      "RHACO-ANL-20260115-002",
+      "RHACO-CMP-20260115-001",
+      "incoming"
+    ],
+    "graph_line": {
+      "data-edge-direction": "incoming",
+      "data-edge-from": "RHACO-ANL-20260115-002",
+      "data-edge-to": "RHACO-CMP-20260115-001",
+      "data-relation": "campaign_child"
+    },
+    "observed_triple": [
+      "RHACO-ANL-20260115-002",
+      "RHACO-CMP-20260115-001",
+      "incoming"
+    ]
+  },
+  "ok": false,
+  "page_errors": [],
+  "preset": "KB3",
+  "reasons": [
+    "KB3: observed edge (from_id, to_id, direction)=('RHACO-ANL-20260115-002', 'RHACO-CMP-20260115-001', 'incoming') is the SWAPPED known-fault triple, not the known-correct ('RHACO-CMP-20260115-001', 'RHACO-ANL-20260115-002', 'outgoing') -- fault reverse_edges"
+  ],
+  "requests_total": 5,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\docs\\probe-qualification\\runs\\20260905T043102Z\\KB3.png",
+  "steps": [
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "lineage_cmp",
+      "timings": {
+        "elapsed_ms": 175.8,
+        "nav_end_utc": "2026-09-05T04:31:04.307063+00:00",
+        "nav_start_utc": "2026-09-05T04:31:04.131327+00:00"
+      },
+      "title": "Fixture Campaign -- Lineage -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8910/lineage/reports/RHACO-CMP-20260115-001_Fixture_Campaign.card.yaml"
+    }
+  ],
+  "verdict": "FAIL"
+}

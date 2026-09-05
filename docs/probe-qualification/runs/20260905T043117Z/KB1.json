@@ -1,0 +1,50 @@
+{
+  "console_errors": [],
+  "failed_requests": [],
+  "fault_class": null,
+  "fault_detected": false,
+  "kind": "workflow",
+  "label": "Known-bad KB1 (wrong_doc_for_id): identifier search for a multi-card id -- the first listed card_ref must be the id's own card, not a sibling amendment",
+  "observations": {
+    "detection_observable": "search identifier result's first .result-card data-card-ref attribute",
+    "expected_correct_first_card_ref": "handoffs/RHACO-HND-20260115-003_Fixture_Handoff.card.yaml",
+    "expected_fault_first_card_ref": "handoffs/RHACO-HND-20260115-003_Fixture_Handoff_Amendment_A1.card.yaml",
+    "observed_first_card_ref": "handoffs/RHACO-HND-20260115-003_Fixture_Handoff.card.yaml",
+    "reader_selected_doc_id": "RHACO-HND-20260115-003"
+  },
+  "ok": true,
+  "page_errors": [],
+  "preset": "KB1",
+  "reasons": [],
+  "requests_total": 7,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\docs\\probe-qualification\\runs\\20260905T043117Z\\KB1.png",
+  "steps": [
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "identifier_hnd",
+      "timings": {
+        "elapsed_ms": 62.4,
+        "nav_end_utc": "2026-09-05T04:31:20.449409+00:00",
+        "nav_start_utc": "2026-09-05T04:31:20.386992+00:00"
+      },
+      "title": "Search -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8911/search?q=RHACO-HND-20260115-003&mode=identifier"
+    },
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "reader_hnd",
+      "timings": {
+        "elapsed_ms": 68.4,
+        "nav_end_utc": "2026-09-05T04:31:20.547931+00:00",
+        "nav_start_utc": "2026-09-05T04:31:20.479520+00:00"
+      },
+      "title": "Fixture Handoff -- Reader -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8911/doc/handoffs/RHACO-HND-20260115-003_Fixture_Handoff.card.yaml"
+    }
+  ],
+  "verdict": "PASS"
+}
