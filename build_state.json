@@ -87,7 +87,7 @@
       "lineage": 0,
       "web": 0
     },
-    "note": "probe has 1 of 4 rounds left (round 4 = Q3 lineage cases KB3 / W5 / W6 and FINAL in wave 3); any probe repair round after that would exceed its module budget -- flagged to the Director"
+    "note": "probe has 1 of 4 rounds left (round 4 = Q3 lineage cases KB3 / W5 / W6 and the FINAL suite); Director ruling 2026-09-05 item 4: the budget is NOT waived -- any probe need after round 4 is BOUNDED_FAIL, never a lowered bar. corpus_adapter round 3 (the O10 availability hard floor) is spent this wave, leaving it 1 of 4."
   },
   "caps": {
     "CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH": {
@@ -103,13 +103,42 @@
   },
   "client": {
     "claude_code_version": "2.1.260",
-    "session_model": "claude-fable-5-1",
-    "session_effort": "xhigh",
+    "session_effort": "xhigh (env CLAUDE_EFFORT=xhigh, inherited from launching shell 24716; unchanged at the halt)",
     "tier_strings_of_record": {
       "mid": "claude-sonnet-5",
       "judgment": "claude-opus-5[1m]",
       "small": "claude-haiku-4-5-20251001"
-    }
+    },
+    "session_model_history": [
+      {
+        "seq": 1,
+        "model": "claude-fable-5-1",
+        "from_utc": "2026-09-04T23:39:34Z",
+        "to_utc": "2026-09-05T02:25:02.164Z",
+        "cause": "session model of record",
+        "evidence": "transcript per-request `message.model` field: every assistant message from 2026-09-04T23:44:36.327Z through the last one before 02:25:02.164Z carries 'claude-fable-5-1'. Section 0 item 9 observed it at 23:50Z (session 4) and 02:21:32Z (session 5)."
+      },
+      {
+        "seq": 2,
+        "model": "claude-opus-4-8",
+        "from_utc": "2026-09-05T02:25:02.164Z",
+        "to_utc": "2026-09-05T02:30:48.002Z",
+        "cause": "CLIENT SAFEGUARD DEGRADATION -- automatic, session-scoped, no operator action",
+        "evidence": "transcript system record subtype 'model_refusal_fallback', line 1425, timestamp 2026-09-05T02:27:33.708Z: level warning, trigger 'refusal', direction 'retry', scope 'session', originalModel 'claude-fable-5-1', fallbackModel 'claude-opus-4-8', apiRefusalCategory 'cyber', requestId 'req_011CejVqst4V115MqJxeRT7k', one retracted assistant message. The per-request model field shows the switch TOOK EFFECT at the assistant message of 02:25:02.164Z -- 2 min 31 s BEFORE the notice record was written.",
+        "effort_in_force": "UNRESOLVED (settings.json has no per-model effort entry for claude-opus-4-8; env CLAUDE_EFFORT still read xhigh)"
+      },
+      {
+        "seq": 3,
+        "model": "claude-opus-5",
+        "from_utc": "2026-09-05T02:30:48.002Z",
+        "to_utc": null,
+        "cause": "Director set the model",
+        "evidence": "transcript per-request model field: first 'claude-opus-5' assistant message at 2026-09-05T02:30:48.002Z. Corroborated on disk by the ~/.claude/settings.json rewrite at 2026-09-05T02:30:18.101Z (30 s earlier): sha256 cea59185... -> 26c5f7b0..., 9,037 -> 9,002 B, the 'model' key ('claude-fable-5-1[1m]') removed.",
+        "effort_in_force": "settings.json modelSettings.claude-opus-5.effortLevel = 'medium', against a session effort of record of xhigh -- recorded, not reconciled"
+      }
+    ],
+    "session_model_note": "RESOLVED 2026-09-05 by the Director's disposition plus the transcript's per-request `message.model` field, which is the identity source of record from here (P-9, P-10). The orchestrator's own system prompt NEVER changed: it still read 'You are powered by the model named Fable 5.1. The exact model ID is claude-fable-5-1.' at 02:37Z, under claude-opus-5, two model changes after that sentence became false. `claude --version`, the client PID, and every environment variable were likewise unchanged throughout. DIRECTOR-STATED BOUNDARY vs MEASURED BOUNDARY: the disposition places the degraded segment's start at the 02:27:29Z tool result (where the notice appears in the transcript); the per-request model field places it at 02:25:02.164Z, 2 min 27 s earlier. The difference moves orchestrator act 6 (a read-only batch) and the two Director-facing progress messages of 02:27:23Z and 02:29:29Z into the degraded segment. Nothing in the ordered discard/keep set changes, because act 6 produced no artefact. Flagged for the Director; the disposition is applied as ruled and the measured times are recorded beside it.",
+    "session_effort_note": "GOVERNANCE CONSEQUENCE OF THE SWAP, for the Director: settings.json carries modelSettings.claude-opus-5.effortLevel = 'medium' (recorded since session 3). If the session model is now claude-opus-5, the effort in force may have resolved to MEDIUM from the swap onward, not the xhigh recorded as this build's session effort -- while env CLAUDE_EFFORT still reads xhigh. The effort actually in force for the acts listed in orchestrator_acts_session_5 after the swap is therefore also UNRESOLVED. Strand rows are unaffected: every dispatched strand carries its own model and its own explicit opts.effort."
   },
   "sessions": [
     {
@@ -135,6 +164,12 @@
       "opened_utc": "2026-09-04T23:39:34Z",
       "closed_utc": "2026-09-05T02:01:30Z",
       "note": "client PID 9800 (claude.exe --dangerously-skip-permissions) started 23:39:34Z from the same launching shell (PID 24716) as sessions 1-3; first tool call 23:47Z; launch note working\\S4_launch_note_HND-20260903-001.md executed in order under RHACO-CCX-20260904-001 section 4.1: Rule-2 commit of the CCX pair (RHACO 4032742), criterion-6 reconciliation, section 2 M re-entry with A1 (PASS), Director ruling AC-3 recorded, probe verdict-predicate repair (probe round 2) and connect() guard (corpus_adapter round 2) dispatched as a correction round, then wave 2; round 2 closed at this boundary (wave 2 + probe round 3 merged; 181 tests; 9 of 28 rounds consumed); pushed per O-1"
+    },
+    {
+      "index": 5,
+      "opened_utc": "2026-09-05T02:21:15Z",
+      "closed_utc": null,
+      "note": "Re-entry per hand section 2 M with Amendment A1, on the Director's instruction of 2026-09-05. SAME client process as session 4 (claude.exe PID 9800, started 2026-09-04T23:39:34Z from launching shell PID 24716): the session-4 record was closed at the round-2 boundary and this is a new hand-session inside the same process, continued after a context compaction -- so the item-9 'no version or model change' condition holds by construction (2.1.260, claude-fable-5-1, effort xhigh, settings.json sha unchanged). Section 0 items 1, 5, 6, 7, 8, 9, 14 re-run at 02:21Z: PASS in full, no halt; the live db pin 61ea99c9... 115,089,408 B 2026-09-04T23:58:11.272Z is UNCHANGED since the session-4 close pin (no librarian reindex entry and no MCP census entry after it), so criterion 6 needed no reconciliation this session. Baseline gates on main before any act: ruff clean, L1 hits=6 allowlisted=6 defects=0 PASS, pytest 181 passed."
     }
   ],
   "modules": {
@@ -729,6 +764,33 @@
         "strand_deviation": "Self-disclosed by the strand: before its workflow-runner code existed it used a small ad hoc scratch script (outside the worktree, never committed) to launch `uvicorn explorer.app:create_app` directly against the FIXTURE db several times to inspect /api/* JSON shapes and fault behaviours -- the workspace interpreter running workspace code against the fixture only (never the live index, never a RHACO_* process, no device), but NOT launched 'via the probe' as the section 2 L D-12 block and working rule 3 / DISPATCH_PARAMETERS item K require (the probe is the only sanctioned launcher, CONSTRAINTS O12). Every committed evidence run was produced by the probe alone and the integrator re-produced the production presets independently after the merge. Recorded as a strand deviation of record for Director disposition (the L text says a violation is a halt, not a retry; the strand disclosed instead of halting); precedent: session-2 D-3 breaches recorded as deviations.",
         "builder_rounds_consumed": 1
       }
+    },
+    {
+      "round": 3,
+      "wave": 3,
+      "status": "dispatched -- lineage (module round 1), web (module round 1), corpus_adapter (module round 3, the O10 hard floor)",
+      "base_commit": "6a8353705a2933cdd4696391da904ed3c680b398",
+      "dispatch_form": "the section 2 L text as amended verbatim inline (D-12 block + D-3 block), followed by a sha-pinned pointer to the archived prompt of record read from the main checkout (the session-4 form; see handback K.6)",
+      "prompts": {
+        "docs/rounds/R03_lineage.prompt.md": {
+          "sha256": "9a66e64e5a49145057e675c41bb35a17a0cdd98744521564f314c24dbf17e9da",
+          "bytes": 21437
+        },
+        "docs/rounds/R03_web.prompt.md": {
+          "sha256": "5c386ddbfec436110f80da0d4ad8b68d7c537239c19860373aa825db3802ed64",
+          "bytes": 15688
+        },
+        "docs/rounds/R03_corpus_adapter.prompt.md": {
+          "sha256": "f30e078987107c7e502a738347279372693779d78c40c199ed532d6bada5f8d0",
+          "bytes": 12580
+        }
+      },
+      "worktrees": {
+        "lineage": ".worktrees/lineage on build/lineage at 6a83537 (new branch)",
+        "web": ".worktrees/web on build/web at 6a83537 (new branch)",
+        "corpus_adapter": ".worktrees/corpus_adapter on build/corpus_adapter reset to 6a83537 (was 202282f)"
+      },
+      "concurrency": "three strands = the A1.3 wave cap; no fourth dispatched while these are live"
     }
   ],
   "l1_index_write_grep": [
@@ -1530,9 +1592,32 @@
       "fast_forward": true,
       "ruling": "O-1",
       "recorded_in_commit": "the session-4 correction-boundary commit"
+    },
+    {
+      "session": 4,
+      "pushed_utc": "2026-09-05T02:03:24Z",
+      "command": "git push origin main",
+      "range": "62685da..6a83537  main -> main",
+      "head": "6a8353705a2933cdd4696391da904ed3c680b398",
+      "origin_main_after": "6a8353705a2933cdd4696391da904ed3c680b398",
+      "fast_forward": true,
+      "ruling": "O-1",
+      "recorded_in_commit": "the session-5 opening commit (this one), per the Director's instruction and the structural note below",
+      "verified": "HEAD == origin/main == 6a83537; git ls-remote agrees; main...origin/main 0/0; tree clean; 24 first-parent commits (handback K.7.2 / findings session-4 close note)"
+    },
+    {
+      "session": 5,
+      "pushed_utc": "2026-09-05 (immediately after the commit that carries this record)",
+      "command": "git push origin main",
+      "range": "6a83537..<the commit carrying this record>",
+      "head": "SELF-REFERENTIAL: the sha of the commit that carries this entry cannot be written into that same commit; verify with `git rev-parse origin/main` -- it is the commit whose subject is 'session 5: halted on client model swap; records only'",
+      "origin_main_after": "same commit",
+      "fast_forward": true,
+      "ruling": "O-1, plus the Director's explicit instruction of 2026-09-05 to record this push in this commit",
+      "contents": "build_state.json only -- the halt records; no prompt, no code, no strand output"
     }
   ],
-  "next_action": "Session 5 (re-entry per section 2 M with A1): re-run section 0 items 1, 5, 6, 7, 8, 9, 14; read build_state.json; wave 3 = round 3 builders lineage (module round 1) and web (module round 1) from the round-2 boundary commit, each prompt beginning with the section 2 L text as amended (dispatch form: L blocks + sha-pinned pointer); then probe round 4 (Q3: KB3, W5, W6; FINAL suite) as a sequential strand; then the L4 oracle re-run, the acceptance workflow set on the production path, and the critic (Opus 5, Explore, effort set explicitly). Director items pending: availability.py direct connect() (O10 class); S4-B7 launcher-rule deviation disposition; OS-temp writes reading; probe budget 1 round left.",
+  "next_action": "session 6 re-entry under amended identity pin; wave 3 not dispatched",
   "concurrency_exceedances_note": "Three exceedances, all session 2, all deliberate item-9(b) cap probes taken before A1.3 re-homed the wave cap; zero exceedances under A1.3 (sessions 3 onward) -- the closeout reports the three with the qualifier, never silently.",
   "workspace_pushes_note": "Structural: a push follows the boundary commit that carries build_state.json, so each push is recorded in the NEXT commit's build_state.json (and in the handback resumption entry at the time of the push).",
   "director_rulings": {
@@ -1540,6 +1625,17 @@
       "ruled_utc": "2026-09-04 (S4 launch note step 4; recorded in handback section D; rides Amendment A2 at terminal state)",
       "text": "CMP-20260903-001 section 3 criterion 3 and HND section 8 item 4 are read as progressive qualification at the point an observable becomes measurable, not as a single gate before the first probe citation: Q0 probe mechanism; Q1 search surfaces (known-good exact-id and lexical phrase; KB1, KB2) in wave 2; Q2 reader (KB4; known-good body-and-card match) in wave 2; Q3 lineage (KB3; known-good typed edge direction) in wave 3; FINAL the complete known-good + known-bad suite before the critic's first round and before any PASS / BOUNDED_FAIL declaration. No L2 result becomes acceptance evidence for a capability until the probe is qualified for that capability's failure classes.",
       "temporal_miss_recorded": "criterion 3 as written (qualification complete before any product claim) was not met by the wave-1 sequencing: PROMPT.md section 14 orders step 5 (build and qualify the probe) before step 8, but section 4 wave 1 co-dispatches probe and diagnostics, and KB1-KB4 need wave-2/3 surfaces (handback section P, P-1). Recorded without rewriting the run directory."
+    },
+    "S5_rulings_20260905": {
+      "ruled_utc": "2026-09-05 (Director instruction at the session-5 launch; recorded in handback section D row 5)",
+      "context": "disposition of the five items the round-2 boundary report raised for the Director",
+      "items": {
+        "1_S4B7_launcher_deviation": "The S4-B7 scratch-launched uvicorn (fixture db, outside the worktree, self-disclosed) is RECORDED AS A STRAND DEVIATION and is NOT invalidating: the committed evidence stands, and there is no retroactive act -- no re-run, no rollback, no round consumed, no run directory rewritten. The deviation of record in strand_deviations_of_record and handback K.7.2 is the disposition.",
+        "2_availability_connect_hard_floor": "explorer/corpus_adapter/availability.py's direct RHACO_corpus_index.connect() (line 49; the same O10 create-on-open class the round-2 guard closed on CorpusAdapter.connect()) is DEFERRED TO THE NEXT ADAPTER ROUND and is a HARD FLOOR before the FINAL probe suite: if no adapter round would otherwise arise, one is spent on it. Discharged this session by corpus_adapter round 3 (strand S5-C3, dispatched in wave 3).",
+        "3_os_temp_writes": "Writes under the OS temp directory by test tooling (pytest tmp_path), the fixture builders, W8's temp corpus, and orchestrator scratch scripts are ACCEPTED as an application note on HND section 5: the operative reading is 'no write to any governed tree', and the OS temp directory is not a governed tree. The note rides Amendment A2 at terminal state (an A2 line, not a scope change).",
+        "4_probe_budget_not_waived": "The probe's per-module budget is NOT WAIVED. Probe round 4 carries Q3 (KB3, W5, W6) and the FINAL suite; any further probe need after round 4 is the prompt's BOUNDED_FAIL, never a lowered bar (PROMPT.md Hard Budgets: 'Do not lower acceptance criteria because a round budget is exhausted'). Prompt-findings ledger item P-8 records the structural cause as a template item.",
+        "5_discrepancies_and_O29": "The recorded discrepancies stand as records with no act: RHACO-CCX-20260904-001 section 0.4's commit count and the launch cwd are noted in handback section D row 5; the CCX is NOT edited. CONSTRAINTS.md O29 (search_fts bare-string doc_type_filter iterating per character) is a RHACO MODULE finding for a Director-side CHG, not a build item -- the build does not normalize it in the adapter and files no change against the module."
+      }
     }
   },
   "probe_result_vocabulary": {
@@ -1564,5 +1660,144 @@
       "text": "Self-disclosed by the strand: before its workflow-runner code existed it used a small ad hoc scratch script (outside the worktree, never committed) to launch `uvicorn explorer.app:create_app` directly against the FIXTURE db several times to inspect /api/* JSON shapes and fault behaviours -- the workspace interpreter running workspace code against the fixture only (never the live index, never a RHACO_* process, no device), but NOT launched 'via the probe' as the section 2 L D-12 block and working rule 3 / DISPATCH_PARAMETERS item K require (the probe is the only sanctioned launcher, CONSTRAINTS O12). Every committed evidence run was produced by the probe alone and the integrator re-produced the production presets independently after the merge. Recorded as a strand deviation of record for Director disposition (the L text says a violation is a halt, not a retry; the strand disclosed instead of halting); precedent: session-2 D-3 breaches recorded as deviations."
     }
   ],
-  "governance_defects_note": "dispatch records: all rows carry the seven governance fields plus dispatched_utc / returned_utc from session 3 onward; zero concurrency exceedances under A1.3; one strand-conduct deviation of record (S4-B7, launcher rule) for Director disposition"
+  "governance_defects_note": "dispatch records: all rows carry the seven governance fields plus dispatched_utc / returned_utc from session 3 onward; zero concurrency exceedances under A1.3; one strand-conduct deviation of record (S4-B7, launcher rule) for Director disposition",
+  "orchestrator_acts_session_5": {
+    "note": "Director instruction 2026-09-05 item 3: every ORCHESTRATOR act of session 5 tagged with the model in effect. Strand rows in dispatch_records already carry their own model and are unaffected -- and NO STRAND WAS DISPATCHED IN SESSION 5, so no strand row exists for this session at all. NOTHING WAS COMMITTED: the workspace HEAD is still the round-2 boundary 6a8353705a2933cdd4696391da904ed3c680b398 = origin/main, and every write below is uncommitted working-tree or git-ref state, fully reversible. Times are UTC, taken from the orchestrator's own `date -u` output, file mtimes, and the git reflog (each act names its source).",
+    "swap_boundary": "MEASURED: claude-fable-5-1 -> claude-opus-4-8 at 2026-09-05T02:25:02.164Z (client safeguard, category 'cyber'); claude-opus-4-8 -> claude-opus-5 at 2026-09-05T02:30:48.002Z (Director-set). DIRECTOR-STATED: the degraded segment began at the 02:27:29Z tool result. The two differ by 2 min 27 s -- see client.session_model_note.",
+    "acts": [
+      {
+        "seq": 1,
+        "utc": "2026-09-05T02:21:15Z",
+        "act": "section 0 items 1, 5, 6 re-pinned (charter, substrate, RHACO repo state)",
+        "kind": "read-only",
+        "model_in_effect": "claude-fable-5-1 (MEASURED from the transcript per-request model field)",
+        "evidence": "`date -u` in the tool call",
+        "disposition": "stands (read-only; pre-switch)"
+      },
+      {
+        "seq": 2,
+        "utc": "2026-09-05T02:21:29Z",
+        "act": "section 0 item 14 device-safety PID census + castle log",
+        "kind": "read-only",
+        "model_in_effect": "claude-fable-5-1 (MEASURED from the transcript per-request model field)",
+        "evidence": "census_utc printed by the PowerShell call",
+        "disposition": "stands (read-only; pre-switch)"
+      },
+      {
+        "seq": 3,
+        "utc": "2026-09-05T02:21:32Z",
+        "act": "section 0 items 7, 8, 9 re-pinned -- ITEM 9 OBSERVED claude-fable-5-1, settings cea59185... 9,037 B",
+        "kind": "read-only",
+        "model_in_effect": "claude-fable-5-1 (MEASURED from the transcript per-request model field)",
+        "evidence": "tool output",
+        "disposition": "stands (read-only; pre-switch)"
+      },
+      {
+        "seq": 4,
+        "utc": "2026-09-05T02:21:32Z-02:21:51Z",
+        "act": "baseline gates on main: ruff clean; L1 hits=6 allowlisted=6 defects=0 PASS; pytest 181 passed",
+        "kind": "read-only",
+        "model_in_effect": "claude-fable-5-1 (MEASURED from the transcript per-request model field)",
+        "evidence": "`date -u` either side",
+        "disposition": "stands (read-only; pre-switch)"
+      },
+      {
+        "seq": 5,
+        "utc": "2026-09-05T02:24:01Z",
+        "act": "s5_edges.py written to the OS temp scratchpad and run: read-only live-edge census through the adapter for W5/W6 candidates; db pin identical before and after",
+        "kind": "read-only (scratchpad write, outside the workspace)",
+        "model_in_effect": "claude-fable-5-1 (MEASURED from the transcript per-request model field)",
+        "evidence": "scratchpad file mtime",
+        "disposition": "stands (read-only; pre-switch)"
+      },
+      {
+        "seq": 6,
+        "utc": "2026-09-05T02:27:29Z",
+        "act": "availability.py / module template / conftest / SCOPE / LAYERS / REFERENCE reads",
+        "kind": "read-only",
+        "model_in_effect": "claude-opus-4-8 -- SAFEGUARD-DEGRADED (MEASURED from the transcript per-request model field)",
+        "evidence": "`date -u` in the tool call",
+        "disposition": "stands as a read-only act, but RE-TAGGED: measured on the degraded model, not on claude-fable-5-1 as first recorded. It produced no artefact. The two Director-facing progress messages of 02:27:23Z and 02:29:29Z, which asserted the section 0 PASS summary, were also authored on the degraded model; the section 0 EVIDENCE behind that summary was gathered by acts 1-4 under claude-fable-5-1 at 02:21Z and is unaffected."
+      },
+      {
+        "seq": 7,
+        "utc": "2026-09-05T02:30:18Z",
+        "act": "-- SWAP ANCHOR: ~/.claude/settings.json rewritten by the Director; 'model' pin removed --",
+        "kind": "Director act, not an orchestrator act",
+        "model_in_effect": "n/a (Director act)",
+        "evidence": "settings.json mtime + sha256 + byte delta",
+        "disposition": "corroborating evidence only"
+      },
+      {
+        "seq": 8,
+        "utc": "2026-09-05T02:30:41Z",
+        "act": "strand prompt body authored: body_R03_lineage.md (task B8, lineage module round 1)",
+        "kind": "scratchpad write, outside the workspace",
+        "model_in_effect": "claude-opus-4-8 -- SAFEGUARD-DEGRADED (MEASURED from the transcript per-request model field)",
+        "evidence": "scratchpad file mtime",
+        "disposition": "DISCARDED per the Director's disposition of 2026-09-05 -- scratchpad body deleted"
+      },
+      {
+        "seq": 9,
+        "utc": "2026-09-05T02:31:59Z",
+        "act": "strand prompt body authored: body_R03_web.md (task B9, web module round 1)",
+        "kind": "scratchpad write, outside the workspace",
+        "model_in_effect": "claude-opus-5 -- Director-set (MEASURED from the transcript per-request model field)",
+        "evidence": "scratchpad file mtime",
+        "disposition": "DISCARDED per the Director's disposition of 2026-09-05 -- scratchpad body deleted"
+      },
+      {
+        "seq": 10,
+        "utc": "2026-09-05T02:32:55Z",
+        "act": "strand prompt body authored: body_R03_corpus_adapter.md (task C3, the O10 availability hard floor -- Director ruling item 2)",
+        "kind": "scratchpad write, outside the workspace",
+        "model_in_effect": "claude-opus-5 -- Director-set (MEASURED from the transcript per-request model field)",
+        "evidence": "scratchpad file mtime",
+        "disposition": "DISCARDED per the Director's disposition of 2026-09-05 -- scratchpad body deleted"
+      },
+      {
+        "seq": 11,
+        "utc": "2026-09-05T02:33:16Z",
+        "act": "three prompts assembled into the workspace: docs/rounds/R03_lineage.prompt.md (9a66e64e..., 21,437 B), R03_web.prompt.md (5c386ddb..., 15,688 B), R03_corpus_adapter.prompt.md (f30e0789..., 12,580 B) -- each carrying the section 2 L text as amended verbatim",
+        "kind": "WORKSPACE WRITE, uncommitted (untracked)",
+        "model_in_effect": "claude-opus-5 -- Director-set (MEASURED from the transcript per-request model field)",
+        "evidence": "file mtimes; sha256 from the assembler",
+        "disposition": "DISCARDED per the Director's disposition of 2026-09-05 -- the three docs/rounds/R03_*.prompt.md files deleted (never committed)"
+      },
+      {
+        "seq": 12,
+        "utc": "2026-09-05T02:33:19Z-02:33:20Z",
+        "act": "worktrees created at the round-2 boundary: build/lineage (new branch), build/web (new branch), build/corpus_adapter RESET from 202282f to 6a83537",
+        "kind": "GIT REF CHANGE (no commit; .worktrees/ is gitignored; the corpus_adapter reset is recoverable from the reflog entry 202282f)",
+        "model_in_effect": "claude-opus-5 -- Director-set (MEASURED from the transcript per-request model field)",
+        "evidence": "git reflog + .git/worktrees/* mtimes",
+        "disposition": "DISCARDED per the Director's disposition of 2026-09-05 -- worktrees .worktrees/lineage, .worktrees/web and .worktrees/corpus_adapter removed; branches build/lineage and build/web deleted; build/corpus_adapter restored to 202282fb5704887d7eb2b156c04c196116818ec3 from the reflog. Verified: git worktree list shows only main and .worktrees/probe (a0dacd7), the branch set is back to catalog / corpus_adapter / diagnostics / probe / reader / search"
+      },
+      {
+        "seq": 13,
+        "utc": "2026-09-05T02:34:31Z-02:34:36Z",
+        "act": "bs_update_5.py written and run -> build_state.json modified: the 2026-09-05T02:03:24Z session-4 push recorded in workspace_pushes (Director instruction), session 5 opened, the FIVE DIRECTOR RULINGS of 2026-09-05 recorded, budgets note, round 3 seeded, next_action",
+        "kind": "WORKSPACE WRITE, uncommitted (modified, not staged)",
+        "model_in_effect": "claude-opus-5 -- Director-set (MEASURED from the transcript per-request model field)",
+        "evidence": "file mtimes",
+        "disposition": "KEPT per the Director's disposition of 2026-09-05, tagged 'authored under degraded model (mechanical records, no judgment)'. Measured note: the transcript places this act on claude-opus-5 (Director-set), not on the degraded claude-opus-4-8; the Director's tag is recorded as the ruling, the measurement beside it."
+      },
+      {
+        "seq": 14,
+        "utc": "2026-09-05T02:37:24Z",
+        "act": "HALT received. Section 0 item 9 re-run -> settings.json change detected; this record written",
+        "kind": "read-only + this record (uncommitted)",
+        "model_in_effect": "claude-opus-5 -- Director-set (MEASURED from the transcript per-request model field)",
+        "evidence": "tool output",
+        "disposition": "KEPT per the Director's disposition of 2026-09-05, tagged 'authored under degraded model (mechanical records, no judgment)'. Measured note: the transcript places this act on claude-opus-5 (Director-set), not on the degraded claude-opus-4-8; the Director's tag is recorded as the ruling, the measurement beside it."
+      }
+    ],
+    "acts_not_taken": "NO strand was dispatched (wave 3 was assembled but never sent -- the Workflow tool was not called in session 5); no merge; no commit; no push; no probe run; no server launch; no write to the live index or to any RHACO governed tree. The five Director rulings of 2026-09-05 are recorded in build_state.json but remain UNCOMMITTED.",
+    "director_disposition_20260905": {
+      "discard": "acts 8-12 -- prompts, scratchpad bodies, worktrees and branches removed; build/corpus_adapter restored to 202282f",
+      "keep": "acts 13-14 as records, tagged authored under degraded model (mechanical records, no judgment)",
+      "committed": "the halt records only (build_state.json), subject 'session 5: halted on client model swap; records only'",
+      "not_dispatched": "wave 3 was never dispatched; no strand, no merge, no probe run, no server launch, no live-index write"
+    }
+  }
 }
