@@ -10,7 +10,11 @@
 - worktree: `C:\highsierralabs\RHACO_Corpus_Explorer\.worktrees\corpus_adapter`
 - branch: `build/corpus_adapter`
 - base commit: `62685dad6f40f91c6b1b84500a213f0a43ea8673` (main at the round-1 boundary)
-- head commit: `6a17c194f910dabcbe1cf4692b879e12dc4b6f8c`
+- code+tests commit the Evidence section's gate runs were taken against:
+  `6a17c194f910dabcbe1cf4692b879e12dc4b6f8c` (one commit before this report
+  file was added; the final `git rev-parse HEAD` including this report
+  commit is reported in the StructuredOutput return, not pinned here to
+  avoid this file citing its own not-yet-computed commit hash)
 - dispatch: RHACO-HND-20260903-001 section 2 I as amended by A1.3; task C2
   (ARCHITECTURE.md section 4.1, decision record A9); corpus_adapter module
   round 2 of 4
