@@ -29,10 +29,10 @@
       "LIBRARIAN_VERSION": "1.19"
     },
     "corpus_index.db": {
-      "sha256": "61ea99c98b3b26922e7dd306ff0dd06944f662cc57dc0044dc9c6dbbffd7a0c0",
-      "bytes": 115089408,
-      "mtime_utc": "2026-09-04T23:58:11.272Z",
-      "explained_by": "closeout gate librarian member full reindex at the session-4 Rule-2 commit of the CCX pair (RHACO 4032742): docs/logs/catalog_librarian_validation.log 2026-09-04 16:58:11,284 local -- 'corpus index reindexed: 1443 cards, 2253 programs, 14735 tags, corpus_cards_sha=9d36e8973132, 16.895s'; one 4,096-B page smaller than before",
+      "sha256": "ea8f7df2238a2643e664ced4619912984a6e506d4192e75c4035a407b5e262c7",
+      "bytes": 115081216,
+      "mtime_utc": "2026-09-05T14:05:55.07Z",
+      "explained_by": "closeout gate librarian member full reindex at the session-7 Rule-2 push of the CCX-20260905-001 pair (RHACO fb81f3f), run twice: docs/logs/catalog_librarian_validation.log 2026-09-05 07:02:54,019 local -- 'corpus index reindexed: 1444 cards, 2255 programs, 14745 tags, corpus_cards_sha=bf0d0a53ebf3, 11.330s' and 07:05:55,085 local (same sha, 4.428s); index_meta.last_full_reindex_utc 2026-09-05T14:05:50.644428+00:00; two 4,096-B pages smaller than the pair-write state. Verified read-only through a sqlite3 mode=ro URI, db sha unchanged before/after. OPEN PIN for the build from the session-8 re-entry. authored session 7 under claude-fable-5-1, identity halt open -- session-5 precedent: mechanical records, no judgment",
       "reconciliation_sources": [
         "docs/logs/catalog_librarian_validation.log -- 'corpus index reindexed' entries (librarian runs, including the closeout gate's librarian member)",
         "docs/logs/mcp_validate.log (and its dated rotations mcp_validate.log.YYYY-MM-DD) -- 'MCP census summary' entries (chat-side MCP observatory server pair writes and read-only censuses)"
@@ -59,6 +59,24 @@
             "2026-09-04T23:15:08Z (mcp_validate.log line 2, cards=1443) -- the launch note's 23:14:59Z read-only validate_catalog census, summary logged 9 s after invocation; db mtime unchanged"
           ],
           "held_through": "session-4 P1 pre-commit census 23:52:39Z (--no-reindex; pin unchanged) and the module-connect() read at 23:49Z"
+        },
+        {
+          "sha256": "61ea99c98b3b26922e7dd306ff0dd06944f662cc57dc0044dc9c6dbbffd7a0c0",
+          "bytes": 115089408,
+          "mtime_utc": "2026-09-04T23:58:11.272Z",
+          "explained_by": "closeout gate librarian member full reindex at the session-4 Rule-2 commit of the CCX pair (RHACO 4032742): docs/logs/catalog_librarian_validation.log 2026-09-04 16:58:11,284 local -- 'corpus index reindexed: 1443 cards, 2253 programs, 14735 tags, corpus_cards_sha=9d36e8973132, 16.895s'; one 4,096-B page smaller than before",
+          "held_through": "session 5 and 6 (unchanged through every workspace gate and the 12-preset acceptance set); superseded 2026-09-05T05:58:37Z by the chat-side MCP pair write of RHACO-CCX-20260905-001"
+        },
+        {
+          "sha256": "53a48901... (first 8 hex as observed at the session-7 launch, 2026-09-05T14:00:42Z; full value not captured before the gate reindex)",
+          "bytes": 115089408,
+          "mtime_utc": "2026-09-05T05:58:37Z",
+          "explained_by": "chat-side MCP pair write of RHACO-CCX-20260905-001: cards row card_mtime_utc 2026-09-05T05:58:28.555057Z, corpus_card_count 1443 -> 1444, one fts_docs row -- docs/logs/mcp_validate.log.2026-09-04 (rotated) line 3: 2026-09-04 22:56:21,702 local (05:56:21Z) MCP census summary cards=1443 (pre-write census); line 4: 22:58:48,534 local (05:58:48Z) cards=1444 (post-write census, 11 s after the row)",
+          "read_only_censuses_after": [
+            "2026-09-05T13:25:45Z (live mcp_validate.log line 1, cards=1444) -- the chat-side 13:25:27Z census; db mtime unchanged, so census only",
+            "2026-09-05T13:46:49Z (catalog_librarian_validation.log validate-only, crashed session-7 pre-commit census) -- no reindex; the crashed session's 13:49:00Z gate was killed by the client crash before its librarian member reindexed (db mtime still 05:58:37Z at 14:00:42Z)"
+          ],
+          "held_through": "session-7 open, 2026-09-05T14:00:42Z; superseded by the session-7 gate librarian member reindex at 14:02:54Z / 14:05:55Z"
         }
       ]
     },
@@ -145,6 +163,16 @@
         "cause": "Director ruling MOD-1: the orchestrator identity pin of record is amended to claude-opus-5[1m] / xhigh from session 6",
         "evidence": "NEW client process: claude.exe PID 26148 started 2026-09-05T03:09:23Z from the same launching shell 24716 (PID 9800, the session 1-5 process, is gone). settings.json rewritten 2026-09-05T03:02:08Z: sha256 26c5f7b0... -> 831dbfb904fe306d37e23ae31fc0811e18e6527bb4a043c74b36ba9d8c8fc48e, 9,002 -> 9,097 B, model = 'claude-opus-5[1m]' (explicitly pinned again, having been absent since 02:30:18Z). The orchestrator's system prompt now reads verbatim: 'You are powered by the model named Opus 5 (1M context). The exact model ID is claude-opus-5[1m].' -- CORRECT this time, because the client process restarted and the system prompt was regenerated with it. This refines P-9/P-10: the system prompt IS regenerated at a client restart; it is not regenerated on a mid-session swap, which is the whole of the blind spot.",
         "effort_in_force": "xhigh"
+      },
+      {
+        "seq": 5,
+        "model": "claude-fable-5-1",
+        "from_utc": "2026-09-05T13:25:31Z (crashed session-7 attempt, transcript fde11754..., 68/68 per-request message.model fields; Rule-2 commit fb81f3f at 13:48:26Z; client crashed 13:49:01Z before the push) and 2026-09-05T13:51:18Z (this session, transcript 318cf70c..., 48/48 per-request fields at the halt report)",
+        "to_utc": null,
+        "cause": "DIRECTOR ACT: ~/.claude/settings.json rewritten 2026-09-05T06:02Z with model = 'claude-fable-5-1[1m]' (sha256 70c8f58a5918ea4134df6af88ab9fcd923320e379bfcf718be5a795ead10f542, 9,100 B; the MOD-1 pinned file was 831dbfb9... 9,097 B). Not pre-dispositioned at the session-7 launch (the launch instruction named MOD-1) -> HND section 2 M / section 0 item 9 HALT at re-entry; CMP-20260903-001 section 6 REVIEW trigger, second firing. Director disposition 2026-09-05: (1) Option A -- MOD-1 (claude-opus-5[1m] / xhigh) REMAINS the identity of record; (2) the rewrite is recorded as a Director act, no ledger row. Director act 2026-09-05T14:36:20Z (this session, after the halt report): settings.json model RESTORED to 'claude-opus-5[1m]' -- re-hashed 14:49:39Z sha256 06f37244dda720a925b1a237d04a30a172b11444713a792de6d25d4e153cd279, 9,097 B; the MOD-1 settings pin of record from session 8, superseding 831dbfb9...; effective at the client restart -- the running session-7 process stays claude-fable-5-1. Both rewrites (06:02Z to Fable, 14:36Z back) were Director acts.",
+        "evidence": "system prompt 'You are powered by the model named Fable 5.1. The exact model ID is claude-fable-5-1.'; per-request message.model = claude-fable-5-1 for every assistant message of both session-7 transcripts; claude --version 2.1.260; caps SPAWN_DEPTH=1 / MAX_CONCURRENT_SUBAGENTS=3 present; effort xhigh from env CLAUDE_EFFORT and settings effortLevel (no modelSettings entry for the Fable id, so the global governs); /effort ultracode (xhigh + workflow orchestration) set this session -- no workflow run, no strand dispatched under the halt. Handback D row 7.",
+        "effort_in_force": "xhigh",
+        "authored": "authored session 7 under claude-fable-5-1, identity halt open -- session-5 precedent: mechanical records, no judgment"
       }
     ],
     "session_model_note": "RESOLVED 2026-09-05 by the Director's disposition plus the transcript's per-request `message.model` field, which is the identity source of record from here (P-9, P-10). The orchestrator's own system prompt NEVER changed: it still read 'You are powered by the model named Fable 5.1. The exact model ID is claude-fable-5-1.' at 02:37Z, under claude-opus-5, two model changes after that sentence became false. `claude --version`, the client PID, and every environment variable were likewise unchanged throughout. DIRECTOR-STATED BOUNDARY vs MEASURED BOUNDARY: the disposition places the degraded segment's start at the 02:27:29Z tool result (where the notice appears in the transcript); the per-request model field places it at 02:25:02.164Z, 2 min 27 s earlier. The difference moves orchestrator act 6 (a read-only batch) and the two Director-facing progress messages of 02:27:23Z and 02:29:29Z into the degraded segment. Nothing in the ordered discard/keep set changes, because act 6 produced no artefact. Flagged for the Director; the disposition is applied as ruled and the measured times are recorded beside it.",
@@ -154,7 +182,18 @@
       "effort": "xhigh",
       "since": "session 6 (2026-09-05T03:09:23Z)",
       "ruling": "MOD-1",
-      "prior_pin": "claude-fable-5-1 / xhigh (sessions 1-5)"
+      "prior_pin": "claude-fable-5-1 / xhigh (sessions 1-5)",
+      "reaffirmed": "2026-09-05 Director disposition (session 7): Option A -- MOD-1 remains the identity of record; the session-7 orchestrator (claude-fable-5-1) wrote mechanical records only and halted",
+      "settings_pin_of_record": {
+        "file": "~/.claude/settings.json",
+        "sha256": "06f37244dda720a925b1a237d04a30a172b11444713a792de6d25d4e153cd279",
+        "bytes": 9097,
+        "mtime_utc": "2026-09-05T14:36:20Z",
+        "model_key": "claude-opus-5[1m]",
+        "effort_keys": "effortLevel xhigh; modelSettings claude-opus-5 xhigh and claude-opus-5[1m] xhigh; switchModelsOnFlag false",
+        "supersedes": "831dbfb904fe306d37e23ae31fc0811e18e6527bb4a043c74b36ba9d8c8fc48e (9,097 B, 2026-09-05T03:02:08Z, MOD-1 at session 6)",
+        "recorded": "session 7: Director act 14:36:20Z (restore), re-hashed by Code 14:49:39Z; effective at the client restart after the session-7 close report. authored session 7 under claude-fable-5-1, identity halt open -- session-5 precedent: mechanical records, no judgment"
+      }
     },
     "effort_source_measurement_20260905": {
       "finding": "CLAUDE_EFFORT is NOT a launching-shell environment variable competing with settings.json. It is injected by the client into the BASH tool shell only. Measured 2026-09-05T03:5xZ: the Bash tool shell sees 12 CLAUDE* variables including CLAUDE_EFFORT=xhigh and CLAUDE_CODE_EXECPATH; the PowerShell tool shell, spawned by the SAME client process 26148 (parent chain 30204 -> 26148 -> 24716), sees only 10 and has neither. Child processes of each shell inherit that shell view (a venv python under Bash reports xhigh; under PowerShell it reports None). AI_AGENT is present in both, so this is not a general environment difference but a per-tool injection of those two variables.",
@@ -206,6 +245,12 @@
       "opened_utc": "2026-09-05T03:10:50Z",
       "closed_utc": null,
       "note": "Re-entry per hand section 2 M with Amendment A1 (sha 167771c7... 9,698 B, re-verified). NEW client process 26148 (started 03:09:23Z from launching shell 24716); the session 1-5 process 9800 is gone. Section 0 items 1, 5, 6, 7, 8, 14 PASS unchanged; item 9 shows the model change claude-fable-5-1 -> claude-opus-5[1m], PRE-DISPOSITIONED by Director ruling MOD-1 and therefore NOT a halt. Live db pin 61ea99c9... 115,089,408 B 2026-09-04T23:58:11.272Z UNCHANGED since the session-4 close, so criterion 6 needed no reconciliation. Baseline gates on main (f25ca27): ruff clean, L1 hits=6 allowlisted=6 defects=0 PASS, pytest 181 passed. Wave 3 re-authored fresh and dispatched from the round-2 boundary 6a83537."
+    },
+    {
+      "index": 7,
+      "opened_utc": "2026-09-05T13:51:18Z",
+      "closed_utc": "2026-09-05T14:51:03Z (halt; records commit; D row 7 is the closing entry)",
+      "note": "Re-entry per hand section 2 M with Amendment A1, launched per CCX-20260904-001 section 4.1 steps 1-5 (fresh shell, caps present, 2.1.260, --dangerously-skip-permissions). A prior session-7 attempt (13:25:31Z-13:49:01Z, same model) made the Rule-2 commit fb81f3f of the CCX-20260905-001 pair and crashed before pushing. This session: pushed fb81f3f (14:14:32Z, gate red attribution-closed: regression delta 0 = INC-20260829-001 / INC-20260830-001; auditor +1 = the CCX's own CMP-20260815-002 M3 forward reference); criterion 6 reconciled (live db 61ea99c9 -> 53a48901 at 05:58:37Z = chat-side MCP pair write of the CCX, rotated mcp_validate.log.2026-09-04 lines 3-4; -> ea8f7df2... 115,081,216 B 14:05:55Z = this session's gate librarian member full reindex, logged 07:02:54 / 07:05:55 local); 1449-vs-1443 reconciled (6 cards in docs\\docs_archive\\, a DENY_DIR); section 0 items 1, 5, 6, 7, 8, 14 PASS unchanged. ITEM 9 FAILED: orchestrator claude-fable-5-1 vs the MOD-1 pin claude-opus-5[1m] (settings.json rewritten 06:02Z by the Director; not pre-dispositioned) -> HALT; no strand dispatched, no workflow run, no SA-3 edit, no convergence step. Director dispositions 2026-09-05: Option A (MOD-1 retained); the 06:02Z settings rewrite = Director act, no ledger row; settings.json model restored to claude-opus-5[1m] this session (Director act 14:36:20Z; re-hashed 14:49:39Z sha256 06f37244... 9,097 B = the MOD-1 settings pin of record, supersedes 831dbfb9...; effective at the client restart); drafted records written as-is under the halted identity (handback D row 7, L.1-L.4, P-16, P-17, P-18; this file); workspace records committed, NOT pushed (39 ahead of origin/main f25ca27 after this commit; the session-6 boundary O-1 push never happened). Findings of record at open: build_state next_action stale (named critic round 1); dispatch_records lack reader round 2 and critic S6-CR1; budgets 12 of 28 exclude reader round 2 (13); sessions 5/6 closed_utc null; lineage round 2 / adapter round 4 NOT dispatched (no R07/R08 prompt; build/lineage 386afba, build/corpus_adapter 7c1e9f4 at 0 ahead of c861680) -- reconciliation of these is convergence step (4) for the pinned orchestrator, untouched here. authored session 7 under claude-fable-5-1, identity halt open -- session-5 precedent: mechanical records, no judgment"
     }
   ],
   "modules": {
@@ -1804,7 +1849,7 @@
       "contents": "build_state.json only -- the halt records; no prompt, no code, no strand output"
     }
   ],
-  "next_action": "Objective gates all pass and the acceptance set is refreshed. Next: CRITIC round 1 (Opus 5, Explore, read-only, effort set explicitly per section 2 I; writes nothing -- the integrator files the report under docs/critique/). Then, at the first docs/critique/ report, open working\\sealed_audit_HND-20260903-001_S4.md and execute its 'On release' section (the ChatGPT Pattern-3 file stays sealed until then). ONLY AFTER critic round 1: the single batched corpus_adapter round 4 carrying the critic's adapter findings plus the deferred amends-link CR, per the boundary-3 HOLD; whatever does not fit is BOUNDED_FAIL on the record. Push at the session boundary per O-1.",
+  "next_action": "SESSION 7 HALTED at hand section 2 M item 9 (orchestrator claude-fable-5-1 vs the MOD-1 pin claude-opus-5[1m]); records only, committed, NOT pushed. Session 8: ~/.claude/settings.json model already restored to claude-opus-5[1m] (Director act 2026-09-05T14:36:20Z; settings pin of record sha256 06f37244... 9,097 B, supersedes 831dbfb9...); the Director restarts the client after the session-7 close report; re-enter per section 2 M with A1 (items 1, 5, 6, 7, 8, 9 -- expect claude-opus-5[1m] / xhigh and settings sha 06f37244... -- and 14; live db open pin ea8f7df2... 115,081,216 B 2026-09-05T14:05:55Z). Then the CCX-20260905-001 section 4 convergence sequence from step (1): lineage round 2 + the batched adapter round 4 (SA-1 -> SA-2 -> amends click-through; per item landed | not landed; unlanded = BOUNDED_FAIL) concurrently, 2 under the cap of 3; SA-3 = (b) integrator text edit -- ARCHITECTURE 4.1 + the corpus_adapter package docstring enumerate the three licensed importers (adapter.py, diagnostics/service.py O17, fixtures/build_fixture_index.py O3); SA-4's L1 boundary check asserts that set within explorer/** + fixtures/** with the instrument importers under preflight/, tests/, tools/ scoped out or allowlisted (handback L.3); the diagnostics sys.path.insert(0) vs S2 append is a separate code item. (2) search round 2 removes the bare 0.700 from the search page and SCOPE row 16 is corrected; (3) integrator L4 direction oracle; (4) build_state.json reconciliation of every critic-listed overstatement (dispatch records for reader round 2 and critic S6-CR1, budgets 12 -> 13 with reader 1 -> 2, sessions 5/6 closed_utc, rounds beyond 2); (5) acceptance set re-run; (6) critic round 2 (ref_score >= 8.5 or the prompt's 2-round convergence rule, no third-round drift); (7) terminal state per PROMPT.md section 12, declared honestly (W5 tautology and any unlanded adapter item = BOUNDED_FAIL); (8) section 2 N closeout obligations; (9) push per O-1 -- workspace main is 39 commits ahead of origin/main f25ca27 after the session-7 records commit; the session-6 boundary push never happened.",
   "concurrency_exceedances_note": "Three exceedances, all session 2, all deliberate item-9(b) cap probes taken before A1.3 re-homed the wave cap; zero exceedances under A1.3 (sessions 3 onward) -- the closeout reports the three with the qualifier, never silently.",
   "workspace_pushes_note": "Structural: a push follows the boundary commit that carries build_state.json, so each push is recorded in the NEXT commit's build_state.json (and in the handback resumption entry at the time of the push).",
   "director_rulings": {
@@ -1852,6 +1897,20 @@
         "4_rhaco_side": "Whether Card Schema v1.9 requires quoted dates (making 872 cards nonconformant and the librarian silently tolerant -- a warning-class candidate) or permits bare dates (making type normalisation mandatory for every reader) is a docs-tail CHG question against the schema and the librarian, NOT a build item. The build handles the corpus as it is. Added to the RHACO-side findings list beside O29.",
         "5_criterion_3": "Probe round 4 closed with all five KB classes on the ledger and no fifth round needed; the L4 gold re-run reproduces 40/40, 0.675, SCOPE. Criterion 3 is satisfiable for the first time -- recorded in handback section D."
       }
+    },
+    "S7_dispositions_20260905": {
+      "ruled_utc": "2026-09-05 (Director dispositions on the session-7 halt report; recorded in handback section D row 7)",
+      "context": "session 7 halted at section 2 M item 9: orchestrator claude-fable-5-1 vs the MOD-1 pin claude-opus-5[1m]; P-16 / P-17 absent from the build record; workspace unpushed since session 5",
+      "items": {
+        "1_option_a_mod1_retained": "Option A ratified: MOD-1 (claude-opus-5[1m] / xhigh) remains the identity of record. Session 8 re-enters after the Director restores ~/.claude/settings.json model = claude-opus-5[1m] (settings sha re-pinned).",
+        "2_settings_rewrite_director_act": "The ~/.claude/settings.json rewrite at 2026-09-05T06:02Z (sha 70c8f58a...) was a Director act; recorded in D row 7 as such -- no ledger row.",
+        "3_records_written_as_is": "The drafted records in working\\S7_halt_records_DRAFT_HND-20260903-001.md are written into the handback and build_state.json as-is, each tagged 'authored session 7 under claude-fable-5-1, identity halt open (session-5 precedent: mechanical records, no judgment)'. P-16 / P-17 carry source: Director ruling 05:36:52Z (transcript); orchestrator numbering 05:41:54Z; written S7.",
+        "4_p18_governance_row": "A section P governance row (P-18) for the CCX-20260905-001 section 4 error 'dispatched-or-about-to-be' (lineage round 2 / adapter round 4 were never dispatched; P-6 class).",
+        "5_workspace_commit_no_push": "Commit the workspace records (build_state.json only); do not push yet.",
+        "6_close": "Close the session with a D row 7 halt entry and stop.",
+        "7_settings_restored_repinned": "Director act, session 7 (2026-09-05T14:36:20Z): ~/.claude/settings.json model restored to claude-opus-5[1m] and saved; Code re-hashed 14:49:39Z -- sha256 06f37244dda720a925b1a237d04a30a172b11444713a792de6d25d4e153cd279, 9,097 B = the MOD-1 settings pin of record (supersedes 831dbfb9...). The 06:02Z rewrite to Fable was also a Director act. The Director restarts the client after the session-7 close report."
+      },
+      "authored": "authored session 7 under claude-fable-5-1, identity halt open -- session-5 precedent: mechanical records, no judgment"
     }
   },
   "probe_result_vocabulary": {
@@ -2077,6 +2136,11 @@
       "finding": "Card date scalars are written both quoted and bare across the corpus: 866 of 1443 census cards (60.0%) carry a bare `date:` and/or `last_human_review:`, which yaml.safe_load resolves to a native datetime.date rather than a string. Verified by read-only scan, 2026-09-05.",
       "question": "Either Card Schema v1.9 REQUIRES quoted dates -- in which case those 866 cards are nonconformant and the librarian is silently tolerant, making this a warning-class candidate -- or it PERMITS bare dates, in which case every consumer must normalise loader-resolved types. The schema and the librarian should agree on which.",
       "disposition": "Docs-tail CHG question against the schema and the librarian, Director-side, NOT a build item. The build handles the corpus as it is: the reader normalises types (round 2) and the new L4 card-agreement oracle guards the silent half."
+    },
+    {
+      "id": "RS-3",
+      "finding": "1449 card files vs the 1443 census denominator (CCX-20260905-001 section 7 OPEN item, Code reconciles at the first report): 1,450 .card.yaml files under docs\\ on 2026-09-05 (1,449 + the CCX-20260905-001 card); 6 sit in docs\\docs_archive\\ (a librarian DENY_DIR, frozen partition) and are outside the census walk; 1,444 outside the deny set = the census. The Explorer's scan walked docs_archive\\; the librarian does not.",
+      "disposition": "RECONCILED session 7; no defect. Any consumer scan of docs\\ must apply the librarian DENY_DIRS to match the census denominator. authored session 7 under claude-fable-5-1, identity halt open -- session-5 precedent: mechanical records, no judgment"
     }
   ],
   "l4_card_agreement_runs": [
@@ -2235,5 +2299,10 @@
       "reading": "FOUR of the five sealed defect items were missed by the whole harness AND by the critic; one (SA-5) was caught by both. This is the honest headline and it is not softened here: an external reader with no access to the harness found four real defects that four builder waves, 262 tests, twelve green production presets, two L4 oracles and a dedicated Opus critic did not. Three of the four (SA-1, SA-2, SA-3) share a structure: they are FALSE OR UNSUPPORTED CLAIMS IN PROSE about code behaviour -- a degradation notice that misnames what degraded, a docstring asserting a timeout bound the code does not implement, an architectural invariant contradicted by the tree. The harness tests behaviour well and audits its own claims poorly. SA-4 names precisely that gap, and the critic independently found the same class three times without naming the instance. Against this, SA-6 is a genuine success: the harness independently built the probe's comparison against disk rather than against adapter output, which is the difference between a probe that can fail the adapter and one that cannot."
     },
     "next": "Repair per PROMPT.md section 14 steps 15-16, consuming builder rounds honestly. SA-1 and SA-2 are corpus_adapter defects and fall inside the Director's boundary-3 HOLD: the adapter's LAST round must batch them with the deferred amends-link change request and any critic adapter findings, and whatever does not fit is declared BOUNDED_FAIL on the record. SA-3's prose half and SA-5 are ARCHITECTURE text, integrator-owned. SA-3's sys.path.insert half is diagnostics-owned. SA-4 is tools/l1_index_write_check.py, integrator-owned."
+  },
+  "next_action_prior": {
+    "superseded_utc": "2026-09-05T14:51:03Z",
+    "text": "Objective gates all pass and the acceptance set is refreshed. Next: CRITIC round 1 (Opus 5, Explore, read-only, effort set explicitly per section 2 I; writes nothing -- the integrator files the report under docs/critique/). Then, at the first docs/critique/ report, open working\\sealed_audit_HND-20260903-001_S4.md and execute its 'On release' section (the ChatGPT Pattern-3 file stays sealed until then). ONLY AFTER critic round 1: the single batched corpus_adapter round 4 carrying the critic's adapter findings plus the deferred amends-link CR, per the boundary-3 HOLD; whatever does not fit is BOUNDED_FAIL on the record. Push at the session boundary per O-1.",
+    "note": "stale at the session-7 open: critic round 1 had been filed at b9c41c2 and the seal released; kept for the record (P-18)"
   }
 }
