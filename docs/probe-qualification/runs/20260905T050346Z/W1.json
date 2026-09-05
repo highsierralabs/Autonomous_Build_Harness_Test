@@ -1,0 +1,51 @@
+{
+  "console_errors": [],
+  "failed_requests": [],
+  "fault_class": null,
+  "fault_detected": false,
+  "kind": "workflow",
+  "label": "Exact known document -- search a canonical id, expect direct result -> correct card",
+  "observations": {
+    "api_doc_id": "RHACO-CMP-20260903-001",
+    "api_doc_type": "CMP",
+    "api_lifecycle_value": "OPEN",
+    "identifier_row_count_for_query_id": 1,
+    "open_link": "/doc/reports/RHACO-CMP-20260903-001_Corpus_Explorer_Autonomous_Build_Harness.card.yaml",
+    "reader_selected_doc_id": "RHACO-CMP-20260903-001"
+  },
+  "ok": true,
+  "page_errors": [],
+  "preset": "W1",
+  "reasons": [],
+  "requests_total": 7,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\docs\\probe-qualification\\runs\\20260905T050346Z\\W1.png",
+  "steps": [
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "identifier_search",
+      "timings": {
+        "elapsed_ms": 141.4,
+        "nav_end_utc": "2026-09-05T05:03:48.701830+00:00",
+        "nav_start_utc": "2026-09-05T05:03:48.560451+00:00"
+      },
+      "title": "Search -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8902/search?q=RHACO-CMP-20260903-001&mode=identifier"
+    },
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "reader",
+      "timings": {
+        "elapsed_ms": 206.9,
+        "nav_end_utc": "2026-09-05T05:03:48.945592+00:00",
+        "nav_start_utc": "2026-09-05T05:03:48.738716+00:00"
+      },
+      "title": "Corpus Explorer \u2014 Autonomous Build Harness Test -- Reader -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8902/doc/reports/RHACO-CMP-20260903-001_Corpus_Explorer_Autonomous_Build_Harness.card.yaml"
+    }
+  ],
+  "verdict": "PASS"
+}

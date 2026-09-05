@@ -1,0 +1,1759 @@
+{
+  "tool": "l4_card_agreement_check v1.0",
+  "db_path": "C:\\RHACO\\index\\corpus_index.db",
+  "docs_root": "C:\\RHACO\\docs",
+  "census_rows": 1443,
+  "bare_date_cards": 866,
+  "quoted_date_cards": 577,
+  "sampled": 120,
+  "compared_fields": [
+    "title",
+    "status",
+    "lifecycle_state",
+    "date",
+    "doc_type"
+  ],
+  "counts": {
+    "AGREE": 541,
+    "TYPE_ARTIFACT": 59,
+    "GENUINE_DIFFERENCE": 0
+  },
+  "type_artifacts": [
+    {
+      "card_ref": "reports/RHACO-ANL-20260402-001_Crystal_Response_Analysis.card.yaml",
+      "doc_id": "RHACO-ANL-20260402-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-02",
+      "file_type": "date",
+      "index_value": "2026-04-02",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260413-001_Firmware_Signal_Processing_v2_digest.card.yaml",
+      "doc_id": "RHACO-ANL-20260413-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-13",
+      "file_type": "date",
+      "index_value": "2026-04-13",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260414-001_Firmware_Event_Detection_digest.card.yaml",
+      "doc_id": "RHACO-ANL-20260414-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-14",
+      "file_type": "date",
+      "index_value": "2026-04-14",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260414-002_Firmware_Catalog_Analysis_digest.card.yaml",
+      "doc_id": "RHACO-ANL-20260414-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-14",
+      "file_type": "date",
+      "index_value": "2026-04-14",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260415-001_Firmware_Design_Philosophy_digest.card.yaml",
+      "doc_id": "RHACO-ANL-20260415-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-15",
+      "file_type": "date",
+      "index_value": "2026-04-15",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260415-002_Firmware_Transfer_Function.card.yaml",
+      "doc_id": "RHACO-ANL-20260415-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-15",
+      "file_type": "date",
+      "index_value": "2026-04-15",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260416-001_Path_X_Calibration_E000061.card.yaml",
+      "doc_id": "RHACO-ANL-20260416-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-16",
+      "file_type": "date",
+      "index_value": "2026-04-16",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260416-002_Firmware_Reset_Condition.card.yaml",
+      "doc_id": "RHACO-ANL-20260416-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-16",
+      "file_type": "date",
+      "index_value": "2026-04-16",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260418-001_Event_2128_Baseline_Refinement_digest.card.yaml",
+      "doc_id": "RHACO-ANL-20260418-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-18",
+      "file_type": "date",
+      "index_value": "2026-04-18",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260418-002_Event_E_Short_Path_X_Anchor_digest.card.yaml",
+      "doc_id": "RHACO-ANL-20260418-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-18",
+      "file_type": "date",
+      "index_value": "2026-04-18",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260419-001_Retrospective_Spectrum_Analysis_digest.card.yaml",
+      "doc_id": "RHACO-ANL-20260419-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-19",
+      "file_type": "date",
+      "index_value": "2026-04-19",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260419-002_Phase7_Migration_Validation.card.yaml",
+      "doc_id": "RHACO-ANL-20260419-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-19",
+      "file_type": "date",
+      "index_value": "2026-04-19",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260420-002_SHALLOW_Subtype_Anchor_Event_digest.card.yaml",
+      "doc_id": "RHACO-ANL-20260420-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-20",
+      "file_type": "date",
+      "index_value": "2026-04-20",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260421-002_Spectrum_Accumulator_Anomaly_Localization_digest.card.yaml",
+      "doc_id": "RHACO-ANL-20260421-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-21",
+      "file_type": "date",
+      "index_value": "2026-04-21",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260423-001_Dashboard_UI_Diagnostic_digest.card.yaml",
+      "doc_id": "RHACO-ANL-20260423-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-23",
+      "file_type": "date",
+      "index_value": "2026-04-23",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260425-001_RadonCliff_Population_Census_v0_2.card.yaml",
+      "doc_id": "RHACO-ANL-20260425-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-25",
+      "file_type": "date",
+      "index_value": "2026-04-25",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260426-001_SHORT_PathX_M1_Population_Census.card.yaml",
+      "doc_id": "RHACO-ANL-20260426-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-26",
+      "file_type": "date",
+      "index_value": "2026-04-26",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260426-002_Eight_Event_Cluster_Heliospheric_Tabulation.card.yaml",
+      "doc_id": "RHACO-ANL-20260426-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-26",
+      "file_type": "date",
+      "index_value": "2026-04-26",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260427-001_OQI_Resid_Channel_Gray_State_digest.card.yaml",
+      "doc_id": "RHACO-ANL-20260427-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-27",
+      "file_type": "date",
+      "index_value": "2026-04-27",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260427-002_A1_PathX_Anchor_Audit_M2A.card.yaml",
+      "doc_id": "RHACO-ANL-20260427-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-27",
+      "file_type": "date",
+      "index_value": "2026-04-27",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260428-001_Triple_Radon_Differential_Spectrum.card.yaml",
+      "doc_id": "RHACO-ANL-20260428-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-28",
+      "file_type": "date",
+      "index_value": "2026-04-28",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260428-002_A1_AMPL_MISM_M2B_Opening_v1_1.card.yaml",
+      "doc_id": "RHACO-ANL-20260428-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-28",
+      "file_type": "date",
+      "index_value": "2026-04-28",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260429-001_RADON_2059PDT_5min_Single_Event_Spectroscopy.card.yaml",
+      "doc_id": "RHACO-ANL-20260429-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-29",
+      "file_type": "date",
+      "index_value": "2026-04-29",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260429-002_FragmentCount_Disagreement_Population_v0_1.card.yaml",
+      "doc_id": "RHACO-ANL-20260429-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-29",
+      "file_type": "date",
+      "index_value": "2026-04-29",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260430-001_RADON_Cluster_2316PDT_5min_Cadence_Cluster_Spectroscopy.card.yaml",
+      "doc_id": "RHACO-ANL-20260430-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-30",
+      "file_type": "date",
+      "index_value": "2026-04-30",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260430-002_Orphan_During_Firmware_Envelope_Population_Characterization.card.yaml",
+      "doc_id": "RHACO-ANL-20260430-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-04-30",
+      "file_type": "date",
+      "index_value": "2026-04-30",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260501-001_Cluster_0818PDT_Differential_Spectroscopy.card.yaml",
+      "doc_id": "RHACO-ANL-20260501-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-01",
+      "file_type": "date",
+      "index_value": "2026-05-01",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260502-001_Dead_Time_Depth_Predicts_Recovery_Peak_skeleton.card.yaml",
+      "doc_id": "RHACO-ANL-20260502-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-02",
+      "file_type": "date",
+      "index_value": "2026-05-02",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260503-001_FW_Fragment_Onset_Lag_Population_Census.card.yaml",
+      "doc_id": "RHACO-ANL-20260503-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-03",
+      "file_type": "date",
+      "index_value": "2026-05-03",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260503-002_Inherited_Recovery_Population_v1_0.card.yaml",
+      "doc_id": "RHACO-ANL-20260503-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-03",
+      "file_type": "date",
+      "index_value": "2026-05-03",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260504-001_Orphan_DIP_Population_v0_1.card.yaml",
+      "doc_id": "RHACO-ANL-20260504-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-04",
+      "file_type": "date",
+      "index_value": "2026-05-04",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260504-002_DIP_Channel_Noise_Floor_Test_v0_1.card.yaml",
+      "doc_id": "RHACO-ANL-20260504-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-04",
+      "file_type": "date",
+      "index_value": "2026-05-04",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260504-003_DIP_Residual_Structure_v0_1.card.yaml",
+      "doc_id": "RHACO-ANL-20260504-003",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-04",
+      "file_type": "date",
+      "index_value": "2026-05-04",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260504-004_DIP_Residual_Within_Residual_v0_1.card.yaml",
+      "doc_id": "RHACO-ANL-20260504-004",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-04",
+      "file_type": "date",
+      "index_value": "2026-05-04",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260504-005_Firmware_Mode_Mechanism_Test_v0_1.card.yaml",
+      "doc_id": "RHACO-ANL-20260504-005",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-04",
+      "file_type": "date",
+      "index_value": "2026-05-04",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260504-006_MUON_SUB_Asymmetry_Partition_Test_v0_1.card.yaml",
+      "doc_id": "RHACO-ANL-20260504-006",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-04",
+      "file_type": "date",
+      "index_value": "2026-05-04",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260505-001_RadonEye_BLE_Protocol_Reconnaissance_v0_1.card.yaml",
+      "doc_id": "RHACO-ANL-20260505-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-05",
+      "file_type": "date",
+      "index_value": "2026-05-05",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260506-001_RadonEye_Sidecar_Protocol_Inventory.card.yaml",
+      "doc_id": "RHACO-ANL-20260506-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-06",
+      "file_type": "date",
+      "index_value": "2026-05-06",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260506-002_RadonEye_0x50_Packet_Tail_Inventory.card.yaml",
+      "doc_id": "RHACO-ANL-20260506-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-06",
+      "file_type": "date",
+      "index_value": "2026-05-06",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260506-003_Radon_Recon_0x1526_Buffer_Mining.card.yaml",
+      "doc_id": "RHACO-ANL-20260506-003",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-06",
+      "file_type": "date",
+      "index_value": "2026-05-06",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260506-004_Radon_Idle_Listen_Probe.card.yaml",
+      "doc_id": "RHACO-ANL-20260506-004",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-06",
+      "file_type": "date",
+      "index_value": "2026-05-06",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260506-005_Radon_History_Beep_Probe.card.yaml",
+      "doc_id": "RHACO-ANL-20260506-005",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-06",
+      "file_type": "date",
+      "index_value": "2026-05-06",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260507-001_Probe1_Firmware_Surface_Characterization.card.yaml",
+      "doc_id": "RHACO-ANL-20260507-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-07",
+      "file_type": "date",
+      "index_value": "2026-05-07",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260507-002_Probe2_RawSamples_Structural_RE.card.yaml",
+      "doc_id": "RHACO-ANL-20260507-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-07",
+      "file_type": "date",
+      "index_value": "2026-05-07",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260507-003_M2_Secondary_Field_A_Spectroscopy.card.yaml",
+      "doc_id": "RHACO-ANL-20260507-003",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-07",
+      "file_type": "date",
+      "index_value": "2026-05-07",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260508-001_Probe3_BufferLeftover_Characterization.card.yaml",
+      "doc_id": "RHACO-ANL-20260508-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-08",
+      "file_type": "date",
+      "index_value": "2026-05-08",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260509-001_Sidecar_Spaceweather_Audit.card.yaml",
+      "doc_id": "RHACO-ANL-20260509-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-09",
+      "file_type": "date",
+      "index_value": "2026-05-09",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260509-002_Probe4_Per_Window_keV_Verification.card.yaml",
+      "doc_id": "RHACO-ANL-20260509-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-09",
+      "file_type": "date",
+      "index_value": "2026-05-09",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260512-001_Firmware_K_Selection_Mechanism_And_Comparator_Observable_Characterization.card.yaml",
+      "doc_id": "RHACO-ANL-20260512-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-12",
+      "file_type": "date",
+      "index_value": "2026-05-12",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260516-001_Probe6_Stimulus_Comparator_Discriminator_Identification.card.yaml",
+      "doc_id": "RHACO-ANL-20260516-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-16",
+      "file_type": "date",
+      "index_value": "2026-05-16",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260516-002_Probe6_SwingBy_Replication.card.yaml",
+      "doc_id": "RHACO-ANL-20260516-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-16",
+      "file_type": "date",
+      "index_value": "2026-05-16",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260517-001_Alarm_System_Vocabulary_And_Threshold_Observable_Characterization.card.yaml",
+      "doc_id": "RHACO-ANL-20260517-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-17",
+      "file_type": "date",
+      "index_value": "2026-05-17",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260523-001_First_Inside_Castle_Cumulative_Spectrum.card.yaml",
+      "doc_id": "RHACO-ANL-20260523-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-23",
+      "file_type": "date",
+      "index_value": "2026-05-23",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260523-002_Tungsten_Putty_Tier2_Differential.card.yaml",
+      "doc_id": "RHACO-ANL-20260523-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-23",
+      "file_type": "date",
+      "index_value": "2026-05-23",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260523-003_v3_6_Logger_On_Disk_Truth.card.yaml",
+      "doc_id": "RHACO-ANL-20260523-003",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-23",
+      "file_type": "date",
+      "index_value": "2026-05-23",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260528-001_F1_Beta_Card_Hygiene_Enum_Census.card.yaml",
+      "doc_id": "RHACO-ANL-20260528-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-28",
+      "file_type": "date",
+      "index_value": "2026-05-28",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260530-001_MCP_Backfill_Workflow_Validation.card.yaml",
+      "doc_id": "RHACO-ANL-20260530-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-05-30",
+      "file_type": "date",
+      "index_value": "2026-05-30",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260603-001_Event_Rate_Trailing_Baseline_And_Forbush_CoOccurrence.card.yaml",
+      "doc_id": "RHACO-ANL-20260603-001",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-06-03",
+      "file_type": "date",
+      "index_value": "2026-06-03",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260606-002_M4_C_Canonical_Write_Backfill_Band_Assessment.card.yaml",
+      "doc_id": "RHACO-ANL-20260606-002",
+      "date_style": "bare",
+      "field": "date",
+      "file_value": "2026-06-06",
+      "file_type": "date",
+      "index_value": "2026-06-06",
+      "index_type": "str",
+      "verdict": "TYPE_ARTIFACT"
+    }
+  ],
+  "genuine_differences": [],
+  "parse_errors": [],
+  "reader_probe": [
+    {
+      "card_ref": "reports/RHACO-ANL-20260402-001_Crystal_Response_Analysis.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260413-001_Firmware_Signal_Processing_v2_digest.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260414-001_Firmware_Event_Detection_digest.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260414-002_Firmware_Catalog_Analysis_digest.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260415-001_Firmware_Design_Philosophy_digest.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260415-002_Firmware_Transfer_Function.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260416-001_Path_X_Calibration_E000061.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260416-002_Firmware_Reset_Condition.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260418-001_Event_2128_Baseline_Refinement_digest.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260418-002_Event_E_Short_Path_X_Anchor_digest.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260419-001_Retrospective_Spectrum_Analysis_digest.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260419-002_Phase7_Migration_Validation.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260420-002_SHALLOW_Subtype_Anchor_Event_digest.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260421-002_Spectrum_Accumulator_Anomaly_Localization_digest.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260423-001_Dashboard_UI_Diagnostic_digest.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260425-001_RadonCliff_Population_Census_v0_2.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260426-001_SHORT_PathX_M1_Population_Census.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260426-002_Eight_Event_Cluster_Heliospheric_Tabulation.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260427-001_OQI_Resid_Channel_Gray_State_digest.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260427-002_A1_PathX_Anchor_Audit_M2A.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260428-001_Triple_Radon_Differential_Spectrum.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260428-002_A1_AMPL_MISM_M2B_Opening_v1_1.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260429-001_RADON_2059PDT_5min_Single_Event_Spectroscopy.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260429-002_FragmentCount_Disagreement_Population_v0_1.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260430-001_RADON_Cluster_2316PDT_5min_Cadence_Cluster_Spectroscopy.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260430-002_Orphan_During_Firmware_Envelope_Population_Characterization.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260501-001_Cluster_0818PDT_Differential_Spectroscopy.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260502-001_Dead_Time_Depth_Predicts_Recovery_Peak_skeleton.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260503-001_FW_Fragment_Onset_Lag_Population_Census.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260503-002_Inherited_Recovery_Population_v1_0.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260504-001_Orphan_DIP_Population_v0_1.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260504-002_DIP_Channel_Noise_Floor_Test_v0_1.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260504-003_DIP_Residual_Structure_v0_1.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260504-004_DIP_Residual_Within_Residual_v0_1.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260504-005_Firmware_Mode_Mechanism_Test_v0_1.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260504-006_MUON_SUB_Asymmetry_Partition_Test_v0_1.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260505-001_RadonEye_BLE_Protocol_Reconnaissance_v0_1.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260506-001_RadonEye_Sidecar_Protocol_Inventory.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260506-002_RadonEye_0x50_Packet_Tail_Inventory.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260506-003_Radon_Recon_0x1526_Buffer_Mining.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260506-004_Radon_Idle_Listen_Probe.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260506-005_Radon_History_Beep_Probe.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260507-001_Probe1_Firmware_Surface_Characterization.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260507-002_Probe2_RawSamples_Structural_RE.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260507-003_M2_Secondary_Field_A_Spectroscopy.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260508-001_Probe3_BufferLeftover_Characterization.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260509-001_Sidecar_Spaceweather_Audit.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260509-002_Probe4_Per_Window_keV_Verification.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260512-001_Firmware_K_Selection_Mechanism_And_Comparator_Observable_Characterization.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260516-001_Probe6_Stimulus_Comparator_Discriminator_Identification.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260516-002_Probe6_SwingBy_Replication.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260517-001_Alarm_System_Vocabulary_And_Threshold_Observable_Characterization.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260523-001_First_Inside_Castle_Cumulative_Spectrum.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260523-002_Tungsten_Putty_Tier2_Differential.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260523-003_v3_6_Logger_On_Disk_Truth.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260528-001_F1_Beta_Card_Hygiene_Enum_Census.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260530-001_MCP_Backfill_Workflow_Validation.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260603-001_Event_Rate_Trailing_Baseline_And_Forbush_CoOccurrence.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260606-002_M4_C_Canonical_Write_Backfill_Band_Assessment.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [
+        "date"
+      ],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260617-001_Codebase_Tree_Housekeeping.card.yaml",
+      "date_style": "bare",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260420-001_Afterglow_Triple_Characterization_digest.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260510-001_M3_3_Cross_Validation.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260510-002_M3_5_Firmware_Surface_Schema.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260608-001_MCP_Server_Hang_Failure_Mode_Characterization.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260613-001_BackCatalog_Census_Compound_And_Masked_Onset.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260613-002_Post_Notch_Baseline_Recalibration.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260613-003_DAY_REF_Derivation_And_Classifier_Impact.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260620-001_E000678_Amplitude_Census_And_Differential_DeadTime_Loss.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260620-002_Phase_8_1_Section_2_2_Overnight_RADON_Recovery_Crossing_Forensic.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260620-003_OVERFLOW_REF_CPS_Lock_Analysis.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260621-001_CMP19_M8_Closure_Synthesis.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260621-002_CMP23_Channel_Primacy_Decision_Memo.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260621-003_Masked_Onset_Arguability_Grading_Census.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260622-001_Coverage_Gap_Ratio_Distribution.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260622-002_Coverage_Gap_Population_Census.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260622-003_FwMaxCps_Consumer_Inventory.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260623-003_M7_DualDetector_v4_Integration_Synthesis.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260623-004_V4_Logger_Requirements_Register.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260624-001_V4_Logger_P1_Architecture.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260624-002_HDF5_SWMR_Feasibility_Spike.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260627-001_MCP_Subprocess_Tool_Latency_Diagnosis.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260705-001_RawData_0_1_Emission_Viability_At_Castle_Rates.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260705-001_RawData_0_1_Emission_Viability_At_Castle_Rates_Amendment_A1.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260707-001_E7_Detection_Rule_ROC.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260708-001_X_ABORT_Trigger_Origin_Spectral_Differential.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260710-001_Corpus_RAG_Gold_Query_Set_v1_0_Freeze.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260711-001_Corpus_RAG_Gold_Query_Set_v1_1_Freeze.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260711-002_M1_Embedding_Model_Selection.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260711-003_M2_Gate_Evaluation_And_Closure.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260712-001_M3_Gate_Evaluation_And_Disposition.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260713-001_M1_Repository_Audit_Census_And_Ratified_Move_Map.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260713-002_Release_Readiness_Checklist_JOSS_Template_Walk.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260715-001_Radon_ColdPool_PostSeal_Dual_Channel_Coverage_Census.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260717-002_Second_Pass_Trigger_Grammar_Narrator_Guard_Design_Register.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260728-002_v3_6_1_to_v3_7_0_Classifier_Gate_Threshold_History.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260730-001_FW_Enrichment_Pairing_Two_Stage_Gate_Census.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260801-001_Narrator_Golden_Set_First_Scored_Run.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260803-001_M4c_Acceptance_Pre_Registration_Ten_Dimensions_Holdout_Mechanics_Known_Properties.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260803-001_M4c_Acceptance_Pre_Registration_Ten_Dimensions_Holdout_Mechanics_Known_Properties_Amendment_A1_K6_And_Final_Stack_v2_4.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260811-001_SuperEAS_Saturation_Regime_Census.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260813-001_V4_Post_v1_3_Design_Input_Delta_Register.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260813-001_V4_Post_v1_3_Design_Input_Delta_Register_Amendment_A1_Director_Dispositions.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260814-001_V4_Verification_Matrix.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260814-002_V4_Numeric_Persistence_Contract.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260815-001_M1_Founding_Provenance_Reconstruction.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260815-002_M3_Output_Style_Surface_Verification_Note.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260815-002_M3_Output_Style_Surface_Verification_Note_Amendment_A1_Evidence_Repin.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260815-002_M3_Output_Style_Surface_Verification_Note_Amendment_A2_Evidence_Class_Typing.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260816-001_M2_Generalization_Treatment_Draft_And_Drift_Register.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260816-002_M1_Task_Corpus_Transfer_Effectiveness_Instrument.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260816-002_M1_Task_Corpus_Transfer_Effectiveness_Instrument_Amendment_A1_Census_Prose_Correction.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260816-002_M1_Task_Corpus_Transfer_Effectiveness_Instrument_Amendment_A2_MPT_A3_DC3_Correction.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260817-001_M1_Scoring_Rubric_Failure_Taxonomy_And_Run_Rules.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260817-001_M1_Scoring_Rubric_Failure_Taxonomy_And_Run_Rules_Amendment_A1_Floor_Criterion_And_Zero_Positive_Reliability.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260817-001_M1_Scoring_Rubric_Failure_Taxonomy_And_Run_Rules_Amendment_A2_Mechanism_Probe_And_Vocabulary_Wording.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260817-001_M1_Scoring_Rubric_Failure_Taxonomy_And_Run_Rules_Amendment_A3_Seven_Tokens_And_Probe_Membership_Rule.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260817-001_M1_Scoring_Rubric_Failure_Taxonomy_And_Run_Rules_Amendment_A4_Three_Channel_Deviation_Rule.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260817-002_M1_Active_Control_And_Freeze_Record.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260817-002_M1_Active_Control_And_Freeze_Record_Amendment_A1_Fifth_Pin_Grader_Package_Freeze.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    },
+    {
+      "card_ref": "reports/RHACO-ANL-20260818-001_M2_Grader_Package.card.yaml",
+      "date_style": "quoted",
+      "reader_status": 200,
+      "reported_mismatch": "",
+      "type_artifact_fields": [],
+      "false_markers": []
+    }
+  ],
+  "reader_errors": [],
+  "false_marker_rows": [],
+  "db_unchanged": true,
+  "verdict": "PASS",
+  "note": "Two questions, deliberately separated. (1) THE CORPUS: a TYPE_ARTIFACT means the card file and the index row say the same thing while a naive comparison would see them as different. That is a HAZARD in the data, not a fault -- bare YAML dates are a corpus convention and the explorer does not adjudicate the corpus. A GENUINE_DIFFERENCE is a corpus fact (a stale index row, or an edited card awaiting reindex); reported, never failed. (2) THE PRODUCT: the reader is driven for every sampled card, and the verdict FAILs only if the reader cannot render one (non-200) or reports a mismatch marker on a field that is only a type artifact -- a false claim that the record and the index disagree. That second question is the one no other layer can reach: the probe qualifies the positive direction (KB2 injects a fault and the marker must appear) and asserts the converse only on the fixture, which has no bare dates."
+}

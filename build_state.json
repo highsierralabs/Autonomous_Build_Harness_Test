@@ -1804,7 +1804,7 @@
       "contents": "build_state.json only -- the halt records; no prompt, no code, no strand output"
     }
   ],
-  "next_action": "Probe round 4 (S6-B10) is dispatched and running from d9e71ad -- the probe's LAST round: Q3 (KB3, W5, W6), the FINAL known-good plus known-bad suite, and a refreshed production acceptance set. On return: integrator re-runs its gates, merges --no-ff, runs the full suite. Then the L4 oracle re-run and the acceptance set, then the CRITIC (Opus 5, Explore, effort explicit). At the FIRST docs/critique/ report, open working\\sealed_audit_HND-20260903-001_S4.md and execute its 'On release' section. ONLY AFTER critic round 1: the single batched corpus_adapter round 4 (critic adapter findings + the deferred amends-link CR), per the boundary-3 HOLD. Push at the session boundary per O-1.",
+  "next_action": "Objective gates all pass and the acceptance set is refreshed. Next: CRITIC round 1 (Opus 5, Explore, read-only, effort set explicitly per section 2 I; writes nothing -- the integrator files the report under docs/critique/). Then, at the first docs/critique/ report, open working\\sealed_audit_HND-20260903-001_S4.md and execute its 'On release' section (the ChatGPT Pattern-3 file stays sealed until then). ONLY AFTER critic round 1: the single batched corpus_adapter round 4 carrying the critic's adapter findings plus the deferred amends-link CR, per the boundary-3 HOLD; whatever does not fit is BOUNDED_FAIL on the record. Push at the session boundary per O-1.",
   "concurrency_exceedances_note": "Three exceedances, all session 2, all deliberate item-9(b) cap probes taken before A1.3 re-homed the wave cap; zero exceedances under A1.3 (sessions 3 onward) -- the closeout reports the three with the qualifier, never silently.",
   "workspace_pushes_note": "Structural: a push follows the boundary commit that carries build_state.json, so each push is recorded in the NEXT commit's build_state.json (and in the handback resumption entry at the time of the push).",
   "director_rulings": {
@@ -1841,6 +1841,16 @@
         "3_apostrophe_fix_forward": "ACCEPTED. The byte-diff of the constructed prefix against the archive before dispatch converts P-11 from a finding into a control. Wave 3 keeps its recorded deviation. The remedy differs in kind from the one first proposed, because Workflow scripts have no filesystem access -- recorded separately as P-12, a client constraint discovered while implementing the remedy.",
         "4_stylesheet_migration": "DECLINED stands; the integrator's call.",
         "5_push_timing": "O-1's push is at the SESSION boundary, so nothing pushed at the round-3 boundary is correct."
+      }
+    },
+    "POST_R4_20260905": {
+      "ruled_utc": "2026-09-05 (Director disposition after probe round 4)",
+      "items": {
+        "1_w6_harness_evidence": "W6's production FAIL is the harness working as designed and the strongest H1(c)/(d) evidence of the campaign: a qualified production-path probe found a defect that L1, the fixture path, and four rounds of green tests structurally could not. Ledger P-14 (fixture representativeness) plus the ordering finding that the crash masked the silent comparison bug.",
+        "2_silent_class_coverage": "The silent mismatch class is invisible to the current probe on the production path (KB2 qualifies the positive direction; the converse is fixture-only). The probe cannot be modified without a fifth round, which is BOUNDED_FAIL, so cover it where it can be covered: (a) reader round 2 adds a live smoke asserting zero mismatch markers on a bare-date card; (b) the integrator adds tools/l4_card_agreement_check.py as a second L4 oracle -- integrator-owned, no builder round. Re-run W6/W9/W1 afterwards, which costs nothing.",
+        "3_denominator_reconciliation": "The 1449-vs-1443 gap is reconciled: the naive walk counted 6 card files under docs_archive/, which the librarian DENY_DIRS exclude from the census. On the census denominator the figure is 866 of 1443 = 60.0%, and the census walk matches the index census of record exactly (delta 0).",
+        "4_rhaco_side": "Whether Card Schema v1.9 requires quoted dates (making 872 cards nonconformant and the librarian silently tolerant -- a warning-class candidate) or permits bare dates (making type normalisation mandatory for every reader) is a docs-tail CHG question against the schema and the librarian, NOT a build item. The build handles the corpus as it is. Added to the RHACO-side findings list beside O29.",
+        "5_criterion_3": "Probe round 4 closed with all five KB classes on the ledger and no fifth round needed; the L4 gold re-run reproduces 40/40, 0.675, SCOPE. Criterion 3 is satisfiable for the first time -- recorded in handback section D."
       }
     }
   },
@@ -2012,5 +2022,138 @@
       "round": 3,
       "text": "POSITIVE: the integrator's new static contract test (tests/integration/test_keyhelp_contract.py) caught a real drift on its very first run -- the lineage page, merged in the SAME wave, had copied the two-key #keyhelp block. The duplication was actively reproducing itself, so the control was validated by the defect class it was written for, inside the wave that created it. Logged as positive harness evidence on the Director's instruction (boundary-3 disposition item 1)."
     }
-  ]
+  ],
+  "l4_oracle_runs": [
+    {
+      "run": "closeout re-run, session 6",
+      "started_utc": "2026-09-05T04:46:55Z",
+      "finished_utc": "2026-09-05T04:48:27Z",
+      "base_commit": "e36d9d69ec5e915bd554b658c3cbcc82fe5c1f4f (probe round 4 merged)",
+      "gold_set": "v1.1, 40 rows, f20bc6a2...",
+      "vector_availability": "available (ok)",
+      "recall_at_10_adapter": 0.675,
+      "recall_at_10_module_direct": 0.675,
+      "lists_equal": "40 of 40",
+      "per_stratum": {
+        "S1": 1.0,
+        "S2": 1.0,
+        "S3": 0.5,
+        "S4": 0.6667,
+        "S5": 0.375
+      },
+      "rows_missing": [
+        15,
+        16,
+        19,
+        20,
+        22,
+        24,
+        27,
+        31,
+        33,
+        34,
+        35,
+        36,
+        38
+      ],
+      "verdict": {
+        "adapter_matches_module": true,
+        "threshold_met": false,
+        "overall": "SCOPE"
+      },
+      "reading": "IDENTICAL to the round-1 run on every figure: same aggregate, same per-stratum split, and rows 16, 27, 31 and 35 still among the misses. The compatibility claim the build OWNS holds -- the adapter did not degrade the module on any of the 40 rows. The 0.675 aggregate against the July 0.700 threshold is a substrate observation about corpus evolution, already carried by the standing SCOPE.md row, which this re-run re-verifies rather than changes. Nothing here is a build defect and nothing is silent.",
+      "criterion_6": "live db pin 61ea99c9... 115,089,408 B unchanged before and after the run",
+      "cost": "integrator act; consumes no builder round"
+    }
+  ],
+  "rhaco_side_findings": [
+    {
+      "id": "O29",
+      "finding": "RHACO_corpus_index.search_fts treats doc_type_filter as an iterable of type codes; a bare string is iterated per character and silently returns zero hits.",
+      "disposition": "RHACO module finding for a Director-side CHG, not a build item (Director ruling 2026-09-05 item 5). The build wraps the value at the call site and files nothing against the module."
+    },
+    {
+      "id": "RS-2",
+      "finding": "Card date scalars are written both quoted and bare across the corpus: 866 of 1443 census cards (60.0%) carry a bare `date:` and/or `last_human_review:`, which yaml.safe_load resolves to a native datetime.date rather than a string. Verified by read-only scan, 2026-09-05.",
+      "question": "Either Card Schema v1.9 REQUIRES quoted dates -- in which case those 866 cards are nonconformant and the librarian is silently tolerant, making this a warning-class candidate -- or it PERMITS bare dates, in which case every consumer must normalise loader-resolved types. The schema and the librarian should agree on which.",
+      "disposition": "Docs-tail CHG question against the schema and the librarian, Director-side, NOT a build item. The build handles the corpus as it is: the reader normalises types (round 2) and the new L4 card-agreement oracle guards the silent half."
+    }
+  ],
+  "l4_card_agreement_runs": [
+    {
+      "run": "pre-fix baseline, session 6",
+      "utc": "2026-09-05T04:5xZ",
+      "tool": "tools/l4_card_agreement_check.py v1.0",
+      "base_commit": "e36d9d6 (+ the uncommitted oracle) -- BEFORE the reader round-2 fix",
+      "sample": "40 bare-date + 40 quoted-date = 80 cards; census 1443, of which 866 bare and 577 quoted",
+      "corpus_layer": {
+        "AGREE": 360,
+        "TYPE_ARTIFACT": 40,
+        "GENUINE_DIFFERENCE": 0
+      },
+      "product_layer": {
+        "reader_non_200": "40 of 80 -- exactly the bare-date half, all HTTP 500",
+        "false_mismatch_markers": 0
+      },
+      "verdict": "FAIL (product layer)",
+      "criterion_6": "db unchanged across the run",
+      "reading": "The corpus layer shows the hazard is real and pervasive but that the corpus itself is CONSISTENT: zero genuine differences in 400 compared fields -- the index and the card files agree everywhere; every disagreement a naive comparison would see is a pure type artifact. The product layer shows the defect. Critically, false_mismatch_markers = 0 is NOT yet evidence of correctness: the reader 500s before it can emit any marker at all, so the crash masks the silent bug (Director's ordering finding). This number only becomes meaningful after the reader round-2 fix, which is exactly why the baseline was taken first."
+    }
+  ],
+  "blast_radius_reconciliation": {
+    "naive_walk": {
+      "card_files": 1449,
+      "bare_date": 872,
+      "share": "60.2%"
+    },
+    "census_walk": {
+      "card_files": 1443,
+      "bare_date": 866,
+      "share": "60.0%",
+      "method": "librarian DENY_DIRS excluded (_staging, docs_archive, drafts, logs, templates)"
+    },
+    "difference": "6 files, all under docs_archive/, which the librarian excludes from the census",
+    "index_census_of_record": 1443,
+    "agreement": "census walk == index census exactly (delta 0); the corrected figure of record is 866 of 1443 = 60.0%",
+    "note": "raised by the Director: a scan counting files the index does not carry would inflate the denominator."
+  },
+  "acceptance_set_runs": [
+    {
+      "run_set": "post-reader-fix refresh, session 6 (integrator; running the probe consumes no builder round)",
+      "utc": "2026-09-05T05:03:30Z - 05:04:24Z",
+      "base_commit": "4d06678 (reader round 2 merged)",
+      "presets": {
+        "W6": "20260905T050330Z PRODUCT_EVIDENCE_PASS (was FAIL before the reader fix -- the defect is closed end to end through the real browser path, not merely in-process)",
+        "W1": "20260905T050346Z PRODUCT_EVIDENCE_PASS",
+        "W2": "20260905T050349Z PRODUCT_EVIDENCE_PASS",
+        "W3": "20260905T050353Z PRODUCT_EVIDENCE_PASS",
+        "W4": "20260905T050359Z PRODUCT_EVIDENCE_PASS",
+        "W5": "20260905T050401Z PRODUCT_EVIDENCE_PASS",
+        "W8": "20260905T050404Z PRODUCT_EVIDENCE_PASS",
+        "W9": "20260905T050408Z PRODUCT_EVIDENCE_PASS",
+        "W10": "20260905T050411Z PRODUCT_EVIDENCE_PASS",
+        "healthz": "20260905T050415Z PRODUCT_EVIDENCE_PASS",
+        "diagnostics": "20260905T050417Z PRODUCT_EVIDENCE_PASS",
+        "W7 (--disable-vec)": "20260905T050419Z PRODUCT_EVIDENCE_PASS"
+      },
+      "result": "ALL TWELVE production presets PRODUCT_EVIDENCE_PASS -- the complete acceptance workflow set W1-W10 plus healthz and diagnostics",
+      "criterion_6": "live db pin 61ea99c9... 115,089,408 B mtime 2026-09-04T23:58:11.272Z unchanged before and after the whole set"
+    }
+  ],
+  "objective_gates_status": {
+    "assessed_utc": "2026-09-05T05:0xZ, at commit 4d06678",
+    "source": "PROMPT.md section 7 'Objective gates' -- these are not subjective scores and are assessed before any ref_score",
+    "gates": {
+      "exact identifier fixture targets correct": "PASS -- KG, fixture, probe round 4 FINAL suite",
+      "gold-query retrieval compatibility not regressed beyond the standing baseline unless explicitly scoped and evidenced": "PASS AS SCOPED -- L4 gold oracle re-run 2026-09-05: adapter matches the module on 40/40 rows; 0.675 vs the July 0.700 threshold, carried by a standing SCOPE.md row with its cause (corpus evolution, row 27's family head moved v1_8 -> v1_9). Never silent",
+      "no write path to corpus from UI": "PASS -- read-only surface; L1 index-write grep zero defects every round",
+      "no arbitrary text-to-SQL": "PASS -- fixed parameterised statements only (ARCHITECTURE 4.1 D-Q1..D-Q11)",
+      "zero unresolved template/runtime exceptions in acceptance probes": "PASS AS OF THIS REFRESH -- this gate FAILED at probe round 4 (W6, HTTP 500 on 60.0% of the corpus). Repaired in reader round 2 and re-verified by the full 12-preset refresh",
+      "card status and CMP lifecycle_state never collapsed": "PASS -- S4 held across catalog, search, reader, lineage; W4 exercises independent narrowing on the production path",
+      "typed relation direction preserved": "PASS -- KB3 qualified this round (reverse_edges detected); W5 and W6 on the production path",
+      "flat hybrid remains default unless newer ratified evidence says otherwise": "PASS -- docs/REFERENCE.md section 1 unchanged; no superseding evidence found",
+      "semantic-unavailable degradation explicit and functional": "PASS -- W7 with --disable-vec: mode relabelled, exact notice, identifier and lexical retrieval still return"
+    },
+    "summary": "All nine objective gates now pass, one of them only as of this refresh. This is the precondition PROMPT.md section 7 sets before a ref_score means anything, so the critic can now be dispatched against a product whose objective gates hold rather than one with a known 500 on most of the corpus."
+  }
 }

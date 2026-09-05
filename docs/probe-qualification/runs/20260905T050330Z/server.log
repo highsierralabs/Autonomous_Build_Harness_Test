@@ -1,0 +1,19 @@
+INFO:     Started server process [25928]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8901 (Press CTRL+C to quit)
+INFO:     127.0.0.1:50240 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50249 - "GET /api/diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50253 - "GET /lineage/reference/RHACO_Card_YAML_Schema_Specification_v1_8.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50253 - "GET /static/web/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50255 - "GET /static/web/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50254 - "GET /static/lineage/lineage.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50256 - "GET /static/lineage/lineage.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50255 - "GET /doc/reference/RHACO_Card_YAML_Schema_Specification_v1_8.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50255 - "GET /static/reader/reader.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50257 - "GET /api/lineage/reference/RHACO_Card_YAML_Schema_Specification_v1_8.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50255 - "GET /lineage/handoffs/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch_Amendment_A1_Cap_Rehome_And_Session_2_Findings.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50258 - "GET /api/lineage/handoffs/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch_Amendment_A1_Cap_Rehome_And_Session_2_Findings.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50255 - "GET /lineage/handoffs/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50259 - "GET /api/lineage/handoffs/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50260 - "GET /api/diagnostics HTTP/1.1" 200 OK

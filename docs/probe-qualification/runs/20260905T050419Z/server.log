@@ -1,0 +1,13 @@
+INFO:     Started server process [13348]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8920 (Press CTRL+C to quit)
+INFO:     127.0.0.1:50511 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50515 - "GET /api/diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50519 - "GET /search?q=tungsten%20putty%20seal&mode=hybrid HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50519 - "GET /static/web/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50520 - "GET /static/web/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50520 - "GET /diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50521 - "GET /api/search?q=RHACO-CMP-20260903-001&mode=identifier HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50522 - "GET /api/search?q=tungsten%20putty%20seal&mode=lexical HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50523 - "GET /api/diagnostics HTTP/1.1" 200 OK

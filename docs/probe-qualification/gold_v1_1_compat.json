@@ -76,10 +76,10 @@
       "recall": 0.375
     }
   },
-  "started_utc": "2026-09-04T03:45:41+00:00",
-  "finished_utc": "2026-09-04T03:47:11+00:00",
+  "started_utc": "2026-09-05T04:46:55+00:00",
+  "finished_utc": "2026-09-05T04:48:27+00:00",
   "db_path": "C:\\RHACO\\index\\corpus_index.db",
-  "index_meta_corpus_cards_sha": "ed86c3cdc60bc46418b6d2385c24b9dcd347aa8f206849d59a7f00d368816a30",
+  "index_meta_corpus_cards_sha": "9d36e8973132442b631f137232ef29be9bb9c3bb872b24e9ff26a5fe1ca6b40b",
   "verdict": {
     "adapter_matches_module": true,
     "threshold_met": false,
@@ -1210,24 +1210,24 @@
         "RHACO-ANL-20260711-001",
         "RHACO_Card_YAML_Schema_Specification_v1_6",
         "RHACO_Card_YAML_Schema_Specification_v1_3",
+        "RHACO-CCX-20260904-001",
         "RHACO_Card_YAML_Schema_Specification_v1_1",
         "RHACO_Card_YAML_Schema_Specification_v1_7",
         "RHACO_Card_YAML_Schema_Specification_v1_4_1",
         "RHACO_Card_YAML_Schema_Specification_v1_4",
-        "RHACO_Card_YAML_Schema_Specification_v1_2",
-        "RHACO_Card_YAML_Schema_Specification_v1_8"
+        "RHACO_Card_YAML_Schema_Specification_v1_2"
       ],
       "module_ids": [
         "RHACO-ANL-20260710-001",
         "RHACO-ANL-20260711-001",
         "RHACO_Card_YAML_Schema_Specification_v1_6",
         "RHACO_Card_YAML_Schema_Specification_v1_3",
+        "RHACO-CCX-20260904-001",
         "RHACO_Card_YAML_Schema_Specification_v1_1",
         "RHACO_Card_YAML_Schema_Specification_v1_7",
         "RHACO_Card_YAML_Schema_Specification_v1_4_1",
         "RHACO_Card_YAML_Schema_Specification_v1_4",
-        "RHACO_Card_YAML_Schema_Specification_v1_2",
-        "RHACO_Card_YAML_Schema_Specification_v1_8"
+        "RHACO_Card_YAML_Schema_Specification_v1_2"
       ],
       "hit_adapter": false,
       "hit_module": false,
