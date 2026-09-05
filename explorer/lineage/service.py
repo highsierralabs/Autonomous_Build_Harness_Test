@@ -36,10 +36,25 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from explorer.config import Settings
-from explorer.models import RELATION_LABELS, CardRow, EdgeSet, Subtree
+from explorer.models import CardRow, EdgeSet, Subtree, relation_sentence
 
 # CONSTRAINTS.md O8: the four relations, in the order the filter control lists them.
 KNOWN_RELATIONS = ("cites", "supersedes", "amends", "campaign_child")
+
+# Task B12 item 1 (RelationOption label, Decisions): the relation filter selects
+# edges in EITHER direction (O8) -- a CMP center's page and one of its children's
+# page both offer a `campaign_child` chip, one from the outgoing bucket, one from
+# the incoming. `models.RELATION_LABELS` is the OUTGOING sentence only, so using it
+# here prints a direction-aware sentence on a control that is not direction-aware
+# -- exactly the critic round 1 gate-7 defect, recurring on a different surface.
+# These labels name the RELATION, deliberately neutral of direction, distinct from
+# the sentences `relation_sentence` builds for the typed-edges lists below.
+RELATION_FILTER_LABELS = {
+    "cites": "citation",
+    "supersedes": "supersession",
+    "amends": "amendment",
+    "campaign_child": "campaign relationship",
+}
 
 # task B8 deliverable 1, bullet 4: "Cap the rendered node count at 200".
 MAX_GRAPH_NODES = 200
@@ -81,6 +96,13 @@ class LineageEdgeView:
     from_card_refs: list[str] = field(default_factory=list)
     to_card_refs: list[str] = field(default_factory=list)
     target_card_refs: list[str] = field(default_factory=list)
+    # Per-`target_card_refs` link text, same order/length (Task B12 item 3). When
+    # more than one card resolves to the shared id (O7 -- a document and its
+    # amendment), repeating the id as every link's text renders indistinguishable
+    # runs; each entry here is instead that card's own title (or filename stem,
+    # CONSTRAINTS.md O8) so the rows are told apart. The single-card case (the
+    # overwhelming majority of edges) is unchanged: the id itself, as before.
+    target_labels: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -231,17 +253,47 @@ def build_view(
 
 
 # --------------------------------------------------------------------------
+# O7/O8 double-classification (Task B12 item 3, "the self-pointing amends
+# edge"): an `amends` edge's `from_id` is the amendment's filename stem and
+# its `to_id` is the shared parent doc_id (O8). On the amendment's OWN
+# lineage page `anchor.doc_id` IS that same shared id (O7), so
+# `adapter.edges_for` (adapter.py:513-516 -- two independent `if`s, not
+# `elif`) appends the identical Edge object to BOTH `outgoing` and
+# `incoming`: one recorded fact rendered as two edges. Verified against the
+# fixture (this round's report, Evidence): exactly one such overlap on the
+# amendment's own page, zero on the parent's. This is an adapter behaviour;
+# `explorer/corpus_adapter/**` is not this module's to fix (dispatch working
+# rule 1), so the view suppresses the degenerate INCOMING copy instead --
+# detected by object identity (not by relation name, so it also covers any
+# future relation that develops the same O7-style collision) -- and keeps
+# only the OUTGOING rendering, since the anchor genuinely IS the edge's
+# `from` (the amendment authored it); the INCOMING appearance is an artifact
+# of the shared doc_id, never a second edge.
+# --------------------------------------------------------------------------
+
+
+def _self_pointing_incoming_ids(edge_set: EdgeSet) -> set[int]:
+    outgoing_ids = {id(e) for e in edge_set.outgoing}
+    return {id(e) for e in edge_set.incoming if id(e) in outgoing_ids}
+
+
+# --------------------------------------------------------------------------
 # relation options (O8: counted over the center's own hop-1 edges, unfiltered,
 # so the control always lists every relation the filter could select)
 # --------------------------------------------------------------------------
 
 
 def _relation_options(edge_set: EdgeSet) -> list[RelationOption]:
+    skip = _self_pointing_incoming_ids(edge_set)
     counts: dict[str, int] = {}
-    for e in (*edge_set.outgoing, *edge_set.incoming, *edge_set.unresolved):
+    for e in (*edge_set.outgoing, *edge_set.unresolved):
+        counts[e.relation] = counts.get(e.relation, 0) + 1
+    for e in edge_set.incoming:
+        if id(e) in skip:
+            continue
         counts[e.relation] = counts.get(e.relation, 0) + 1
     return [
-        RelationOption(relation=r, label=RELATION_LABELS.get(r, r), count=counts[r])
+        RelationOption(relation=r, label=RELATION_FILTER_LABELS.get(r, r), count=counts[r])
         for r in KNOWN_RELATIONS
         if r in counts
     ]
@@ -257,41 +309,87 @@ def _refs(cards: list[CardRow]) -> list[str]:
     return [c.card_ref for c in cards]
 
 
+def _other_side_cards(cards: list[CardRow], anchor_ref: str) -> list[CardRow]:
+    """Cards resolved for one endpoint of an edge, with the ANCHOR's own card
+    excluded (Task B12 item 3). O7 (a shared doc_id) plus the `amends`
+    relation's shared-parent addressing (O8) mean the id/stem lookup that
+    resolves an edge's endpoint can legitimately include the anchor's own
+    card row when the anchor itself shares that id -- concretely, on an
+    amendment's own lineage page the outgoing `amends` edge's target (the
+    shared parent doc_id) resolves to BOTH the real parent card and the
+    amendment card being displayed, which would otherwise render a link from
+    the page to itself, indistinguishable by text from the real target
+    (verified against the fixture, this round's report Evidence). The anchor
+    is never legitimately "the other side" of its own edge, so it is
+    excluded here, at the one place every edge-view / graph-layout call site
+    draws its card lists from."""
+    return [c for c in cards if c.card_ref != anchor_ref]
+
+
+def _target_labels(fallback_id: str, cards: list[CardRow]) -> list[str]:
+    """Per-ref link text for the typed-edges section (Task B12 item 3, the
+    critic's ranked issue 7): when a relation's target/source resolves to
+    more than one card sharing the same doc_id (O7 -- e.g. a document and its
+    amendment), repeating the shared id as every link's text renders
+    indistinguishable runs. Disambiguate with each card's own identity
+    (title, falling back to its filename stem, CONSTRAINTS.md O8 -- never the
+    doc_id, which is exactly the field that collides) in that case; the
+    single-card case (the overwhelming majority of edges) renders exactly as
+    it did before this round: the plain id."""
+    if len(cards) <= 1:
+        return [fallback_id for _ in cards]
+    return [c.title or c.filename_stem for c in cards]
+
+
 def _edge_views_from_set(
     edge_set: EdgeSet, hop: int, anchor: CardRow, relation: str | None
 ) -> list[LineageEdgeView]:
     """Build LineageEdgeViews for one `edges_for(...)` result, tagging each
     with the bucket it actually came from -- never recomputed from from_id/
-    to_id, so a fault-swapped edge stays swapped (module docstring)."""
+    to_id, so a fault-swapped edge stays swapped (module docstring). Every
+    sentence is built from `(relation, direction)` via `models.relation_sentence`
+    (Task B12 item 1) rather than the direction-blind `Edge.direction_label`;
+    the degenerate O7/O8 self-pointing case is suppressed / de-duplicated per
+    `_self_pointing_incoming_ids` and `_other_side_cards` above (Task B12
+    item 3)."""
+    skip_incoming = _self_pointing_incoming_ids(edge_set)
     views: list[LineageEdgeView] = []
     for e in edge_set.outgoing:
         if relation and e.relation != relation:
             continue
-        from_refs, to_refs = _refs(e.source_cards), _refs(e.target_cards)
+        source_cards = _other_side_cards(e.source_cards, anchor.card_ref)
+        target_cards = _other_side_cards(e.target_cards, anchor.card_ref)
+        from_refs, to_refs = _refs(source_cards), _refs(target_cards)
         views.append(LineageEdgeView(
             from_id=e.from_id, to_id=e.to_id, relation=e.relation,
-            direction_label=e.direction_label, direction="outgoing",
+            direction_label=relation_sentence(e.relation, "outgoing"), direction="outgoing",
             resolved=e.resolved, note=e.note, hop=hop, anchor_card_ref=anchor.card_ref,
             from_card_refs=from_refs, to_card_refs=to_refs, target_card_refs=to_refs,
+            target_labels=_target_labels(e.to_id, target_cards),
         ))
     for e in edge_set.incoming:
+        if id(e) in skip_incoming:
+            continue
         if relation and e.relation != relation:
             continue
-        from_refs, to_refs = _refs(e.source_cards), _refs(e.target_cards)
+        source_cards = _other_side_cards(e.source_cards, anchor.card_ref)
+        target_cards = _other_side_cards(e.target_cards, anchor.card_ref)
+        from_refs, to_refs = _refs(source_cards), _refs(target_cards)
         views.append(LineageEdgeView(
             from_id=e.from_id, to_id=e.to_id, relation=e.relation,
-            direction_label=e.direction_label, direction="incoming",
+            direction_label=relation_sentence(e.relation, "incoming"), direction="incoming",
             resolved=e.resolved, note=e.note, hop=hop, anchor_card_ref=anchor.card_ref,
             from_card_refs=from_refs, to_card_refs=to_refs, target_card_refs=from_refs,
+            target_labels=_target_labels(e.from_id, source_cards),
         ))
     for e in edge_set.unresolved:
         if relation and e.relation != relation:
             continue
         views.append(LineageEdgeView(
             from_id=e.from_id, to_id=e.to_id, relation=e.relation,
-            direction_label=e.direction_label, direction="unresolved",
+            direction_label=relation_sentence(e.relation, "unresolved"), direction="unresolved",
             resolved=e.resolved, note=e.note, hop=hop, anchor_card_ref=anchor.card_ref,
-            from_card_refs=[], to_card_refs=[], target_card_refs=[],
+            from_card_refs=[], to_card_refs=[], target_card_refs=[], target_labels=[],
         ))
     return views
 
@@ -417,8 +515,13 @@ def _reasoning_trail(
         # docstring). Unresolved edges never reach here (they connect no real
         # card, so they are never a node's `connecting` edge).
         direction = edge.direction if edge.direction in ("outgoing", "incoming") else "outgoing"
+        # Task B12 item 1, line 421: built directly from (relation, direction)
+        # via `models.relation_sentence` -- not read off `edge.direction_label`
+        # -- so this call site is correct on its own terms rather than by
+        # inheriting an upstream fix.
         entries.append(TrailEntryView(
-            card=node.card, relation=edge.relation, direction_label=edge.direction_label,
+            card=node.card, relation=edge.relation,
+            direction_label=relation_sentence(edge.relation, direction),
             direction=direction,
         ))
 

@@ -94,7 +94,7 @@
     <li data-relation="{{ e.relation }}" data-edge-from="{{ e.from_id }}" data-edge-to="{{ e.to_id }}" data-edge-direction="{{ e.direction }}">
       {{ e.direction_label }}:
       {% if e.target_card_refs %}
-        {% for ref in e.target_card_refs %}<a href="/doc/{{ ref }}" data-doc-id="{{ e.to_id }}" data-card-ref="{{ ref }}">{{ e.to_id }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+        {% for ref in e.target_card_refs %}<a href="/doc/{{ ref }}" data-doc-id="{{ e.to_id }}" data-card-ref="{{ ref }}">{{ e.target_labels[loop.index0] }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
       {% else %}
         {{ e.to_id }}
       {% endif %}
@@ -111,7 +111,7 @@
     <li data-relation="{{ e.relation }}" data-edge-from="{{ e.from_id }}" data-edge-to="{{ e.to_id }}" data-edge-direction="{{ e.direction }}">
       {{ e.direction_label }}:
       {% if e.target_card_refs %}
-        {% for ref in e.target_card_refs %}<a href="/doc/{{ ref }}" data-doc-id="{{ e.from_id }}" data-card-ref="{{ ref }}">{{ e.from_id }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+        {% for ref in e.target_card_refs %}<a href="/doc/{{ ref }}" data-doc-id="{{ e.from_id }}" data-card-ref="{{ ref }}">{{ e.target_labels[loop.index0] }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
       {% else %}
         {{ e.from_id }}
       {% endif %}
