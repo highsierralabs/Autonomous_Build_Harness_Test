@@ -76,18 +76,18 @@
     "builder_rounds_total_max": 28,
     "builder_rounds_per_module_max": 4,
     "convergence_window_rounds": 2,
-    "builder_rounds_consumed_total": 9,
+    "builder_rounds_consumed_total": 12,
     "per_module_consumed": {
-      "corpus_adapter": 2,
+      "corpus_adapter": 3,
       "probe": 3,
       "diagnostics": 1,
       "catalog": 1,
       "search": 1,
       "reader": 1,
-      "lineage": 0,
-      "web": 0
+      "lineage": 1,
+      "web": 1
     },
-    "note": "probe has 1 of 4 rounds left (round 4 = Q3 lineage cases KB3 / W5 / W6 and the FINAL suite); Director ruling 2026-09-05 item 4: the budget is NOT waived -- any probe need after round 4 is BOUNDED_FAIL, never a lowered bar. corpus_adapter round 3 (the O10 availability hard floor) is spent this wave, leaving it 1 of 4."
+    "note": "12 of 28 consumed. probe has 1 of 4 left (round 4 = Q3 KB3/W5/W6 plus the FINAL suite); Director ruling 2026-09-05 item 4: NOT waived -- any probe need after round 4 is BOUNDED_FAIL. corpus_adapter has 1 of 4 left, deliberately held in reserve for the deferred amends-link change request (SCOPE.md). Note that RUNNING the probe costs no builder round -- only modifying it does -- so evidence can be revalidated after a later adapter change."
   },
   "caps": {
     "CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH": {
@@ -154,6 +154,19 @@
       "since": "session 6 (2026-09-05T03:09:23Z)",
       "ruling": "MOD-1",
       "prior_pin": "claude-fable-5-1 / xhigh (sessions 1-5)"
+    },
+    "effort_source_measurement_20260905": {
+      "finding": "CLAUDE_EFFORT is NOT a launching-shell environment variable competing with settings.json. It is injected by the client into the BASH tool shell only. Measured 2026-09-05T03:5xZ: the Bash tool shell sees 12 CLAUDE* variables including CLAUDE_EFFORT=xhigh and CLAUDE_CODE_EXECPATH; the PowerShell tool shell, spawned by the SAME client process 26148 (parent chain 30204 -> 26148 -> 24716), sees only 10 and has neither. Child processes of each shell inherit that shell view (a venv python under Bash reports xhigh; under PowerShell it reports None). AI_AGENT is present in both, so this is not a general environment difference but a per-tool injection of those two variables.",
+      "consequence": "The session-6 statement that settings and env are two agreeing SOURCES is corrected: settings.json is the input, and CLAUDE_EFFORT is a client-side readout exposed to one tool surface. There is no precedence contest to adjudicate, and the readout is the better evidence that xhigh is actually in force. Effort in force at session 6 remains xhigh on every available reading.",
+      "still_unresolved": "Whether CLAUDE_EFFORT reports the RESOLVED effort (after per-model modelSettings overrides) or merely mirrors the global effortLevel key. That distinction is exactly what would settle the session-5 degraded segment, where the global key was xhigh while modelSettings.claude-opus-5 was medium. It is NOT settled by this measurement and the session-5 effort stays UNRESOLVED.",
+      "method_note": "a governance measurement, not a build act: read-only environment inspection through both tool surfaces.",
+      "director_reported_session_header": {
+        "observed_by": "Director, 2026-09-05, client session header",
+        "text": "Opus 5 (1M context) with xhigh effort",
+        "settles": "Model and effort IN FORCE at session 6, from the client's own resolved display: Opus 5 (1M context) = claude-opus-5[1m], effort xhigh. This is a readout of what the client resolved, not a configuration input, so it outranks settings.json (an input) and corroborates the Bash-only CLAUDE_EFFORT=xhigh. Four readings now agree: settings global key, settings per-model keys, CLAUDE_EFFORT, session header. The identity pin MOD-1 set (claude-opus-5[1m] / xhigh) is confirmed against the client surface.",
+        "does_not_settle": "(a) session 5: the header shows the CURRENT state and says nothing about what it displayed during the degraded segment, so that effort stays UNRESOLVED unless the Director recalls it; (b) whether the header UPDATES LIVE on a mid-session swap, or is composed once per session like the system prompt was. If it updates live it is the operator-side instrument P-10 asks for; if it does not, it is as stale as the system prompt and the per-request transcript model field remains the only reliable check.",
+        "operational_consequence": "P-10 template item 1 gets a practical operator form: the Director can read the session header at each round boundary as a cheap identity/effort check, PROVIDED the live-update question above is answered. The orchestrator cannot see the header at all."
+      }
     }
   },
   "sessions": [
@@ -197,8 +210,8 @@
   "modules": {
     "corpus_adapter": {
       "owner": "builder S3-B1 (Sonnet 5) on build/corpus_adapter",
-      "status": "round 2 complete (correction: connect() per-call db-exists guard); merged 90c8c71; 17 live-index tests green",
-      "round": 2,
+      "status": "round 3 complete; merged 37ec728; the O10 availability.probe() isfile guard closes the second create-on-open instance (Director hard floor before FINAL). One round left, reserved for the deferred amends-link CR.",
+      "round": 3,
       "objective_gates": {
         "ruff": "pass",
         "pytest": "pass",
@@ -383,10 +396,14 @@
       "scope_references": []
     },
     "lineage": {
-      "owner": null,
-      "status": "not_started",
-      "round": 0,
-      "objective_gates": {},
+      "owner": "builder S6-B8 (Sonnet 5) on build/lineage",
+      "status": "round 1 complete; merged 943715c; /lineage + /api/lineage, typed directional edges with the KB3 data-* observable, SVG graph, reasoning trail, supersession chain, campaign subtree",
+      "round": 1,
+      "objective_gates": {
+        "ruff": "pass",
+        "pytest": "pass",
+        "l1_index_write_grep": "pass"
+      },
       "ref_score": null,
       "open_issues": [],
       "assumptions": [],
@@ -396,10 +413,14 @@
       "scope_references": []
     },
     "web": {
-      "owner": null,
-      "status": "not_started",
-      "round": 0,
-      "objective_gates": {},
+      "owner": "builder S6-B9 (Sonnet 5) on build/web",
+      "status": "round 1 complete; merged c9d1d90; base.html contracts preserved, app.css real pass, app.js keyboard navigation",
+      "round": 1,
+      "objective_gates": {
+        "ruff": "pass",
+        "pytest": "pass",
+        "l1_index_write_grep": "pass"
+      },
       "ref_score": null,
       "open_issues": [],
       "assumptions": [],
@@ -790,7 +811,7 @@
     {
       "round": 3,
       "wave": 3,
-      "status": "dispatched (session 6) -- lineage (module round 1), web (module round 1), corpus_adapter (module round 3, the O10 hard floor)",
+      "status": "complete -- three builders merged and integrated; round-3 boundary",
       "base_commit": "6a8353705a2933cdd4696391da904ed3c680b398",
       "note": "The session-5 assembly of this same wave was DISCARDED unused under the Director's halt disposition (it was authored across a client model swap); these prompts are re-authored fresh under the amended identity pin.",
       "orchestrator_model": "claude-opus-5[1m]",
@@ -809,7 +830,33 @@
           "bytes": 12374
         }
       },
-      "concurrency": "three strands = the A1.3 wave cap; no fourth dispatched while these are live"
+      "concurrency": "three strands = the A1.3 wave cap; no fourth dispatched while these are live",
+      "dispatch_text_deviation": {
+        "strand_ids": [
+          "S6-B8",
+          "S6-B9",
+          "S6-C3"
+        ],
+        "found_utc": "2026-09-05T03:20Z (by the orchestrator, immediately after dispatch, before any strand returned)",
+        "defect": "The section 2 L text reproduced INLINE in the dispatched message carries a typographic apostrophe U+2019 in \"workspace-apostrophe-s\" on line 2 of the D-12 block, where the canonical text carries U+0027. Exactly one line of seventeen differs, by exactly one character. Everything else is byte identical, including both backslash paths C:\\RHACO\\rhaco\\ and C:\\RHACO\\data\\, which were the escaping risk the runtime-built backslash was designed to avoid.",
+        "cause": "orchestrator authoring error when composing the inline copy in the workflow script (not a tooling or escaping fault)",
+        "impact_assessment": "The ARCHIVED prompt of record (docs/rounds/R03_*.prompt.md) is byte-correct and begins with the L text verbatim -- acceptance criterion section 8 item 7 is met. Each strand was instructed to read that file in full, verify its sha256 before acting, STOP as BLOCKED on any mismatch, and treat it as its instruction of record; the inline blocks were explicitly labelled as reproduced from its opening. No prohibition, path, or scope in the D-12 or D-3 block is altered by the glyph. Assessed as a recorded deviation, not an omission: the standing halt in section 3 is a strand dispatched WITHOUT the L text, and the L text was dispatched.",
+        "action_taken": "Recorded, not corrected mid-flight: the three strands were already live and their instruction of record is byte-correct, so killing and re-dispatching would spend three builder rounds of the 28 to fix a glyph in a reproduction. Not dispositioned by the orchestrator -- for Director disposition, on the session-2 D-3 and session-4 S4-B7 precedent.",
+        "fix_forward": "future dispatches build the inline L text by reading the archived prompt prefix from disk rather than by retyping it."
+      },
+      "merges": {
+        "corpus_adapter": "37ec728",
+        "lineage": "943715c",
+        "web": "c9d1d90"
+      },
+      "post_merge_gates": {
+        "ruff": "clean",
+        "l1_index_write_grep": "hits=6 allowlisted=6 defects=0 PASS",
+        "pytest_after_merges": "230 passed (181 + 3 + 22 + 24 -- exact arithmetic, no pre-existing test invalidated)",
+        "pytest_after_integrator_repair": "247 passed (230 + 17 keyhelp-contract tests)"
+      },
+      "integrator_repair": "ARCHITECTURE A22: the #keyhelp block on all FIVE page templates advertised only / and ? while app.js binds six keys. Applied across catalog, search, reader, diagnostics and lineage, and guarded by the new integrator-owned tests/integration/test_keyhelp_contract.py. The registration test caught the lineage page immediately -- it had copied the two-key block during this same wave, so the drift was already reproducing itself.",
+      "invalidated_evidence": "none -- 230 = 181 + 3 + 22 + 24 reconciles exactly"
     }
   ],
   "l1_index_write_grep": [
@@ -832,6 +879,10 @@
     {
       "round": "2 (probe round 3 merge)",
       "result": "hits=6 allowlisted=6 (fixtures/build_fixture_index.py) defects=0 PASS"
+    },
+    {
+      "round": "3 (wave-3 merges + integrator repair)",
+      "result": "hits=6 allowlisted=6 defects=0 PASS"
     }
   ],
   "dispatch_record_fields": [
@@ -1562,6 +1613,111 @@
         "single run per production preset (no flake-detection repeat)"
       ],
       "deviations": "Self-disclosed by the strand: before its workflow-runner code existed it used a small ad hoc scratch script (outside the worktree, never committed) to launch `uvicorn explorer.app:create_app` directly against the FIXTURE db several times to inspect /api/* JSON shapes and fault behaviours -- the workspace interpreter running workspace code against the fixture only (never the live index, never a RHACO_* process, no device), but NOT launched 'via the probe' as the section 2 L D-12 block and working rule 3 / DISPATCH_PARAMETERS item K require (the probe is the only sanctioned launcher, CONSTRAINTS O12). Every committed evidence run was produced by the probe alone and the integrator re-produced the production presets independently after the merge. Recorded as a strand deviation of record for Director disposition (the L text says a violation is a halt, not a retry; the strand disclosed instead of halting); precedent: session-2 D-3 breaches recorded as deviations."
+    },
+    {
+      "session": 6,
+      "round": 3,
+      "model": "claude-sonnet-5 (client-reported by the strand: 'You are powered by the model named Sonnet 5. The exact model ID is claude-sonnet-5.')",
+      "orchestrator_model": "claude-opus-5[1m] (MOD-1)",
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "agent_type": "Workflow agent() / general-purpose",
+      "execution_mode": "concurrent (wave 3 = three strands, the A1.3 cap)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-05T03:18:38.493Z",
+      "returned_utc": "2026-09-05T03:47:21.9Z (workflow wf_8332176a-bd2 completed; 1,723,421 ms after dispatch)",
+      "workflow_run": "wf_8332176a-bd2",
+      "prompt_sha256_verified_by_strand": true,
+      "strand_id": "S6-B8",
+      "stem": "R03_lineage",
+      "role": "module builder (lineage)",
+      "module_round": "lineage round 1 of 4",
+      "t_start_utc": "2026-09-05T03:19:25.811Z",
+      "t_end_utc": "2026-09-05T03:47:15.131Z",
+      "head_commit": "386afba321d9f7d8329a5fa6b067ad883d1e0f20",
+      "commits": 5,
+      "status": "COMPLETE",
+      "gates": "ruff clean; pytest tests/lineage 22 passed; L1 PASS -- integrator re-ran at the worktree root: identical, full suite 203",
+      "acceptance": "COMPLETE -- merged 943715c. /lineage/<card_ref> plus /api/lineage twin; typed directional edges with data-relation / data-edge-from / data-edge-to / data-edge-direction (the KB3 observable for probe round 4); server-rendered inline SVG with arrowheads plus a chronological reasoning trail; supersession chain with data-chain-head; campaign subtree; unresolved edges marked; 22 tests including an explicit reverse_edges swap assertion against the clean render",
+      "change_requests": [
+        "to corpus_adapter: stem-aware resolution for an amends edge's from_id -- ACCEPTED IN PRINCIPLE, DEFERRED; SCOPE.md row added (costs the adapter's last round)"
+      ],
+      "open_issues": [
+        "edges_for double-classifies an amendment's own amends edge as both outgoing and incoming on the amendment's own page (pre-existing adapter behaviour, first made visible here)",
+        "hops=2 has no committed regression test",
+        "the 200-node graph cap never triggered (fixture has 7 cards): truncated true-path UNVERIFIED",
+        "relation-filter-narrows-to-zero display state uncovered by a committed test"
+      ],
+      "deviations": "None from the working rules or the D-12/D-3 blocks. Two disclosed additions, both read-only and in bounds: a full-suite sanity run beyond the required per-module gate, and ad hoc uncommitted scripts calling CorpusAdapter directly against fixture and live index to verify fixture facts before writing assertions -- the sanctioned adapter path, no server, no device, no data/ access."
+    },
+    {
+      "session": 6,
+      "round": 3,
+      "model": "claude-sonnet-5 (client-reported by the strand: 'You are powered by the model named Sonnet 5. The exact model ID is claude-sonnet-5.')",
+      "orchestrator_model": "claude-opus-5[1m] (MOD-1)",
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "agent_type": "Workflow agent() / general-purpose",
+      "execution_mode": "concurrent (wave 3 = three strands, the A1.3 cap)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-05T03:18:38.493Z",
+      "returned_utc": "2026-09-05T03:47:21.9Z (workflow wf_8332176a-bd2 completed; 1,723,421 ms after dispatch)",
+      "workflow_run": "wf_8332176a-bd2",
+      "prompt_sha256_verified_by_strand": true,
+      "strand_id": "S6-B9",
+      "stem": "R03_web",
+      "role": "module builder (web: shell, stylesheet, keyboard navigation)",
+      "module_round": "web round 1 of 4",
+      "t_start_utc": "2026-09-05T03:19:27Z",
+      "t_end_utc": "2026-09-05T03:40:12Z",
+      "head_commit": "4cd366f2ffb06baf6dcf5acb742e10663fef49d5",
+      "commits": 5,
+      "status": "COMPLETE",
+      "gates": "ruff clean; pytest tests (full suite) 205 passed; L1 PASS -- integrator re-ran at the worktree root: identical",
+      "acceptance": "COMPLETE -- merged c9d1d90. base.html keeps every block contract and gains aria-current plus an aria-live region; the authority notice no longer depends on a fragile string split; app.css is a real pass with AA contrast computed per pair; app.js adds j/k/Arrow/Enter/Escape result navigation, no network call; 24 tests",
+      "change_requests": [
+        "MANDATORY: #keyhelp on the page templates advertises only / and ? while app.js binds six keys -- ACCEPTED AND APPLIED BY THE INTEGRATOR across all five pages (ARCHITECTURE A22), with tests/integration/test_keyhelp_contract.py added to guard both directions",
+        "OPTIONAL: migrate catalog.html and reader.html stylesheet links to the head_extra hook -- DECLINED for now: explicitly non-blocking, and it would widen the integrator's footprint in builder-owned templates for a small flash-of-unstyled-content window"
+      ],
+      "open_issues": [
+        "keyboard behaviour and visual legibility are UNVERIFIED at L1 (no JS execution, no CSS layout) -- claims for L2 probe round 4 and L3",
+        "search.html's nested <li data-doc-id> structure complicates the 'rows are elements carrying data-doc-id' rule",
+        "the lineage <svg> container could not be styled: lineage was in a concurrent worktree",
+        "WCAG ratios were computed arithmetically from hex values, not measured in a browser"
+      ],
+      "deviations": "Disclosed process note, not a rule breach: one gate attempt omitted the cd into the worktree and resolved the OUTER main checkout's explorer package, producing a false failure. The strand caught it BEFORE reporting it as a result, root-caused it, and re-ran every gate with an explicit cd and a rootdir check. No wrong-package output was used as evidence. It also did not re-run the pre-edit baseline in a clean checkout, relying instead on the arithmetic reconciliation 205 - 24 = 181, and disclosed that as its method rather than claiming an independent baseline run."
+    },
+    {
+      "session": 6,
+      "round": 3,
+      "model": "claude-sonnet-5 (client-reported by the strand: 'You are powered by the model named Sonnet 5. The exact model ID is claude-sonnet-5.')",
+      "orchestrator_model": "claude-opus-5[1m] (MOD-1)",
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "agent_type": "Workflow agent() / general-purpose",
+      "execution_mode": "concurrent (wave 3 = three strands, the A1.3 cap)",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-05T03:18:38.493Z",
+      "returned_utc": "2026-09-05T03:47:21.9Z (workflow wf_8332176a-bd2 completed; 1,723,421 ms after dispatch)",
+      "workflow_run": "wf_8332176a-bd2",
+      "prompt_sha256_verified_by_strand": true,
+      "strand_id": "S6-C3",
+      "stem": "R03_corpus_adapter",
+      "role": "module builder (corpus_adapter), O10 hard floor",
+      "module_round": "corpus_adapter round 3 of 4",
+      "t_start_utc": "2026-09-05T03:19:2xZ",
+      "t_end_utc": "2026-09-05T03:4xZ",
+      "head_commit": "7c1e9f4efc46abb6119ee581d29165863c1fee0e",
+      "commits": 3,
+      "status": "COMPLETE",
+      "gates": "ruff clean; pytest tests/corpus_adapter 20 passed; pytest tests 184 passed; L1 PASS -- integrator re-ran at the worktree root: identical",
+      "acceptance": "COMPLETE -- merged 37ec728. availability.probe() now requires os.path.isfile(db_path) BEFORE RHACO_corpus_index.connect(), returning the typed db_unavailable outcome instead, so the hybrid and diagnostics paths can no longer re-create a removed live index. Three tests including one with a fake module whose connect raises, proving the guard short-circuits before connect rather than catching its failure afterwards. Discharges the Director's hard floor before FINAL.",
+      "change_requests": [],
+      "open_issues": [
+        "fixtures/build_fixture_index.py still calls connect() directly with no isfile guard, but only after its own refusal assertion that the path is not under either RHACO tree -- reported by the strand as the one remaining unguarded call site, by design",
+        "prior rounds' items unchanged: the 8 s vector-probe timeout never exercised against a genuinely hung Ollama"
+      ],
+      "deviations": ""
     }
   ],
   "dispatch_record_notes": [
@@ -1638,7 +1794,7 @@
       "contents": "build_state.json only -- the halt records; no prompt, no code, no strand output"
     }
   ],
-  "next_action": "Session 6: wave 3 dispatched from 6a83537 (lineage S6-B8, web S6-B9, corpus_adapter S6-C3). On return: integrator re-runs each worktree's gates, merges --no-ff, runs the full suite, records invalidated evidence; then probe round 4 (Q3 KB3/W5/W6 plus the FINAL suite) as a sequential strand; then the L4 oracle re-run, the acceptance workflow set on the production path, and the critic (Opus 5, Explore, effort explicit). At the FIRST docs/critique/ report, open working\\sealed_audit_HND-20260903-001_S4.md and execute its 'On release' section; the ChatGPT Pattern-3 recommendations file stays sealed until then. Push at the boundary per O-1.",
+  "next_action": "Round-3 boundary reached. Next: probe round 4 (Q3 -- KB3 reversed edge direction, W5 reasoning lineage, W6 supersession/amendment -- plus the FINAL known-good and known-bad suite) as a sequential strand, the probe's LAST round; then the L4 oracle re-run, the acceptance workflow set on the production path, and the critic (Opus 5, Explore, effort explicit). At the FIRST docs/critique/ report, open working\\sealed_audit_HND-20260903-001_S4.md and execute its 'On release' section. Push at the boundary per O-1.",
   "concurrency_exceedances_note": "Three exceedances, all session 2, all deliberate item-9(b) cap probes taken before A1.3 re-homed the wave cap; zero exceedances under A1.3 (sessions 3 onward) -- the closeout reports the three with the qualifier, never silently.",
   "workspace_pushes_note": "Structural: a push follows the boundary commit that carries build_state.json, so each push is recorded in the NEXT commit's build_state.json (and in the handback resumption entry at the time of the push).",
   "director_rulings": {
