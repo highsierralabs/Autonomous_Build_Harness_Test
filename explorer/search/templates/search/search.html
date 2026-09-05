@@ -18,6 +18,30 @@
 </li>
 {% endmacro %}
 
+{% macro identifier_evidence_details(evidence) %}
+{# R08 dispatch item 2 (critic round 1, ranked issue 5): identifier mode's own
+   evidence disclosure. Deliberately NOT a call to evidence_details below --
+   that macro's Rank / Component-rank lines assume a meaningful rank and a
+   fused/graph channel, neither of which this mode has. This macro states
+   plainly what the mode actually does: an exact alias match with no ranking
+   and no fusion, never picking one row when several exist for the id (O7). #}
+<details class="evidence">
+  <summary>Why this result</summary>
+  <dl>
+    <dt>Exact identifier match</dt>
+    <dd>{{ "yes" if evidence.exact_identifier_match else "no" }}</dd>
+    <dt>Active retrieval mode</dt>
+    <dd>{{ evidence.retrieval_mode }}</dd>
+    <dt>Rank</dt>
+    <dd>not applicable -- exact alias lookup (resolve_identifier), no ranking. Every card row shown for this identifier is listed above; none is preferred over another.</dd>
+    <dt>Component rank</dt>
+    <dd>{{ evidence.component_rank }}</dd>
+    <dt>Degradation status</dt>
+    <dd>{{ evidence.degradation_status }}</dd>
+  </dl>
+</details>
+{% endmacro %}
+
 {% macro evidence_details(evidence) %}
 <details class="evidence">
   <summary>Why this result</summary>
@@ -187,6 +211,7 @@
           {% endfor %}
         </ul>
         {% endif %}
+        {% if row.evidence %}{{ identifier_evidence_details(row.evidence) }}{% endif %}
       </li>
       {% endfor %}
     </ul>

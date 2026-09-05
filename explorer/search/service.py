@@ -59,10 +59,51 @@ MODE_LABELS = {
     "graph": "graph / lineage (auxiliary)",
 }
 
+# R08 dispatch item 1 (critic round 1, ranked issue 2; CONSTRAINTS.md S8: no hidden
+# epistemic uplift). Every Recall@10 figure this page shows is a RHACO campaign
+# result, not a live measurement -- it must be attributed to its source ANL and the
+# date it was evaluated, so a reader can tell it is a July measurement and not a
+# claim about today. All four Gold v1.1 figures below share one source and date.
+GOLD_V1_1_SOURCE = "RHACO-ANL-20260712-001"
+GOLD_V1_1_EVAL_DATE = "2026-07-12"
+
+# The hybrid figure is worse than merely stale: it is CONTRADICTED by this build's
+# own measurement on the corpus this page searches. tools/l4_gold_oracle.py scored
+# the adapter's hybrid path at 0.675 (27/40), twice, against the July 0.700.
+# SCOPE.md's "Gold v1.1 compatibility" row carries this as an evidenced regression
+# whose cause is corpus evolution (one gold row's target family gained a new
+# supersession head after the July evaluation), not the adapter. Restated here,
+# dated, rather than left as a second bare figure beside the first.
+HYBRID_CURRENT_MEASURE = (
+    "This build ran its own oracle (tools/l4_gold_oracle.py), which evaluated "
+    "Recall@10 at 0.675 (27/40) on 2026-09-04, on the corpus as it then stood -- "
+    "see the Gold v1.1 compatibility row in SCOPE.md for the evidence and its "
+    "cause (corpus evolution, not the adapter)."
+)
+
 HYBRID_RERANK_NOTE = (
-    "Hybrid-rerank is not offered on this interactive surface: documented-FAIL batch "
-    "mode (RHACO-ANL-20260712-001: Recall@10 0.575 vs threshold 0.700, ~26 min/query; "
-    "docs/REFERENCE.md section 1). It is never called from any UI path."
+    f"Hybrid-rerank is not offered on this interactive surface: {GOLD_V1_1_SOURCE} "
+    f"(evaluated {GOLD_V1_1_EVAL_DATE}) recorded a documented-FAIL batch mode "
+    "(Recall@10 0.575 vs threshold 0.700, ~26 min/query; docs/REFERENCE.md section "
+    "1). It is never called from any UI path."
+)
+
+# R08 dispatch item 2 (critic round 1, ranked issue 5): identifier-mode evidence
+# disclosure text. Verified against explorer/corpus_adapter/adapter.py before
+# writing this: `resolve_identifier` (adapter.py, "def resolve_identifier") calls
+# only `self._rhaco_index.resolve_identifier`, and `cards_for_doc_id` walks
+# `_cards_for_doc_id` / `_row_to_card`, which read `cards`/`card_programs`/
+# `card_tags`/`edges` tables only -- neither path calls `vector_availability()` or
+# anything in the vector channel, so "identifier mode cannot degrade" is a checked
+# claim, not an assumption.
+IDENTIFIER_COMPONENT_RANK_TEXT = (
+    "not applicable -- no fusion in this mode (identifier mode never calls "
+    "search_hybrid or search_graph, so there is no per-channel rank to expose "
+    "or withhold)"
+)
+IDENTIFIER_DEGRADATION_TEXT = (
+    "not applicable -- identifier mode is an exact alias lookup and does not use "
+    "the vector channel at all, so it cannot degrade"
 )
 
 
@@ -84,20 +125,26 @@ MODE_EXPLANATIONS: tuple[ModeExplanation, ...] = (
         label=MODE_LABELS["lexical"],
         standing=(
             "Available; the only channel that accepts filters. Exact substring hit-set, "
-            "bm25 order only (Recall@10 0.200 aggregate on Gold v1.1)."
+            f"bm25 order only ({GOLD_V1_1_SOURCE}, evaluated {GOLD_V1_1_EVAL_DATE}: "
+            "Recall@10 0.200 aggregate on Gold v1.1)."
         ),
     ),
     ModeExplanation(
         mode="hybrid",
         label=MODE_LABELS["hybrid"],
-        standing="ACCEPTED -- the operational default. Recall@10 0.700 aggregate on Gold v1.1.",
+        standing=(
+            f"ACCEPTED -- the operational default. {GOLD_V1_1_SOURCE} (evaluated "
+            f"{GOLD_V1_1_EVAL_DATE}) measured Recall@10 0.700 aggregate on Gold v1.1. "
+            f"{HYBRID_CURRENT_MEASURE}"
+        ),
     ),
     ModeExplanation(
         mode="graph",
         label=MODE_LABELS["graph"],
         standing=(
             "AUXILIARY lineage mode, retained for its typed-edge expansions, not a ranking "
-            "improvement. Recall@10 0.575 on Gold v1.1."
+            f"improvement. {GOLD_V1_1_SOURCE} (evaluated {GOLD_V1_1_EVAL_DATE}) measured "
+            "Recall@10 0.575 on Gold v1.1."
         ),
     ),
 )
@@ -117,6 +164,10 @@ class IdentifierRow:
     doc_id: str
     cards: list[CardLine] = field(default_factory=list)
     no_card_row: bool = False
+    # R08 dispatch item 2: the evidence disclosure for this doc_id's resolution
+    # (not per card row -- an id with several card rows, O7, gets ONE disclosure
+    # covering all of them, so it never implies the page picked one).
+    evidence: Evidence | None = None
 
 
 @dataclass
@@ -244,17 +295,33 @@ def _item_matches_narrow(
 
 
 def _run_identifier(adapter, q: str, mode_requested: str, vector: VectorAvailability) -> SearchView:
-    ids = adapter.resolve_identifier(q)
-    if not ids:
-        # O7: an id with no card rows is listed as the literal id with the
-        # "no card row in the index" text -- including a query that resolves
-        # to no alias at all, using the literal query text as the id.
-        ids = [q]
+    resolved_ids = adapter.resolve_identifier(q)
+    # `matched` is the honest "exact identifier match" fact for every row this call
+    # produces: True iff resolve_identifier itself returned this alias's doc_ids.
+    # The fallback path below (a query with no matching alias at all) is NOT a
+    # match -- it lists the literal query text as an unresolved id, and the
+    # evidence disclosure must say so rather than claim an exact match it did not
+    # make (R08 dispatch item 2).
+    matched = bool(resolved_ids)
+    # O7: an id with no card rows is listed as the literal id with the
+    # "no card row in the index" text -- including a query that resolves
+    # to no alias at all, using the literal query text as the id.
+    ids = resolved_ids if matched else [q]
     rows = []
     for doc_id in ids:
         cards = adapter.cards_for_doc_id(doc_id)
         card_lines = [_card_line(c, "identifier", None) for c in cards]
-        rows.append(IdentifierRow(doc_id=doc_id, cards=card_lines, no_card_row=not cards))
+        evidence = Evidence(
+            retrieval_mode="identifier",
+            returned_rank=0,  # no ranking in this mode; the template never renders this number
+            exact_identifier_match=matched,
+            excerpt_source="none",
+            degradation_status=IDENTIFIER_DEGRADATION_TEXT,
+            component_rank=IDENTIFIER_COMPONENT_RANK_TEXT,
+        )
+        rows.append(
+            IdentifierRow(doc_id=doc_id, cards=card_lines, no_card_row=not cards, evidence=evidence)
+        )
     return SearchView(
         q=q,
         mode_requested=mode_requested,
