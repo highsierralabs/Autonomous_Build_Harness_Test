@@ -1,0 +1,65 @@
+{
+  "db_meta_after": {
+    "db_bytes": 115089408,
+    "db_mtime_utc": "2026-09-04T23:58:11Z",
+    "db_path": "C:\\highsierralabs\\RHACO\\index\\corpus_index.db"
+  },
+  "db_meta_before": {
+    "db_bytes": 115089408,
+    "db_mtime_utc": "2026-09-04T23:58:11Z",
+    "db_path": "C:\\highsierralabs\\RHACO\\index\\corpus_index.db"
+  },
+  "db_path": "C:\\highsierralabs\\RHACO\\index\\corpus_index.db",
+  "disable_vec": false,
+  "docs_root": "C:\\highsierralabs\\RHACO\\docs",
+  "fault": null,
+  "healthz": {
+    "adapter": "present",
+    "db": "C:\\highsierralabs\\RHACO\\index\\corpus_index.db",
+    "docs_root": "C:\\highsierralabs\\RHACO\\docs",
+    "status": "ok",
+    "vector": {
+      "available": true,
+      "model_tag": "nomic-embed-text",
+      "reason": "ok"
+    },
+    "version": "0.1.0"
+  },
+  "incomplete_presets": [],
+  "ledger_path": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\docs\\probe-qualification\\qualification_ledger.json",
+  "port": 8827,
+  "presets_run": [
+    "healthz"
+  ],
+  "product_evidence_blocked_by": [],
+  "product_evidence_eligible": true,
+  "qualification_state": "PRODUCT_EVIDENCE_PASS",
+  "qualified_failure_classes": [
+    "KB1",
+    "KB2",
+    "KB4",
+    "KB5"
+  ],
+  "reasons": [],
+  "results": {
+    "healthz": {
+      "fault_class": null,
+      "fault_detected": null,
+      "http_status": 200,
+      "incomplete": false,
+      "kind": "json_endpoint",
+      "ok": true,
+      "reasons": null,
+      "route_absent": false,
+      "status": null,
+      "verdict": null
+    }
+  },
+  "run_error": null,
+  "run_finished_utc": "2026-09-05T01:44:02.411104+00:00",
+  "run_kind": "product",
+  "run_started_utc": "2026-09-05T01:44:01.196696+00:00",
+  "server_log": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\docs\\probe-qualification\\runs\\20260905T014401Z\\server.log",
+  "timeout_s": 45.0,
+  "verdict": "PASS"
+}
