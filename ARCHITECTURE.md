@@ -69,12 +69,27 @@ is the form a static check can assert; the SA-4 import-boundary check in
 `tools/l1_index_write_check.py` asserts exactly this set over `explorer/**` and
 `fixtures/**`.
 
-**Instrument importers, outside the product tree and outside this invariant.**
-`preflight/` (hand section 0 items 12/13), `tests/` (the O3 builder's own test) and
-`tools/` (the L4 gold oracle, AC-4 evidence) also import the modules. They are hand
-instruments, test code and integrator oracles -- not product -- and the boundary
-check allowlists them by path, so adding an instrument under those roots does not
-silently widen the product-tree invariant.
+**Instrument importers, outside the product tree and outside this invariant.** Four
+files outside `explorer/**` and `fixtures/**` import the modules, and the boundary
+check's licensed set names them at two different granularities, deliberately:
+
+| Allowlisted | Granularity | What it licenses |
+|---|---|---|
+| `preflight/` | **by path** | hand section 0 items 12/13 -- the pre-flight instruments (`item12_import.py`, `item13_vec.py`) |
+| `tests/` | **by path** | test code, currently `tests/probe/test_fixture_builder.py`, the O3 builder's own test |
+| `tools/l4_gold_oracle.py` | **by file** | the L4 gold oracle, licensed by AC-4's design: the oracle must call the module directly, because comparing the adapter against the module is the whole measurement |
+
+**`tools/` is NOT allowlisted as a directory, and that is the point.**
+`tools/probe_corpus_explorer.py` also lives under `tools/`, and the probe is barred
+from importing either RHACO module and from opening the database at all -- it drives
+the product through a browser and compares against fixture sources on disk (the SA-6
+property). A directory-level allowlist on `tools/` would make a probe that started
+importing the module, or opening the live index, invisible to the check. So the one
+licensed instrument there is named by file and the directory is not licensed.
+
+Director ruling, 2026-09-05. The narrower form is the correction to a wider one this
+build proposed: an earlier draft of this section allowlisted `tools/` by path, which
+would have hidden exactly the class the check exists to catch.
 
 ```
 class CorpusAdapter:
