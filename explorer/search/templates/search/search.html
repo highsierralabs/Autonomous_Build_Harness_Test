@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% block title %}Search -- RHACO Corpus Explorer{% endblock %}
+{% block html_attrs %}{% if not adapter_absent %} data-mode="{{ view.mode_effective or 'search' }}" data-vector="{{ 'available' if view.vector and view.vector.available else 'unavailable' }}"{% endif %}{% endblock %}
+
+{% macro card_line(cl) %}
+<li class="result-card" data-doc-id="{{ cl.card.doc_id }}" data-card-ref="{{ cl.card.card_ref }}">
+  <a href="{{ cl.open_link }}">{{ cl.card.title or cl.card.doc_id }}</a>
+  <span class="doc-type">{{ cl.card.doc_type or "?" }}</span>
+  <span class="date">{{ cl.card.date or "" }}</span>
+  <span class="status">status: {{ cl.card.status or "?" }}{% if cl.card.frozen %} <strong class="frozen-marker">(frozen)</strong>{% endif %}</span>
+  {% if cl.card.is_cmp %}
+  <span class="lifecycle">lifecycle_state: {{ cl.card.lifecycle_state or "n/a" }}</span>
+  {% elif cl.card.lifecycle_state %}
+  <span class="lifecycle">lifecycle_state: {{ cl.card.lifecycle_state }} (informational (non-CMP))</span>
+  {% endif %}
+  <span class="card-ref">card: <code>{{ cl.card.card_ref }}</code></span>
+  {% if cl.card.doc_ref %}<span class="doc-ref">document: <code>{{ cl.card.doc_ref }}</code></span>{% endif %}
+</li>
+{% endmacro %}
+
+{% macro evidence_details(evidence) %}
+<details class="evidence">
+  <summary>Why this result</summary>
+  <dl>
+    <dt>Exact identifier match</dt>
+    <dd>{{ "yes" if evidence.exact_identifier_match else "no" }}</dd>
+    <dt>Active retrieval mode</dt>
+    <dd>{{ evidence.retrieval_mode }}</dd>
+    <dt>Rank</dt>
+    <dd>retrieval rank in mode {{ evidence.retrieval_mode }}: {{ evidence.returned_rank }}</dd>
+    {% if evidence.excerpt_source == "lexical-hit" %}
+    <dt>Matched line ({{ evidence.line_no }})</dt>
+    <dd><pre>{% for l in evidence.context_before %}{{ l }}
+{% endfor %}{{ evidence.line }}
+{% for l in evidence.context_after %}{{ l }}
+{% endfor %}</pre></dd>
+    {% elif evidence.excerpt_source == "lexical-lookup" %}
+    <dt>Excerpt ({{ "lexical excerpt, not the hybrid evidence" }})</dt>
+    <dd><pre>line {{ evidence.line_no }}: {{ evidence.line }}</pre></dd>
+    {% else %}
+    <dt>Excerpt</dt>
+    <dd>no literal match for this query in the document</dd>
+    {% endif %}
+    {% if evidence.retrieval_mode in ("graph", "graph-degraded") %}
+    <dt>Graph relation</dt>
+    <dd>expansion of a seed; relation not exposed by the current RHACO API</dd>
+    {% endif %}
+    <dt>Degradation status</dt>
+    <dd>{{ evidence.degradation_status }}</dd>
+    {% if evidence.retrieval_mode in ("hybrid", "hybrid-degraded-lexical", "graph", "graph-degraded") %}
+    <dt>Component rank</dt>
+    <dd>Component rank: {{ evidence.component_rank }}</dd>
+    {% endif %}
+  </dl>
+</details>
+{% endmacro %}
+
+{% block content %}
+<h1>Search</h1>
+<p class="lede">Where did I write about this? Identifier, lexical, hybrid, and graph retrieval over the RHACO corpus.</p>
+
+<div id="keyhelp" hidden>
+  <h2>Keyboard shortcuts</h2>
+  <dl>
+    <dt><kbd>/</kbd></dt><dd>focus search</dd>
+    <dt><kbd>?</kbd></dt><dd>toggle this help</dd>
+  </dl>
+</div>
+
+{% if adapter_absent %}
+<div class="degradation" role="status" data-search-state="adapter-absent">
+  <p><strong>corpus_adapter not built.</strong>
+  {{ adapter_absent_message or "The corpus_adapter module is not available in this build; search cannot run." }}</p>
+</div>
+{% else %}
+
+<form method="get" action="/search" id="search-form">
+  <div class="field">
+    <label for="q">Search the corpus</label>
+    <input type="text" id="q" name="q" value="{{ view.q }}" autocomplete="off">
+  </div>
+
+  <fieldset>
+    <legend>Retrieval mode</legend>
+    {% for mode_key, mode_label in view.mode_labels.items() %}
+    <label>
+      <input type="radio" name="mode" value="{{ mode_key }}"{% if view.mode_requested == mode_key %} checked{% endif %}>
+      {{ mode_label }}
+    </label>
+    {% endfor %}
+  </fieldset>
+
+  <fieldset>
+    <legend>Lexical filters -- these filters apply to lexical search only</legend>
+    <div class="field">
+      <label for="doc_type_filter">Document type</label>
+      <input type="text" id="doc_type_filter" name="doc_type_filter" value="{{ view.doc_type_filter or '' }}" placeholder="e.g. EVT">
+    </div>
+    <div class="field">
+      <label for="path_glob">Path glob</label>
+      <input type="text" id="path_glob" name="path_glob" value="{{ view.path_glob or '' }}">
+    </div>
+    <div class="field">
+      <label for="max_results">Max results</label>
+      <input type="number" id="max_results" name="max_results" value="{{ view.max_results }}" min="1" max="200">
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Hybrid / graph result count</legend>
+    <div class="field">
+      <label for="top_k">Results to retrieve (top_k)</label>
+      <input type="number" id="top_k" name="top_k" value="{{ view.top_k }}" min="1" max="50">
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>narrow results after retrieval (ranking unchanged)</legend>
+    <p>Applies only to hybrid and graph results; narrows the already-returned doc_ids by card metadata. It never changes retrieval or rank.</p>
+    <div class="field">
+      <label for="narrow_doc_type">Document type</label>
+      <input type="text" id="narrow_doc_type" name="narrow_doc_type" value="{{ view.narrow_doc_type or '' }}">
+    </div>
+    <div class="field">
+      <label for="narrow_status">Status</label>
+      <input type="text" id="narrow_status" name="narrow_status" value="{{ view.narrow_status or '' }}">
+    </div>
+    <div class="field">
+      <label for="narrow_lifecycle_state">Lifecycle state (CMP)</label>
+      <input type="text" id="narrow_lifecycle_state" name="narrow_lifecycle_state" value="{{ view.narrow_lifecycle_state or '' }}">
+    </div>
+    <div class="field">
+      <label for="narrow_program">Program</label>
+      <input type="text" id="narrow_program" name="narrow_program" value="{{ view.narrow_program or '' }}">
+    </div>
+    {% if view.narrowed_from is not none %}
+    <p data-narrowed-from="{{ view.narrowed_from }}" data-narrowed-to="{{ view.narrowed_to }}">
+      narrowed from {{ view.narrowed_from }} to {{ view.narrowed_to }}
+    </p>
+    {% endif %}
+  </fieldset>
+
+  <button type="submit">Search</button>
+</form>
+
+<section aria-labelledby="mode-standing-heading">
+  <h2 id="mode-standing-heading">Mode standing</h2>
+  <dl>
+    {% for m in view.mode_explanations %}
+    <dt>{{ m.label }}</dt>
+    <dd>{{ m.standing }}</dd>
+    {% endfor %}
+  </dl>
+  <p class="hybrid-rerank-note">{{ view.hybrid_rerank_note }}</p>
+</section>
+
+{% if view.ran %}
+<section aria-labelledby="results-heading">
+  <h2 id="results-heading">Results for "{{ view.q }}"</h2>
+  <p class="mode-badge" data-mode-effective="{{ view.mode_effective }}">Active mode: {{ view.mode_effective }}</p>
+
+  {% if view.degradation_notice %}
+  <p class="degradation" role="status">{{ view.degradation_notice }}</p>
+  {% endif %}
+
+  {% if view.mode_effective == "identifier" %}
+    {% if view.identifier_rows %}
+    <ul class="identifier-results">
+      {% for row in view.identifier_rows %}
+      <li data-doc-id="{{ row.doc_id }}">
+        {% if row.no_card_row %}
+        <p>{{ row.doc_id }} -- no card row in the index</p>
+        {% else %}
+        <ul>
+          {% for cl in row.cards %}
+          {{ card_line(cl) }}
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>No identifiers resolved for this query.</p>
+    {% endif %}
+  {% else %}
+    <p>Showing {{ view.returned }}{% if view.total_matched is not none %} of {{ view.total_matched }}{% endif %} result(s).</p>
+    {% if view.truncated %}
+    <p class="truncated">truncated at {{ view.max_results }}</p>
+    {% endif %}
+    {% if view.results %}
+    <ol class="search-results">
+      {% for result in view.results %}
+      <li data-doc-id="{{ result.doc_id }}" data-rank="{{ result.rank }}">
+        <span class="rank">#{{ result.rank }}</span>
+        {% if view.mode_effective == "lexical" and result.path %}
+        <p class="document-path">Document path (body): <code>{{ result.path }}</code></p>
+        {% endif %}
+        {% if result.no_card_row %}
+        <p>{{ result.doc_id }} -- no card row in the index</p>
+        {% else %}
+        <ul>
+          {% for cl in result.cards %}
+          {{ card_line(cl) }}
+          {% endfor %}
+        </ul>
+        {% endif %}
+        {{ evidence_details(result.evidence) }}
+      </li>
+      {% endfor %}
+    </ol>
+    {% else %}
+    <p>No results.</p>
+    {% endif %}
+  {% endif %}
+</section>
+{% endif %}
+
+{% endif %}
+{% endblock %}
