@@ -3013,10 +3013,11 @@
         "id": "SA-5",
         "subject": "ARCHITECTURE 4.6 names last_run.json; the implementation reads runs/*/run_summary.json",
         "classification": "HARNESS-DETECTED (builder self-report, L1, round 1) and CRITIC-DETECTED (round 1)",
-        "still_live": true,
+        "still_live": false,
         "verified_now": "ARCHITECTURE.md 4.6 unchanged; the diagnostics service reads the runs glob.",
         "detection_evidence": "Harness: the diagnostics builder recorded it as an open issue in build_state at round 1 and it has been carried since. Critic: listed explicitly in its overstated-claims set, with the note that it was already disclosed 'so listed for completeness rather than as a hidden claim'. Both layers found it; neither repaired it, because it is an ARCHITECTURE text fix and no round has owned it.",
-        "note": "The only sealed defect item both the harness and the critic caught."
+        "note": "The only sealed defect item both the harness and the critic caught.",
+        "repaired": "Round 8 (integrator text edit, no builder round): ARCHITECTURE 4.6 now names the newest-by-mtime docs/probe-qualification/runs/*/run_summary.json, which is what the round-1 diagnostics dispatch specified and what the builder implemented -- the drift was in the document, not the code. Recorded in place with why it survived: the diagnostics builder logged it as an open issue at round 1 and critic round 1 listed it among the overstated claims, so BOTH layers had it, and neither repaired it for seven rounds because it is ARCHITECTURE prose that no builder round owns. That is the SA-5 finding restated as its own cause."
       },
       {
         "id": "SA-6",
@@ -3046,7 +3047,7 @@
       "SA-6": "Satisfied unprompted; no remedy owed.",
       "bounded_fail_rule": "Whatever of SA-1 / SA-2 / the deferred amends-link change request does not fit the single batched corpus_adapter round 4 is declared BOUNDED_FAIL on the record, per item, never silently dropped and never traded for a lowered bar."
     },
-    "status_after_round_6": "SA-1, SA-2, SA-3 REPAIRED and verified. SA-5 (ARCHITECTURE 4.6 last_run.json) STILL OPEN -- integrator text fix, queued with the docs tail. SA-4 (the L1 import-boundary check) STILL OWED -- CCX-20260905-001 section 4 step (3), with the Director-ruled licensed set. SA-6 was never a defect. Of the four sealed items the harness and critic both missed, three are now closed by the rounds the release routed them to."
+    "status_after_round_6": "SA-1, SA-2, SA-3 repaired in round 6 and verified; SA-5 repaired in round 8 (integrator text). SA-4 CLOSED in round 8 by the import-boundary check in tools/l1_index_write_check.py, built to the Director-ruled licensed set and carrying tests that construct violations. SA-6 was never a defect. ALL FIVE sealed defect items are now closed -- including the four that the harness and the critic both missed. What does not change is the measurement the seal was placed to take: they were missed, by four builder waves, 262 tests, twelve green production presets, two L4 oracles and a dedicated Opus critic, and an external reader found them. Closing them later does not retroactively make the harness that missed them adequate, and the M3 ANL reads the miss, not the repair."
   },
   "next_action_prior": {
     "superseded_utc": "2026-09-05 (session 8 reconciliation)",
