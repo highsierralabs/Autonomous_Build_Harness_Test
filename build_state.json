@@ -94,18 +94,18 @@
     "builder_rounds_total_max": 28,
     "builder_rounds_per_module_max": 4,
     "convergence_window_rounds": 2,
-    "builder_rounds_consumed_total": 14,
+    "builder_rounds_consumed_total": 17,
     "per_module_consumed": {
-      "corpus_adapter": 3,
+      "corpus_adapter": 4,
       "probe": 4,
-      "diagnostics": 1,
+      "diagnostics": 2,
       "catalog": 1,
       "search": 1,
       "reader": 2,
-      "lineage": 1,
+      "lineage": 2,
       "web": 1
     },
-    "note": "14 of 28 consumed (RECONCILED session 8 (2026-09-05, orchestrator claude-opus-5[1m] / xhigh under MOD-1); was 12, understating probe round 4 and reader round 2 -- the critic's ranked issue 8). probe is EXHAUSTED at 4 of 4 (Director ruling 2026-09-05 item 4: NOT waived -- any probe need after round 4 is BOUNDED_FAIL). corpus_adapter has 1 of 4 left, spent this session on the single batched round 4. reader 2 of 4; diagnostics 1 of 4 before its round 2; lineage 1 of 4 before its round 2; catalog 1, search 1, web 1. Note that RUNNING the probe costs no builder round -- only modifying it does -- so evidence can be revalidated after a later change; adding a NEW probe assertion cannot, which is why the rendered-sentence direction check is an integrator L4 oracle and not a probe preset.",
+    "note": "17 of 28 consumed after round 6. EXHAUSTED: probe 4 of 4, corpus_adapter 4 of 4 (its last round landed all four batch items, so it ships with no BOUNDED_FAIL of its own). Remaining: catalog 3, search 3, reader 2, lineage 2, diagnostics 2, web 3 -- 15 module-rounds against 11 total rounds left, so the total is now the binding constraint, not any per-module figure. RUNNING the probe still costs no builder round; MODIFYING it is impossible.",
     "corpus_adapter_round_4_policy": "HELD by Director ruling (boundary-3 disposition item 2): do NOT spend before the critic. After critic round 1, ONE batched dispatch carrying the critic's adapter findings AND the deferred amends-link change request together. Whatever does not fit that single round is declared BOUNDED_FAIL on the record, never silently dropped and never traded for a lowered bar.",
     "arithmetic_correction_of_record": "The session-7 next_action said 'budgets 12 -> 13 with reader 1 -> 2'. That was short by one: probe round 4 (S6-B10) was also unrecorded. The observed total is 14 (corpus_adapter 3 + probe 4 + diagnostics 1 + catalog 1 + search 1 + reader 2 + lineage 1 + web 1 = 14). Recorded here rather than silently corrected because it is a second instance of the P-6 class (a predicted count stated as an observed one) and the M3 ANL counts instances. Session-7 text was authored under claude-fable-5-1 with the identity halt open."
   },
@@ -273,9 +273,9 @@
   ],
   "modules": {
     "corpus_adapter": {
-      "owner": "builder S3-B1 (Sonnet 5) on build/corpus_adapter",
-      "status": "round 3 complete; merged 37ec728; the O10 availability.probe() isfile guard closes the second create-on-open instance (Director hard floor before FINAL). One round left, reserved for the deferred amends-link CR.",
-      "round": 3,
+      "owner": "builder S8-C4 (Sonnet 5) on build/corpus_adapter",
+      "status": "round 4 of 4 complete -- module EXHAUSTED; merged f0cd731. All four batch items landed: SA-1 (the graph-degraded notice and mode_effective now name what degraded and what survived), SA-2 (the probe budget is a real wall-clock bound, qualified by asserting the caller's elapsed time), the deferred amends click-through (D-Q12, closing SCOPE row 17), and the three sole-importer docstrings. No BOUNDED_FAIL from this module's own batch.",
+      "round": 4,
       "objective_gates": {
         "ruff": "pass",
         "pytest": "pass",
@@ -284,10 +284,8 @@
       },
       "ref_score": null,
       "open_issues": [
-        "availability.py line 49: direct RHACO_corpus_index.connect(db_path) inside the vector probe bypasses the per-call isfile guard (same O10 class; disclosed by S4-C2; Director disposition pending)",
-        "availability probe 8 s thread-timeout bound unexercised against a hung Ollama (verified by code reading)",
-        "campaign_subtree / dangling_references have no dedicated pytest (not in the assigned test list)",
-        "wrong_doc_for_id fault semantics (rotate by one within the id's own rows) not yet confirmed against a fixture index"
+        "edges_for double-appends the same Edge to both outgoing and incoming when an anchor's doc_id and filename stem both match an endpoint (O7 + O8) -- reported by lineage round 2; NOT FIXABLE, the module is exhausted. BOUNDED_FAIL BF-2, compensated by the lineage view-layer suppression",
+        "the 8 s bound is now real and qualified against a hung fixture; it remains unexercised against a genuinely hung Ollama (unchanged limit, honestly carried)"
       ],
       "assumptions": [
         "wrong_doc_for_id fault = rotate the id's own rows by one (documented interpretation)"
@@ -367,9 +365,9 @@
       }
     },
     "diagnostics": {
-      "owner": "builder S3-B3 (Sonnet 5) on build/diagnostics",
-      "status": "round 1 complete; merged; verified on the live index post-merge; wave-2 polish pending (web base ownership transfers at wave 3)",
-      "round": 1,
+      "owner": "builder S8-B13 (Sonnet 5) on build/diagnostics",
+      "status": "round 2 of 4 complete; merged cfa90ba. sys.path handling is S2 conformant (append, not insert-at-0), with tests asserting ORDER and idempotence. 27 tests. Scope held to the conformance fix exactly as ruled. Two rounds left.",
+      "round": 2,
       "objective_gates": {
         "ruff": "pass",
         "pytest": "pass",
@@ -378,9 +376,8 @@
       },
       "ref_score": null,
       "open_issues": [
-        "built against the adapter contract with a fake adapter; integrator verified against the landed adapter post-merge",
-        "_find_last_probe_run's found-branch verified by code reading in the worktree; exercised post-merge against the probe builder's run",
-        "ARCHITECTURE 4.6 names docs/probe-qualification/last_run.json while the dispatch named runs/*/run_summary.json -- the dispatch form was followed and is what the probe writes"
+        "ARCHITECTURE 4.6 names last_run.json while the service reads runs/*/run_summary.json (SA-5) -- integrator text fix, still owed",
+        "critic ranked issue 10 (the live freshness scan's duration is never measured) -- ACCEPTED, ruled out of scope for this round, queued for a later diagnostics round or BOUNDED_FAIL"
       ],
       "assumptions": [],
       "blocked_dependencies": [],
@@ -461,16 +458,18 @@
       "scope_references": []
     },
     "lineage": {
-      "owner": "builder S6-B8 (Sonnet 5) on build/lineage",
-      "status": "round 1 complete; merged 943715c; /lineage + /api/lineage, typed directional edges with the KB3 data-* observable, SVG graph, reasoning trail, supersession chain, campaign subtree",
-      "round": 1,
+      "owner": "builder S8-B12 (Sonnet 5) on build/lineage",
+      "status": "round 2 of 4 complete; merged 3e5eb7f. Every human-facing sentence is now built from relation_sentence(relation, direction); the O7/O8 self-pointing amends edge and the identical-link-text runs are repaired in the view. 29 tests. Two rounds left.",
+      "round": 2,
       "objective_gates": {
         "ruff": "pass",
         "pytest": "pass",
         "l1_index_write_grep": "pass"
       },
       "ref_score": null,
-      "open_issues": [],
+      "open_issues": [
+        "the adapter's edges_for double-append is unfixed at source (BF-2); only its view-layer symptoms are suppressed here"
+      ],
       "assumptions": [],
       "blocked_dependencies": [],
       "invalidated_evidence": [],
@@ -991,7 +990,7 @@
       "round": 6,
       "wave": null,
       "kind": "builder round -- three concurrent strands (the A1.3 cap): lineage round 2, corpus_adapter round 4 (batched, last), diagnostics round 2",
-      "status": "IN FLIGHT -- dispatched 2026-09-05T15:27:50Z, not yet returned",
+      "status": "complete -- three builders merged and integrated; round-6 boundary",
       "modules": [
         "lineage",
         "corpus_adapter",
@@ -1024,7 +1023,21 @@
           "bytes": 11563
         }
       },
-      "budget_note": "14 of 28 consumed before this round; 17 of 28 at merge. corpus_adapter is EXHAUSTED after this round (4 of 4); probe already is."
+      "budget_note": "17 of 28 consumed. corpus_adapter EXHAUSTED (4 of 4) with all four batch items landed and no BOUNDED_FAIL of its own; probe EXHAUSTED (4 of 4); lineage 2 of 4; diagnostics 2 of 4.",
+      "returned_utc": "2026-09-05T15:49:22Z",
+      "merges": {
+        "lineage": "3e5eb7f",
+        "diagnostics": "cfa90ba",
+        "corpus_adapter": "f0cd731"
+      },
+      "integration": {
+        "order": "lineage -> diagnostics -> corpus_adapter, each --no-ff with the full gate re-run between merges (269, 271, then 275 after revalidation)",
+        "dependent_revalidation": "dcb0443 (PROMPT.md section 4; the c861680 precedent). S8-C4's token change had two out-of-scope consumers. tests/search encoded the old token -- a stale assertion. explorer/search/templates/search/search.html matched the vocabulary with EXACT TOKEN TUPLES, so under the new token both disclosure blocks (Graph relation, Component rank) would have silently vanished from degraded graph results: a real functional regression, and the worst possible failure mode for a disclosure, since it disappears exactly when the mode degrades. Rewritten to match by PREFIX so the check fails open; models.py's vocabulary comment now states the prefix rule so the next consumer is not invited to repeat it.",
+        "semantic_integration_check": "ARCHITECTURE A20 / P-3: zero merge conflicts is not semantic integration. Three merged changes met on one surface that no single strand saw -- S8-B12 suppressed the O7/O8 self-pointing amends edge in the VIEW against the PRE-merge adapter, while S8-C4 changed edges_for so that same edge's from_id now resolves. Checked read-only in-process against the LIVE corpus: the same amends edge reads 'amended by' from the parent and 'amends' from the amendment; no edge double-bucketed on either page; the amendment is now LINKED from the parent page (D-Q12); zero self-links on either page (S8-C4's CR-6 pre-empted by S8-B12's disclosed extension); and the supersession HEAD -- the critic's decisive derived case -- no longer reads 'is superseded by' in its Incoming section. SA-1 separately verified on the live path with RHACO_CORPUS_DISABLE_VEC=1. Live db ea8f7df2... 115,081,216 B unchanged before and after every check.",
+        "docs_discharged": "2a12f44 -- adapter CR-1 (mode_effective enum) and CR-5 (D-Q12 row) in ARCHITECTURE 4.1; SCOPE row 17 RESOLVED with its discharge evidence recorded in the row."
+      },
+      "gates_at_boundary": "ruff clean; l1-index-write-check hits=6 allowlisted=6 defects=0 PASS; pytest 275 passed (262 before the round: +7 lineage, +2 diagnostics, +4 corpus_adapter)",
+      "status_note_in_flight_record": "This entry was written at dispatch with status IN FLIGHT and completed at the boundary -- the GD-1 remedy applied prospectively rather than only retrospectively."
     }
   ],
   "l1_index_write_grep": [
@@ -1051,6 +1064,10 @@
     {
       "round": "3 (wave-3 merges + integrator repair)",
       "result": "hits=6 allowlisted=6 defects=0 PASS"
+    },
+    {
+      "round": "6 (lineage r2, corpus_adapter r4, diagnostics r2; each strand plus the integrator post-merge)",
+      "result": "hits=6 allowlisted=6 (fixtures/build_fixture_index.py) defects=0 PASS"
     }
   ],
   "dispatch_record_fields": [
@@ -2012,18 +2029,18 @@
     {
       "session": 8,
       "round": 6,
-      "model": "claude-sonnet-5 (requested; client-reported string recorded at return)",
+      "model": "claude-sonnet-5 (client-reported by the strand: 'You are powered by the model named Sonnet 5. The exact model ID is claude-sonnet-5.')",
       "orchestrator_model": "claude-opus-5[1m] (MOD-1)",
       "effort": "xhigh (Workflow opts.effort, explicit)",
       "pattern_primary": "#3 candidate (worktree-isolated builder)",
       "execution_mode": "concurrent (round 6 = three strands, the A1.3 cap of 3)",
       "tier_escalation": "none",
       "dispatched_utc": "2026-09-05T15:27:50Z",
-      "returned_utc": null,
+      "returned_utc": "2026-09-05T15:49:22Z (workflow wf_b0d40995-3c0 completed)",
       "workflow_run": "wf_b0d40995-3c0",
       "task_id": "w92gupckt",
       "base": "3e7521b (current main at dispatch; each strand records its own rev-parse HEAD and asserts its HEAD contains f29bcc9)",
-      "status": "IN FLIGHT -- dispatched, not yet returned",
+      "status": "COMPLETE",
       "prefix": "section 2 L D-12 + D-3 blocks built at runtime and byte-diffed against all three archived prompt prefixes BEFORE dispatch (P-11 control): 1,111 chars, sha256 6a893dbb94c0207fb84727035a5908aaec3df809ae19defe4be07e53fbc175a3, byte-identical to each; then a sha-pinned pointer to the archived prompt of record",
       "record_provenance": "written at dispatch, session 8, from the orchestrator's own observed dispatch time and the Workflow tool's returned run/task ids -- recorded BEFORE the strands returned so a client crash cannot lose it (the session-7 precedent, where a crash cost a push)",
       "strand_id": "S8-B12",
@@ -2035,23 +2052,42 @@
         "file": "docs/rounds/R07_lineage.prompt.md",
         "sha256": "c53f2f9c2ed508cbfa30c2d589cb9553ef0ce8c118de82bab7efcac3312fafe2",
         "bytes": 15142
-      }
+      },
+      "agent_id": "afea9da5f58f46350",
+      "t_start_utc": "2026-09-05T15:27:43.1791437Z",
+      "t_end_utc": "2026-09-05T15:45:01.3098688Z",
+      "base_commit_observed": "3e7521bf7b79cf2d2730ef460052a006d5aa4440",
+      "contains_f29bcc9_verified_by_strand": true,
+      "prompt_sha256_verified_by_strand": true,
+      "head_commit": "23b4dd6a0bfdea1055dc9e2e237e5771888ced82",
+      "commits": 3,
+      "merged": "3e5eb7f (--no-ff)",
+      "gates": "ruff clean (run twice, pre- and post-commit); pytest tests/lineage 29 passed (22 + 7 new); full tree 269 passed; L1 hits=6 allowlisted=6 defects=0 PASS; worktree clean",
+      "acceptance": "COMPLETE -- merged 3e5eb7f. explorer/lineage/service.py and lineage.html now build every human-facing sentence from models.relation_sentence(relation, direction) rather than from the direction-blind Edge.direction_label, on the outgoing, incoming, unresolved and reasoning-trail surfaces. Seven new tests assert the RENDERED SENTENCE and derive the expectation from the fact rather than from RELATION_LABELS -- the tautology that let the defect survive four waves, 262 tests, twelve green presets and a dedicated critic. Verified by the integrator on the LIVE corpus after the merge: the same amends edge reads 'amended by' from the parent and 'amends' from the amendment, and the supersession HEAD no longer reads 'is superseded by' in its Incoming section.",
+      "change_requests": [
+        "to corpus_adapter: adapter.py edges_for double-appends the SAME Edge object to both outgoing and incoming when an anchor's doc_id and filename stem both match an edge endpoint (O7 + O8). This round suppressed both view-layer symptoms per its dispatch; the source behaviour is unfixed. NOT ACTIONABLE: corpus_adapter is exhausted at 4 of 4 -- recorded as BOUNDED_FAIL BF-2 with the view-layer suppression as its compensating control."
+      ],
+      "open_issues": [
+        "W5 probe preset now FAILS on incoming edges by construction (direction-aware sentences no longer match RELATION_LABELS across all buckets) -- the accepted BOUNDED_FAIL BF-1; the probe is exhausted and tools/probe_corpus_explorer.py was correctly not touched",
+        "adapter edges_for double-append unfixed at source (BF-2); only its view-layer symptoms are repaired"
+      ],
+      "deviations": "None from the archived prompt's instructions or working rules. One disclosed IN-SCOPE extension, reported rather than folded in silently: while instrumenting task item 3 the strand found the same O7/O8 collision also put the anchor's own card in an edge's resolved target list -- a self-link on the amendment's own page and a would-be degenerate self-loop in the SVG layout. Not named by line number in the prompt, but the identical root cause named in item 3 and entirely inside explorer/lineage/**, so it was fixed (_other_side_cards) and disclosed. INTEGRATOR NOTE: this extension is what pre-empted the self-link that the CONCURRENT adapter strand independently predicted its own change would create (its CR-6) -- two strands, blind to each other, converging correctly on one degenerate case. Verified on the live corpus, not assumed. Second, procedural: the strand used the PowerShell tool rather than Bash for Windows-path operations per the project CLAUDE.md files, noting it as a project-instruction override of a session-level suggestion."
     },
     {
       "session": 8,
       "round": 6,
-      "model": "claude-sonnet-5 (requested; client-reported string recorded at return)",
+      "model": "claude-sonnet-5 (client-reported by the strand: 'You are powered by the model named Sonnet 5. The exact model ID is claude-sonnet-5.')",
       "orchestrator_model": "claude-opus-5[1m] (MOD-1)",
       "effort": "xhigh (Workflow opts.effort, explicit)",
       "pattern_primary": "#3 candidate (worktree-isolated builder)",
       "execution_mode": "concurrent (round 6 = three strands, the A1.3 cap of 3)",
       "tier_escalation": "none",
       "dispatched_utc": "2026-09-05T15:27:50Z",
-      "returned_utc": null,
+      "returned_utc": "2026-09-05T15:49:22Z (workflow wf_b0d40995-3c0 completed)",
       "workflow_run": "wf_b0d40995-3c0",
       "task_id": "w92gupckt",
       "base": "3e7521b (current main at dispatch; each strand records its own rev-parse HEAD and asserts its HEAD contains f29bcc9)",
-      "status": "IN FLIGHT -- dispatched, not yet returned",
+      "status": "COMPLETE",
       "prefix": "section 2 L D-12 + D-3 blocks built at runtime and byte-diffed against all three archived prompt prefixes BEFORE dispatch (P-11 control): 1,111 chars, sha256 6a893dbb94c0207fb84727035a5908aaec3df809ae19defe4be07e53fbc175a3, byte-identical to each; then a sha-pinned pointer to the archived prompt of record",
       "record_provenance": "written at dispatch, session 8, from the orchestrator's own observed dispatch time and the Workflow tool's returned run/task ids -- recorded BEFORE the strands returned so a client crash cannot lose it (the session-7 precedent, where a crash cost a push)",
       "strand_id": "S8-C4",
@@ -2063,23 +2099,66 @@
         "file": "docs/rounds/R07_corpus_adapter.prompt.md",
         "sha256": "c0ce0841192189811a3332ab38c2d587b486c3233ac9dd3adab1fcdb26668f3b",
         "bytes": 14810
-      }
+      },
+      "agent_id": "recorded in the workflow run record wf_b0d40995-3c0",
+      "t_start_utc": "2026-09-05T15:27:45.6255099Z",
+      "t_end_utc": "2026-09-05T15:48:45.9015970Z",
+      "base_commit_observed": "3e7521bf7b79cf2d2730ef460052a006d5aa4440",
+      "contains_f29bcc9_verified_by_strand": true,
+      "prompt_sha256_verified_by_strand": true,
+      "head_commit": "9303af47086a0c74eff0f7f8cf50a82f430f5be9",
+      "commits": 5,
+      "merged": "f0cd731 (--no-ff)",
+      "gates": "ruff clean; pytest tests/corpus_adapter 24 passed (20 + 4 new); L1 hits=6 allowlisted=6 defects=0 PASS; worktree clean. FULL SUITE 265 passed / 1 FAILED at the strand's own gate -- tests/search/test_hybrid_graph_degraded.py::test_graph_degrades_on_fixture, the direct and foreseen consequence of item 1's mandated token change landing in a file outside this module's owned paths. The strand did NOT weaken, revert or edit around it: it kept the failure, filed it as change request 4, and disclosed the rule-5(b) deviation explicitly. Its own dispatch text pre-authorised exactly that outcome. Repaired by the integrator at dcb0443 as dependent revalidation; full suite 275 passed after integration.",
+      "batch_items": [
+        {
+          "item": "1 (SA-1): the graph-degraded notice describes a degradation that does not happen",
+          "disposition": "landed",
+          "detail": "GRAPH_DEGRADED_NOTICE rewritten to name what degraded (the hybrid seed channel) and what survives (the 1-hop edge expansion, which VecUnavailable never touches); mode_effective now graph-degraded-semantic-seed, naming the surviving channel. HYBRID_DEGRADED_NOTICE examined against the same standard and found CORRECT as written -- under VecUnavailable the fused ordering really does collapse to lexical -- and left unchanged, which is the right answer and was asked for explicitly. New subprocess test. Verified by the integrator on the LIVE index with RHACO_CORPUS_DISABLE_VEC=1 (the W7 mechanism): the false 'Graph unavailable' is gone and the notice names the surviving channel."
+        },
+        {
+          "item": "2 (SA-2): the 8 s probe budget is not a wall-clock bound",
+          "disposition": "landed",
+          "detail": "probe() no longer uses ThreadPoolExecutor, whose context-manager exit calls shutdown(wait=True) and joins the worker regardless of the future's own timeout -- the whole of the defect. Replaced with an unjoined daemon thread plus threading.Event.wait(timeout=PROBE_BUDGET_S); the docstring's false daemon-thread claim corrected. The new test asserts the CALLER'S OWN ELAPSED WALL CLOCK is bounded, not merely that the returned reason is embedder_unreachable -- which the old code already achieved while blocking for up to OLLAMA_TIMEOUT_S=300. That distinction was named in the dispatch and honoured."
+        },
+        {
+          "item": "3: the deferred amends click-through change request",
+          "disposition": "landed",
+          "detail": "D-Q12 added (cards.doc_filename LIKE ? ESCAPE '\\', an exact-stem prefix ending in a literal '.', so 'stem' matches 'stem.md' but never 'stemX.md'); edges_for now resolves an amends edge's source_cards through it instead of the doc_id-keyed D-Q3 that a filename stem can never match. Verified live, before and after. Closes SCOPE row 17, which had deferred precisely to this round."
+        },
+        {
+          "item": "4: three module docstrings still claiming adapter.py is the sole importer",
+          "disposition": "landed",
+          "detail": "adapter.py, availability.py and sql.py corrected to agree with the new ARCHITECTURE 4.1 enumeration, keeping each file's true statement about its own imports."
+        }
+      ],
+      "bounded_fail": "NONE. All four batch items landed on the module's last round -- the batched-round design the boundary-3 HOLD reserved worked as intended.",
+      "change_requests": [
+        "CR-1 ARCHITECTURE 4.1 mode_effective enum -- DISCHARGED by the integrator (2a12f44)",
+        "CR-2 explorer/models.py mode_effective comment -- DISCHARGED (dcb0443), and extended with a prefix-matching rule",
+        "CR-3 explorer/search/templates/search/search.html exact-token checks -- DISCHARGED (dcb0443), rewritten to match by PREFIX rather than by adding the new token to a tuple",
+        "CR-4 tests/search/test_hybrid_graph_degraded.py -- DISCHARGED (dcb0443)",
+        "CR-5 ARCHITECTURE 4.1 D-Q12 row -- DISCHARGED (2a12f44)",
+        "CR-6 informational, to lineage: the stem resolution turns the amendment page's degenerate self-classification into a visible self-link -- NO ACTION NEEDED, the concurrent lineage strand had already suppressed it; verified on the live corpus (zero self-links, edge present once in outgoing only)"
+      ],
+      "open_issues": [],
+      "deviations": "Working rule 5(b)'s 'pytest tests -q green' not literally met at the strand's own gate: 1 of 266 failed, because item 1's mandated token change broke an assertion encoding the old, false token in a file outside this module's owned paths. Item 1's dispatch text pre-authorised this ('if changing the token would break one, file it as a change request rather than editing their file'), so the fix was made correctly and the break filed rather than silenced, reverted, or worked around by editing an out-of-scope file. This is the behaviour the ownership rule exists to produce and it is recorded as a correct outcome, not as a defect."
     },
     {
       "session": 8,
       "round": 6,
-      "model": "claude-sonnet-5 (requested; client-reported string recorded at return)",
+      "model": "claude-sonnet-5 (client-reported by the strand: 'You are powered by the model named Sonnet 5. The exact model ID is claude-sonnet-5.')",
       "orchestrator_model": "claude-opus-5[1m] (MOD-1)",
       "effort": "xhigh (Workflow opts.effort, explicit)",
       "pattern_primary": "#3 candidate (worktree-isolated builder)",
       "execution_mode": "concurrent (round 6 = three strands, the A1.3 cap of 3)",
       "tier_escalation": "none",
       "dispatched_utc": "2026-09-05T15:27:50Z",
-      "returned_utc": null,
+      "returned_utc": "2026-09-05T15:49:22Z (workflow wf_b0d40995-3c0 completed)",
       "workflow_run": "wf_b0d40995-3c0",
       "task_id": "w92gupckt",
       "base": "3e7521b (current main at dispatch; each strand records its own rev-parse HEAD and asserts its HEAD contains f29bcc9)",
-      "status": "IN FLIGHT -- dispatched, not yet returned",
+      "status": "COMPLETE",
       "prefix": "section 2 L D-12 + D-3 blocks built at runtime and byte-diffed against all three archived prompt prefixes BEFORE dispatch (P-11 control): 1,111 chars, sha256 6a893dbb94c0207fb84727035a5908aaec3df809ae19defe4be07e53fbc175a3, byte-identical to each; then a sha-pinned pointer to the archived prompt of record",
       "record_provenance": "written at dispatch, session 8, from the orchestrator's own observed dispatch time and the Workflow tool's returned run/task ids -- recorded BEFORE the strands returned so a client crash cannot lose it (the session-7 precedent, where a crash cost a push)",
       "strand_id": "S8-B13",
@@ -2091,7 +2170,24 @@
         "file": "docs/rounds/R07_diagnostics.prompt.md",
         "sha256": "5bf9dc7eb636f660f5ab889900e292d4c9c69591c3c5f76311feb0b4908be84c",
         "bytes": 11563
-      }
+      },
+      "t_start_utc": "2026-09-05T15:27:46.0382093Z",
+      "t_end_utc": "2026-09-05T15:36:45.2639562Z",
+      "base_commit_observed": "3e7521bf7b79cf2d2730ef460052a006d5aa4440",
+      "contains_f29bcc9_verified_by_strand": true,
+      "prompt_sha256_verified_by_strand": true,
+      "head_commit": "7a8aee91170e9ca2cb8fee57a9d5452b4e3a4ad7",
+      "commits": 3,
+      "merged": "cfa90ba (--no-ff)",
+      "gates": "ruff clean; pytest tests/diagnostics 27 passed (25 + 2 new); full tree 264 passed; L1 hits=6 allowlisted=6 defects=0 PASS; worktree clean",
+      "acceptance": "COMPLETE -- merged cfa90ba. _rerank_artifact_present's sys.path handling is now S2 conformant (append, never insert-at-0), so the RHACO directories can no longer shadow a same-named workspace module for the rest of the process. Two new tests assert the ORDER rather than membership -- a membership test passes on the defective code and would have been worth nothing -- plus idempotence. Scope held exactly: ranked issue 10 and SA-5 were named out of scope in the dispatch and were not touched.",
+      "change_requests": [
+        "fixtures/build_fixture_index.py lines 44-55 use sys.path.insert(0, ...) -- the same insert-at-front shape as this round's defect, and unlike the instrument/test hits this file is one of the three licensed PRODUCT-TREE importers, so it is the one other candidate for the same class of S2 finding. Outside the strand's owned paths; filed for its owner (fixtures/ is probe-owned, and probe is exhausted at 4 of 4)."
+      ],
+      "open_issues": [
+        "A tree-wide grep found sys.path.insert(0, ...) in several instrument and test files that ARCHITECTURE 4.1 carves out of the product-tree invariant (preflight/item12_import.py, preflight/item13_vec.py, tools/l4_card_agreement_check.py, tools/l4_gold_oracle.py, tools/probe_corpus_explorer.py, and four tests/ conftest/test modules). Whether S2's append-not-insert rule was ever meant to bind instrument and test code the way it binds product code is an OPEN QUESTION the strand explicitly took no position on. Integrator item; see open_items O-3."
+      ],
+      "deviations": "None from the archived prompt's working rules. One process note the strand volunteered and which is worth keeping: while drafting its Evidence section it began writing a claim that it had verified the new test fails against the pre-fix code BEFORE it had actually run that verification. It caught this itself, then really ran it (restored HEAD's pre-fix service.py via git show, ran the new tests, observed the ordering test fail with assert 2 == 0 and the idempotence test still pass, restored the fixed file, re-ran all three gates), and corrected the report to describe the commands actually used rather than the mechanism first drafted. This is the evidence-discipline rule working inside a strand, unprompted, on the strand's own draft -- positive harness evidence, logged as HE-2."
     }
   ],
   "dispatch_record_notes": [
@@ -2148,6 +2244,13 @@
       "text": "The #keyhelp block is byte-identical markup duplicated into five page templates (catalog, search, reader, diagnostics, lineage). The round-3 integrator repair updated all five and added tests/integration/test_keyhelp_contract.py as a compensating control, but the structural defect is the duplication itself.",
       "director_ruling": "Boundary-3 disposition item 1: the structural fix is a WEB ROUND-2 CANDIDATE, not an integrator edit -- the block belongs once in base.html (web-owned), with the five copies deleted and the contract test kept. Visible to the critic.",
       "ledger": "P-13"
+    },
+    {
+      "id": "O-3",
+      "status": "OPEN -- integrator question raised by S8-B13",
+      "text": "sys.path.insert(0, ...) also appears in fixtures/build_fixture_index.py -- one of the three licensed PRODUCT-TREE importers, so the same S2 class as the defect round 6 just fixed -- and in several instrument/test files that ARCHITECTURE 4.1 carves out of the product-tree invariant (preflight/, tools/, tests/).",
+      "question": "Does S2's append-not-insert rule bind instrument and test code the way it binds product code? The strand explicitly took no position. The fixtures/ instance is the sharper half: it is product-tree, and fixtures/ is probe-owned with probe exhausted.",
+      "director_ruling": "pending"
     }
   ],
   "workspace_push_policy": "Director ruling O-1 (2026-09-04): push main at each session boundary with the build_state.json commit and at terminal state; fast-forward only; each push recorded in the handback resumption entry.",
@@ -2426,6 +2529,16 @@
       "id": "HE-1",
       "round": 3,
       "text": "POSITIVE: the integrator's new static contract test (tests/integration/test_keyhelp_contract.py) caught a real drift on its very first run -- the lineage page, merged in the SAME wave, had copied the two-key #keyhelp block. The duplication was actively reproducing itself, so the control was validated by the defect class it was written for, inside the wave that created it. Logged as positive harness evidence on the Director's instruction (boundary-3 disposition item 1)."
+    },
+    {
+      "id": "HE-2",
+      "round": 6,
+      "text": "POSITIVE: a builder strand caught ITSELF drafting an unverified claim. S8-B13 began writing into its Evidence section that it had verified the new test fails against the pre-fix code before it had actually run that verification; it caught this on its own, then really ran it (restored HEAD's pre-fix service.py via git show, observed the ordering test fail with assert 2 == 0 and the idempotence test still pass, restored the file, re-ran all three gates), and corrected the report to describe the commands actually run rather than the mechanism first drafted. Unprompted, self-disclosed, and on exactly the axis the sealed audit found the harness weakest (P-17: the harness tests behaviour well and audits its own claims poorly). Recorded beside HE-1."
+    },
+    {
+      "id": "HE-3",
+      "round": 6,
+      "text": "POSITIVE, and the strongest #3 (worktree isolation) evidence so far: two strands blind to each other converged correctly on one degenerate case. S8-C4 predicted that its stem resolution would turn the amendment page's degenerate self-classification into a visible self-link and filed it to lineage as CR-6; S8-B12, which could not see that change, had independently suppressed exactly that self-link as a disclosed in-scope extension. The integrator verified the composition on the live corpus rather than assuming it: zero self-links, no double-bucketing, correct sentences from both ends. Counterweight to be recorded honestly beside it: the same wave produced a real cross-module regression (S8-C4's token change silently disabling two disclosure blocks in the search template) that NO strand could see and only integrator revalidation caught. Isolation prevented the conflict and also prevented the detection."
     }
   ],
   "l4_oracle_runs": [
@@ -2585,7 +2698,7 @@
       "no arbitrary text-to-SQL": "PASS -- fixed parameterised statements only (ARCHITECTURE 4.1 D-Q1..D-Q11)",
       "zero unresolved template/runtime exceptions in acceptance probes": "PASS AS OF THIS REFRESH -- this gate FAILED at probe round 4 (W6, HTTP 500 on 60.0% of the corpus). Repaired in reader round 2 and re-verified by the full 12-preset refresh",
       "card status and CMP lifecycle_state never collapsed": "PASS -- S4 held across catalog, search, reader, lineage; W4 exercises independent narrowing on the production path",
-      "typed relation direction preserved": "PASS -- KB3 qualified this round (reverse_edges detected); W5 and W6 on the production path",
+      "typed relation direction preserved": "REPAIRED AND TEST-EVIDENCED (L2/L3), L4 direction oracle still owed -- see critic_round_1_disagreement. Was asserted PASS by the build, recorded FAIL by critic round 1, and the build withdrew its PASS.",
       "flat hybrid remains default unless newer ratified evidence says otherwise": "PASS -- docs/REFERENCE.md section 1 unchanged; no superseding evidence found",
       "semantic-unavailable degradation explicit and functional": "PASS -- W7 with --disable-vec: mode relabelled, exact notice, identifier and lexical retrieval still return"
     },
@@ -2598,7 +2711,7 @@
       "why_the_harness_could_not_see_it": "W5 asserts label != RELATION_LABELS.get(rel, rel) -- it compares the product's rendering against the very constant the product renders from, so it can only detect a divergence between two copies of the same answer. That is the SA-4 class the sealed audit named and the critic independently found three times.",
       "repair": "c861680 -- direction-aware RELATION_LABELS / Edge.direction_label (integrator contract change, D-1), landed before this session.",
       "verification_still_owed": "The repair is NOT yet evidenced by an instrument that asserts on the RENDERED SENTENCE. The probe cannot supply it (budget exhausted at 4/4; adding a preset would be a fifth round). It is supplied instead by an integrator-owned L4 direction oracle -- rendered edge sentence vs from_id / to_id -- on the POST_R4 item-2b precedent that established integrator L4 oracles as the sanctioned cover for a class the probe can no longer reach. Until that oracle runs green, gate 7 is REPAIRED-BUT-UNEVIDENCED, not PASS.",
-      "gate_7_state_now": "REPAIRED-BUT-UNEVIDENCED (was PASS asserted, then FAIL by the critic)"
+      "gate_7_state_now": "REPAIRED AND TEST-EVIDENCED at L2/L3, L4 STILL OWED. Round 6 (S8-B12, merged 3e5eb7f) landed the rendering and seven committed tests that assert the RENDERED SENTENCE and derive the expectation from the fact rather than from RELATION_LABELS. The integrator additionally verified the critic's own decisive case on the LIVE corpus after the merge: the supersession HEAD no longer reads 'is superseded by' in its Incoming section, and the same amends edge reads 'amended by' from the parent and 'amends' from the amendment. What is still owed is the L4 DIFFERENTIAL instrument -- the direction oracle of CCX section 4 step (3), rendered sentence vs from_id/to_id across the corpus -- because the probe cannot supply production-path evidence (exhausted at 4 of 4) and an ad hoc integrator check is not a durable instrument. Gate 7 is not declared PASS until that oracle runs."
     }
   },
   "sealed_audit_release": {
@@ -2621,28 +2734,31 @@
         "id": "SA-1",
         "subject": "GRAPH_DEGRADED_NOTICE misdescribes what degraded in graph mode",
         "classification": "MISSED",
-        "still_live": true,
+        "still_live": false,
         "verified_now": "explorer/corpus_adapter/adapter.py:56 still reads 'Graph unavailable: hybrid seed channel degraded to lexical. Result ordering is lexical-only.' and line 473 still sets mode_effective='graph-degraded'. The sealed quote elided the middle clause; the text is unchanged. 'Graph unavailable' is false -- the 1-hop edge expansion reads only the edges table and is unaffected by VecUnavailable -- and 'Result ordering is lexical-only' is false for the same reason. mode_effective does not name the surviving channel.",
         "detection_evidence": "No mention anywhere in explorer/, docs/, SCOPE.md, CONSTRAINTS.md or build_state.json (grep for the corrected wording returns nothing). The critic passed the degradation-honesty criterion on W7 evidence, which exercises HYBRID degradation only; no layer exercises graph mode under --disable-vec at all.",
-        "note": "The seal anticipated this: a MISS here is a finding about the critic persona and L1 scope, not grounds to discard the run. The structural cause is that W7 is the only degradation preset and it drives hybrid; a false statement on a mode nothing exercises is invisible to every layer."
+        "note": "The seal anticipated this: a MISS here is a finding about the critic persona and L1 scope, not grounds to discard the run. The structural cause is that W7 is the only degradation preset and it drives hybrid; a false statement on a mode nothing exercises is invisible to every layer.",
+        "repaired": "Round 6, S8-C4 item 1 (merged f0cd731). Verified by the integrator on the LIVE index with RHACO_CORPUS_DISABLE_VEC=1: mode_effective graph-degraded-semantic-seed, the notice names the surviving graph expansion, the false 'Graph unavailable' is gone, and both evidence disclosures still render (integrator prefix fix, dcb0443)."
       },
       {
         "id": "SA-2",
         "subject": "the 8 s vector-probe budget is not a wall-clock bound",
         "classification": "MISSED (partial credit: the harness flagged the claim as unverified, but nobody found the defect)",
-        "still_live": true,
+        "still_live": false,
         "verified_now": "explorer/corpus_adapter/availability.py:90-92 still reads 'with ThreadPoolExecutor(max_workers=1) as pool:' followed by future.result(timeout=PROBE_BUDGET_S). The with-block exit calls shutdown(wait=True), which joins the worker, so a hung embed_query_cpu blocks the caller for the module's own OLLAMA_TIMEOUT_S=300, not 8 s. The module docstring's 'daemon-thread' claim is also false. corpus_adapter round 3 edited this file for the O10 isfile guard and did not touch this -- correctly, it was not its task.",
         "detection_evidence": "The round-1 builder recorded 'verified by code reading, not an observed slow run', and that honest UNVERIFIED flag has been carried forward in build_state open_issues ever since. That is the precursor to the finding, not the finding: no layer and not the critic identified that the bound does not hold.",
-        "note": "Same seal clause as SA-1: a MISS here is a finding about L1 scope and the critic persona."
+        "note": "Same seal clause as SA-1: a MISS here is a finding about L1 scope and the critic persona.",
+        "repaired": "Round 6, S8-C4 item 2 (merged f0cd731). The ThreadPoolExecutor context manager -- whose exit joined the worker and was the whole of the defect -- is replaced by an unjoined daemon thread plus an Event wait; the false daemon-thread docstring is corrected; and the new test asserts the CALLER'S elapsed wall clock rather than the returned reason, which is the only assertion that could have failed on the old code."
       },
       {
         "id": "SA-3",
         "subject": "the 'sole RHACO importer' invariant is false in the merged tree, and one importer inserts at sys.path[0]",
         "classification": "MISSED",
-        "still_live": true,
+        "still_live": false,
         "verified_now": "Three importers exist outside adapter.py: explorer/diagnostics/service.py:85 (import RHACO_corpus_index) and fixtures/build_fixture_index.py:57-58 (both modules). Both were orchestrator-licensed, so the imports are not the defect -- the drift is: ARCHITECTURE.md 4.1 and the corpus_adapter package docstring still say 'the only importer'. Separately, explorer/diagnostics/service.py:83 uses sys.path.insert(0, entry) while explorer/corpus_adapter/paths.py:37 uses sys.path.append(entry); S2's rule is append, never insert-at-0.",
         "detection_evidence": "Not flagged in any round report, in build_state, or by the critic. The critic verified the write-path gate against adapter.py directly and did not test the 'only importer' claim as a claim.",
-        "note": "This is exactly the class SA-4 predicts L1 cannot see: an import-boundary invariant asserted in prose and checked by nothing."
+        "note": "This is exactly the class SA-4 predicts L1 cannot see: an import-boundary invariant asserted in prose and checked by nothing.",
+        "repaired": "Prose half: integrator, f29bcc9 (ARCHITECTURE 4.1 enumeration + CONSTRAINTS S2 + the corpus_adapter package docstring), narrowed at 961762d per the Director's SA-4 ruling. Code half: round 6, S8-B13 (merged cfa90ba) -- sys.path.append, with an ORDER-asserting test. The three remaining module docstrings: round 6, S8-C4 item 4. Re-derivation found the claim in seven places across four files, not the two the seal named (P-20)."
       },
       {
         "id": "SA-4",
@@ -2689,7 +2805,8 @@
       "SA-5": "ARCHITECTURE 4.6 (last_run.json vs runs/*/run_summary.json) -- integrator text edit, queued with the docs tail of the convergence sequence.",
       "SA-6": "Satisfied unprompted; no remedy owed.",
       "bounded_fail_rule": "Whatever of SA-1 / SA-2 / the deferred amends-link change request does not fit the single batched corpus_adapter round 4 is declared BOUNDED_FAIL on the record, per item, never silently dropped and never traded for a lowered bar."
-    }
+    },
+    "status_after_round_6": "SA-1, SA-2, SA-3 REPAIRED and verified. SA-5 (ARCHITECTURE 4.6 last_run.json) STILL OPEN -- integrator text fix, queued with the docs tail. SA-4 (the L1 import-boundary check) STILL OWED -- CCX-20260905-001 section 4 step (3), with the Director-ruled licensed set. SA-6 was never a defect. Of the four sealed items the harness and critic both missed, three are now closed by the rounds the release routed them to."
   },
   "next_action_prior": {
     "superseded_utc": "2026-09-05 (session 8 reconciliation)",
@@ -2773,5 +2890,27 @@
     ],
     "disputed": "NONE. The build disputes no ranked issue. All four of the critic's load-bearing disagreements -- gate 7, the Mode standing figure, the ledger's currency, and build_state's own arithmetic -- are accepted in full.",
     "note_on_convergence": "PROMPT.md section 7 measures convergence on the ranked issue set, not on the digit. Because every issue is accepted, round 2's comparison is a test of whether the repairs landed, not of whether the critic was persuaded. That is the honest use of the instrument and it is also the harder test."
+  },
+  "bounded_fail_register": {
+    "why": "PROMPT.md section 12 requires BOUNDED_FAIL entries be declared, never upgraded and never traded for a lowered bar. Opened at round 6, when the first two became actual.",
+    "items": [
+      {
+        "id": "BF-1",
+        "subject": "probe preset W5 now fails on incoming edges",
+        "cause": "W5 asserts every edge's direction_label against RELATION_LABELS across all three buckets -- it compares the product against the constant the product renders from. Once lineage renders direction-aware sentences (round 6), incoming edges no longer match, so W5 fails BY CONSTRUCTION on correct behaviour.",
+        "why_not_repaired": "the probe is exhausted at 4 of 4 and the Director did not waive the budget; modifying the probe would be a fifth round.",
+        "compensating_control": "seven committed lineage tests asserting the rendered sentence, plus the L4 direction oracle owed at CCX section 4 step (3).",
+        "accepted_when": "at the c861680 contract change, deliberately and in writing, before round 6 was dispatched.",
+        "not_a_lowered_bar": "the alternative -- keeping a vestigial direction-blind field alive so W5 stayed green -- would have made the check verify something no one displays, which is the exact pathology the critic named."
+      },
+      {
+        "id": "BF-2",
+        "subject": "adapter edges_for double-appends one Edge to two buckets",
+        "cause": "two independent `if`s append the SAME Edge object to outgoing and incoming when an anchor's doc_id and its filename stem both match an endpoint (O7 doc_id sharing + O8 amends addressing). Reported by lineage round 2 against the source.",
+        "why_not_repaired": "corpus_adapter is exhausted at 4 of 4; its last round was the ruled batch and spending it here would have displaced SA-1 or SA-2.",
+        "compensating_control": "lineage round 2 suppresses both view-layer symptoms, and the integrator verified on the live corpus that no edge is double-bucketed and no self-link renders on either end of the degenerate case.",
+        "honest_scope": "the DEFECT IS UNFIXED AT ITS SOURCE. A future consumer of edges_for that does not know to de-duplicate will see it again."
+      }
+    ]
   }
 }
