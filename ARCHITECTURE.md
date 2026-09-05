@@ -11,7 +11,7 @@ A local, read-only FastAPI + Jinja2 application served on `127.0.0.1` from the w
 | Path | Owner | Contents |
 |---|---|---|
 | `explorer/__init__.py`, `explorer/app.py`, `explorer/config.py`, `explorer/models.py`, `explorer/faults.py` | **integrator** (orchestrator) | app factory + route registration, `Settings`, shared typed models, fixture-only fault injection hooks |
-| `explorer/corpus_adapter/` | builder `corpus_adapter` | `adapter.py` (the only importer of `RHACO_corpus_index` and `RHACO_tool_catalog_librarian`), `sql.py` (the documented read-only queries D-Q1..D-Q11), `paths.py` (junction-aware confinement), `availability.py` (vector-channel probe) |
+| `explorer/corpus_adapter/` | builder `corpus_adapter` | `adapter.py` (the retrieval importer of `RHACO_corpus_index` and `RHACO_tool_catalog_librarian`; it is one of three licensed product-tree importers, enumerated in 4.1), `sql.py` (the documented read-only queries D-Q1..D-Q11), `paths.py` (junction-aware confinement), `availability.py` (vector-channel probe) |
 | `explorer/catalog/` | builder `catalog` | `service.py`, `routes.py`, `templates/catalog/*.html` |
 | `explorer/search/` | builder `search` | `service.py`, `routes.py`, `templates/search/*.html` |
 | `explorer/reader/` | builder `reader` | `service.py` (markdown rendering, heading slugs, line anchors), `routes.py`, `templates/reader/*.html` |
@@ -47,7 +47,34 @@ Plain dataclasses (no ORM):
 
 ## 4. Module contracts
 
-### 4.1 `corpus_adapter` (read-only; the only RHACO importer)
+### 4.1 `corpus_adapter` (read-only; the retrieval importer, one of three licensed)
+
+**Licensed RHACO importers in the product tree.** Exactly three files under
+`explorer/**` and `fixtures/**` import `RHACO_corpus_index` or
+`RHACO_tool_catalog_librarian`. Each was licensed by an orchestrator dispatch and
+each is named here; a fourth is a defect.
+
+| File | Imports | Licence | Why not through the adapter |
+|---|---|---|---|
+| `explorer/corpus_adapter/adapter.py` | both | this section (4.1) | it *is* the adapter |
+| `explorer/diagnostics/service.py` | `RHACO_corpus_index` (import only, for `os.path.isdir(RERANK_MODEL_DIR)`; no calls) | O17, R01 diagnostics dispatch | it reads a module *constant*, not a query result; routing a constant through the adapter surface would add a contract method that returns a path |
+| `fixtures/build_fixture_index.py` | both | O3 | it builds the fixture index by calling the module's own writer functions against a fixture db, which is precisely what the adapter must never do (S6/O2); it is already L1-allowlisted for the five write names |
+
+This replaces the earlier claim that `adapter.py` was the *only* importer in the
+workspace. That claim was false in the merged tree from round 1 onward, and the
+drift -- not the imports, which were licensed -- was the defect (sealed audit
+SA-3, released and classified MISSED by every harness layer and by critic round 1).
+The invariant is stated as an *enumeration within a declared scope* because that
+is the form a static check can assert; the SA-4 import-boundary check in
+`tools/l1_index_write_check.py` asserts exactly this set over `explorer/**` and
+`fixtures/**`.
+
+**Instrument importers, outside the product tree and outside this invariant.**
+`preflight/` (hand section 0 items 12/13), `tests/` (the O3 builder's own test) and
+`tools/` (the L4 gold oracle, AC-4 evidence) also import the modules. They are hand
+instruments, test code and integrator oracles -- not product -- and the boundary
+check allowlists them by path, so adding an instrument under those roots does not
+silently widen the product-tree invariant.
 
 ```
 class CorpusAdapter:
