@@ -1,0 +1,36 @@
+{
+  "tool": "l4_direction_oracle v1.0",
+  "empty_run_guard": "not triggered",
+  "db_path": "C:\\RHACO\\index\\corpus_index.db",
+  "docs_root": "C:\\RHACO\\docs",
+  "sampled_cards": 213,
+  "expectation_source": "hand-written in this file from CONSTRAINTS.md O8; deliberately NOT imported from explorer.models, so the oracle can disagree with the product",
+  "expected_sentences": {
+    "cites": {
+      "outgoing": "cites",
+      "incoming": "cited by"
+    },
+    "supersedes": {
+      "outgoing": "is superseded by",
+      "incoming": "supersedes"
+    },
+    "amends": {
+      "outgoing": "amends",
+      "incoming": "amended by"
+    },
+    "campaign_child": {
+      "outgoing": "has campaign child",
+      "incoming": "is campaign child of"
+    }
+  },
+  "pages_rendered": 213,
+  "edges_checked": 5052,
+  "chain_heads_checked": 93,
+  "counts_by_verdict": {},
+  "findings": [],
+  "db_unchanged": true,
+  "db_sha256_before": "ea8f7df2238a2643e664ced4619912984a6e506d4192e75c4035a407b5e262c7",
+  "db_sha256_after": "ea8f7df2238a2643e664ced4619912984a6e506d4192e75c4035a407b5e262c7",
+  "db_bytes": 115081216,
+  "verdict": "PASS"
+}
