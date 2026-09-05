@@ -1,0 +1,8 @@
+{
+  "fault": null,
+  "kind": "not_implemented",
+  "label": "Campaign lifecycle browse -- CMP filter, status + lifecycle_state both visible/filterable",
+  "ok": true,
+  "preset": "W4",
+  "status": "not_implemented_yet"
+}

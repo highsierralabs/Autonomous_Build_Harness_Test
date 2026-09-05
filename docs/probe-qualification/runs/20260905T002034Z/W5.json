@@ -1,0 +1,8 @@
+{
+  "fault": null,
+  "kind": "not_implemented",
+  "label": "Reasoning lineage -- edges match indexed relationships and direction",
+  "ok": true,
+  "preset": "W5",
+  "status": "not_implemented_yet"
+}

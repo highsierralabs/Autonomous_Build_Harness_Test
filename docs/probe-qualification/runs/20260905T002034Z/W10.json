@@ -1,0 +1,8 @@
+{
+  "fault": null,
+  "kind": "not_implemented",
+  "label": "No-LLM operation -- full standard workflow, no frontier model access",
+  "ok": true,
+  "preset": "W10",
+  "status": "not_implemented_yet"
+}
