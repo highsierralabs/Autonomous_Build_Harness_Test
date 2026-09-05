@@ -1,0 +1,13 @@
+INFO:     Started server process [30372]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8765 (Press CTRL+C to quit)
+INFO:     127.0.0.1:60205 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60215 - "GET /api/diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60218 - "GET /lineage/reports/RHACO-CMP-20260903-001_Corpus_Explorer_Autonomous_Build_Harness.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60218 - "GET /static/web/app.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60220 - "GET /static/web/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60219 - "GET /static/lineage/lineage.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60221 - "GET /static/lineage/lineage.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60222 - "GET /api/lineage/reports/RHACO-CMP-20260903-001_Corpus_Explorer_Autonomous_Build_Harness.card.yaml HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60223 - "GET /api/diagnostics HTTP/1.1" 200 OK

@@ -1,0 +1,69 @@
+{
+  "console_errors": [],
+  "failed_requests": [],
+  "fault_class": null,
+  "fault_detected": false,
+  "kind": "workflow",
+  "label": "Lexical phrase -- search a known phrase, expect target + consistent excerpt/line",
+  "observations": {
+    "disk_line_count": 99,
+    "disk_line_text": "# RHACO-MTN-20260520-001 \u00b7 Castle Lid Notch and Tungsten Putty Seal \u2014 Amendment",
+    "page_result_doc_ids": [
+      "RHACO-MTN-20260520-001_Castle_Lid_Notch_And_Tungsten_Putty_Seal_card.yaml",
+      "RHACO-MTN-20260520-001",
+      "RHACO-MTN-20260520-001",
+      "RHACO-CCX-20260715-001",
+      "RHACO-EVT-20260522-001",
+      "RHACO-ANL-20260523-002",
+      "RHACO-ANL-20260523-002",
+      "RHACO-MTN-20260520-001",
+      "RHACO-MTN-20260520-001",
+      "RHACO-ANL-20260711-001",
+      "RHACO-ANL-20260710-001",
+      "RHACO-CHG-20260520-001",
+      "RHACO-EVT-20260527-003",
+      "RHACO-CHG-20260520-001",
+      "RHACO-CCX-20260608-002",
+      "RHACO-ANL-20260523-001",
+      "RHACO-ANL-20260523-001",
+      "RHACO-HND-20260712-002",
+      "RHACO-HND-20260525-002",
+      "RHACO-HND-20260527-001",
+      "RHACO-CMP-20260520-001",
+      "RHACO_Document_Catalog",
+      "RHACO_Document_Catalog",
+      "RHACO_Document_Catalog",
+      "RHACO_Document_Catalog",
+      "RHACO_Document_Catalog",
+      "RHACO_Document_Catalog",
+      "RHACO_Document_Catalog",
+      "RHACO_Document_Catalog"
+    ],
+    "target_excerpt": "# RHACO-MTN-20260520-001 \u00b7 Castle Lid Notch and Tungsten Putty Seal \u2014 Amendment",
+    "target_found_in_results": true,
+    "target_line_no": 1,
+    "target_path": "C:\\RHACO\\docs\\reports\\RHACO-MTN-20260520-001_Castle_Lid_Notch_And_Tungsten_Putty_Seal_Amendment.md"
+  },
+  "ok": true,
+  "page_errors": [],
+  "preset": "W2",
+  "reasons": [],
+  "requests_total": 3,
+  "screenshot": "C:\\highsierralabs\\RHACO_Corpus_Explorer\\.worktrees\\probe\\docs\\probe-qualification\\runs\\20260905T043133Z\\W2.png",
+  "steps": [
+    {
+      "action": "goto",
+      "error": null,
+      "http_status": 200,
+      "step": "lexical_search",
+      "timings": {
+        "elapsed_ms": 580.6,
+        "nav_end_utc": "2026-09-05T04:31:35.560112+00:00",
+        "nav_start_utc": "2026-09-05T04:31:34.979512+00:00"
+      },
+      "title": "Search -- RHACO Corpus Explorer",
+      "url": "http://127.0.0.1:8765/search?q=tungsten%20putty%20seal&mode=lexical"
+    }
+  ],
+  "verdict": "PASS"
+}
