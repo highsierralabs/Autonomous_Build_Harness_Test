@@ -21,6 +21,7 @@ The view keeps three things distinct and never blends them (S1):
 """
 from __future__ import annotations
 
+import datetime as dt
 import re
 from dataclasses import dataclass, field
 from typing import Any
@@ -46,6 +47,18 @@ _MD.enable(["table", "strikethrough"])
 
 # task B6 item 1(b): the fields compared between the index row and the card file.
 INDEX_COMPARISON_FIELDS = ("title", "status", "lifecycle_state", "date", "doc_type")
+
+# task B11 item 1: the native types `yaml.safe_load` resolves an UNQUOTED
+# ISO-shaped scalar to (e.g. `date: 2026-06-24`, no quotes) -- 60.2% of the
+# live corpus's `.card.yaml` files carry at least one (docs/rounds/
+# R05_reader.report.md, blast-radius grep). None of these is JSON-serializable
+# by `json.dumps`'s default encoder, which is exactly what crashed both
+# `{{ view.card_parsed | tojson }}` (HTML) and `dataclasses.asdict(view)`
+# (`/api/doc`, Starlette's `JSONResponse` calls `json.dumps` directly, no
+# `default=` handler) with `TypeError: Object of type date is not JSON
+# serializable` on the production card named in this round's dispatch.
+_TEMPORAL_TYPES = (dt.datetime, dt.date, dt.time)
+_JSON_NATIVE_LEAF_TYPES = (str, int, float, bool, type(None))
 
 
 # --------------------------------------------------------------------------
@@ -229,6 +242,39 @@ def build_view(adapter: Any, settings: Settings, card_ref: str, line: int | None
 # --------------------------------------------------------------------------
 
 
+def _json_safe(value: Any) -> Any:
+    """Recursively convert a value `yaml.safe_load` produced into a structure
+    `json.dumps` can always serialize (task B11 item 1). Applied once, here,
+    right after `yaml.safe_load` -- before `identity`, `card_parsed`, or any
+    `CardPanelView` field derived from `parsed` is built -- so BOTH surfaces
+    (the HTML page's `card_parsed | tojson` and the `/api/doc` twin's
+    `dataclasses.asdict(view)`, which Starlette serializes with plain
+    `json.dumps`, no `default=` handler) see the identical, already-safe
+    value, and `_index_mismatch` never receives a native temporal object on
+    one side of a comparison whose other side is always a string (item 2).
+
+    `datetime.date` / `datetime.datetime` / `datetime.time` (the native types
+    an UNQUOTED ISO-shaped YAML scalar resolves to) become their own
+    `.isoformat()` text -- fidelity-preserving, since the card's own unquoted
+    scalar was itself ISO-shaped to begin with, so the ISO string is the same
+    characters the file already had, just without the type PyYAML attached to
+    them; nothing is reformatted, localised, or re-zoned. Dicts and lists (and
+    tuples, though `yaml.safe_load` never emits one) recurse. Every other
+    non-JSON-native leaf `yaml.safe_load` can produce (`bytes` from a
+    `!!binary` scalar, `set` from `!!set`, ...) is rendered via `str()` rather
+    than left to crash `json.dumps` downstream -- a reader page must never 500
+    because of a card's contents (S1)."""
+    if isinstance(value, dict):
+        return {k: _json_safe(v) for k, v in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_json_safe(v) for v in value]
+    if isinstance(value, _TEMPORAL_TYPES):
+        return value.isoformat()
+    if isinstance(value, _JSON_NATIVE_LEAF_TYPES):
+        return value
+    return str(value)
+
+
 def _parse_card_yaml(raw_text: str) -> tuple[dict, str | None]:
     try:
         data = yaml.safe_load(raw_text)
@@ -236,7 +282,7 @@ def _parse_card_yaml(raw_text: str) -> tuple[dict, str | None]:
         return {}, f"{type(exc).__name__}: {exc}"
     if not isinstance(data, dict):
         return {}, "card file did not parse to a mapping"
-    return data, None
+    return _json_safe(data), None
 
 
 def _norm(value: Any) -> str | None:
