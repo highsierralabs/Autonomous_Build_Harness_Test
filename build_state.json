@@ -94,18 +94,18 @@
     "builder_rounds_total_max": 28,
     "builder_rounds_per_module_max": 4,
     "convergence_window_rounds": 2,
-    "builder_rounds_consumed_total": 17,
+    "builder_rounds_consumed_total": 18,
     "per_module_consumed": {
       "corpus_adapter": 4,
       "probe": 4,
       "diagnostics": 2,
       "catalog": 1,
-      "search": 1,
+      "search": 2,
       "reader": 2,
       "lineage": 2,
       "web": 1
     },
-    "note": "17 of 28 consumed after round 6. EXHAUSTED: probe 4 of 4, corpus_adapter 4 of 4 (its last round landed all four batch items, so it ships with no BOUNDED_FAIL of its own). Remaining: catalog 3, search 3, reader 2, lineage 2, diagnostics 2, web 3 -- 15 module-rounds against 11 total rounds left, so the total is now the binding constraint, not any per-module figure. RUNNING the probe still costs no builder round; MODIFYING it is impossible.",
+    "note": "18 of 28 consumed after search round 2; catalog round 2 in flight will make 19, and web round 2 will make 20 -- the Director's ceiling of 20 of 28 for the convergence phase. EXHAUSTED: probe 4 of 4, corpus_adapter 4 of 4. Remaining after the ceiling: 8 rounds, held for anything critic round 2 turns up. RUNNING the probe still costs no builder round; MODIFYING it is impossible.",
     "corpus_adapter_round_4_policy": "HELD by Director ruling (boundary-3 disposition item 2): do NOT spend before the critic. After critic round 1, ONE batched dispatch carrying the critic's adapter findings AND the deferred amends-link change request together. Whatever does not fit that single round is declared BOUNDED_FAIL on the record, never silently dropped and never traded for a lowered bar.",
     "arithmetic_correction_of_record": "The session-7 next_action said 'budgets 12 -> 13 with reader 1 -> 2'. That was short by one: probe round 4 (S6-B10) was also unrecorded. The observed total is 14 (corpus_adapter 3 + probe 4 + diagnostics 1 + catalog 1 + search 1 + reader 2 + lineage 1 + web 1 = 14). Recorded here rather than silently corrected because it is a second instance of the P-6 class (a predicted count stated as an observed one) and the M3 ANL counts instances. Session-7 text was authored under claude-fable-5-1 with the identity halt open."
   },
@@ -408,9 +408,9 @@
       "scope_references": []
     },
     "search": {
-      "owner": "builder S4-B5 (Sonnet 5) on build/search",
-      "status": "round 1 complete; merged 8dc8810; 22 fixture/live tests green; open issues 4; substrate finding O29; probe runners pending (probe round 3)",
-      "round": 1,
+      "owner": "builder S8-B14 (Sonnet 5) on build/search",
+      "status": "round 2 of 4 complete; merged 2b7e56c. Every Gold v1.1 figure on the page is attributed and dated, and the hybrid standing now states the July figure and this build's own contradicting measurement side by side. Identifier mode has its own evidence disclosure. 27 tests. Two rounds left.",
+      "round": 2,
       "objective_gates": {
         "ruff": "pass",
         "pytest": "pass",
@@ -1042,10 +1042,11 @@
     {
       "round": 7,
       "wave": null,
-      "kind": "builder round -- single strand (search round 2 of 4): CCX-20260905-001 section 4 step (2)",
-      "status": "IN FLIGHT -- dispatched 2026-09-05T16:12:00Z, not yet returned",
+      "kind": "builder round -- two strands: search round 2 (CCX section 4 step 2) and catalog round 2 (Director ruling, dispatched concurrently)",
+      "status": "PARTIAL -- search merged 2b7e56c; catalog (S8-B15) still in flight. Two strands, dispatched as two workflows, never more than two live (cap 3).",
       "modules": [
-        "search"
+        "search",
+        "catalog"
       ],
       "base_commit": "26816db",
       "orchestrator_model": "claude-opus-5[1m]",
@@ -1057,14 +1058,18 @@
       "task_id": "wuftmy5xu",
       "dispatch_form": "section 2 L D-12 + D-3 blocks verbatim (byte-diffed, P-11 control PASS) + sha-pinned pointer to the archived prompt",
       "wave_cap_check": "one strand dispatched; no other strand live; concurrency_exceedance: none",
-      "builder_rounds_consumed": 1,
+      "builder_rounds_consumed": 2,
       "prompts": {
         "docs/rounds/R08_search.prompt.md": {
           "sha256": "92db48abe3ceb4ccbc361932b0a6d02743ef61f2e1a631232e91e777d5df5546",
           "bytes": 13230
         }
       },
-      "scope_note": "Dispatched as ONE round, matching the Director's instruction to continue at CCX section 4 step (2) exactly. Web round 2 (critic ranked issues 4 and 9 plus the O-2 keyhelp de-duplication) and catalog round 2 (ranked issue 6) are accepted findings already dispositioned to those rounds and are RECOMMENDED as a following wave, but were not bundled here: spending builder rounds beyond the ruled step is a budget decision for the Director, not the orchestrator. Web round 2 also cannot run concurrently with search or catalog rounds -- its keyhelp fix deletes duplicated markup from all five page templates, including theirs."
+      "scope_note": "Search round 2 was dispatched alone first, matching the Director's instruction to continue at CCX section 4 step (2) exactly; the orchestrator recommended web round 2 and catalog round 2 as a following wave rather than bundling them, on the ground that spending rounds beyond the ruled step is a budget decision for the Director. Ruling 2026-09-05: catalog round 2 concurrent with search, web round 2 alone after both merge, budget ceiling 20 of 28. Web cannot run concurrently with either: its O-2 keyhelp fix deletes duplicated markup from all five page templates.",
+      "merges": {
+        "search": "2b7e56c"
+      },
+      "post_merge_verification_search": "Director ruling 2 conditions, both discharged. BEFORE the merge: the strand's own reported base 26816db was confirmed to contain dcb0443, the prefix-match integrator edit, so the round was built on a tree that already had it. AFTER the merge: the SA-1 DISABLE_VEC live check re-run -- mode_effective graph-degraded-semantic-seed, both evidence disclosures present, the notice names the surviving channel, no false 'Graph unavailable', hybrid page carries the July figure attributed and dated alongside the build's own 0.675, live db ea8f7df2... unchanged."
     }
   ],
   "l1_index_write_grep": [
@@ -2222,7 +2227,7 @@
       "strand_id": "S8-B14",
       "stem": "R08_search",
       "role": "module builder (search): attribute or remove the bare standing figures (S8); give identifier mode its evidence disclosure",
-      "model": "claude-sonnet-5 (requested; client-reported string recorded at return)",
+      "model": "claude-sonnet-5 (client-reported by the strand: 'You are powered by the model named Sonnet 5. The exact model ID is claude-sonnet-5.')",
       "orchestrator_model": "claude-opus-5[1m] (MOD-1)",
       "effort": "xhigh (Workflow opts.effort, explicit)",
       "pattern_primary": "#3 candidate (worktree-isolated builder)",
@@ -2230,19 +2235,39 @@
       "execution_mode": "sequential (one strand live)",
       "tier_escalation": "none",
       "dispatched_utc": "2026-09-05T16:12:00Z",
-      "returned_utc": null,
+      "returned_utc": "2026-09-05T16:23:2xZ (workflow wf_6d243214-90f completed)",
       "workflow_run": "wf_6d243214-90f",
       "task_id": "wuftmy5xu",
       "base": "26816db (main at dispatch); the strand records its own rev-parse HEAD and asserts its HEAD contains the round-6 boundary 6aaea9d",
       "module_round": "search round 2 of 4",
-      "status": "IN FLIGHT -- dispatched, not yet returned",
+      "status": "COMPLETE",
       "prompt": {
         "file": "docs/rounds/R08_search.prompt.md",
         "sha256": "92db48abe3ceb4ccbc361932b0a6d02743ef61f2e1a631232e91e777d5df5546",
         "bytes": 13230
       },
       "prefix": "section 2 L D-12 + D-3 blocks built at runtime and byte-diffed against the archived prompt prefix before dispatch (P-11 control): 1,111 chars, sha256 6a893dbb94c0207fb84727035a5908aaec3df809ae19defe4be07e53fbc175a3",
-      "record_provenance": "written at dispatch, before the strand returned (the GD-1 remedy applied prospectively)"
+      "record_provenance": "written at dispatch, before the strand returned (the GD-1 remedy applied prospectively)",
+      "t_start_utc": "2026-09-05T16:05:46.9711217Z",
+      "t_end_utc": "2026-09-05T16:22:25.3562122Z",
+      "base_commit_observed": "26816db131626c4b241f20046792edbddd5337b4",
+      "contains_round6_boundary_verified_by_strand": true,
+      "prompt_sha256_verified_by_strand": true,
+      "head_commit": "8cbf64ef1a6cd51b1d8c6f782e79ed0b1bbd775a",
+      "commits": 3,
+      "merged": "2b7e56c (--no-ff)",
+      "gates": "ruff clean; pytest tests/search 27 passed (22 + 5 new); full tree 280 passed at the strand's gate, 295 after the merge; L1 both checks PASS; worktree clean",
+      "acceptance": "COMPLETE -- merged 2b7e56c. All four bare Gold v1.1 figures on the search page are now ATTRIBUTED AND DATED rather than removed, through shared GOLD_V1_1_SOURCE / GOLD_V1_1_EVAL_DATE constants so a future figure inherits attribution instead of re-acquiring the defect. For the hybrid figure the strand went further than the dispatch required and added HYBRID_CURRENT_MEASURE: the page now states the July 0.700 AND this build's own oracle figure of 0.675, each with its source and date, so a reader sees the disagreement rather than one side of it. Identifier mode gained an evidence disclosure with its own macro -- deliberately not the shared one, whose Rank and Component-rank lines assume a fusion this mode does not perform -- and ONE disclosure per doc_id rather than per card row, so it never implies the page picked one of several rows (O7).",
+      "verified_claim_note": "Worth recording as harness evidence: before asserting 'identifier mode cannot degrade' on a user-facing page, the strand read adapter.resolve_identifier and _cards_for_doc_id and confirmed neither path touches the vector channel, and said so in a source comment -- 'a checked claim, not an assumption'. That is exactly the discipline P-17 found the harness lacking (prose claims about behaviour, asserted rather than checked), applied unprompted while writing new prose about behaviour.",
+      "change_requests": [
+        "to diagnostics: RERANK_STANDING_TEXT (explorer/diagnostics/service.py:34-37) names RHACO-ANL-20260712-001 but carries no explicit evaluation date -- the same gap this round closed on the search page. Found by the strand while answering the round's product-wide S8 question, and correctly NOT edited: diagnostics is not its path. Open item O-4",
+        "to SCOPE.md (integrator): exact replacement text for the Gold-compatibility row's Consequence cell -- APPLIED by the integrator at the merge"
+      ],
+      "open_issues": [
+        "models.Evidence.returned_rank is a required int with no default, so identifier mode sets it to 0 as an unrendered placeholder, visible as a raw 0 to any /api/search caller in that mode. Integrator-owned (explorer/models.py). Open item O-5",
+        "only explorer/**/*.py was grepped for bare figures; a number written as literal prose directly in an .html template would not have been caught. Judged low risk by the strand and labelled UNVERIFIED rather than claimed"
+      ],
+      "deviations": ""
     }
   ],
   "dispatch_record_notes": [
@@ -2306,6 +2331,20 @@
       "text": "sys.path.insert(0, ...) also appears in fixtures/build_fixture_index.py -- one of the three licensed PRODUCT-TREE importers, so the same S2 class as the defect round 6 just fixed -- and in several instrument/test files that ARCHITECTURE 4.1 carves out of the product-tree invariant (preflight/, tools/, tests/).",
       "question": "Does S2's append-not-insert rule bind instrument and test code the way it binds product code? The strand explicitly took no position. The fixtures/ instance is the sharper half: it is product-tree, and fixtures/ is probe-owned with probe exhausted.",
       "director_ruling": "pending"
+    },
+    {
+      "id": "O-4",
+      "status": "OPEN -- change request from S8-B14, queued",
+      "text": "explorer/diagnostics/service.py:34-37 RERANK_STANDING_TEXT names RHACO-ANL-20260712-001 but carries no explicit evaluation date -- the same undated-standing gap round 7 closed on the search page. Found by the search strand while answering its product-wide S8 question and correctly filed rather than edited (not its path).",
+      "owner": "diagnostics (2 of 4 rounds left) or an integrator text edit",
+      "note": "S8 is therefore satisfied on the search page and NOT yet product-wide. Recorded that way rather than as closed."
+    },
+    {
+      "id": "O-5",
+      "status": "OPEN -- integrator-owned",
+      "text": "models.Evidence.returned_rank is a required int with no default, so identifier mode supplies 0 as an unrendered placeholder. The HTML never shows it (identifier mode has its own macro), but any /api/search caller in identifier mode sees a raw returned_rank of 0, which reads as a rank rather than as 'no ranking in this mode'.",
+      "owner": "integrator (explorer/models.py is integrator-owned)",
+      "note": "Disclosed by the strand as an assumption rather than left silent."
     }
   ],
   "workspace_push_policy": "Director ruling O-1 (2026-09-04): push main at each session boundary with the build_state.json commit and at terminal state; fast-forward only; each push recorded in the handback resumption entry.",
@@ -2414,6 +2453,14 @@
         "1_p19_ratified": "P-19 RATIFIED. The item-9 identity of record is the CONJUNCTION of (a) the ~/.claude/settings.json sha plus its `model` key -- the only surface carrying the context-window suffix, (b) the system-prompt sentence, and (c) the per-request message.model field. A2 line at terminal. Refines P-10 template item (a), which had reduced the check to (c) alone. Consequence for every future re-entry: a halt predicate written against a [1m]-suffixed per-request value is unsatisfiable by construction and must not be used.",
         "2_sa4_allowlist_narrowed": "SA-4 ALLOWLIST NARROWED, against this build's own wider proposal. The import-boundary check licenses `preflight/` and `tests/` BY PATH, and `tools/l4_gold_oracle.py` BY FILE -- licensed by AC-4's design, since the oracle must call the module directly for the adapter-vs-module comparison to mean anything. `tools/` is NOT licensed as a directory: `tools/probe_corpus_explorer.py` lives there and the probe is barred from importing either module and from opening the database, so a directory allowlist would hide that violation class. Integrator edit, no builder round; the check's licensed set is recorded explicitly rather than left implicit in the code.",
         "3_gd1_criterion_5": "GD-1 STANDS as a criterion-5 governance defect (HND section 8 item 6 as amended; CMP-20260903-001 criterion 5; Guide v1.3 section 8, the fresh-instance principle -- disk is the record). It is carried into the terminal closeout AS A DEFECT WITH THE REPAIR BESIDE IT, not as a closed item, and it is flagged for the M3 ANL as the SECOND session-boundary record loss."
+      }
+    },
+    "S8_rulings_2_20260905": {
+      "ruled_utc": "2026-09-05 (Director dispositions on the round-6 integration / step-3 report)",
+      "items": {
+        "1_catalog_concurrent_web_after": "Catalog round 2 dispatched NOW, concurrent with search round 2; web round 2 ALONE after both merge; then CCX section 4 steps (4)-(6). BUDGET CEILING 20 of 28 for the convergence phase -- 17 consumed at the ruling, search 18, catalog 19, web 20.",
+        "2_p13_second_instance": "The search.html prefix-match integrator edit is ACCEPTED AS DISCLOSED and recorded as a P-13 SECOND INSTANCE. Two conditions, both discharged: before merging search round 2, confirm its base commit includes that edit (base 26816db contains dcb0443 -- confirmed in advance and again against the strand's own reported base); after the merge, re-run the DISABLE_VEC live check for SA-1 (re-run, PASS, live db unchanged).",
+        "3_bf2_disposition": "BF-2: if edges_for is module-side, move it to the section 7 queue beside O29 as a Director-side CHG candidate; if adapter-side, it stands as recorded. DETERMINATION: ADAPTER-SIDE. The double-append is at explorer/corpus_adapter/adapter.py:569-572 -- two independent `if` statements in the build's OWN workspace code, reading a result set from the build's own Q7_EDGES_FOR in explorer/corpus_adapter/sql.py. Nothing in RHACO_corpus_index is involved. BF-2 therefore STANDS AS RECORDED and does not join the section 7 queue beside O29."
       }
     }
   },
@@ -2878,21 +2925,24 @@
         "issue": "Incoming typed edges carry the outgoing sentence",
         "class": "fidelity",
         "disposition": "ACCEPTED IN FULL, and the build's own gate-7 PASS is withdrawn.",
-        "action": "Repaired by integrator contract change c861680 (direction-aware RELATION_LABELS / Edge.direction_label). Lineage round 2 carries the surface half; the integrator L4 direction oracle supplies the rendered-sentence evidence the probe can no longer add."
+        "action": "Repaired by integrator contract change c861680 (direction-aware RELATION_LABELS / Edge.direction_label). Lineage round 2 carries the surface half; the integrator L4 direction oracle supplies the rendered-sentence evidence the probe can no longer add.",
+        "landed": "YES -- round 6, S8-B12, merged 3e5eb7f; evidenced at L4 by tools/l4_direction_oracle.py (gate 7 now PASS on evidence)."
       },
       {
         "rank": 2,
         "issue": "Search page shows July's Recall@10 0.700 as present standing; SCOPE.md says the page shows no such number",
         "class": "fidelity",
         "disposition": "ACCEPTED. Two defects in one: a stale figure on a live surface, and a SCOPE row that describes a product that does not exist.",
-        "action": "Search round 2 removes the bare 0.700 from explorer/search/service.py:93 (diagnostics may carry it attributed and dated, per Standing Constraint 8); SCOPE row 16 corrected in the same round. Queued as CCX-20260905-001 section 4 step (2)."
+        "action": "Search round 2 removes the bare 0.700 from explorer/search/service.py:93 (diagnostics may carry it attributed and dated, per Standing Constraint 8); SCOPE row 16 corrected in the same round. Queued as CCX-20260905-001 section 4 step (2).",
+        "landed": "YES -- round 7, S8-B14, merged 2b7e56c. Both halves: the page no longer states a bare figure, and SCOPE's false 'states neither number' sentence is corrected. Note the strand answered 'would the original sentence have become true on its own after the fix?' with NO -- it chose to state both numbers attributed rather than remove them, so the cell needed new wording rather than vindication."
       },
       {
         "rank": 3,
         "issue": "No known-bad probe run exists at or after the reviewed commit",
         "class": "fidelity",
         "disposition": "ACCEPTED. The critic is right that KB2 and KB4 are not qualified for the code now shipping.",
-        "action": "Integrator re-runs the FINAL fixture suite (KG + KB1-KB5) at the convergence commit and pins that commit in the qualification ledger. Running the probe consumes no builder round, so this costs nothing."
+        "action": "Integrator re-runs the FINAL fixture suite (KG + KB1-KB5) at the convergence commit and pins that commit in the qualification ledger. Running the probe consumes no builder round, so this costs nothing.",
+        "landed": "PENDING -- the FINAL fixture suite re-run at the convergence commit (CCX step 5), costs no round."
       },
       {
         "rank": 4,
@@ -2906,7 +2956,8 @@
         "issue": "Identifier-mode results have no Evidence disclosure",
         "class": "fidelity",
         "disposition": "ACCEPTED. The one retrieval mode whose answer is unambiguous is the one that says nothing about why.",
-        "action": "Search-owned; batched into search round 2 with ranked issue 2."
+        "action": "Search-owned; batched into search round 2 with ranked issue 2.",
+        "landed": "YES -- round 7, S8-B14, merged 2b7e56c."
       },
       {
         "rank": 6,
@@ -2920,14 +2971,16 @@
         "issue": "Shared doc_ids render as runs of identical links, including a self-pointing amends edge",
         "class": "polish",
         "disposition": "ACCEPTED, and split: the self-pointing amends edge is the known edges_for double-classification (a corpus_adapter behaviour first made visible by lineage round 1); the identical-link runs are a lineage rendering question.",
-        "action": "The adapter half is the deferred amends-link change request carried in the single batched corpus_adapter round 4; the lineage half is in lineage round 2. Whatever does not fit adapter round 4 is BOUNDED_FAIL on the record."
+        "action": "The adapter half is the deferred amends-link change request carried in the single batched corpus_adapter round 4; the lineage half is in lineage round 2. Whatever does not fit adapter round 4 is BOUNDED_FAIL on the record.",
+        "landed": "PARTIAL -- the lineage half landed round 6 (S8-B12); the adapter half is BOUNDED_FAIL BF-2, the module being exhausted."
       },
       {
         "rank": 8,
         "issue": "build_state.json is two builder rounds stale",
         "class": "fidelity",
         "disposition": "ACCEPTED, and it was worse than the critic could see.",
-        "action": "Closed by this reconciliation: dispatch records for S6-B10, S6-B11 and S6-CR1 added; budgets 12 -> 14 (not 13 -- the session-7 correction was itself short by one, a second P-6 instance); rounds 4 and 5 added; sessions 5, 6 closed_utc set; the post-fix card-agreement run recorded; the 'all nine gates pass' summary withdrawn; GD-1 filed."
+        "action": "Closed by this reconciliation: dispatch records for S6-B10, S6-B11 and S6-CR1 added; budgets 12 -> 14 (not 13 -- the session-7 correction was itself short by one, a second P-6 instance); rounds 4 and 5 added; sessions 5, 6 closed_utc set; the post-fix card-agreement run recorded; the 'all nine gates pass' summary withdrawn; GD-1 filed.",
+        "landed": "YES -- the session-8 reconciliation; GD-1 filed and carried as an open defect."
       },
       {
         "rank": 9,
@@ -2965,7 +3018,8 @@
         "cause": "two independent `if`s append the SAME Edge object to outgoing and incoming when an anchor's doc_id and its filename stem both match an endpoint (O7 doc_id sharing + O8 amends addressing). Reported by lineage round 2 against the source.",
         "why_not_repaired": "corpus_adapter is exhausted at 4 of 4; its last round was the ruled batch and spending it here would have displaced SA-1 or SA-2.",
         "compensating_control": "lineage round 2 suppresses both view-layer symptoms, and the integrator verified on the live corpus that no edge is double-bucketed and no self-link renders on either end of the degenerate case.",
-        "honest_scope": "the DEFECT IS UNFIXED AT ITS SOURCE. A future consumer of edges_for that does not know to de-duplicate will see it again."
+        "honest_scope": "the DEFECT IS UNFIXED AT ITS SOURCE. A future consumer of edges_for that does not know to de-duplicate will see it again.",
+        "module_side_or_adapter_side": "ADAPTER-SIDE, determined by reading the code at the Director's instruction (ruling 2026-09-05 item 3). explorer/corpus_adapter/adapter.py:569-572: `if edge.from_id in (doc_id, stem): outgoing.append(edge)` followed by `if edge.to_id in (doc_id, stem): incoming.append(edge)` -- two independent conditions over the build's own workspace code, on rows returned by the build's own Q7_EDGES_FOR. No RHACO module code participates. It is therefore NOT a Director-side CHG candidate and does NOT join the section 7 queue beside O29; it stands as recorded, as a build defect this build ran out of budget to fix at its source."
       }
     ]
   },
