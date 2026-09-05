@@ -2753,11 +2753,11 @@
       "no arbitrary text-to-SQL": "PASS -- fixed parameterised statements only (ARCHITECTURE 4.1 D-Q1..D-Q11)",
       "zero unresolved template/runtime exceptions in acceptance probes": "PASS AS OF THIS REFRESH -- this gate FAILED at probe round 4 (W6, HTTP 500 on 60.0% of the corpus). Repaired in reader round 2 and re-verified by the full 12-preset refresh",
       "card status and CMP lifecycle_state never collapsed": "PASS -- S4 held across catalog, search, reader, lineage; W4 exercises independent narrowing on the production path",
-      "typed relation direction preserved": "REPAIRED AND TEST-EVIDENCED (L2/L3), L4 direction oracle still owed -- see critic_round_1_disagreement. Was asserted PASS by the build, recorded FAIL by critic round 1, and the build withdrew its PASS.",
+      "typed relation direction preserved": "PASS, evidenced at L4 by tools/l4_direction_oracle.py (213 cards / 5,052 edges / 93 chain heads / 0 defects, 2026-09-05) plus 7 committed lineage tests at L2/L3. Was asserted PASS by the build, recorded FAIL by critic round 1, withdrawn by the build, repaired, and only now declared PASS on evidence from an instrument that could have said otherwise.",
       "flat hybrid remains default unless newer ratified evidence says otherwise": "PASS -- docs/REFERENCE.md section 1 unchanged; no superseding evidence found",
       "semantic-unavailable degradation explicit and functional": "PASS -- W7 with --disable-vec: mode relabelled, exact notice, identifier and lexical retrieval still return"
     },
-    "summary": "Eight of nine objective gates pass. Gate 7 (typed relation direction preserved) was asserted PASS by the build and recorded FAIL by critic round 1; the build accepts the critic's reading, the repair landed at c861680, and the gate is REPAIRED-BUT-UNEVIDENCED until the integrator L4 direction oracle runs. The earlier summary sentence -- 'all nine objective gates now pass' -- is superseded and kept in the record as the claim that was overstated.",
+    "summary": "All nine objective gates pass, and gate 7 passes on evidence rather than on assertion. It was the build's own false PASS, the critic's only FAIL, and it is the one gate whose instrument had to be built before the gate could honestly be declared. The earlier 'all nine objective gates now pass' summary of round 5 is superseded and kept in the record as the claim that was overstated at the time.",
     "critic_round_1_disagreement": {
       "gate": "typed relation direction preserved (gate 7)",
       "build_state_had": "PASS -- KB3 qualified this round (reverse_edges detected); W5 and W6 on the production path",
@@ -2766,7 +2766,8 @@
       "why_the_harness_could_not_see_it": "W5 asserts label != RELATION_LABELS.get(rel, rel) -- it compares the product's rendering against the very constant the product renders from, so it can only detect a divergence between two copies of the same answer. That is the SA-4 class the sealed audit named and the critic independently found three times.",
       "repair": "c861680 -- direction-aware RELATION_LABELS / Edge.direction_label (integrator contract change, D-1), landed before this session.",
       "verification_still_owed": "The repair is NOT yet evidenced by an instrument that asserts on the RENDERED SENTENCE. The probe cannot supply it (budget exhausted at 4/4; adding a preset would be a fifth round). It is supplied instead by an integrator-owned L4 direction oracle -- rendered edge sentence vs from_id / to_id -- on the POST_R4 item-2b precedent that established integrator L4 oracles as the sanctioned cover for a class the probe can no longer reach. Until that oracle runs green, gate 7 is REPAIRED-BUT-UNEVIDENCED, not PASS.",
-      "gate_7_state_now": "REPAIRED AND TEST-EVIDENCED at L2/L3, L4 STILL OWED. Round 6 (S8-B12, merged 3e5eb7f) landed the rendering and seven committed tests that assert the RENDERED SENTENCE and derive the expectation from the fact rather than from RELATION_LABELS. The integrator additionally verified the critic's own decisive case on the LIVE corpus after the merge: the supersession HEAD no longer reads 'is superseded by' in its Incoming section, and the same amends edge reads 'amended by' from the parent and 'amends' from the amendment. What is still owed is the L4 DIFFERENTIAL instrument -- the direction oracle of CCX section 4 step (3), rendered sentence vs from_id/to_id across the corpus -- because the probe cannot supply production-path evidence (exhausted at 4 of 4) and an ad hoc integrator check is not a durable instrument. Gate 7 is not declared PASS until that oracle runs."
+      "gate_7_state_now": "PASS, EVIDENCED AT L4. The repair landed at c861680 (contract) and round 6 S8-B12 (rendering + 7 committed tests asserting the rendered sentence). The instrument the gate was waiting on now exists and has run: tools/l4_direction_oracle.py v1.0, first live run 2026-09-05 -- 213 cards, 213 pages rendered, 5,052 edges compared, 93 supersession chain heads exercised, 0 defects, live db ea8f7df2... unchanged, verdict PASS (docs/probe-qualification/direction_oracle.json). The oracle's expectations are hand-written from CONSTRAINTS O8 and deliberately NOT imported from explorer.models, so it can disagree with the product -- the property W5 lacked and the reason the defect survived. Eight committed tests build violations and assert the oracle catches them, including the CONVERSE case the critic found and a head rendered as superseded.",
+      "instrument_self_defects": "Recorded because they are the same class the gate is about. The oracle's first run reported PASS having rendered ZERO pages (absolute yaml_path used where a docs-root-relative card_ref belongs, and PAGE_ERROR excluded from the defect count); its second still had check 3 -- the supersession head, the critic's decisive derived case -- as dead code against a chain_head key the API does not expose. Both fixed; an empty-run guard now fails any run that renders no page, compares no edge, or exercises no chain head. An instrument written to end cannot-fail checks reproduced the pathology twice before it worked."
     }
   },
   "sealed_audit_release": {
@@ -2967,5 +2968,23 @@
         "honest_scope": "the DEFECT IS UNFIXED AT ITS SOURCE. A future consumer of edges_for that does not know to de-duplicate will see it again."
       }
     ]
-  }
+  },
+  "l4_direction_oracle_runs": [
+    {
+      "run": "first, round 7 / CCX section 4 step (3)",
+      "utc": "2026-09-05T16:2xZ",
+      "tool": "tools/l4_direction_oracle.py v1.0",
+      "base_commit": "9cfde44",
+      "artifact": "docs/probe-qualification/direction_oracle.json",
+      "sample": "213 cards in two strata -- recency, plus the superseding side of every resolved supersedes edge (the recency stratum alone returned ZERO chain heads, which would have left check 3 unexercised)",
+      "pages_rendered": 213,
+      "edges_checked": 5052,
+      "chain_heads_checked": 93,
+      "defects": 0,
+      "db_unchanged": true,
+      "verdict": "PASS",
+      "independence": "EXPECTED_SENTENCES hand-written from CONSTRAINTS O8, not imported from explorer.models; asserted by a committed test so it cannot be quietly replaced by the product's own table",
+      "cost": "integrator act; consumes no builder round"
+    }
+  ]
 }
