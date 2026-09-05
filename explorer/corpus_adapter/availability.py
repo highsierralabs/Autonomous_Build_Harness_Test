@@ -6,6 +6,19 @@ degraded result's *shape* tells the caller it was degraded. This probe
 decides availability itself, before a hybrid/graph call, so the adapter can
 label the result honestly.
 
+O10 guard (round 3 / C3): the live index can be removed or replaced out from
+under the explorer while it runs, and `RHACO_corpus_index.connect()` creates
+the parent directory and the database file (applying DDL) if the path is
+absent -- the same hazard `CorpusAdapter.connect()` guards (round 2 / C2).
+`probe()` reaches `rhaco_index.connect()` directly, not through
+`CorpusAdapter.connect()`, so it is a second, independent call site for that
+hazard and needed its own guard: `os.path.isfile(db_path)` is required
+before `rhaco_index.connect(db_path)` is ever called. On failure `probe()`
+returns `VectorAvailability(available=False, reason="db_unavailable", ...)`
+without calling `connect()` at all -- the adapter never creates a database
+(O10). This module still never opens or creates anything itself; the check
+is `os.path.isfile` only.
+
 This module never imports RHACO_corpus_index directly -- adapter.py imports it
 (the sole importer, ARCHITECTURE.md section 2) and passes the live module
 object in as `rhaco_index`, matching every other file in this package.
@@ -38,12 +51,24 @@ CACHE_TTL_S = 5.0
 
 def probe(rhaco_index, db_path: str) -> VectorAvailability:
     """One-shot vector-availability probe (CONSTRAINTS O4 procedure a-d). Never
-    raises; every failure path is reported through VectorAvailability.reason."""
+    raises; every failure path is reported through VectorAvailability.reason.
+
+    O10 guard: `os.path.isfile(db_path)` is checked -- and must succeed --
+    before `rhaco_index.connect(db_path)` is ever called. A missing database
+    returns `reason="db_unavailable"` immediately, short-circuiting before
+    `connect()` is reached, so this probe can never be the one that lets
+    `RHACO_corpus_index.connect()` create a missing database (O10)."""
     t0 = time.perf_counter()
     tag = rhaco_index.CPU_FLOOR_TAG
 
     if os.environ.get(rhaco_index.VEC_DISABLE_ENV):
         return _result(False, "disabled_by_env", tag, t0, f"{rhaco_index.VEC_DISABLE_ENV} is set")
+
+    if not os.path.isfile(db_path):
+        return _result(
+            False, "db_unavailable", tag, t0,
+            f"database file does not exist: {db_path!r} (the adapter never creates a database, O10)",
+        )
 
     try:
         conn = rhaco_index.connect(db_path)
