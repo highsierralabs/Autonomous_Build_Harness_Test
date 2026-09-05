@@ -1072,6 +1072,34 @@
       "returned_utc": "2026-09-05T16:40:4xZ (catalog; search 16:23:2xZ)",
       "gates_at_boundary": "ruff clean; l1-index-write-check hits=6 allowlisted=6 defects=0 PASS; l1-import-boundary hits=10 licensed=10 defects=0 PASS; pytest 303 passed (290 before the round: +5 search, +8 catalog)",
       "budget_note": "19 of 28 consumed. Web round 2 will make 20, the Director's convergence ceiling."
+    },
+    {
+      "round": 8,
+      "wave": null,
+      "kind": "builder round -- single strand, alone (web round 2 of 4): O-2 shell de-duplication, the inert '/' key, the shared overflow rule",
+      "status": "IN FLIGHT -- dispatched 2026-09-05T16:52:00Z, not yet returned",
+      "modules": [
+        "web"
+      ],
+      "base_commit": "c89cfbc",
+      "orchestrator_model": "claude-opus-5[1m]",
+      "worktrees": {
+        "web": ".worktrees/web @ build/web (the round-3 worktree at 4cd366f was removed -- 0 ahead, clean -- and recreated from main)"
+      },
+      "dispatched_utc": "2026-09-05T16:52:00Z",
+      "workflow_run": "wf_d9a9cf0b-88b",
+      "task_id": "w1gk4oou0",
+      "dispatch_form": "section 2 L D-12 + D-3 blocks verbatim (byte-diffed, P-11 control PASS) + sha-pinned pointer to the archived prompt",
+      "wave_cap_check": "one strand dispatched; no other strand live; concurrency_exceedance: none",
+      "builder_rounds_consumed": 1,
+      "prompts": {
+        "docs/rounds/R10_web.prompt.md": {
+          "sha256": "feb168985c774e70219f86f10def13adbc7fba8ea2fdd4a64658de7fa9a83329",
+          "bytes": 14327
+        }
+      },
+      "budget_note": "20 of 28 at merge -- the Director's convergence ceiling. 8 rounds held for whatever critic round 2 turns up.",
+      "known_limit_declared_in_the_dispatch": "The strand is told it CANNOT close the critic's keyboard blind spot -- executing a key needs a browser, the probe is the only sanctioned launcher and it is exhausted -- and is required to state in Unresolved uncertainty that after this round the keyboard behaviour has still never been executed by any layer. Items 1 and 2 improve the accuracy of the CLAIM without adding behavioural evidence for it. An unearned green test would be worse than the gap."
     }
   ],
   "l1_index_write_grep": [
@@ -2338,6 +2366,35 @@
       ],
       "deviations": "Two disclosed, neither substantive. (1) Commit 89cc48d's subject describes only the abstract-ellipsis half of its own diff -- the colgroup/table-class edit to the same file was made before any commit and rode along. The strand did not reach for amend or rebase to tidy it, both being forbidden, and disclosed it instead of leaving it implicit. (2) The report's stamped window end (16:38:05Z) is an internal checkpoint; the session actually ended at 16:39:56Z after the final gate re-runs, and the strand judged the ~2 minutes not worth an extra commit. Recorded as the strand told it.",
       "record_provenance": "from the strand's returned structured result, the workflow run record wf_62c680ea-413, and git log; the verification upgrade and class-audit closure are the integrator's own acts at the merge"
+    },
+    {
+      "session": 8,
+      "round": 8,
+      "strand_id": "S8-B16",
+      "stem": "R10_web",
+      "role": "module builder (web): move #keyhelp into the shell (O-2), make the advertised '/' true, fix horizontal overflow once in app.css",
+      "model": "claude-sonnet-5 (requested; client-reported string recorded at return)",
+      "orchestrator_model": "claude-opus-5[1m] (MOD-1)",
+      "effort": "xhigh (Workflow opts.effort, explicit)",
+      "pattern_primary": "#3 candidate (worktree-isolated builder)",
+      "agent_type": "Workflow agent() / general-purpose (write-scoped to .worktrees/web)",
+      "execution_mode": "sequential, ALONE -- structurally, not by scheduling: item 1 deletes markup from all five page templates, so this round cannot share a wave with any page module",
+      "tier_escalation": "none",
+      "dispatched_utc": "2026-09-05T16:52:00Z",
+      "returned_utc": null,
+      "workflow_run": "wf_d9a9cf0b-88b",
+      "task_id": "w1gk4oou0",
+      "base": "c89cfbc (main at dispatch); the strand records its own rev-parse HEAD and asserts it contains the round-7 boundary 3f62226",
+      "module_round": "web round 2 of 4 -- the TWENTIETH builder round of the Director's convergence ceiling of 20",
+      "status": "IN FLIGHT -- dispatched, not yet returned",
+      "prompt": {
+        "file": "docs/rounds/R10_web.prompt.md",
+        "sha256": "feb168985c774e70219f86f10def13adbc7fba8ea2fdd4a64658de7fa9a83329",
+        "bytes": 14327
+      },
+      "cross_module_licence": "ONE named exception to the owned-paths rule, licensed by the Director's boundary-3 disposition item 1 and scoped in the prompt file by file: the strand may DELETE the duplicated #keyhelp block from catalog.html, search.html, reader.html, lineage.html and diagnostics.html, and nothing else in those files. This is the O-2 structural fix the Director reserved for a web round rather than another integrator edit.",
+      "prefix": "section 2 L D-12 + D-3 blocks byte-diffed against the archived prefix before dispatch (P-11 control): 1,111 chars, sha256 6a893dbb94c0207f...",
+      "record_provenance": "written at dispatch, before the strand returned (the GD-1 remedy applied prospectively)"
     }
   ],
   "dispatch_record_notes": [
