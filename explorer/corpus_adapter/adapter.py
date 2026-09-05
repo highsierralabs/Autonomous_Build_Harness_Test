@@ -9,6 +9,15 @@ call into the RHACO module is one of the S2 allowlist (`connect`, `get_meta`,
 librarian's read-only `scan_library`. No index-writing function is ever named
 or called here (CONSTRAINTS.md O2 / S6 -- enforced per round by
 tools/l1_index_write_check.py).
+
+O10 guard: the live index can be removed or replaced out from under the
+explorer while it runs, and `RHACO_corpus_index.connect()` creates the parent
+directory and the database file (applying DDL) if the path is absent. So the
+adapter never delegates to that `connect()` without first re-confirming
+`os.path.isfile(db_path)` itself -- once at construction (`__init__`) and
+again on *every* `connect()` call, not only the first -- raising
+`ConfigurationError` instead of ever creating a database (round 2 / C2
+correction; round 1 only checked at construction).
 """
 from __future__ import annotations
 
@@ -59,9 +68,12 @@ _SLUG_WS_RE = re.compile(r"\s+")
 
 
 class ConfigurationError(RuntimeError):
-    """The adapter could not be constructed against a valid index. Raised
-    before any connection is opened (O10) -- a misconfigured path must never
-    create a database, so this is always checked with `os.path.isfile` first."""
+    """The adapter refused to open the configured index because the database
+    file does not exist (O10) -- a misconfigured or since-removed path must
+    never create a database, so `os.path.isfile(db_path)` is checked before
+    every delegation to `RHACO_corpus_index.connect()`: once in `__init__`
+    and again, independently, on every `CorpusAdapter.connect()` call for
+    the life of the instance (not a one-time construction-only check)."""
 
 
 # Subtree is canonical in explorer.models since the round-1 integration (the builder's
@@ -96,6 +108,14 @@ def _all_meta_keys(rhaco_index) -> tuple[str, ...]:
 
 
 class CorpusAdapter:
+    """Read-only adapter over RHACO_corpus_index / RHACO_tool_catalog_librarian
+    (ARCHITECTURE.md 4.1). Db-exists guard (O10): `os.path.isfile(db_path)` is
+    required both at construction and on *every* `connect()` call for the
+    life of the instance -- the live index can be removed or replaced by an
+    external actor mid-run, and `RHACO_corpus_index.connect()` would silently
+    create a missing database, which is exactly what this guard prevents on
+    every call, not only the first."""
+
     def __init__(self, settings: Settings) -> None:
         paths.ensure_rhaco_importable()
         import RHACO_corpus_index as rhaco_index  # deliberate post-sys.path-append import (S2)
@@ -104,12 +124,8 @@ class CorpusAdapter:
         self._librarian = None  # imported lazily by freshness()/exclusion_sets()
 
         db_path = settings.db_path or rhaco_index.DEFAULT_DB
-        if not os.path.isfile(db_path):
-            raise ConfigurationError(
-                f"configured database does not exist: {db_path!r} "
-                "(the adapter never creates a database, O10)"
-            )
         self.db_path = db_path
+        self._require_db_exists()  # O10: construction-time check (also re-run on every connect())
         self.docs_root = settings.docs_root or rhaco_index.BODY_SCAN_ROOT
         self.active_fault = faults.active_fault(settings.fault, self.db_path)
 
@@ -119,9 +135,23 @@ class CorpusAdapter:
 
     # -- connection -----------------------------------------------------
 
+    def _require_db_exists(self) -> None:
+        """O10 guard body, shared by `__init__` and `connect()`: raise
+        ConfigurationError instead of ever letting `RHACO_corpus_index.connect()`
+        create a missing database. Never opens or creates anything itself --
+        `os.path.isfile` only."""
+        if not os.path.isfile(self.db_path):
+            raise ConfigurationError(
+                f"configured database does not exist: {self.db_path!r} "
+                "(the adapter never creates a database, O10)"
+            )
+
     def connect(self):
-        """RHACO_corpus_index.connect(db_path); one connection per request,
-        closed by the caller (ARCHITECTURE.md 4.1)."""
+        """RHACO_corpus_index.connect(db_path); the isfile guard (O10) is
+        re-checked on *every* call, not only at construction -- a live index
+        removed mid-run is refused, never re-created. One connection per
+        request, closed by the caller (ARCHITECTURE.md 4.1)."""
+        self._require_db_exists()
         return self._rhaco_index.connect(self.db_path)
 
     def _librarian_module(self):
