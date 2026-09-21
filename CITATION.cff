@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this build record, data, or protocol, please cite it as below."
+title: "Autonomous Build Harness Test"
+authors:
+  - family-names: Granholm
+    given-names: Kris E.
+type: dataset
+url: "https://github.com/highsierralabs/Autonomous_Build_Harness_Test"
+license:
+  - CC-BY-4.0
+  - MIT
+license-url: "https://github.com/highsierralabs/Autonomous_Build_Harness_Test#licence"
+date-released: 2026-09-21
