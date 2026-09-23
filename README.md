@@ -5,10 +5,39 @@
 [`rawprogress/fable-cities`](https://github.com/rawprogress/fable-cities/blob/main/PROMPT.md) published a prompt that has an AI agent build a Cities: Skylines-style city builder on its own: plan the architecture, fan the work out to sub-agents, build a probe that looks at the running result, score it against a reference, and loop until it is good. This repository takes that prompt's structure somewhere else. It rebuilds it on a different foundation, points it at a different kind of job, runs it **once** under recorded conditions, and keeps everything: the prompt, the build, the evidence, the verdict, and what was changed afterwards.
 
 - **The foundation** is the [Measurement Philosophy](docs/MEASUREMENT_PHILOSOPHY.md) of the Reno High-Altitude Cosmic Ray Observatory (RHACO), a small citizen-science physics observatory. It is a set of seven principles about how to make a measurement you can defend. The Skylines prompt is built on a game you can screenshot and compare against. This one is built on those principles, because its target had nothing to be compared against.
-- **The job** was the **Corpus Explorer**: a local, read-only browser over RHACO's research records. It is the test fixture. It is also a real tool that RHACO needed and uses.
-- **The thing under test** was the harness, not the app: the prompt, the way it governs its sub-agents, and whether the build would describe its own evidence honestly.
+- **The thing under test** was the harness, not the app: the frozen prompt, the way it governs its sub-agents, and whether the build would describe its own evidence honestly.
+- **What it produced: two artifacts.**
+  - The **Corpus Explorer**, the build artifact: a local, read-only browser over RHACO's research records. It is a real tool RHACO needed and uses. (The build's synthetic document corpus and injected faults were its *test fixtures*; the Explorer is not one.)
+  - The **build prompt template v2.2**, written from the run's record: a domain-agnostic version of the prompt, meant to be pointed at other builds. **It is untested.** No run has executed any version of it. [Using the template](docs/USING_THE_TEMPLATE.md) explains how it came from the test, which of its parts ran and which did not, and how to adapt it.
 
 > **Result.** The build ended in the terminal state **`BOUNDED_FAIL`**: nine objective gates passed, 11 of 12 acceptance presets were satisfied, and the open issues were kept on the record instead of being waived. The separate evaluation of the harness concluded **partially supported**. This is one run (n = 1). It is shared as a worked example with its failures intact, not as a method shown to work.
+
+## The experiment at a glance
+
+```text
+Cities: Skylines autonomous-build prompt (rawprogress/fable-cities)
+        |  structure; "swap the domain"
+        v
+v0 generalisation  ->  v1 rewrite on the Measurement Philosophy
+        |
+        v
+Frozen PROMPT.md, filled in for the Corpus Explorer   <- the instrument under test
+        |  ONE run: September 3-5, 2026
+        v
+Builders + probe + critics + corpus oracles
+        |
+        +--> ARTIFACT 1: Corpus Explorer
+        |      a working application RHACO uses
+        |
+        +--> Recorded evidence and terminal state
+               BOUNDED_FAIL; harness hypothesis partially supported (n = 1)
+                    |  review of v1 against that record (September 7)
+                    v
+             ARTIFACT 2: build prompt template v2.0 -> v2.1 -> v2.2
+               domain-agnostic; UNTESTED: no run has executed any v2.x version
+```
+
+[How it was built](docs/BUILD_CASE_STUDY.md) · [Follow the evidence in order](#follow-the-experiment) · [Using the template](docs/USING_THE_TEMPLATE.md)
 
 ![The Corpus Explorer's reader: a document and its metadata card shown as two distinct regions](docs/images/explorer-reader.png)
 
@@ -24,7 +53,7 @@
 
 **What happened.** The run lasted September 3 to 5, 2026. Much of the application worked on its intended path. It did not meet its complete acceptance criteria, and the build said so. Along the way the record shows the things a reader would want to see in an honest run, and the things that went wrong: a production defect the hand-made test fixture could not see, a probe that reported success on a failed page, written claims that did not match what the code did, and corrections that came from later sessions and outside readers. [How it was built](docs/BUILD_CASE_STUDY.md) is the full account.
 
-**What changed afterwards.** RHACO reviewed its own template against the run's record and found that much of what made the run honest had been added when the prompt was written for this job, and was missing from the template it came from. The template was revised three times. [How the prompt changed](docs/PROMPT_EVOLUTION.md) maps each change to the finding behind it. None of those later versions ran this build, and none has been validated by a run.
+**What changed afterwards.** RHACO reviewed its own template against the run's record and found that much of what made the run honest had been added when the prompt was written for this job, and was missing from the template it came from. The template was revised three times. [How the prompt changed](docs/PROMPT_EVOLUTION.md) maps each change to the finding behind it. None of those later versions ran this build, and none has been validated by a run. The current version, v2.2, is the second thing this test produced; see [Using the template](docs/USING_THE_TEMPLATE.md).
 
 ## From the Skylines prompt to this one
 
@@ -36,7 +65,7 @@ The side-by-side comparison is in [How it was built](docs/BUILD_CASE_STUDY.md), 
 
 ## The Measurement Philosophy, briefly
 
-The principles were written for a particle detector. Each became a section of the prompt.
+The principles were written for a particle detector. Each became a section of the prompt. The right-hand column describes the template as it now stands (v2.2); which of those mechanisms actually ran in the pilot is set out in [Using the template](docs/USING_THE_TEMPLATE.md), section 3.
 
 | Principle | In one line | In the prompt |
 |---|---|---|
@@ -87,11 +116,33 @@ The original documents and their metadata cards are the source of record. The SQ
 
 This is a bespoke RHACO application, not a packaged or independently deployable product.
 
+## What it built from the record: the build prompt template
+
+The upstream prompt invites readers to copy it and swap in their own domain. RHACO's domain-agnostic answer to that invitation is the [build prompt template v2.2](docs/campaign/RHACO_Build_Prompt_Template_v2_2.md) and its [guide](docs/campaign/RHACO_Build_Prompt_Template_Guide_v2_2.md).
+
+The template was not what ran. The pilot ran `PROMPT.md`, an instantiation of the earlier v1. The post-pilot review found that seven sections the run's positive results depended on had been added only in that instantiation. v2.0 put them into the template and added a response to each recorded prompt-design failure. v2.1 fixed a control-flow contradiction found by an outside reader, and v2.2 corrected the template's account of its own sources.
+
+**No run has executed any v2.x version.** Treat it as a design with recorded reasons, not a method shown to work. [Using the template](docs/USING_THE_TEMPLATE.md) covers which parts ran in the pilot and which are new, why it is built as it is, when not to use it, and how to adapt it. The template and guide are MIT-licensed.
+
+## Follow the experiment
+
+To see what the Skylines prompt made possible here, read in this order. The first three stops are the inputs, the next two are what happened, and the last is what came of it.
+
+1. **The starting structure:** [the original Cities prompt](docs/campaign/upstream/fable-cities_PROMPT.md), kept with [its licence](docs/campaign/upstream/fable-cities_LICENSE). This copy was retrieved *after* the experiment; RHACO did not keep the bytes it read on September 3 ([provenance](#provenance)).
+2. **The adaptation:** [the frozen build prompt](PROMPT.md) and its [design rationale](RATIONALE.md). This is what the pilot ran, not the later template.
+3. **The question and boundaries:** [the campaign charter](docs/campaign/RHACO-CMP-20260903-001_Corpus_Explorer_Autonomous_Build_Harness.md) and the [dispatch record](docs/campaign/RHACO-HND-20260903-001_Corpus_Explorer_Autonomous_Build_Dispatch.md).
+4. **The outcome, in the build's own history:** [the terminal-state commit](https://github.com/highsierralabs/Autonomous_Build_Harness_Test/commit/6461c9e01ff7a72750c0a4360146ce6eb5afa2e2) and the machine-readable [closeout](build_state.json). The run kept `BOUNDED_FAIL`; the remaining acceptance failure was not recategorised as a pass.
+5. **The evaluation:** [the harness analysis](docs/campaign/RHACO-ANL-20260905-001_Corpus_Explorer_Harness_Evaluation.md), which judges the harness separately from whether the application is useful. The longer narrative is the [build case study](docs/BUILD_CASE_STUDY.md).
+6. **What came of it:** [How the prompt changed](docs/PROMPT_EVOLUTION.md) maps each finding to a template change, and [Using the template](docs/USING_THE_TEMPLATE.md) presents the resulting template, untested, for reuse.
+
+For a complete index, use the [repository guide](#repository-guide) and the [campaign snapshot manifest](docs/campaign/MANIFEST.md).
+
 ## Repository guide
 
 | Start here | Purpose |
 |---|---|
 | [`PROMPT.md`](PROMPT.md) and [`RATIONALE.md`](RATIONALE.md) | The frozen build prompt and its design rationale: the instrument under test. Primary records, not user guides. |
+| [`docs/USING_THE_TEMPLATE.md`](docs/USING_THE_TEMPLATE.md) | The second artifact: the domain-agnostic build prompt template v2.2 and its guide. Untested: which parts ran in the pilot, why it is built as it is, and how to adapt it. |
 | [`docs/BUILD_CASE_STUDY.md`](docs/BUILD_CASE_STUDY.md) | The test: prompt provenance, what was kept and changed from the Skylines prompt, governance, procedure, evidence, outcome, and lessons. |
 | [`docs/MEASUREMENT_PHILOSOPHY.md`](docs/MEASUREMENT_PHILOSOPHY.md) | The seven principles the prompt was rebuilt on, how each became a section of it, and where the transfer did not hold. |
 | [`docs/measurement-philosophy/`](docs/measurement-philosophy/) | The principles themselves, in RHACO's frozen domain-neutral form (about 800 words), with a short guide. |
@@ -107,6 +158,7 @@ This is a bespoke RHACO application, not a packaged or independently deployable 
 | [`explorer/`](explorer/) | Application implementation; [`tests/`](tests/) and [`tools/`](tools/) contain checks and instruments. |
 | [`fixtures/`](fixtures/) | The synthetic fixture corpus and its index builder. Every fixture document declares itself synthetic; none is derived from a real RHACO record. |
 | [`requirements.txt`](requirements.txt), [`ruff.toml`](ruff.toml), [`.gitignore`](.gitignore) | Historical environment and lint configuration. |
+| [`.gitattributes`](.gitattributes) | Turns off line-ending conversion, so checked-out files match the SHA-256 values in the manifests on every platform. |
 | [`LICENSE`](LICENSE), [`LICENSE-CODE`](LICENSE-CODE), [`CITATION.cff`](CITATION.cff) | Licensing and citation; see [Licence](#licence). |
 
 ## Running and reuse
@@ -114,6 +166,8 @@ This is a bespoke RHACO application, not a packaged or independently deployable 
 This repository assumes access to a **separate RHACO installation**, its canonical corpus, its derived index, and the local retrieval dependencies used by that installation. Paths, module imports, and the available retrieval configuration are RHACO-specific. Simply cloning this repository is not sufficient to reproduce a working environment. This repository does not include RHACO's research corpus as a standalone distributable dataset.
 
 The checked-in configuration defines environment overrides for the database, document root, host, port, and page size; it defaults to a loopback-only server. See [`explorer/config.py`](explorer/config.py) and [`requirements.txt`](requirements.txt) to inspect the historical environment. These files describe what was built; they are not a portability or security certification. Anyone attempting to run a derivative should supply their own corpus and index, inspect the path and import assumptions, and independently validate the resulting application.
+
+On Windows, some paths in this tree are over 140 characters long. Clone to a short path, or run `git config --global core.longpaths true` first; otherwise the clone can fail with "Filename too long".
 
 The project is shared primarily for examination of its design, implementation, and development record. It makes no claim that its autonomous-build results generalize beyond the one recorded pilot.
 
@@ -141,12 +195,12 @@ These are historical, dated findings. A later code change or new run requires ne
 
 The autonomous prompt's structural starting point was [`rawprogress/fable-cities`'s `PROMPT.md`](https://github.com/rawprogress/fable-cities/blob/main/PROMPT.md), accessed September 3, 2026. RHACO did not record the upstream commit at the time and did not keep the retrieved bytes; an earlier RHACO statement that a copy had been retained was wrong, and is corrected in template v2.2. Measured on September 20, 2026, the upstream's public history is a single commit (`aea8b103…`, committed about seventeen hours before the access), so its `PROMPT.md` (git blob `c2bc981d…`, 5,742 bytes) is the only version that history carries. A rewrite of the upstream history after the access would be undetectable, so this is a strong inference about what was read, not a captured fact. The upstream is MIT-licensed; a copy retrieved on September 20 is kept with its licence under [`docs/campaign/upstream/`](docs/campaign/upstream/).
 
-RHACO generalised that structure (v0), rewrote it against its [Measurement Philosophy](docs/MEASUREMENT_PHILOSOPHY.md) (v1), and then instantiated it for the Corpus Explorer as the frozen [`PROMPT.md`](PROMPT.md). Both unfiled originals are included under [`docs/campaign/`](docs/campaign/). A generalized RHACO build-prompt template followed **after** the pilot, incorporating its findings: v2.0 and v2.1 are both dated **September 7**, and v2.2 (**September 20**) corrects the provenance statement only and changes no mechanism. **None of these was the prompt used to execute this build.** See [How it was built](docs/BUILD_CASE_STUDY.md) and [How the prompt changed](docs/PROMPT_EVOLUTION.md) for the sequence and source references.
+RHACO generalised that structure (v0), rewrote it against its [Measurement Philosophy](docs/MEASUREMENT_PHILOSOPHY.md) (v1), and then instantiated it for the Corpus Explorer as the frozen [`PROMPT.md`](PROMPT.md). Both unfiled originals are included under [`docs/campaign/`](docs/campaign/). A generalized RHACO build-prompt template followed **after** the pilot, incorporating its findings: v2.0 and v2.1 are both dated **September 7**, and v2.2 (**September 20**) corrects the provenance statement only and changes no mechanism. **None of these was the prompt used to execute this build.** v2.2 is the current version and is presented, untested, in [Using the template](docs/USING_THE_TEMPLATE.md). See [How it was built](docs/BUILD_CASE_STUDY.md) and [How the prompt changed](docs/PROMPT_EVOLUTION.md) for the sequence and source references.
 
 ## Licence
 
-Documentation, build records, data and the campaign snapshot copies are licensed under [CC BY 4.0](LICENSE). Code — everything under `explorer/`, `tools/` and `tests/`, plus the two fixture-builder sources `fixtures/__init__.py` and `fixtures/build_fixture_index.py` — is licensed under the [MIT License](LICENSE-CODE). The upstream prompt copy under `docs/campaign/upstream/` is its author's work under its own MIT licence, included with that licence file. To cite this repository, see [`CITATION.cff`](CITATION.cff).
+Documentation, build records, data and the campaign snapshot copies are licensed under [CC BY 4.0](LICENSE). Code — everything under `explorer/`, `tools/` and `tests/`, plus the two fixture-builder sources `fixtures/__init__.py` and `fixtures/build_fixture_index.py` — is licensed under the [MIT License](LICENSE-CODE). The build prompt template and its guide, [`docs/campaign/RHACO_Build_Prompt_Template_v2_2.md`](docs/campaign/RHACO_Build_Prompt_Template_v2_2.md) and [`docs/campaign/RHACO_Build_Prompt_Template_Guide_v2_2.md`](docs/campaign/RHACO_Build_Prompt_Template_Guide_v2_2.md), are also licensed under the [MIT License](LICENSE-CODE), so the prompt can be reused with a copyright notice rather than CC BY attribution. The upstream prompt copy under `docs/campaign/upstream/` is its author's work under its own MIT licence, included with that licence file. To cite this repository, see [`CITATION.cff`](CITATION.cff).
 
 ---
 
-*RHACO Corpus Explorer — a navigable research record and a bounded autonomous-build case study.*
+*Autonomous Build Harness Test — one recorded run, two artifacts: the Corpus Explorer and an untested, domain-agnostic build prompt template.*

@@ -101,6 +101,8 @@ This is the same class of defect as R3's and section 4's: a prose claim that nob
 - The boundary of the claim-audit layer (which claims can be checked mechanically) is left to each instantiation to state. It is not settled here.
 - Counts of ledger rows are tallies of a hand-classified record, not measurements.
 
+For how to use and adapt the current version, see [Using the template](USING_THE_TEMPLATE.md).
+
 ## 7. Reading the three versions
 
 Each template's **Version History** table, at the end of the file, is the shortest accurate summary of what that cut changed. The change records in section 8 carry the exact edit lists: for v2.1 and v2.2, every edit is an anchored replacement against a byte copy of the previous version, so the difference between versions is fully reconstructible from the record.

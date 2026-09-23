@@ -3,8 +3,10 @@ MIT License
 Copyright (c) 2026 Kris E. Granholm
 
 Applies to the code in explorer/, tools/ and tests/, together with
-fixtures/__init__.py and fixtures/build_fixture_index.py. The documentation,
-build records, data, and the snapshot copies under docs/campaign/ in this
+fixtures/__init__.py and fixtures/build_fixture_index.py, and to the build
+prompt template and its guide, docs/campaign/RHACO_Build_Prompt_Template_v2_2.md
+and docs/campaign/RHACO_Build_Prompt_Template_Guide_v2_2.md. The documentation,
+build records, data, and the other snapshot copies under docs/campaign/ in this
 repository are licensed separately under CC BY 4.0; see LICENSE. The exception
 is docs/campaign/upstream/, which is its author's work under its own MIT
 licence, included there.

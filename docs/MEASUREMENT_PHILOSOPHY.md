@@ -115,3 +115,4 @@ Both corrections are the philosophy applied to itself: the principle labels on a
 - [`PROMPT_EVOLUTION.md`](PROMPT_EVOLUTION.md): how the pilot's findings changed the template.
 - [`../PROMPT.md`](../PROMPT.md): the frozen prompt the build ran, with its principle labels.
 - [Template v2.2](campaign/RHACO_Build_Prompt_Template_v2_2.md): the current domain-agnostic template.
+- [Using the template](USING_THE_TEMPLATE.md): how to adapt it, and which parts ran in the pilot.
